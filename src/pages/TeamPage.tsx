@@ -9,7 +9,7 @@ const TeamPage = () => {
       id: 1,
       name: 'Drew Campbell',
       title: 'Senior Partner',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+      image: '/uploads/team/team-page.png',
       bio: `Drew Campbell brings over 30 years of government relations experience to Capitol Insights. As a founding partner, he has established the firm as a respected voice in Texas politics.
 
 Prior to founding Capitol Insights, Drew served as CEO of the New Car Dealers Association of Metropolitan Dallas and worked with the Associated Motor Carriers of Oklahoma, where he developed extensive knowledge of transportation policy and regulation.
@@ -23,7 +23,7 @@ Drew's approach is straightforward and relationship-driven. He doesn't promise m
       id: 2,
       name: 'Byron Campbell',
       title: 'Senior Partner',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
+      image: '/uploads/team/team-page.png',
       bio: `Byron Campbell has dedicated over 10 years to understanding and navigating the intersection of policy, politics, and business. His experience spans local, state, and federal government, giving him valuable perspective on how decisions at each level impact organizations.
 
 Byron's approach to government relations is methodical and transparent. He helps clients develop realistic goals, identify key stakeholders, and create strategic communication plans that resonate with decision-makers.

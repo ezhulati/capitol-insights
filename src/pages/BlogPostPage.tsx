@@ -9,9 +9,6 @@ import {
   User, 
   Tag,
   ArrowLeft,
-  Share2,
-  Printer,
-  BookmarkPlus,
   Mail,
   Facebook,
   Twitter,
@@ -20,311 +17,38 @@ import {
   Check
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import client from '../tina-client';
+import { TinaMarkdown } from 'tinacms/dist/rich-text';
 
-// Sample blog post data - should match the data in UpdatesPage.tsx
-const blogPosts = [
-  {
-    id: 1,
-    slug: 'texas-legislative-session-2025-preview',
-    title: 'Texas Legislative Session 2025: What Organizations Need to Know',
-    excerpt: 'A comprehensive preview of key issues likely to dominate the upcoming legislative session and how they may impact various sectors.',
-    content: `
-      <p>The 2025 Texas Legislative Session is fast approaching, and organizations across sectors need to prepare for what promises to be a consequential period for state policy. Our government relations team has compiled this preview of key issues we anticipate will dominate the upcoming session.</p>
-      
-      <h2>Budget Priorities</h2>
-      <p>With projections indicating a budget surplus for the 2025-2026 biennium, we anticipate significant debate over spending priorities. Key areas likely to receive attention include:</p>
-      <ul>
-        <li>Infrastructure investment, particularly in grid resilience and rural broadband</li>
-        <li>Public education funding formulas</li>
-        <li>Healthcare accessibility initiatives</li>
-        <li>Property tax relief measures</li>
-      </ul>
-      
-      <h2>Regulatory Focus</h2>
-      <p>Several regulatory areas are positioned for possible reform:</p>
-      <ul>
-        <li>Energy regulation and market structure following ongoing reliability concerns</li>
-        <li>Technology sector oversight, particularly regarding data privacy and artificial intelligence</li>
-        <li>Healthcare delivery systems and telehealth permanence</li>
-        <li>Environmental permitting processes, especially water usage in manufacturing and agriculture</li>
-      </ul>
-      
-      <h2>Industry-Specific Outlook</h2>
-      <p>Based on interim committee hearings and stakeholder engagement, we predict the following industry-specific focus areas:</p>
-      
-      <h3>Technology & Telecommunications</h3>
-      <p>With broadband access now recognized as essential infrastructure, expect continued legislative attention on expanding deployment to underserved areas. Additionally, data privacy regulation modeled after other state frameworks appears increasingly likely.</p>
-      
-      <h3>Healthcare</h3>
-      <p>Healthcare workforce shortage solutions will be a major focus, along with measures to address rural healthcare access. Regulatory frameworks for new care delivery models are also expected.</p>
-      
-      <h3>Energy</h3>
-      <p>The legislature will continue addressing grid reliability with potential market structure reforms. Renewable energy incentives may face scrutiny, while natural gas infrastructure will likely receive support for resilience purposes.</p>
-      
-      <h2>Strategic Recommendations</h2>
-      <p>Organizations should consider these proactive steps in preparation for the 2025 session:</p>
-      <ol>
-        <li>Engage with legislative offices during the interim to establish relationships and educate on key issues</li>
-        <li>Develop specific policy recommendations rather than general position statements</li>
-        <li>Build coalitions with aligned stakeholders to amplify advocacy efforts</li>
-        <li>Prepare data-driven impact analyses to support policy positions</li>
-        <li>Create a comprehensive government relations strategy with contingency plans for various scenarios</li>
-      </ol>
-      
-      <p>Capitol Insights will continue monitoring interim committee activities and leadership priorities. For a personalized analysis of how the upcoming session might impact your organization, please contact our team to schedule a consultation.</p>
-    `,
-    date: 'October 15, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '6 min read',
-    category: 'Legislative Preview',
-    tags: ['Texas Legislature', 'Policy', 'Government Affairs'],
-    featured: true,
-    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
-  },
-  {
-    id: 2,
-    slug: 'healthcare-regulatory-changes-impact',
-    title: 'Navigating Texas Healthcare Regulatory Changes in 2024',
-    excerpt: 'An analysis of recent regulatory changes affecting healthcare providers and strategies for compliance without sacrificing operational efficiency.',
-    content: `
-      <p>Texas healthcare providers are facing a significant wave of regulatory changes in 2024, creating both challenges and opportunities across the sector. This analysis examines the most impactful developments and offers practical strategies for maintaining compliance while preserving operational efficiency.</p>
-      
-      <h2>Key Regulatory Developments</h2>
-      
-      <h3>1. Enhanced Data Privacy Requirements</h3>
-      <p>The Texas Health Data Protection Act, which takes full effect in Q3 2024, establishes new standards for patient data handling, storage, and breach reporting. Healthcare entities must implement:</p>
-      <ul>
-        <li>Enhanced encryption protocols for all patient data</li>
-        <li>More stringent access controls and authentication requirements</li>
-        <li>Accelerated breach notification timelines (now 45 days vs. previous 60 days)</li>
-        <li>Annual security audits with documentation submitted to state regulators</li>
-      </ul>
-      
-      <h3>2. Telehealth Service Extensions</h3>
-      <p>While pandemic-era telehealth flexibilities have been extended through 2024, permanent regulatory frameworks are being developed with several important modifications:</p>
-      <ul>
-        <li>New provider licensing requirements for interstate telehealth services</li>
-        <li>Modified reimbursement structures for virtual care with service-specific rates</li>
-        <li>Quality reporting mandates specific to telehealth outcomes</li>
-      </ul>
-      
-      <h3>3. Workforce Credentialing Changes</h3>
-      <p>The Healthcare Provider Modernization Act introduces revised scope-of-practice regulations affecting:</p>
-      <ul>
-        <li>Advanced practice registered nurses</li>
-        <li>Physician assistants</li>
-        <li>Pharmacy practitioners</li>
-        <li>Mental health professionals</li>
-      </ul>
-      
-      <h2>Compliance Strategies</h2>
-      
-      <p>Based on our work with healthcare organizations across Texas, we recommend these practical approaches to efficiently navigate the new regulatory landscape:</p>
-      
-      <h3>Integrated Compliance Frameworks</h3>
-      <p>Rather than treating each regulatory change as a separate initiative, develop an integrated compliance framework that addresses overlapping requirements. This approach can reduce redundancy and create efficiency in documentation, training, and reporting.</p>
-      
-      <h3>Technology Leveraging</h3>
-      <p>Invest in compliance technology platforms that can automate monitoring, documentation, and reporting functions. Modern compliance software can significantly reduce administrative burden while improving accuracy and consistency in regulatory adherence.</p>
-      
-      <h3>Strategic Personnel Deployment</h3>
-      <p>Consider restructuring compliance responsibilities to allow clinical staff to focus on patient care while dedicated compliance specialists handle regulatory administration. This specialization model has proven effective in preserving operational efficiency during regulatory transitions.</p>
-      
-      <h2>Cost-Benefit Considerations</h2>
-      
-      <p>Our analysis indicates that healthcare organizations implementing strategic compliance approaches rather than reactive measures can expect:</p>
-      <ul>
-        <li>15-20% reduction in compliance administrative costs</li>
-        <li>Significant decrease in regulatory penalties and remediation expenses</li>
-        <li>Improved staff satisfaction through reduced administrative burden</li>
-        <li>Enhanced patient trust through demonstrable commitment to privacy and quality</li>
-      </ul>
-      
-      <h2>Looking Ahead</h2>
-      
-      <p>Regulatory evolution will continue through 2025, with pending legislation likely to address:</p>
-      <ul>
-        <li>Artificial intelligence in clinical decision support</li>
-        <li>Remote patient monitoring standards</li>
-        <li>Hospital staffing ratio requirements</li>
-        <li>Price transparency enforcement</li>
-      </ul>
-      
-      <p>Capitol Insights is actively engaged with regulatory stakeholders and can provide organization-specific guidance on navigating both current and anticipated regulatory changes. For a customized compliance strategy assessment, please contact our healthcare policy team.</p>
-    `,
-    date: 'September 28, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '5 min read',
-    category: 'Healthcare',
-    tags: ['Healthcare', 'Regulatory Compliance', 'Policy Analysis'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80'
-  },
-  {
-    id: 3,
-    slug: 'municipal-advocacy-strategies',
-    title: 'Effective Municipal Advocacy: Strategies for Local Policy Influence',
-    excerpt: 'How organizations can effectively engage with city councils and local regulatory bodies to shape favorable policy outcomes.',
-    content: `
-      <p>While state-level policy often dominates the conversation, municipal and county governments make decisions daily that significantly impact organizations' operations, costs, and opportunities. This analysis offers practical strategies for effective advocacy at the local level based on our work with clients across Texas municipalities.</p>
-      
-      <h2>Understanding the Municipal Landscape</h2>
-      
-      <p>Local government advocacy requires a different approach than state-level engagement for several key reasons:</p>
-      
-      <ul>
-        <li>Local officials typically have broader portfolios and less staff support</li>
-        <li>Technical expertise on industry-specific issues may be more limited</li>
-        <li>Constituent connections often carry greater weight in decision-making</li>
-        <li>Formal and informal processes vary significantly between municipalities</li>
-        <li>The pace of policy development can be either much faster or significantly slower than state-level action</li>
-      </ul>
-      
-      <h2>Strategic Advocacy Approaches</h2>
-      
-      <h3>1. Community Integration</h3>
-      
-      <p>Organizations with demonstrated community investment typically experience greater policy advocacy success. Effective integration includes:</p>
-      
-      <ul>
-        <li>Maintaining visible participation in community events and initiatives</li>
-        <li>Highlighting local economic impact through employment and investment</li>
-        <li>Building relationships outside of specific policy requests</li>
-        <li>Engaging with community partners on shared priorities</li>
-      </ul>
-      
-      <h3>2. Educational Approach</h3>
-      
-      <p>Local officials often lack access to specialized policy research. Organizations can position themselves as valuable resources by:</p>
-      
-      <ul>
-        <li>Providing concise, balanced information on complex issues</li>
-        <li>Offering peer city comparisons on policy approaches</li>
-        <li>Sharing implementation considerations from industry perspective</li>
-        <li>Demonstrating alignment between organizational goals and community benefits</li>
-      </ul>
-      
-      <h3>3. Relationship Development</h3>
-      
-      <p>Effective municipal advocacy requires engagement with multiple stakeholders:</p>
-      
-      <ul>
-        <li>Elected officials (council members, mayor)</li>
-        <li>Administrative leadership (city manager, department directors)</li>
-        <li>Advisory boards and commissions</li>
-        <li>Neighborhood associations and community organizations</li>
-        <li>Local business coalitions and economic development entities</li>
-      </ul>
-      
-      <h2>Case Study: Municipal Permitting Reform</h2>
-      
-      <p>A multi-city initiative to streamline commercial permitting processes demonstrates these principles in action:</p>
-      
-      <h3>Challenge</h3>
-      <p>Inconsistent, lengthy permitting processes were creating significant operational delays and cost overruns for businesses across multiple Texas cities.</p>
-      
-      <h3>Approach</h3>
-      <p>Rather than pursuing individual city-by-city advocacy, a coalition approach leveraged:</p>
-      <ul>
-        <li>Data collection on economic impact of permitting delays</li>
-        <li>Best practice research from high-performing municipalities</li>
-        <li>Collaborative workshops between business leaders and city staff</li>
-        <li>Joint development of streamlined processes with implementation support</li>
-      </ul>
-      
-      <h3>Outcome</h3>
-      <p>This collaborative approach resulted in:</p>
-      <ul>
-        <li>Comprehensive permitting reforms in five Texas cities</li>
-        <li>Average 40% reduction in permit processing time</li>
-        <li>Improved relationships between business community and municipal staff</li>
-        <li>Creation of ongoing working groups to address future issues</li>
-      </ul>
-      
-      <h2>Implementation Guidance</h2>
-      
-      <p>Organizations seeking to enhance their municipal advocacy effectiveness should consider these practical steps:</p>
-      
-      <ol>
-        <li>Map the decision-making processes for your priority municipalities</li>
-        <li>Identify key relationship development opportunities beyond immediate policy needs</li>
-        <li>Prepare concise, solution-oriented policy positions with clear local benefits</li>
-        <li>Develop coalition partnerships with aligned stakeholders</li>
-        <li>Create a consistent engagement calendar rather than issue-specific outreach</li>
-      </ol>
-      
-      <p>Capitol Insights offers municipal relationship mapping and advocacy strategy development for organizations seeking to enhance their local government engagement. Contact our municipal affairs team to discuss your specific needs and objectives.</p>
-    `,
-    date: 'September 12, 2024',
-    author: 'Byron Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '4 min read',
-    category: 'Municipal Affairs',
-    tags: ['Local Government', 'Advocacy', 'Municipal Relations'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1571954471509-801c155e01ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80'
-  },
-  {
-    id: 4,
-    slug: 'transportation-funding-outlook',
-    title: 'Transportation Funding Outlook: Preparing for the Next Budget Cycle',
-    excerpt: 'Analysis of potential transportation funding priorities and how stakeholders can position for infrastructure investment.',
-    content: ``,
-    date: 'August 25, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '7 min read',
-    category: 'Transportation',
-    tags: ['Infrastructure', 'Budget', 'Transportation'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1528460452708-38945e33cd4d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
-  },
-  {
-    id: 5,
-    slug: 'coalition-building-case-study',
-    title: 'Coalition Building: A Case Study in Effective Policy Advocacy',
-    excerpt: 'How a diverse stakeholder coalition successfully navigated complex regulatory challenges through strategic alignment.',
-    content: ``,
-    date: 'August 10, 2024',
-    author: 'Byron Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '5 min read',
-    category: 'Advocacy Strategy',
-    tags: ['Coalition Building', 'Case Study', 'Advocacy'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80'
-  },
-  {
-    id: 6,
-    slug: 'telecommunications-regulatory-outlook',
-    title: 'Telecommunications Regulatory Outlook for 2025',
-    excerpt: 'Key regulatory trends affecting telecommunications companies and strategic considerations for policy engagement.',
-    content: ``,
-    date: 'July 30, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '6 min read',
-    category: 'Telecommunications',
-    tags: ['Telecommunications', 'Regulatory Affairs', 'Technology'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1487875961445-47a00398c267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
-  }
-];
+// Define types for blog posts
+interface BlogPost {
+  _sys: {
+    filename: string;
+    basename: string;
+    relativePath: string;
+  };
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  authorTitle: string;
+  readTime: string;
+  category: string;
+  tags: string[];
+  featured: boolean;
+  image: string;
+  body: any;
+}
 
-// Get related posts by category or tag
-const getRelatedPosts = (currentPost, limit = 3) => {
-  return blogPosts
-    .filter(post => 
-      post.id !== currentPost.id && 
-      (post.category === currentPost.category || 
-       post.tags.some(tag => currentPost.tags.includes(tag)))
-    )
-    .slice(0, limit);
-};
-
-const ShareButton = ({ platform, icon, color, url, title }) => {
+// Share button component
+const ShareButton: React.FC<{
+  platform: string;
+  icon: React.ReactNode;
+  color: string;
+  url: string;
+  title: string;
+}> = ({ platform, icon, color, url, title }) => {
   const [copied, setCopied] = useState(false);
   
   const handleShare = () => {
@@ -365,34 +89,98 @@ const ShareButton = ({ platform, icon, color, url, title }) => {
   );
 };
 
-const BlogPostPage = () => {
-  const { slug } = useParams();
+const BlogPostPage: React.FC = () => {
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const [post, setPost] = useState(null);
-  const [relatedPosts, setRelatedPosts] = useState([]);
-  const [url, setUrl] = useState('');
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [url, setUrl] = useState<string>('');
   
   // Set URL for sharing
   useEffect(() => {
     setUrl(window.location.href);
   }, []);
   
-  // Find post by slug
+  // Fetch all posts for related posts functionality
   useEffect(() => {
-    const foundPost = blogPosts.find(post => post.slug === slug);
+    const fetchAllPosts = async () => {
+      try {
+        const postsResponse = await client.postConnection();
+        if (postsResponse.data.postConnection.edges) {
+          const posts = postsResponse.data.postConnection.edges
+            .filter(edge => edge?.node)
+            .map(edge => edge?.node as BlogPost);
+          setAllPosts(posts);
+        }
+      } catch (err) {
+        console.error('Error fetching all posts:', err);
+      }
+    };
     
-    if (foundPost) {
-      setPost(foundPost);
-      setRelatedPosts(getRelatedPosts(foundPost));
-      // Scroll to top when post changes
-      window.scrollTo(0, 0);
-    } else {
-      // Redirect to updates page if post not found
-      navigate('/updates');
-    }
-  }, [slug, navigate]);
+    fetchAllPosts();
+  }, []);
   
-  if (!post) {
+  // Fetch the current post by slug
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!slug) return;
+      
+      setLoading(true);
+      try {
+        // Find the post file path from the slug
+        const relativePath = `${slug}.mdx`;
+        const postResponse = await client.post({ relativePath });
+        
+        if (postResponse.data.post) {
+          setPost(postResponse.data.post as BlogPost);
+          
+          // Find related posts once we have the current post
+          if (allPosts.length > 0) {
+            const related = getRelatedPosts(postResponse.data.post as BlogPost, allPosts);
+            setRelatedPosts(related);
+          }
+          
+          // Scroll to top when post changes
+          window.scrollTo(0, 0);
+        } else {
+          setError('Post not found');
+          navigate('/updates');
+        }
+      } catch (err) {
+        console.error('Error fetching post:', err);
+        setError('Error loading post');
+        navigate('/updates');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPost();
+  }, [slug, navigate, allPosts]);
+  
+  // Get related posts by category or tag
+  const getRelatedPosts = (currentPost: BlogPost, posts: BlogPost[], limit = 3): BlogPost[] => {
+    return posts
+      .filter(post => 
+        post._sys.relativePath !== currentPost._sys.relativePath && 
+        (post.category === currentPost.category || 
+         post.tags.some(tag => currentPost.tags.includes(tag)))
+      )
+      .slice(0, limit);
+  };
+  
+  // Update related posts when all posts are loaded
+  useEffect(() => {
+    if (post && allPosts.length > 0) {
+      const related = getRelatedPosts(post, allPosts);
+      setRelatedPosts(related);
+    }
+  }, [post, allPosts]);
+  
+  if (loading) {
     return (
       <div className="pt-24 min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -403,6 +191,31 @@ const BlogPostPage = () => {
     );
   }
   
+  if (error || !post) {
+    return (
+      <div className="pt-24 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <FileText size={48} className="text-slate-300 mx-auto mb-4" />
+          <h2 className="text-2xl font-semibold text-navy-900 mb-2">Article not found</h2>
+          <p className="text-slate-600 mb-4">The article you're looking for doesn't exist or has been moved.</p>
+          <Link to="/updates" className="btn btn-primary">
+            View all updates
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
+  // Format date for display
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+  
   return (
     <div className="pt-16">
       {/* SEO Configuration */}
@@ -410,7 +223,7 @@ const BlogPostPage = () => {
         title={`${post.title} | Capitol Insights`}
         description={post.excerpt}
         image={post.image}
-        canonical={`/updates/${post.slug}`}
+        canonical={`/updates/${slug}`}
         type="article"
         additionalMetaTags={[
           { name: "keywords", content: post.tags.join(', ').toLowerCase() + ', texas government relations, policy analysis' },
@@ -448,7 +261,7 @@ const BlogPostPage = () => {
             <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-white/90">
               <span className="flex items-center">
                 <CalendarDays size={16} className="mr-2" />
-                {post.date}
+                {formatDate(post.date)}
               </span>
               <span className="flex items-center">
                 <Clock size={16} className="mr-2" />
@@ -489,10 +302,9 @@ const BlogPostPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <div 
-                  className="prose prose-lg max-w-none prose-headings:text-navy-900 prose-headings:font-display prose-headings:font-semibold prose-p:text-slate-700 prose-ul:text-slate-700 prose-ol:text-slate-700 prose-strong:text-navy-800"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
-                />
+                <div className="prose prose-lg max-w-none prose-headings:text-navy-900 prose-headings:font-display prose-headings:font-semibold prose-p:text-slate-700 prose-ul:text-slate-700 prose-ol:text-slate-700 prose-strong:text-navy-800">
+                  {post.body && <TinaMarkdown content={post.body} />}
+                </div>
               </motion.article>
               
               <motion.div 
@@ -606,7 +418,7 @@ const BlogPostPage = () => {
                       {relatedPosts.map((relatedPost) => (
                         <Link 
                           key={relatedPost.id}
-                          to={`/updates/${relatedPost.slug}`}
+                          to={`/updates/${relatedPost._sys.basename}`}
                           className="block group"
                         >
                           <div className="flex gap-3">
@@ -618,7 +430,7 @@ const BlogPostPage = () => {
                               />
                             </div>
                             <div>
-                              <div className="mb-1 text-xs text-slate-500">{relatedPost.date}</div>
+                              <div className="mb-1 text-xs text-slate-500">{formatDate(relatedPost.date)}</div>
                               <h4 className="font-medium text-navy-900 group-hover:text-gold-600 transition-colors leading-tight text-sm sm:text-base">
                                 {relatedPost.title}
                               </h4>

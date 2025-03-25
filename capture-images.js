@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -22,26 +22,44 @@ const puppeteer = require('puppeteer');
   await new Promise(r => setTimeout(r, 1000));
   
   // Take screenshot of Drew Campbell's image
-  const drewElement = await page.evaluate(() => {
+  const drewRect = await page.evaluate(() => {
     const images = Array.from(document.querySelectorAll('img'));
-    return images.find(img => img.alt && img.alt.includes('Drew'));
+    const img = images.find(img => img.src && img.src.includes('drew-campbell-thumb.jpg'));
+    if (!img) return null;
+    
+    const rect = img.getBoundingClientRect();
+    return {
+      x: rect.x,
+      y: rect.y,
+      width: rect.width,
+      height: rect.height
+    };
   });
   
-  if (drewElement) {
-    await page.screenshot({ path: 'public/uploads/team/drew-campbell.jpg', clip: drewElement.getBoundingClientRect() });
+  if (drewRect) {
+    await page.screenshot({ path: 'public/uploads/team/drew-campbell.jpg', clip: drewRect });
     console.log('Drew Campbell image saved');
   } else {
     console.log('Could not find Drew Campbell image');
   }
   
   // Take screenshot of Byron Campbell's image
-  const byronElement = await page.evaluate(() => {
+  const byronRect = await page.evaluate(() => {
     const images = Array.from(document.querySelectorAll('img'));
-    return images.find(img => img.alt && img.alt.includes('Byron'));
+    const img = images.find(img => img.src && img.src.includes('byron-campbell-thumb.jpg'));
+    if (!img) return null;
+    
+    const rect = img.getBoundingClientRect();
+    return {
+      x: rect.x,
+      y: rect.y,
+      width: rect.width,
+      height: rect.height
+    };
   });
   
-  if (byronElement) {
-    await page.screenshot({ path: 'public/uploads/team/byron-campbell.jpg', clip: byronElement.getBoundingClientRect() });
+  if (byronRect) {
+    await page.screenshot({ path: 'public/uploads/team/byron-campbell.jpg', clip: byronRect });
     console.log('Byron Campbell image saved');
   } else {
     console.log('Could not find Byron Campbell image');

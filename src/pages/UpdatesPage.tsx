@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   CalendarDays, 
@@ -11,162 +11,90 @@ import {
   Search,
   Filter,
   ArrowRight,
-  Mail,
-  Bookmark
+  Mail
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import client from '../tina-client';
 
-// Sample blog post data
-const blogPosts = [
-  {
-    id: 1,
-    slug: 'texas-legislative-session-2025-preview',
-    title: 'Texas Legislative Session 2025: What Organizations Need to Know',
-    excerpt: 'A comprehensive preview of key issues likely to dominate the upcoming legislative session and how they may impact various sectors.',
-    content: `
-      <p>The 2025 Texas Legislative Session is fast approaching, and organizations across sectors need to prepare for what promises to be a consequential period for state policy. Our government relations team has compiled this preview of key issues we anticipate will dominate the upcoming session.</p>
-      
-      <h2>Budget Priorities</h2>
-      <p>With projections indicating a budget surplus for the 2025-2026 biennium, we anticipate significant debate over spending priorities. Key areas likely to receive attention include:</p>
-      <ul>
-        <li>Infrastructure investment, particularly in grid resilience and rural broadband</li>
-        <li>Public education funding formulas</li>
-        <li>Healthcare accessibility initiatives</li>
-        <li>Property tax relief measures</li>
-      </ul>
-      
-      <h2>Regulatory Focus</h2>
-      <p>Several regulatory areas are positioned for possible reform:</p>
-      <ul>
-        <li>Energy regulation and market structure following ongoing reliability concerns</li>
-        <li>Technology sector oversight, particularly regarding data privacy and artificial intelligence</li>
-        <li>Healthcare delivery systems and telehealth permanence</li>
-        <li>Environmental permitting processes, especially water usage in manufacturing and agriculture</li>
-      </ul>
-      
-      <h2>Industry-Specific Outlook</h2>
-      <p>Based on interim committee hearings and stakeholder engagement, we predict the following industry-specific focus areas:</p>
-      
-      <h3>Technology & Telecommunications</h3>
-      <p>With broadband access now recognized as essential infrastructure, expect continued legislative attention on expanding deployment to underserved areas. Additionally, data privacy regulation modeled after other state frameworks appears increasingly likely.</p>
-      
-      <h3>Healthcare</h3>
-      <p>Healthcare workforce shortage solutions will be a major focus, along with measures to address rural healthcare access. Regulatory frameworks for new care delivery models are also expected.</p>
-      
-      <h3>Energy</h3>
-      <p>The legislature will continue addressing grid reliability with potential market structure reforms. Renewable energy incentives may face scrutiny, while natural gas infrastructure will likely receive support for resilience purposes.</p>
-      
-      <h2>Strategic Recommendations</h2>
-      <p>Organizations should consider these proactive steps in preparation for the 2025 session:</p>
-      <ol>
-        <li>Engage with legislative offices during the interim to establish relationships and educate on key issues</li>
-        <li>Develop specific policy recommendations rather than general position statements</li>
-        <li>Build coalitions with aligned stakeholders to amplify advocacy efforts</li>
-        <li>Prepare data-driven impact analyses to support policy positions</li>
-        <li>Create a comprehensive government relations strategy with contingency plans for various scenarios</li>
-      </ol>
-      
-      <p>Capitol Insights will continue monitoring interim committee activities and leadership priorities. For a personalized analysis of how the upcoming session might impact your organization, please contact our team to schedule a consultation.</p>
-    `,
-    date: 'October 15, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '6 min read',
-    category: 'Legislative Preview',
-    tags: ['Texas Legislature', 'Policy', 'Government Affairs'],
-    featured: true,
-    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
-  },
-  {
-    id: 2,
-    slug: 'healthcare-regulatory-changes-impact',
-    title: 'Navigating Texas Healthcare Regulatory Changes in 2024',
-    excerpt: 'An analysis of recent regulatory changes affecting healthcare providers and strategies for compliance without sacrificing operational efficiency.',
-    content: '',
-    date: 'September 28, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '5 min read',
-    category: 'Healthcare',
-    tags: ['Healthcare', 'Regulatory Compliance', 'Policy Analysis'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80'
-  },
-  {
-    id: 3,
-    slug: 'municipal-advocacy-strategies',
-    title: 'Effective Municipal Advocacy: Strategies for Local Policy Influence',
-    excerpt: 'How organizations can effectively engage with city councils and local regulatory bodies to shape favorable policy outcomes.',
-    content: '',
-    date: 'September 12, 2024',
-    author: 'Byron Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '4 min read',
-    category: 'Municipal Affairs',
-    tags: ['Local Government', 'Advocacy', 'Municipal Relations'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1571954471509-801c155e01ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80'
-  },
-  {
-    id: 4,
-    slug: 'transportation-funding-outlook',
-    title: 'Transportation Funding Outlook: Preparing for the Next Budget Cycle',
-    excerpt: 'Analysis of potential transportation funding priorities and how stakeholders can position for infrastructure investment.',
-    content: '',
-    date: 'August 25, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '7 min read',
-    category: 'Transportation',
-    tags: ['Infrastructure', 'Budget', 'Transportation'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1528460452708-38945e33cd4d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
-  },
-  {
-    id: 5,
-    slug: 'coalition-building-case-study',
-    title: 'Coalition Building: A Case Study in Effective Policy Advocacy',
-    excerpt: 'How a diverse stakeholder coalition successfully navigated complex regulatory challenges through strategic alignment.',
-    content: '',
-    date: 'August 10, 2024',
-    author: 'Byron Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '5 min read',
-    category: 'Advocacy Strategy',
-    tags: ['Coalition Building', 'Case Study', 'Advocacy'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1476&q=80'
-  },
-  {
-    id: 6,
-    slug: 'telecommunications-regulatory-outlook',
-    title: 'Telecommunications Regulatory Outlook for 2025',
-    excerpt: 'Key regulatory trends affecting telecommunications companies and strategic considerations for policy engagement.',
-    content: '',
-    date: 'July 30, 2024',
-    author: 'Drew Campbell',
-    authorTitle: 'Senior Partner',
-    readTime: '6 min read',
-    category: 'Telecommunications',
-    tags: ['Telecommunications', 'Regulatory Affairs', 'Technology'],
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1487875961445-47a00398c267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
-  }
-];
+// Define types for blog posts
+interface BlogPost {
+  _sys: {
+    filename: string;
+    basename: string;
+    relativePath: string;
+  };
+  id: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  authorTitle: string;
+  readTime: string;
+  category: string;
+  tags: string[];
+  featured: boolean;
+  image: string;
+  body: any;
+}
 
-// Get all unique categories
-const categories = [...new Set(blogPosts.map(post => post.category))];
-
-// Get all unique tags
-const allTags = [...new Set(blogPosts.flatMap(post => post.tags))];
-
-const UpdatesPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedTag, setSelectedTag] = useState('');
+const UpdatesPage: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedTag, setSelectedTag] = useState<string>('');
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [allTags, setAllTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Get URL parameters
+  useEffect(() => {
+    const tag = searchParams.get('tag');
+    const category = searchParams.get('category');
+    const search = searchParams.get('search');
+    
+    if (tag) setSelectedTag(tag);
+    if (category) setSelectedCategory(category);
+    if (search) setSearchTerm(search);
+  }, [searchParams]);
+  
+  // Fetch all posts
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const postsResponse = await client.postConnection({
+          sort: "date:desc", // Sort by date descending
+        });
+        
+        if (postsResponse.data.postConnection.edges) {
+          const fetchedPosts = postsResponse.data.postConnection.edges
+            .filter(edge => edge?.node)
+            .map(edge => edge?.node as BlogPost);
+          
+          setPosts(fetchedPosts);
+          
+          // Extract unique categories and tags
+          const uniqueCategories = [...new Set(fetchedPosts.map(post => post.category))];
+          const uniqueTags = [...new Set(fetchedPosts.flatMap(post => post.tags))];
+          
+          setCategories(uniqueCategories);
+          setAllTags(uniqueTags);
+        }
+      } catch (err) {
+        console.error('Error fetching posts:', err);
+        setError('Failed to load blog posts');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPosts();
+  }, []);
   
   // Filter posts based on search, category, and tag
-  const filteredPosts = blogPosts.filter(post => {
+  const filteredPosts = posts.filter(post => {
     const matchesSearch = searchTerm === '' || 
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
@@ -179,7 +107,34 @@ const UpdatesPage = () => {
   });
   
   // Get the featured post
-  const featuredPost = blogPosts.find(post => post.featured);
+  const featuredPost = posts.find(post => post.featured);
+  
+  // Update URL when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.set('search', searchTerm);
+    if (selectedCategory) params.set('category', selectedCategory);
+    if (selectedTag) params.set('tag', selectedTag);
+    
+    setSearchParams(params, { replace: true });
+  }, [searchTerm, selectedCategory, selectedTag, setSearchParams]);
+  
+  // Format date for display
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+  
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('');
+    setSelectedTag('');
+  };
   
   return (
     <div className="pt-16">
@@ -261,7 +216,7 @@ const UpdatesPage = () => {
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="inline-flex items-center px-3 py-1 bg-slate-100 text-navy-700 rounded-full text-sm">
                       <CalendarDays size={14} className="mr-1 text-navy-600" />
-                      {featuredPost.date}
+                      {formatDate(featuredPost.date)}
                     </span>
                     <span className="inline-flex items-center px-3 py-1 bg-slate-100 text-navy-700 rounded-full text-sm">
                       <Clock size={14} className="mr-1 text-navy-600" />
@@ -285,7 +240,7 @@ const UpdatesPage = () => {
                     </div>
                     
                     <Link 
-                      to={`/updates/${featuredPost.slug}`} 
+                      to={`/updates/${featuredPost._sys.basename}`} 
                       className="btn btn-primary btn-md w-full sm:w-auto justify-center sm:justify-start"
                     >
                       Read Full Analysis
@@ -444,91 +399,98 @@ const UpdatesPage = () => {
                 </div>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                {filteredPosts.length > 0 ? (
-                  filteredPosts.map((post) => (
-                    <motion.div 
-                      key={post.id}
-                      className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 h-full flex flex-col hover:shadow-md transition-shadow"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <div className="relative h-40 sm:h-48 overflow-hidden">
-                        <img 
-                          src={post.image} 
-                          alt={post.title}
-                          className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
-                        />
-                        <span className="absolute top-4 left-4 inline-block px-3 py-1 bg-navy-900/80 text-white rounded-full text-xs font-medium">
-                          {post.category}
-                        </span>
-                      </div>
-                      
-                      <div className="p-5 sm:p-6 flex flex-col flex-grow">
-                        <div className="flex items-center gap-3 mb-3 text-xs text-slate-500">
-                          <span className="inline-flex items-center">
-                            <CalendarDays size={14} className="mr-1 text-gold-600" />
-                            {post.date}
-                          </span>
-                          <span className="inline-flex items-center">
-                            <Clock size={14} className="mr-1 text-gold-600" />
-                            {post.readTime}
-                          </span>
-                        </div>
-                        
-                        <h3 className="text-lg sm:text-xl font-display font-bold text-navy-900 mb-3 leading-tight">
-                          {post.title}
-                        </h3>
-                        
-                        <p className="text-slate-600 mb-4 line-clamp-3 flex-grow text-sm sm:text-base">
-                          {post.excerpt}
-                        </p>
-                        
-                        <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
-                          <div className="flex items-center">
-                            <div className="bg-gold-50 w-8 h-8 rounded-full flex items-center justify-center mr-2">
-                              <User size={14} className="text-gold-600" />
-                            </div>
-                            <div>
-                              <p className="font-medium text-navy-900 text-sm">{post.author}</p>
-                              <p className="text-slate-500 text-xs">{post.authorTitle}</p>
-                            </div>
+              {loading ? (
+                <div className="flex justify-center items-center py-12">
+                  <div className="text-center">
+                    <FileText size={48} className="text-slate-300 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-navy-900 mb-2">Loading articles...</h3>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {filteredPosts.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                      {filteredPosts.map((post) => (
+                        <motion.div 
+                          key={post.id}
+                          className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 h-full flex flex-col hover:shadow-md transition-shadow"
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <div className="relative h-40 sm:h-48 overflow-hidden">
+                            <img 
+                              src={post.image} 
+                              alt={post.title}
+                              className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
+                            />
+                            <span className="absolute top-4 left-4 inline-block px-3 py-1 bg-navy-900/80 text-white rounded-full text-xs font-medium">
+                              {post.category}
+                            </span>
                           </div>
                           
-                          <Link 
-                            to={`/updates/${post.slug}`} 
-                            className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 text-sm"
-                            aria-label={`Read more about ${post.title}`}
-                          >
-                            <span>Read more</span>
-                            <ArrowRight size={14} className="ml-1" />
-                          </Link>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="bg-white rounded-xl p-8 text-center border border-slate-100 md:col-span-2">
-                    <FileText size={48} className="text-slate-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-navy-900 mb-2">No results found</h3>
-                    <p className="text-slate-600 mb-4">
-                      We couldn't find any articles matching your current filters.
-                    </p>
-                    <button 
-                      onClick={() => {
-                        setSearchTerm('');
-                        setSelectedCategory('');
-                        setSelectedTag('');
-                      }}
-                      className="text-gold-600 font-medium hover:text-gold-700"
-                    >
-                      Clear all filters
-                    </button>
-                  </div>
-                )}
-              </div>
+                          <div className="p-5 sm:p-6 flex flex-col flex-grow">
+                            <div className="flex items-center gap-3 mb-3 text-xs text-slate-500">
+                              <span className="inline-flex items-center">
+                                <CalendarDays size={14} className="mr-1 text-gold-600" />
+                                {formatDate(post.date)}
+                              </span>
+                              <span className="inline-flex items-center">
+                                <Clock size={14} className="mr-1 text-gold-600" />
+                                {post.readTime}
+                              </span>
+                            </div>
+                            
+                            <h3 className="text-lg sm:text-xl font-display font-bold text-navy-900 mb-3 leading-tight">
+                              {post.title}
+                            </h3>
+                            
+                            <p className="text-slate-600 mb-4 line-clamp-3 flex-grow text-sm sm:text-base">
+                              {post.excerpt}
+                            </p>
+                            
+                            <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
+                              <div className="flex items-center">
+                                <div className="bg-gold-50 w-8 h-8 rounded-full flex items-center justify-center mr-2">
+                                  <User size={14} className="text-gold-600" />
+                                </div>
+                                <div>
+                                  <p className="font-medium text-navy-900 text-sm">{post.author}</p>
+                                  <p className="text-slate-500 text-xs">{post.authorTitle}</p>
+                                </div>
+                              </div>
+                              
+                              <Link 
+                                to={`/updates/${post._sys.basename}`} 
+                                className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 text-sm"
+                                aria-label={`Read more about ${post.title}`}
+                              >
+                                <span>Read more</span>
+                                <ArrowRight size={14} className="ml-1" />
+                              </Link>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="bg-white rounded-xl p-8 text-center border border-slate-100 md:col-span-2">
+                      <FileText size={48} className="text-slate-300 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-navy-900 mb-2">No results found</h3>
+                      <p className="text-slate-600 mb-4">
+                        We couldn't find any articles matching your current filters.
+                      </p>
+                      <button 
+                        onClick={clearFilters}
+                        className="text-gold-600 font-medium hover:text-gold-700"
+                      >
+                        Clear all filters
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -561,8 +523,5 @@ const UpdatesPage = () => {
     </div>
   );
 };
-
-// Define the missing Calendar component
-const Calendar = CalendarDays;
 
 export default UpdatesPage;
