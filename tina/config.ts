@@ -5,7 +5,8 @@ const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
 
 export default defineConfig({
   branch,
-  // Using Local Mode instead of Tina Cloud
+  clientId: process.env.TINA_CLIENT_ID || "3db951f1-1013-495b-976f-b111359664bc", // Get this from tina.io
+  token: process.env.TINA_TOKEN || "95f1cd687bb4738130614315066031cf884e72ac", // Get this from tina.io
   build: {
     outputFolder: "admin",
     publicFolder: "public",
