@@ -1,44 +1,68 @@
 # Capitol Insights
 
-A modern web application for Capitol Insights, built with React, Vite, and Tina CMS. Deployed on Netlify.
+A modern, responsive website for Capitol Insights, a government relations and lobbying firm based in Texas.
+
+## Features
+
+- Responsive design optimized for all devices
+- Fast performance with React and Vite
+- Content management with TinaCMS
+- SEO optimization with structured data (JSON-LD)
+- Blog/updates section with categorization
+- Team member profiles
+- Service offerings
+- Case studies and results showcase
+- Contact form
+
+## Technology Stack
+
+- **Frontend**: React, TypeScript, TailwindCSS
+- **Build Tool**: Vite
+- **Content Management**: TinaCMS
+- **Deployment**: Netlify
 
 ## Development
 
-To run the development server:
+### Prerequisites
 
+- Node.js (v16+)
+- npm or yarn
+
+### Setup
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/capitol-insights.git
+cd capitol-insights
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Start the development server
 ```bash
 npm run dev
 ```
 
-## Build
-
-To build the project:
-
+4. Start TinaCMS
 ```bash
-npm run build
+npm run tina
 ```
+
+## Content Management
+
+This site uses TinaCMS for content management. To access the CMS:
+
+1. Start the TinaCMS server: `npm run tina`
+2. Navigate to `http://localhost:3000/admin` in your browser
+3. Edit content through the user-friendly interface
 
 ## Deployment
 
-This project is deployed on Netlify. To deploy:
+The site is configured for deployment on Netlify. Push to the main branch to trigger a deployment.
 
-1. Push your changes to GitHub
-2. Netlify will automatically build and deploy the site
+## License
 
-### Environment Variables
-
-The following environment variables need to be set in Netlify:
-
-- `TINA_CLIENT_ID`: The client ID for Tina CMS
-- `TINA_TOKEN`: The token for Tina CMS (get this from tina.io)
-- `VITE_SUPABASE_ANON_KEY`: The anonymous key for Supabase
-- `VITE_SUPABASE_URL`: The URL for the Supabase project
-
-## Technologies
-
-- React
-- TypeScript
-- Vite
-- Tina CMS
-- Tailwind CSS
-- Supabase
+All rights reserved. This code is proprietary and confidential.

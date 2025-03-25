@@ -1,5 +1,47 @@
 import { HelmetProps } from 'react-helmet-async';
 
+// Schema markup interfaces
+export interface SchemaMarkupBase {
+  type: string;
+  name?: string;
+  description?: string;
+  url?: string;
+  image?: string;
+}
+
+export interface ArticleSchemaMarkup extends SchemaMarkupBase {
+  type: 'Article' | 'BlogPosting' | 'NewsArticle' | 'TechArticle';
+  headline?: string;
+  datePublished?: string;
+  dateModified?: string;
+  authorName?: string;
+  publisherName?: string;
+  publisherLogo?: string;
+}
+
+export interface WebPageSchemaMarkup extends SchemaMarkupBase {
+  type: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage' | 'FAQPage';
+}
+
+export interface OrganizationSchemaMarkup extends SchemaMarkupBase {
+  type: 'Organization' | 'LocalBusiness';
+}
+
+export interface ServiceSchemaMarkup extends SchemaMarkupBase {
+  type: 'Service';
+}
+
+export interface PersonSchemaMarkup extends SchemaMarkupBase {
+  type: 'Person';
+}
+
+export type SchemaMarkup = 
+  | ArticleSchemaMarkup 
+  | WebPageSchemaMarkup 
+  | OrganizationSchemaMarkup 
+  | ServiceSchemaMarkup
+  | PersonSchemaMarkup;
+
 export interface SEOProps {
   title?: string;
   description?: string;
@@ -12,6 +54,8 @@ export interface SEOProps {
     property?: string;
     content: string;
   }>;
+  schema?: Record<string, any>;
+  schemaMarkup?: SchemaMarkup;
 }
 
 export const generateSEO = ({
@@ -22,6 +66,8 @@ export const generateSEO = ({
   type = 'website',
   twitterCardType = 'summary_large_image',
   additionalMetaTags = [],
+  schema,
+  schemaMarkup,
 }: SEOProps): HelmetProps => {
   const fullUrl = (path: string) => {
     if (path.startsWith('http')) return path;
@@ -29,7 +75,7 @@ export const generateSEO = ({
     return `${baseUrl}${path.startsWith('/') ? path : `/${path}`}`;
   };
 
-  return {
+  const helmetProps: HelmetProps = {
     title,
     meta: [
       { name: 'description', content: description },
@@ -46,6 +92,68 @@ export const generateSEO = ({
     ],
     link: canonical ? [{ rel: 'canonical', href: fullUrl(canonical) }] : [],
   };
+
+  // Generate schema from schemaMarkup if provided
+  if (schemaMarkup) {
+    const generatedSchema: Record<string, any> = {
+      "@context": "https://schema.org",
+      "@type": schemaMarkup.type,
+    };
+
+    // Add common properties
+    if (schemaMarkup.name) generatedSchema.name = schemaMarkup.name;
+    if (schemaMarkup.description) generatedSchema.description = schemaMarkup.description;
+    if (schemaMarkup.url) generatedSchema.url = fullUrl(schemaMarkup.url);
+    if (schemaMarkup.image) generatedSchema.image = fullUrl(schemaMarkup.image);
+
+    // Add type-specific properties for Article types
+    if (['Article', 'BlogPosting', 'NewsArticle', 'TechArticle'].includes(schemaMarkup.type)) {
+      const articleSchema = schemaMarkup as ArticleSchemaMarkup;
+      
+      if (articleSchema.headline) generatedSchema.headline = articleSchema.headline;
+      if (articleSchema.datePublished) generatedSchema.datePublished = articleSchema.datePublished;
+      if (articleSchema.dateModified) generatedSchema.dateModified = articleSchema.dateModified;
+      
+      if (articleSchema.authorName) {
+        generatedSchema.author = {
+          "@type": "Person",
+          "name": articleSchema.authorName
+        };
+      }
+      
+      if (articleSchema.publisherName) {
+        generatedSchema.publisher = {
+          "@type": "Organization",
+          "name": articleSchema.publisherName
+        };
+        
+        if (articleSchema.publisherLogo) {
+          generatedSchema.publisher.logo = {
+            "@type": "ImageObject",
+            "url": fullUrl(articleSchema.publisherLogo)
+          };
+        }
+      }
+    }
+
+    helmetProps.script = [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify(generatedSchema),
+      },
+    ];
+  }
+  // Use direct schema if provided and schemaMarkup is not
+  else if (schema) {
+    helmetProps.script = [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify(schema),
+      },
+    ];
+  }
+
+  return helmetProps;
 };
 
 export const pageSEO = (page: string, customDescription?: string): SEOProps => {

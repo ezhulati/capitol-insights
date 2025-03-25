@@ -1,15 +1,102 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Award, Building2, BarChart, FileText, GraduationCap, Calendar } from 'lucide-react';
+import client from '../tina-client';
+import SEO from '../components/SEO';
+
+// Define types for team members
+interface TeamMember {
+  id?: number;
+  name: string;
+  title: string;
+  bio: string;
+  image: string;
+  email?: string | null;
+  phone?: string | null;
+  linkedin?: string | null;
+  expertise: string[];
+  education: string;
+  contactLink: string;
+}
+
+interface TeamPageData {
+  title: string;
+  heroHeading: string;
+  heroSubheading: string;
+  teamMembers?: {
+    name?: string;
+    title?: string;
+    bio?: string;
+    image?: string;
+    email?: string | null;
+    phone?: string | null;
+    linkedin?: string | null;
+  }[];
+}
 
 const TeamPage = () => {
-  // Team members with enhanced information
-  const teamMembers = [
+  const [pageData, setPageData] = useState<TeamPageData>({
+    title: 'Meet Our Team',
+    heroHeading: 'Meet the Team',
+    heroSubheading: 'Our team brings decades of experience in government relations and lobbying, with authentic connections and specialized knowledge in key policy areas.',
+    teamMembers: []
+  });
+  const [loading, setLoading] = useState<boolean>(true);
+  
+  // Fetch team page data from Tina CMS
+  useEffect(() => {
+    const fetchTeamPage = async () => {
+      try {
+        const response = await client.teamPage({ relativePath: 'index.mdx' });
+        if (response.data.teamPage) {
+          setPageData({
+            title: response.data.teamPage.title,
+            heroHeading: response.data.teamPage.heroHeading,
+            heroSubheading: response.data.teamPage.heroSubheading,
+            teamMembers: response.data.teamPage.teamMembers?.map(member => ({
+              name: member?.name,
+              title: member?.title,
+              bio: member?.bio,
+              image: member?.image,
+              email: member?.email,
+              phone: member?.phone,
+              linkedin: member?.linkedin
+            })) || []
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching team page:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchTeamPage();
+  }, []);
+  // Process the team members data
+  const processedTeamMembers = pageData.teamMembers?.map((member, index) => ({
+    id: index + 1,
+    name: member?.name || '',
+    title: member?.title || '',
+    bio: member?.bio || '',
+    image: member?.image || '',
+    email: member?.email,
+    phone: member?.phone,
+    linkedin: member?.linkedin,
+    expertise: ['Legislative Strategy', 'Transportation Policy', 'Local Government Relations', 'Coalition Building'],
+    education: member?.name?.includes('Drew') ? 
+      'B.A. Political Science, University of Texas' : 
+      'J.D., Southern Methodist University; B.A. Government, University of Texas',
+    contactLink: `/contact?member=${member?.name?.split(' ')[0]?.toLowerCase()}`
+  })) || [];
+  
+  // Fallback data in case CMS data is not available
+  const fallbackTeamMembers = [
     {
       id: 1,
       name: 'Drew Campbell',
       title: 'Senior Partner',
-      image: '/uploads/team/team-page.png',
+      image: '/uploads/team/drew-campbell.jpg',
       bio: `Drew Campbell brings over 30 years of government relations experience to Capitol Insights. As a founding partner, he has established the firm as a respected voice in Texas politics.
 
 Prior to founding Capitol Insights, Drew served as CEO of the New Car Dealers Association of Metropolitan Dallas and worked with the Associated Motor Carriers of Oklahoma, where he developed extensive knowledge of transportation policy and regulation.
@@ -23,7 +110,7 @@ Drew's approach is straightforward and relationship-driven. He doesn't promise m
       id: 2,
       name: 'Byron Campbell',
       title: 'Senior Partner',
-      image: '/uploads/team/team-page.png',
+      image: '/uploads/team/byron-campbell.jpg',
       bio: `Byron Campbell has dedicated over 10 years to understanding and navigating the intersection of policy, politics, and business. His experience spans local, state, and federal government, giving him valuable perspective on how decisions at each level impact organizations.
 
 Byron's approach to government relations is methodical and transparent. He helps clients develop realistic goals, identify key stakeholders, and create strategic communication plans that resonate with decision-makers.
@@ -35,8 +122,36 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
     }
   ];
   
+  // Use fallback data if CMS data is not available
+  const teamMembers = processedTeamMembers.length ? processedTeamMembers : fallbackTeamMembers;
+  const heroHeading = pageData.heroHeading || 'Meet the Team';
+  const heroSubheading = pageData.heroSubheading || 'Our team brings decades of experience in government relations and lobbying, with authentic connections and specialized knowledge in key policy areas.';
+  
+  if (loading) {
+    return (
+      <div className="pt-24 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <FileText size={48} className="text-slate-300 mx-auto mb-4" />
+          <h2 className="text-2xl font-semibold text-navy-900 mb-2">Loading team information...</h2>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="pt-16">
+      {/* SEO Configuration */}
+      <SEO 
+        title={pageData.title || "Our Team | Capitol Insights"}
+        description="Meet the experienced team at Capitol Insights who bring decades of expertise in government relations and policy advocacy throughout Texas."
+        image="/uploads/team/team-page.png"
+        canonical="/team"
+        additionalMetaTags={[
+          { name: "keywords", content: "government relations team, texas lobbyists, policy experts, drew campbell, byron campbell" },
+          { property: "og:site_name", content: "Capitol Insights" }
+        ]}
+      />
+      
       {/* Team Header */}
       <section className="hero-section">
         <div className="hero-overlay"></div>
@@ -45,9 +160,9 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
             <span className="inline-block px-3 py-1 bg-primary-500/20 text-primary-200 rounded-full text-sm font-medium mb-4">
               Our Leadership
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">Meet the Team</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">{heroHeading}</h1>
             <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
-              Our team brings decades of experience in government relations and lobbying, with authentic connections and specialized knowledge in key policy areas.
+              {heroSubheading}
             </p>
           </div>
         </div>
@@ -83,7 +198,7 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
                     </div>
                     
                     <div className="prose max-w-none text-secondary-700 mt-4 mb-6 sm:mb-8">
-                      {member.bio.split('\n\n').map((paragraph, i) => (
+                      {member.bio.split('\n\n').map((paragraph: string, i: number) => (
                         <p key={i} className="mb-4">{paragraph}</p>
                       ))}
                     </div>
@@ -95,7 +210,7 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
                           <h3 className="font-semibold text-secondary-900">Areas of Expertise</h3>
                         </div>
                         <ul className="space-y-2">
-                          {member.expertise.map((item, i) => (
+                          {member.expertise?.map((item, i) => (
                             <li key={i} className="flex items-center text-secondary-700">
                               <span className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2"></span>
                               {item}
@@ -120,7 +235,7 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
                   <h3 className="text-center text-lg font-medium text-secondary-900 mb-6">Connect with {member.name.split(' ')[0]}</h3>
                   <div className="flex flex-wrap gap-3 justify-center">
                     <Link 
-                      to={member.contactLink} 
+                      to={member.contactLink || '#'} 
                       className="btn btn-primary btn-md"
                     >
                       <Mail size={18} className="mr-2" />

@@ -20,6 +20,8 @@ import SEO from '../components/SEO';
 import client from '../tina-client';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 
+import { ArticleSchemaMarkup } from '../utils/seo';
+
 // Define types for blog posts
 interface BlogPost {
   _sys: {
@@ -29,6 +31,8 @@ interface BlogPost {
   };
   id: string;
   title: string;
+  metaDescription?: string;
+  metaKeywords?: string[];
   excerpt: string;
   date: string;
   author: string;
@@ -39,6 +43,7 @@ interface BlogPost {
   featured: boolean;
   image: string;
   body: any;
+  schemaMarkup?: ArticleSchemaMarkup;
 }
 
 // Share button component
@@ -221,17 +226,18 @@ const BlogPostPage: React.FC = () => {
       {/* SEO Configuration */}
       <SEO 
         title={`${post.title} | Capitol Insights`}
-        description={post.excerpt}
+        description={post.metaDescription || post.excerpt}
         image={post.image}
         canonical={`/updates/${slug}`}
         type="article"
         additionalMetaTags={[
-          { name: "keywords", content: post.tags.join(', ').toLowerCase() + ', texas government relations, policy analysis' },
+          { name: "keywords", content: post.metaKeywords ? post.metaKeywords.join(', ') : post.tags.join(', ').toLowerCase() + ', texas government relations, policy analysis' },
           { property: "og:site_name", content: "Capitol Insights" },
           { property: "article:published_time", content: new Date(post.date).toISOString() },
           { property: "article:author", content: post.author },
           { property: "article:section", content: post.category }
         ]}
+        schemaMarkup={post.schemaMarkup}
       />
 
       {/* Blog Post Header */}

@@ -7,10 +7,21 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+*.lcov
+.nyc_output
+
+# Build
 dist
 dist-ssr
 *.local
+build
 
 # Editor directories and files
 .vscode/*
@@ -24,5 +35,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# TinaCMS
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Tina CMS
 .tina/__generated__/*

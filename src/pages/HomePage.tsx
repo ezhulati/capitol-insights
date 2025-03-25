@@ -115,6 +115,13 @@ const HomePage = () => {
           { name: "keywords", content: "government relations, texas lobbying, legislative advocacy, policy consultants, austin, dallas" },
           { property: "og:site_name", content: "Capitol Insights" }
         ]}
+        schemaMarkup={{
+          type: "Organization",
+          name: "Capitol Insights",
+          description: "Capitol Insights delivers ethical, effective government relations services throughout Texas, transforming policy challenges into strategic advantages for organizations.",
+          url: "https://capitol-insights.com",
+          image: "https://images.unsplash.com/photo-1585468274952-66591eb14165?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
+        }}
       />
 
       <section className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center">

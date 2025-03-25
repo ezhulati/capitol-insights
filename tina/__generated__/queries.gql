@@ -53,6 +53,61 @@ query postConnection($before: String, $after: String, $first: Float, $last: Floa
   }
 }
 
+query homePage($relativePath: String!) {
+  homePage(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...HomePageParts
+  }
+}
+
+query homePageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: HomePageFilter) {
+  homePageConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...HomePageParts
+      }
+    }
+  }
+}
+
 query page($relativePath: String!) {
   page(relativePath: $relativePath) {
     ... on Document {
@@ -108,8 +163,8 @@ query pageConnection($before: String, $after: String, $first: Float, $last: Floa
   }
 }
 
-query homePage($relativePath: String!) {
-  homePage(relativePath: $relativePath) {
+query approachPage($relativePath: String!) {
+  approachPage(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -122,12 +177,12 @@ query homePage($relativePath: String!) {
       }
       id
     }
-    ...HomePageParts
+    ...ApproachPageParts
   }
 }
 
-query homePageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: HomePageFilter) {
-  homePageConnection(
+query approachPageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ApproachPageFilter) {
+  approachPageConnection(
     before: $before
     after: $after
     first: $first
@@ -157,7 +212,7 @@ query homePageConnection($before: String, $after: String, $first: Float, $last: 
           }
           id
         }
-        ...HomePageParts
+        ...ApproachPageParts
       }
     }
   }
@@ -378,61 +433,6 @@ query contactPageConnection($before: String, $after: String, $first: Float, $las
           id
         }
         ...ContactPageParts
-      }
-    }
-  }
-}
-
-query approachPage($relativePath: String!) {
-  approachPage(relativePath: $relativePath) {
-    ... on Document {
-      _sys {
-        filename
-        basename
-        hasReferences
-        breadcrumbs
-        path
-        relativePath
-        extension
-      }
-      id
-    }
-    ...ApproachPageParts
-  }
-}
-
-query approachPageConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ApproachPageFilter) {
-  approachPageConnection(
-    before: $before
-    after: $after
-    first: $first
-    last: $last
-    sort: $sort
-    filter: $filter
-  ) {
-    pageInfo {
-      hasPreviousPage
-      hasNextPage
-      startCursor
-      endCursor
-    }
-    totalCount
-    edges {
-      cursor
-      node {
-        ... on Document {
-          _sys {
-            filename
-            basename
-            hasReferences
-            breadcrumbs
-            path
-            relativePath
-            extension
-          }
-          id
-        }
-        ...ApproachPageParts
       }
     }
   }

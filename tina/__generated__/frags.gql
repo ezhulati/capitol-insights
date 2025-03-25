@@ -1,6 +1,8 @@
 fragment PostParts on Post {
   __typename
   title
+  metaDescription
+  metaKeywords
   excerpt
   date
   author
@@ -11,21 +13,35 @@ fragment PostParts on Post {
   featured
   image
   body
-}
-
-fragment PageParts on Page {
-  __typename
-  title
-  description
-  body
+  schemaMarkup {
+    __typename
+    type
+    headline
+    datePublished
+    dateModified
+    authorName
+    publisherName
+    publisherLogo
+    description
+  }
 }
 
 fragment HomePageParts on HomePage {
   __typename
   title
+  metaDescription
+  metaKeywords
   heroHeading
   heroSubheading
   heroImage
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
   stats {
     __typename
     value
@@ -63,11 +79,67 @@ fragment HomePageParts on HomePage {
   }
 }
 
+fragment PageParts on Page {
+  __typename
+  title
+  metaDescription
+  metaKeywords
+  description
+  body
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
+}
+
+fragment ApproachPageParts on ApproachPage {
+  __typename
+  title
+  metaDescription
+  metaKeywords
+  heroHeading
+  heroSubheading
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
+  approachSteps {
+    __typename
+    title
+    description
+    stepNumber
+  }
+  principles {
+    __typename
+    title
+    description
+    icon
+  }
+}
+
 fragment ResultsPageParts on ResultsPage {
   __typename
   title
+  metaDescription
+  metaKeywords
   heroHeading
   heroSubheading
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
   metrics {
     __typename
     value
@@ -100,8 +172,18 @@ fragment ResultsPageParts on ResultsPage {
 fragment ServicesPageParts on ServicesPage {
   __typename
   title
+  metaDescription
+  metaKeywords
   heroHeading
   heroSubheading
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
   services {
     __typename
     title
@@ -113,8 +195,18 @@ fragment ServicesPageParts on ServicesPage {
 fragment TeamPageParts on TeamPage {
   __typename
   title
+  metaDescription
+  metaKeywords
   heroHeading
   heroSubheading
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
   teamMembers {
     __typename
     name
@@ -130,8 +222,18 @@ fragment TeamPageParts on TeamPage {
 fragment ContactPageParts on ContactPage {
   __typename
   title
+  metaDescription
+  metaKeywords
   heroHeading
   heroSubheading
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
   offices {
     __typename
     city
@@ -147,30 +249,21 @@ fragment ContactPageParts on ContactPage {
   }
 }
 
-fragment ApproachPageParts on ApproachPage {
-  __typename
-  title
-  heroHeading
-  heroSubheading
-  approachSteps {
-    __typename
-    title
-    description
-    stepNumber
-  }
-  principles {
-    __typename
-    title
-    description
-    icon
-  }
-}
-
 fragment UpdatesPageParts on UpdatesPage {
   __typename
   title
+  metaDescription
+  metaKeywords
   heroHeading
   heroSubheading
+  schemaMarkup {
+    __typename
+    type
+    name
+    description
+    url
+    image
+  }
   featuredCategories {
     __typename
     name

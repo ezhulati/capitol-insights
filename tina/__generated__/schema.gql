@@ -56,10 +56,12 @@ type Query {
   document(collection: String, relativePath: String): DocumentNode!
   post(relativePath: String): Post!
   postConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PostFilter): PostConnection!
-  page(relativePath: String): Page!
-  pageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageFilter): PageConnection!
   homePage(relativePath: String): HomePage!
   homePageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: HomePageFilter): HomePageConnection!
+  page(relativePath: String): Page!
+  pageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: PageFilter): PageConnection!
+  approachPage(relativePath: String): ApproachPage!
+  approachPageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ApproachPageFilter): ApproachPageConnection!
   resultsPage(relativePath: String): ResultsPage!
   resultsPageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ResultsPageFilter): ResultsPageConnection!
   servicesPage(relativePath: String): ServicesPage!
@@ -68,21 +70,19 @@ type Query {
   teamPageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: TeamPageFilter): TeamPageConnection!
   contactPage(relativePath: String): ContactPage!
   contactPageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ContactPageFilter): ContactPageConnection!
-  approachPage(relativePath: String): ApproachPage!
-  approachPageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ApproachPageFilter): ApproachPageConnection!
   updatesPage(relativePath: String): UpdatesPage!
   updatesPageConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: UpdatesPageFilter): UpdatesPageConnection!
 }
 
 input DocumentFilter {
   post: PostFilter
-  page: PageFilter
   homePage: HomePageFilter
+  page: PageFilter
+  approachPage: ApproachPageFilter
   resultsPage: ResultsPageFilter
   servicesPage: ServicesPageFilter
   teamPage: TeamPageFilter
   contactPage: ContactPageFilter
-  approachPage: ApproachPageFilter
   updatesPage: UpdatesPageFilter
 }
 
@@ -109,10 +109,23 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Post | Page | HomePage | ResultsPage | ServicesPage | TeamPage | ContactPage | ApproachPage | UpdatesPage | Folder
+union DocumentNode = Post | HomePage | Page | ApproachPage | ResultsPage | ServicesPage | TeamPage | ContactPage | UpdatesPage | Folder
+
+type PostSchemaMarkup {
+  type: String!
+  headline: String
+  datePublished: String
+  dateModified: String
+  authorName: String
+  publisherName: String
+  publisherLogo: String
+  description: String
+}
 
 type Post implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   excerpt: String!
   date: String!
   author: String!
@@ -123,6 +136,7 @@ type Post implements Node & Document {
   featured: Boolean!
   image: String!
   body: JSON
+  schemaMarkup: PostSchemaMarkup
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
@@ -161,8 +175,21 @@ input RichTextFilter {
   exists: Boolean
 }
 
+input PostSchemaMarkupFilter {
+  type: StringFilter
+  headline: StringFilter
+  datePublished: DatetimeFilter
+  dateModified: DatetimeFilter
+  authorName: StringFilter
+  publisherName: StringFilter
+  publisherLogo: StringFilter
+  description: StringFilter
+}
+
 input PostFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   excerpt: StringFilter
   date: DatetimeFilter
   author: StringFilter
@@ -173,6 +200,7 @@ input PostFilter {
   featured: BooleanFilter
   image: ImageFilter
   body: RichTextFilter
+  schemaMarkup: PostSchemaMarkupFilter
 }
 
 type PostConnectionEdges {
@@ -186,30 +214,12 @@ type PostConnection implements Connection {
   edges: [PostConnectionEdges]
 }
 
-type Page implements Node & Document {
-  title: String!
-  description: String!
-  body: JSON
-  id: ID!
-  _sys: SystemInfo!
-  _values: JSON!
-}
-
-input PageFilter {
-  title: StringFilter
-  description: StringFilter
-  body: RichTextFilter
-}
-
-type PageConnectionEdges {
-  cursor: String!
-  node: Page
-}
-
-type PageConnection implements Connection {
-  pageInfo: PageInfo!
-  totalCount: Float!
-  edges: [PageConnectionEdges]
+type HomePageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 type HomePageStats {
@@ -249,9 +259,12 @@ type HomePageTeamMembers {
 
 type HomePage implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
   heroImage: String!
+  schemaMarkup: HomePageSchemaMarkup
   stats: [HomePageStats]
   features: [HomePageFeatures]
   valueCards: [HomePageValueCards]
@@ -261,6 +274,14 @@ type HomePage implements Node & Document {
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input HomePageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
 }
 
 input HomePageStatsFilter {
@@ -300,9 +321,12 @@ input HomePageTeamMembersFilter {
 
 input HomePageFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
   heroImage: ImageFilter
+  schemaMarkup: HomePageSchemaMarkupFilter
   stats: HomePageStatsFilter
   features: HomePageFeaturesFilter
   valueCards: HomePageValueCardsFilter
@@ -320,6 +344,148 @@ type HomePageConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
   edges: [HomePageConnectionEdges]
+}
+
+type PageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
+}
+
+type Page implements Node & Document {
+  title: String!
+  metaDescription: String
+  metaKeywords: [String]
+  description: String!
+  body: JSON
+  schemaMarkup: PageSchemaMarkup
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input PageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
+}
+
+input PageFilter {
+  title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
+  description: StringFilter
+  body: RichTextFilter
+  schemaMarkup: PageSchemaMarkupFilter
+}
+
+type PageConnectionEdges {
+  cursor: String!
+  node: Page
+}
+
+type PageConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [PageConnectionEdges]
+}
+
+type ApproachPageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
+}
+
+type ApproachPageApproachSteps {
+  title: String!
+  description: String!
+  stepNumber: Float!
+}
+
+type ApproachPagePrinciples {
+  title: String!
+  description: String!
+  icon: String
+}
+
+type ApproachPage implements Node & Document {
+  title: String!
+  metaDescription: String
+  metaKeywords: [String]
+  heroHeading: String!
+  heroSubheading: String!
+  schemaMarkup: ApproachPageSchemaMarkup
+  approachSteps: [ApproachPageApproachSteps]
+  principles: [ApproachPagePrinciples]
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ApproachPageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
+}
+
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
+}
+
+input ApproachPageApproachStepsFilter {
+  title: StringFilter
+  description: StringFilter
+  stepNumber: NumberFilter
+}
+
+input ApproachPagePrinciplesFilter {
+  title: StringFilter
+  description: StringFilter
+  icon: StringFilter
+}
+
+input ApproachPageFilter {
+  title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
+  heroHeading: StringFilter
+  heroSubheading: StringFilter
+  schemaMarkup: ApproachPageSchemaMarkupFilter
+  approachSteps: ApproachPageApproachStepsFilter
+  principles: ApproachPagePrinciplesFilter
+}
+
+type ApproachPageConnectionEdges {
+  cursor: String!
+  node: ApproachPage
+}
+
+type ApproachPageConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [ApproachPageConnectionEdges]
+}
+
+type ResultsPageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 type ResultsPageMetrics {
@@ -351,8 +517,11 @@ type ResultsPageTestimonial {
 
 type ResultsPage implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
+  schemaMarkup: ResultsPageSchemaMarkup
   metrics: [ResultsPageMetrics]
   caseStudies: [ResultsPageCaseStudies]
   achievements: [ResultsPageAchievements]
@@ -360,6 +529,14 @@ type ResultsPage implements Node & Document {
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input ResultsPageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
 }
 
 input ResultsPageMetricsFilter {
@@ -391,8 +568,11 @@ input ResultsPageTestimonialFilter {
 
 input ResultsPageFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
+  schemaMarkup: ResultsPageSchemaMarkupFilter
   metrics: ResultsPageMetricsFilter
   caseStudies: ResultsPageCaseStudiesFilter
   achievements: ResultsPageAchievementsFilter
@@ -410,6 +590,14 @@ type ResultsPageConnection implements Connection {
   edges: [ResultsPageConnectionEdges]
 }
 
+type ServicesPageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
+}
+
 type ServicesPageServices {
   title: String!
   description: String!
@@ -418,12 +606,23 @@ type ServicesPageServices {
 
 type ServicesPage implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
+  schemaMarkup: ServicesPageSchemaMarkup
   services: [ServicesPageServices]
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input ServicesPageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
 }
 
 input ServicesPageServicesFilter {
@@ -434,8 +633,11 @@ input ServicesPageServicesFilter {
 
 input ServicesPageFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
+  schemaMarkup: ServicesPageSchemaMarkupFilter
   services: ServicesPageServicesFilter
 }
 
@@ -450,6 +652,14 @@ type ServicesPageConnection implements Connection {
   edges: [ServicesPageConnectionEdges]
 }
 
+type TeamPageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
+}
+
 type TeamPageTeamMembers {
   name: String!
   title: String!
@@ -462,12 +672,23 @@ type TeamPageTeamMembers {
 
 type TeamPage implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
+  schemaMarkup: TeamPageSchemaMarkup
   teamMembers: [TeamPageTeamMembers]
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input TeamPageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
 }
 
 input TeamPageTeamMembersFilter {
@@ -482,8 +703,11 @@ input TeamPageTeamMembersFilter {
 
 input TeamPageFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
+  schemaMarkup: TeamPageSchemaMarkupFilter
   teamMembers: TeamPageTeamMembersFilter
 }
 
@@ -496,6 +720,14 @@ type TeamPageConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
   edges: [TeamPageConnectionEdges]
+}
+
+type ContactPageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 type ContactPageOffices {
@@ -513,13 +745,24 @@ type ContactPageContactForm {
 
 type ContactPage implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
+  schemaMarkup: ContactPageSchemaMarkup
   offices: [ContactPageOffices]
   contactForm: ContactPageContactForm
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input ContactPageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
 }
 
 input ContactPageOfficesFilter {
@@ -537,8 +780,11 @@ input ContactPageContactFormFilter {
 
 input ContactPageFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
+  schemaMarkup: ContactPageSchemaMarkupFilter
   offices: ContactPageOfficesFilter
   contactForm: ContactPageContactFormFilter
 }
@@ -554,68 +800,12 @@ type ContactPageConnection implements Connection {
   edges: [ContactPageConnectionEdges]
 }
 
-type ApproachPageApproachSteps {
-  title: String!
-  description: String!
-  stepNumber: Float!
-}
-
-type ApproachPagePrinciples {
-  title: String!
-  description: String!
-  icon: String
-}
-
-type ApproachPage implements Node & Document {
-  title: String!
-  heroHeading: String!
-  heroSubheading: String!
-  approachSteps: [ApproachPageApproachSteps]
-  principles: [ApproachPagePrinciples]
-  id: ID!
-  _sys: SystemInfo!
-  _values: JSON!
-}
-
-input NumberFilter {
-  lt: Float
-  lte: Float
-  gte: Float
-  gt: Float
-  eq: Float
-  exists: Boolean
-  in: [Float]
-}
-
-input ApproachPageApproachStepsFilter {
-  title: StringFilter
-  description: StringFilter
-  stepNumber: NumberFilter
-}
-
-input ApproachPagePrinciplesFilter {
-  title: StringFilter
-  description: StringFilter
-  icon: StringFilter
-}
-
-input ApproachPageFilter {
-  title: StringFilter
-  heroHeading: StringFilter
-  heroSubheading: StringFilter
-  approachSteps: ApproachPageApproachStepsFilter
-  principles: ApproachPagePrinciplesFilter
-}
-
-type ApproachPageConnectionEdges {
-  cursor: String!
-  node: ApproachPage
-}
-
-type ApproachPageConnection implements Connection {
-  pageInfo: PageInfo!
-  totalCount: Float!
-  edges: [ApproachPageConnectionEdges]
+type UpdatesPageSchemaMarkup {
+  type: String!
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 type UpdatesPageFeaturedCategories {
@@ -625,12 +815,23 @@ type UpdatesPageFeaturedCategories {
 
 type UpdatesPage implements Node & Document {
   title: String!
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
+  schemaMarkup: UpdatesPageSchemaMarkup
   featuredCategories: [UpdatesPageFeaturedCategories]
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input UpdatesPageSchemaMarkupFilter {
+  type: StringFilter
+  name: StringFilter
+  description: StringFilter
+  url: StringFilter
+  image: StringFilter
 }
 
 input UpdatesPageFeaturedCategoriesFilter {
@@ -640,8 +841,11 @@ input UpdatesPageFeaturedCategoriesFilter {
 
 input UpdatesPageFilter {
   title: StringFilter
+  metaDescription: StringFilter
+  metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
+  schemaMarkup: UpdatesPageSchemaMarkupFilter
   featuredCategories: UpdatesPageFeaturedCategoriesFilter
 }
 
@@ -664,10 +868,12 @@ type Mutation {
   createFolder(collection: String, relativePath: String!): DocumentNode!
   updatePost(relativePath: String!, params: PostMutation!): Post!
   createPost(relativePath: String!, params: PostMutation!): Post!
-  updatePage(relativePath: String!, params: PageMutation!): Page!
-  createPage(relativePath: String!, params: PageMutation!): Page!
   updateHomePage(relativePath: String!, params: HomePageMutation!): HomePage!
   createHomePage(relativePath: String!, params: HomePageMutation!): HomePage!
+  updatePage(relativePath: String!, params: PageMutation!): Page!
+  createPage(relativePath: String!, params: PageMutation!): Page!
+  updateApproachPage(relativePath: String!, params: ApproachPageMutation!): ApproachPage!
+  createApproachPage(relativePath: String!, params: ApproachPageMutation!): ApproachPage!
   updateResultsPage(relativePath: String!, params: ResultsPageMutation!): ResultsPage!
   createResultsPage(relativePath: String!, params: ResultsPageMutation!): ResultsPage!
   updateServicesPage(relativePath: String!, params: ServicesPageMutation!): ServicesPage!
@@ -676,39 +882,50 @@ type Mutation {
   createTeamPage(relativePath: String!, params: TeamPageMutation!): TeamPage!
   updateContactPage(relativePath: String!, params: ContactPageMutation!): ContactPage!
   createContactPage(relativePath: String!, params: ContactPageMutation!): ContactPage!
-  updateApproachPage(relativePath: String!, params: ApproachPageMutation!): ApproachPage!
-  createApproachPage(relativePath: String!, params: ApproachPageMutation!): ApproachPage!
   updateUpdatesPage(relativePath: String!, params: UpdatesPageMutation!): UpdatesPage!
   createUpdatesPage(relativePath: String!, params: UpdatesPageMutation!): UpdatesPage!
 }
 
 input DocumentUpdateMutation {
   post: PostMutation
-  page: PageMutation
   homePage: HomePageMutation
+  page: PageMutation
+  approachPage: ApproachPageMutation
   resultsPage: ResultsPageMutation
   servicesPage: ServicesPageMutation
   teamPage: TeamPageMutation
   contactPage: ContactPageMutation
-  approachPage: ApproachPageMutation
   updatesPage: UpdatesPageMutation
   relativePath: String
 }
 
 input DocumentMutation {
   post: PostMutation
-  page: PageMutation
   homePage: HomePageMutation
+  page: PageMutation
+  approachPage: ApproachPageMutation
   resultsPage: ResultsPageMutation
   servicesPage: ServicesPageMutation
   teamPage: TeamPageMutation
   contactPage: ContactPageMutation
-  approachPage: ApproachPageMutation
   updatesPage: UpdatesPageMutation
+}
+
+input PostSchemaMarkupMutation {
+  type: String
+  headline: String
+  datePublished: String
+  dateModified: String
+  authorName: String
+  publisherName: String
+  publisherLogo: String
+  description: String
 }
 
 input PostMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   excerpt: String
   date: String
   author: String
@@ -719,12 +936,15 @@ input PostMutation {
   featured: Boolean
   image: String
   body: JSON
+  schemaMarkup: PostSchemaMarkupMutation
 }
 
-input PageMutation {
-  title: String
+input HomePageSchemaMarkupMutation {
+  type: String
+  name: String
   description: String
-  body: JSON
+  url: String
+  image: String
 }
 
 input HomePageStatsMutation {
@@ -764,15 +984,74 @@ input HomePageTeamMembersMutation {
 
 input HomePageMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
   heroImage: String
+  schemaMarkup: HomePageSchemaMarkupMutation
   stats: [HomePageStatsMutation]
   features: [HomePageFeaturesMutation]
   valueCards: [HomePageValueCardsMutation]
   testimonial: HomePageTestimonialMutation
   industries: [HomePageIndustriesMutation]
   teamMembers: [HomePageTeamMembersMutation]
+}
+
+input PageSchemaMarkupMutation {
+  type: String
+  name: String
+  description: String
+  url: String
+  image: String
+}
+
+input PageMutation {
+  title: String
+  metaDescription: String
+  metaKeywords: [String]
+  description: String
+  body: JSON
+  schemaMarkup: PageSchemaMarkupMutation
+}
+
+input ApproachPageSchemaMarkupMutation {
+  type: String
+  name: String
+  description: String
+  url: String
+  image: String
+}
+
+input ApproachPageApproachStepsMutation {
+  title: String
+  description: String
+  stepNumber: Float
+}
+
+input ApproachPagePrinciplesMutation {
+  title: String
+  description: String
+  icon: String
+}
+
+input ApproachPageMutation {
+  title: String
+  metaDescription: String
+  metaKeywords: [String]
+  heroHeading: String
+  heroSubheading: String
+  schemaMarkup: ApproachPageSchemaMarkupMutation
+  approachSteps: [ApproachPageApproachStepsMutation]
+  principles: [ApproachPagePrinciplesMutation]
+}
+
+input ResultsPageSchemaMarkupMutation {
+  type: String
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 input ResultsPageMetricsMutation {
@@ -804,12 +1083,23 @@ input ResultsPageTestimonialMutation {
 
 input ResultsPageMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
+  schemaMarkup: ResultsPageSchemaMarkupMutation
   metrics: [ResultsPageMetricsMutation]
   caseStudies: [ResultsPageCaseStudiesMutation]
   achievements: [ResultsPageAchievementsMutation]
   testimonial: ResultsPageTestimonialMutation
+}
+
+input ServicesPageSchemaMarkupMutation {
+  type: String
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 input ServicesPageServicesMutation {
@@ -820,9 +1110,20 @@ input ServicesPageServicesMutation {
 
 input ServicesPageMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
+  schemaMarkup: ServicesPageSchemaMarkupMutation
   services: [ServicesPageServicesMutation]
+}
+
+input TeamPageSchemaMarkupMutation {
+  type: String
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 input TeamPageTeamMembersMutation {
@@ -837,9 +1138,20 @@ input TeamPageTeamMembersMutation {
 
 input TeamPageMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
+  schemaMarkup: TeamPageSchemaMarkupMutation
   teamMembers: [TeamPageTeamMembersMutation]
+}
+
+input ContactPageSchemaMarkupMutation {
+  type: String
+  name: String
+  description: String
+  url: String
+  image: String
 }
 
 input ContactPageOfficesMutation {
@@ -857,30 +1169,21 @@ input ContactPageContactFormMutation {
 
 input ContactPageMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
+  schemaMarkup: ContactPageSchemaMarkupMutation
   offices: [ContactPageOfficesMutation]
   contactForm: ContactPageContactFormMutation
 }
 
-input ApproachPageApproachStepsMutation {
-  title: String
+input UpdatesPageSchemaMarkupMutation {
+  type: String
+  name: String
   description: String
-  stepNumber: Float
-}
-
-input ApproachPagePrinciplesMutation {
-  title: String
-  description: String
-  icon: String
-}
-
-input ApproachPageMutation {
-  title: String
-  heroHeading: String
-  heroSubheading: String
-  approachSteps: [ApproachPageApproachStepsMutation]
-  principles: [ApproachPagePrinciplesMutation]
+  url: String
+  image: String
 }
 
 input UpdatesPageFeaturedCategoriesMutation {
@@ -890,8 +1193,11 @@ input UpdatesPageFeaturedCategoriesMutation {
 
 input UpdatesPageMutation {
   title: String
+  metaDescription: String
+  metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
+  schemaMarkup: UpdatesPageSchemaMarkupMutation
   featuredCategories: [UpdatesPageFeaturedCategoriesMutation]
 }
 

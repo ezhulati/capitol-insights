@@ -136,6 +136,13 @@ const ResultsPage = () => {
           { name: "keywords", content: "government relations results, lobbying success stories, policy advocacy case studies, texas legislative achievements" },
           { property: "og:site_name", content: "Capitol Insights" }
         ]}
+        schemaMarkup={{
+          type: "CollectionPage",
+          name: "Client Success Stories & Case Studies",
+          description: "Discover how Capitol Insights has delivered measurable results for clients across diverse industries through effective, ethical government relations strategies in Texas.",
+          url: "https://capitol-insights.com/results",
+          image: "https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
+        }}
       />
 
       {/* Results Header */}
