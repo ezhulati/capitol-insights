@@ -1,6 +1,6 @@
 # Capitol Insights
 
-A modern web application for Capitol Insights, built with React, Vite, and Tina CMS.
+A modern web application for Capitol Insights, built with React, Vite, and Tina CMS. Deployed on Netlify.
 
 ## Development
 
