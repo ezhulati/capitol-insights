@@ -149,7 +149,7 @@ const HomePage = () => {
   to="/contact" 
   className="btn btn-primary btn-lg group w-full sm:w-auto justify-center sm:justify-start p-8 sm:p-6 whitespace-nowrap"
 >
-  <span>Schedule Assessment</span>
+  <span className="whitespace-nowrap">Schedule Assessment</span>
   <ChevronRight size={18} className="ml-1 inline-block group-hover:translate-x-1 transition-transform" />
 </Link>
               <Link 

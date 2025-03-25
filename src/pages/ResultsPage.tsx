@@ -14,7 +14,17 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 
-const ResultCard = ({ title, challenge, approach, outcome, client, clientRole, company }) => {
+interface ResultCardProps {
+  title: string;
+  challenge: string;
+  approach: string;
+  outcome: string;
+  client: string;
+  clientRole: string;
+  company: string;
+}
+
+const ResultCard = ({ title, challenge, approach, outcome, client, clientRole, company }: ResultCardProps) => {
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-card border border-secondary-100 hover:shadow-md transition-all duration-300">
       <div className="border-b border-secondary-100 p-5 sm:p-6">
@@ -50,7 +60,13 @@ const ResultCard = ({ title, challenge, approach, outcome, client, clientRole, c
   );
 };
 
-const MetricCard = ({ icon, value, label }) => {
+interface MetricCardProps {
+  icon: React.ReactNode;
+  value: string;
+  label: string;
+}
+
+const MetricCard = ({ icon, value, label }: MetricCardProps) => {
   return (
     <div className="bg-white p-5 sm:p-6 rounded-xl border border-secondary-100 shadow-sm flex flex-col items-center text-center hover:shadow-md transition-all duration-300">
       <div className="bg-primary-50 p-3 rounded-full w-fit mb-4">
@@ -62,7 +78,11 @@ const MetricCard = ({ icon, value, label }) => {
   );
 };
 
-const AchievementItem = ({ children }) => {
+interface AchievementItemProps {
+  children: React.ReactNode;
+}
+
+const AchievementItem = ({ children }: AchievementItemProps) => {
   return (
     <div className="flex items-start gap-3">
       <div className="bg-primary-50 p-1 rounded-full mt-0.5 flex-shrink-0">
@@ -297,7 +317,7 @@ const ResultsPage = () => {
   to="/contact" 
   className="btn btn-primary btn-lg w-full md:w-auto justify-center items-center whitespace-nowrap"
 >
-  <span>Schedule Assessment</span>
+  <span className="whitespace-nowrap">Schedule Assessment</span>
   <ChevronRight size={18} className="ml-1" />
 </Link>
               </div>
