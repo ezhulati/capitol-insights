@@ -19,3 +19,161 @@ fragment PageParts on Page {
   description
   body
 }
+
+fragment HomePageParts on HomePage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  heroImage
+  stats {
+    __typename
+    value
+    label
+  }
+  features {
+    __typename
+    title
+    description
+    icon
+  }
+  valueCards {
+    __typename
+    title
+    description
+    icon
+  }
+  testimonial {
+    __typename
+    quote
+    author
+    role
+    company
+  }
+  industries {
+    __typename
+    name
+  }
+  teamMembers {
+    __typename
+    name
+    title
+    bio
+    image
+  }
+}
+
+fragment ResultsPageParts on ResultsPage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  metrics {
+    __typename
+    value
+    label
+    icon
+  }
+  caseStudies {
+    __typename
+    title
+    challenge
+    approach
+    outcome
+    client
+    clientRole
+    company
+  }
+  achievements {
+    __typename
+    text
+  }
+  testimonial {
+    __typename
+    quote
+    author
+    role
+    company
+  }
+}
+
+fragment ServicesPageParts on ServicesPage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  services {
+    __typename
+    title
+    description
+    icon
+  }
+}
+
+fragment TeamPageParts on TeamPage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  teamMembers {
+    __typename
+    name
+    title
+    bio
+    image
+    email
+    phone
+    linkedin
+  }
+}
+
+fragment ContactPageParts on ContactPage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  offices {
+    __typename
+    city
+    address
+    phone
+    email
+  }
+  contactForm {
+    __typename
+    heading
+    subheading
+    successMessage
+  }
+}
+
+fragment ApproachPageParts on ApproachPage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  approachSteps {
+    __typename
+    title
+    description
+    stepNumber
+  }
+  principles {
+    __typename
+    title
+    description
+    icon
+  }
+}
+
+fragment UpdatesPageParts on UpdatesPage {
+  __typename
+  title
+  heroHeading
+  heroSubheading
+  featuredCategories {
+    __typename
+    name
+    description
+  }
+}
