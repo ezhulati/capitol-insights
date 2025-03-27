@@ -32,49 +32,14 @@ const ContactPage = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // This is a simpler approach that lets Netlify handle the form submission directly
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    // We're not preventing default form submission
+    // This allows the form to be submitted directly to Netlify
     setIsSubmitting(true);
     
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-    
-    // Add form-name field which Netlify requires
-    formData.append("form-name", "contact");
-    
-    // Convert FormData to URL-encoded string
-    const urlEncodedData = new URLSearchParams(formData as any).toString();
-    
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: urlEncodedData,
-    })
-      .then(() => {
-        console.log("Form successfully submitted");
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        
-        // Reset form after 5 seconds
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            organization: '',
-            interest: 'general',
-            message: '',
-            preferredDate: '',
-            preferredTime: ''
-          });
-        }, 5000);
-      })
-      .catch((error) => {
-        console.error("Form submission error:", error);
-        setIsSubmitting(false);
-        alert("There was an error submitting the form. Please try again later.");
-      });
+    // We'll still show the loading state, but the page will redirect to success.html
+    // after submission, so this is just for a brief moment before redirect
   };
 
   return (
