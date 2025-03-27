@@ -236,14 +236,14 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
                   <div className="flex flex-wrap gap-3 justify-center">
                     <Link 
                       to={member.contactLink || '#'} 
-                      className="btn btn-primary btn-md"
+                      className="btn btn-primary btn-md whitespace-nowrap"
                     >
                       <Mail size={18} className="mr-2" />
                       <span>Contact {member.name.split(' ')[0]}</span>
                     </Link>
                     <a 
                       href="#" 
-                      className="btn btn-secondary btn-md"
+                      className="btn btn-secondary btn-md whitespace-nowrap"
                       rel="noopener noreferrer"
                     >
                       <Linkedin size={18} className="mr-2" />
@@ -272,42 +272,50 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
           
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
-              <div className="card p-4 sm:p-6 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <FileText size={20} className="text-primary-600" />
+              <div className="card p-4 sm:p-6">
+                <div className="flex items-center mb-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                    <FileText size={20} className="text-primary-600" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">1. Assess</h3>
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-secondary-900 mb-2">1. Assess</h3>
-                <p className="text-secondary-600 text-sm">
+                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
                   We begin with a thorough assessment of your needs, goals, and the legislative landscape.
                 </p>
               </div>
               
-              <div className="card p-4 sm:p-6 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <BarChart size={20} className="text-primary-600" />
+              <div className="card p-4 sm:p-6">
+                <div className="flex items-center mb-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                    <BarChart size={20} className="text-primary-600" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">2. Strategize</h3>
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-secondary-900 mb-2">2. Strategize</h3>
-                <p className="text-secondary-600 text-sm">
+                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
                   We develop a tailored strategy with clear objectives and stakeholder mapping.
                 </p>
               </div>
               
-              <div className="card p-4 sm:p-6 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <Building2 size={20} className="text-primary-600" />
+              <div className="card p-4 sm:p-6">
+                <div className="flex items-center mb-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                    <Building2 size={20} className="text-primary-600" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">3. Engage</h3>
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-secondary-900 mb-2">3. Engage</h3>
-                <p className="text-secondary-600 text-sm">
+                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
                   We connect you with decision-makers and build supporting coalitions.
                 </p>
               </div>
               
-              <div className="card p-4 sm:p-6 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mb-4">
-                  <Calendar size={20} className="text-primary-600" />
+              <div className="card p-4 sm:p-6">
+                <div className="flex items-center mb-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                    <Calendar size={20} className="text-primary-600" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">4. Adapt</h3>
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold text-secondary-900 mb-2">4. Adapt</h3>
-                <p className="text-secondary-600 text-sm">
+                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
                   We continuously monitor developments and provide regular progress updates.
                 </p>
               </div>
@@ -375,7 +383,7 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
             <div>
               <Link 
                 to="/contact" 
-                className="btn bg-white text-primary-900 hover:bg-primary-50 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg shadow-lg transition-colors w-full sm:w-auto inline-flex justify-center"
+                className="btn bg-white text-primary-900 hover:bg-primary-50 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg shadow-lg transition-colors w-full sm:w-auto inline-flex justify-center whitespace-nowrap"
               >
                 Contact Our Team
               </Link>

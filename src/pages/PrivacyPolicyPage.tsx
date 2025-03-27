@@ -165,7 +165,7 @@ const PrivacyPolicyPage = () => {
             <div className="mt-10 sm:mt-12 flex justify-center">
               <Link 
                 to="/contact" 
-                className="btn btn-primary btn-lg w-full sm:w-auto justify-center"
+                className="btn btn-primary btn-lg w-full sm:w-auto justify-center whitespace-nowrap"
               >
                 Contact Us With Questions
                 <ChevronRight size={18} className="ml-1" />

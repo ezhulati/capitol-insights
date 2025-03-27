@@ -53,10 +53,12 @@ const ProcessStep = ({ number, title, description, icon }) => {
 const ValueCard = ({ icon, title, description }) => {
   return (
     <div className="card p-6 hover:shadow-md transition-all duration-300">
-      <div className="bg-primary-50 p-2 rounded-lg w-fit mb-4">
-        {icon}
+      <div className="flex items-center mb-3">
+        <div className="bg-primary-50 p-2 rounded-lg mr-3">
+          {icon}
+        </div>
+        <h3 className="text-lg font-semibold text-secondary-900">{title}</h3>
       </div>
-      <h3 className="text-lg font-semibold text-secondary-900 mb-2">{title}</h3>
       <p className="text-secondary-600 text-sm">{description}</p>
     </div>
   );
@@ -89,10 +91,12 @@ const FAQItem = ({ question, answer }) => {
 const DifferentiatorCard = ({ icon, title, description }) => {
   return (
     <div className="bg-white p-6 rounded-xl border border-secondary-100 shadow-sm hover:shadow-md transition-all duration-300">
-      <div className="w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center mb-4">
-        {icon}
+      <div className="flex items-center mb-3">
+        <div className="w-12 h-12 bg-primary-50 rounded-full flex items-center justify-center mr-4">
+          {icon}
+        </div>
+        <h3 className="text-lg font-semibold text-secondary-900">{title}</h3>
       </div>
-      <h3 className="text-lg font-semibold text-secondary-900 mb-2">{title}</h3>
       <p className="text-secondary-700 text-sm">{description}</p>
     </div>
   );
@@ -450,9 +454,10 @@ const ApproachPage = () => {
             <div>
               <Link 
                 to="/contact" 
-                className="btn bg-white text-primary-900 hover:bg-primary-50 font-semibold px-8 py-4 rounded-lg text-lg shadow-lg transition-colors inline-block"
+                className="btn bg-white text-primary-900 hover:bg-primary-50 font-semibold px-8 py-4 rounded-lg text-lg shadow-lg transition-colors inline-block whitespace-nowrap"
               >
                 Schedule Your Policy Assessment
+                <ChevronRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>

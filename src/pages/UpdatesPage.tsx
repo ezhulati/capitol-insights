@@ -16,6 +16,124 @@ import {
 import SEO from '../components/SEO';
 import client from '../tina-client';
 
+// Fallback blog posts when Tina CMS fails
+const fallbackPosts = [
+  {
+    _sys: {
+      filename: "texas-legislative-session-2025-preview.mdx",
+      basename: "texas-legislative-session-2025-preview",
+      relativePath: "texas-legislative-session-2025-preview.mdx"
+    },
+    id: "texas-legislative-session-2025-preview",
+    title: "Texas Legislative Session 2025 - What Organizations Need to Know",
+    excerpt: "A comprehensive preview of key issues likely to dominate the upcoming legislative session and how they may impact various sectors.",
+    date: "2024-10-15T12:00:00.000Z",
+    author: "Drew Campbell",
+    authorTitle: "Senior Partner",
+    readTime: "6 min read",
+    category: "Legislative Preview",
+    tags: ["Texas Legislature", "Policy", "Government Affairs"],
+    featured: true,
+    image: "/uploads/posts/texas-legislative.jpg",
+    body: {}
+  },
+  {
+    _sys: {
+      filename: "healthcare-regulatory-changes-impact.mdx",
+      basename: "healthcare-regulatory-changes-impact",
+      relativePath: "healthcare-regulatory-changes-impact.mdx"
+    },
+    id: "healthcare-regulatory-changes-impact",
+    title: "Impact of Recent Healthcare Regulatory Changes on Texas Providers",
+    excerpt: "An analysis of how recent regulatory changes are affecting healthcare providers across Texas and strategies for adaptation.",
+    date: "2024-09-28T12:00:00.000Z",
+    author: "Byron Campbell",
+    authorTitle: "Healthcare Policy Specialist",
+    readTime: "5 min read",
+    category: "Healthcare",
+    tags: ["Healthcare", "Regulatory", "Compliance"],
+    featured: false,
+    image: "/uploads/posts/healthcare-regulatory.jpg",
+    body: {}
+  },
+  {
+    _sys: {
+      filename: "municipal-advocacy-strategies.mdx",
+      basename: "municipal-advocacy-strategies",
+      relativePath: "municipal-advocacy-strategies.mdx"
+    },
+    id: "municipal-advocacy-strategies",
+    title: "Effective Municipal Advocacy Strategies for 2025",
+    excerpt: "Key strategies for organizations to effectively advocate for their interests at the municipal level in Texas.",
+    date: "2024-09-10T12:00:00.000Z",
+    author: "Drew Campbell",
+    authorTitle: "Senior Partner",
+    readTime: "4 min read",
+    category: "Municipal Affairs",
+    tags: ["Local Government", "Advocacy", "Strategy"],
+    featured: false,
+    image: "/uploads/posts/municipal-advocacy.jpg",
+    body: {}
+  },
+  {
+    _sys: {
+      filename: "transportation-funding-outlook.mdx",
+      basename: "transportation-funding-outlook",
+      relativePath: "transportation-funding-outlook.mdx"
+    },
+    id: "transportation-funding-outlook",
+    title: "Texas Transportation Funding Outlook for 2025-2026",
+    excerpt: "A detailed analysis of transportation funding priorities and opportunities in the upcoming legislative session.",
+    date: "2024-08-22T12:00:00.000Z",
+    author: "Byron Campbell",
+    authorTitle: "Transportation Policy Analyst",
+    readTime: "7 min read",
+    category: "Transportation",
+    tags: ["Infrastructure", "Funding", "Transportation"],
+    featured: false,
+    image: "/uploads/posts/transportation-funding.jpg",
+    body: {}
+  },
+  {
+    _sys: {
+      filename: "coalition-building-case-study.mdx",
+      basename: "coalition-building-case-study",
+      relativePath: "coalition-building-case-study.mdx"
+    },
+    id: "coalition-building-case-study",
+    title: "Coalition Building: A Case Study in Effective Advocacy",
+    excerpt: "How strategic coalition building led to legislative success for a diverse group of stakeholders.",
+    date: "2024-08-05T12:00:00.000Z",
+    author: "Drew Campbell",
+    authorTitle: "Senior Partner",
+    readTime: "5 min read",
+    category: "Advocacy Strategy",
+    tags: ["Coalition Building", "Advocacy", "Case Study"],
+    featured: false,
+    image: "/uploads/posts/coalition-building.jpg",
+    body: {}
+  },
+  {
+    _sys: {
+      filename: "telecommunications-regulatory-outlook.mdx",
+      basename: "telecommunications-regulatory-outlook",
+      relativePath: "telecommunications-regulatory-outlook.mdx"
+    },
+    id: "telecommunications-regulatory-outlook",
+    title: "Telecommunications Regulatory Outlook for Texas",
+    excerpt: "An overview of upcoming regulatory changes affecting the telecommunications industry in Texas.",
+    date: "2024-07-18T12:00:00.000Z",
+    author: "Byron Campbell",
+    authorTitle: "Telecommunications Policy Specialist",
+    readTime: "6 min read",
+    category: "Telecommunications",
+    tags: ["Telecommunications", "Regulatory", "Technology"],
+    featured: false,
+    image: "/uploads/posts/telecommunications-regulatory.jpg",
+    body: {}
+  }
+];
+
 // Define types for blog posts
 interface BlogPost {
   _sys: {
@@ -84,7 +202,17 @@ const UpdatesPage: React.FC = () => {
         }
       } catch (err) {
         console.error('Error fetching posts:', err);
-        setError('Failed to load blog posts');
+        setError('Failed to load blog posts from Tina CMS. Using fallback posts.');
+        
+        // Use fallback posts when Tina CMS fails
+        setPosts(fallbackPosts);
+        
+        // Extract unique categories and tags from fallback posts
+        const uniqueCategories = [...new Set(fallbackPosts.map(post => post.category))];
+        const uniqueTags = [...new Set(fallbackPosts.flatMap(post => post.tags))];
+        
+        setCategories(uniqueCategories);
+        setAllTags(uniqueTags);
       } finally {
         setLoading(false);
       }
@@ -241,7 +369,7 @@ const UpdatesPage: React.FC = () => {
                     
                     <Link 
                       to={`/updates/${featuredPost._sys.basename}`} 
-                      className="btn btn-primary btn-md w-full sm:w-auto justify-center sm:justify-start"
+                      className="btn btn-primary btn-md w-full sm:w-auto justify-center sm:justify-start whitespace-nowrap"
                     >
                       Read Full Analysis
                       <ChevronRight size={16} className="ml-1" />
@@ -368,7 +496,7 @@ const UpdatesPage: React.FC = () => {
                       placeholder="Your email"
                       className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent"
                     />
-                    <button className="bg-gold-600 text-navy-950 px-4 py-2 rounded-lg hover:bg-gold-700 transition-colors flex items-center justify-center">
+                    <button className="bg-gold-600 text-navy-950 px-4 py-2 rounded-lg hover:bg-gold-700 transition-colors flex items-center justify-center whitespace-nowrap">
                       <Mail size={16} className="mr-2" />
                       Subscribe
                     </button>
@@ -510,7 +638,7 @@ const UpdatesPage: React.FC = () => {
               <div className="md:col-span-4 flex md:justify-end">
                 <Link 
                   to="/contact" 
-                  className="btn btn-primary btn-lg w-full md:w-auto justify-center"
+                  className="btn btn-primary btn-lg w-full md:w-auto justify-center whitespace-nowrap"
                 >
                   Schedule Consultation
                   <ChevronRight size={18} className="ml-1" />

@@ -250,7 +250,7 @@ const ResultsPage = () => {
                 </p>
                 <Link 
                   to="/contact" 
-                  className="btn btn-primary btn-lg"
+                  className="btn btn-primary btn-lg whitespace-nowrap"
                 >
                   Discuss Your Goals
                   <ChevronRight size={18} className="ml-1" />
