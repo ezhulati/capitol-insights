@@ -2,6 +2,28 @@
   publish = "dist"
   command = "npm run build"
 
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Enable form detection
+[build.processing.forms]
+  enabled = true
+
+# Form notifications configuration
+[[forms.contact.notifications]]
+  email = "byroncampbell@capitol-insights.com"
+  subject = "New Contact Form Submission"
+
+[[forms.contact.notifications]]
+  email = "enrizhulati@gmail.com"
+  subject = "New Contact Form Submission"
+
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"

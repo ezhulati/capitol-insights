@@ -309,7 +309,69 @@ const BlogPostPage: React.FC = () => {
                 transition={{ duration: 0.5 }}
               >
                 <div className="prose prose-lg max-w-none prose-headings:text-navy-900 prose-headings:font-display prose-headings:font-semibold prose-p:text-slate-700 prose-ul:text-slate-700 prose-ol:text-slate-700 prose-strong:text-navy-800">
-                  {post.body && <TinaMarkdown content={post.body} />}
+                  {post.body && (
+                    <TinaMarkdown 
+                      content={post.body}
+                      components={{
+                        h1: (props: any) => {
+                          // Get the text content of the heading
+                          const headingText = typeof props.children === 'string' 
+                            ? props.children 
+                            : Array.isArray(props.children) 
+                              ? props.children.map((child: any) => 
+                                  typeof child === 'string' ? child : ''
+                                ).join('') 
+                              : '';
+                          
+                          // Generate a consistent ID
+                          const id = headingText.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
+                          return <h1 id={id}>{props.children}</h1>;
+                        },
+                        h2: (props: any) => {
+                          // Get the text content of the heading
+                          const headingText = typeof props.children === 'string' 
+                            ? props.children 
+                            : Array.isArray(props.children) 
+                              ? props.children.map((child: any) => 
+                                  typeof child === 'string' ? child : ''
+                                ).join('') 
+                              : '';
+                          
+                          // Generate a consistent ID
+                          const id = headingText.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
+                          return <h2 id={id}>{props.children}</h2>;
+                        },
+                        h3: (props: any) => {
+                          // Get the text content of the heading
+                          const headingText = typeof props.children === 'string' 
+                            ? props.children 
+                            : Array.isArray(props.children) 
+                              ? props.children.map((child: any) => 
+                                  typeof child === 'string' ? child : ''
+                                ).join('') 
+                              : '';
+                          
+                          // Generate a consistent ID
+                          const id = headingText.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
+                          return <h3 id={id}>{props.children}</h3>;
+                        },
+                        h4: (props: any) => {
+                          // Get the text content of the heading
+                          const headingText = typeof props.children === 'string' 
+                            ? props.children 
+                            : Array.isArray(props.children) 
+                              ? props.children.map((child: any) => 
+                                  typeof child === 'string' ? child : ''
+                                ).join('') 
+                              : '';
+                          
+                          // Generate a consistent ID
+                          const id = headingText.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
+                          return <h4 id={id}>{props.children}</h4>;
+                        }
+                      }}
+                    />
+                  )}
                 </div>
               </motion.article>
               
@@ -389,6 +451,48 @@ const BlogPostPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
+                {/* Table of Contents */}
+                <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-100 mb-6 sm:mb-8">
+                  <h3 className="text-lg font-display font-semibold text-navy-900 mb-4 pb-2 border-b border-slate-100">Table of Contents</h3>
+                  <nav className="toc text-sm">
+                    <ul className="space-y-3">
+                      {post.body && Array.isArray(post.body.children) && post.body.children
+                        .filter((child: any) => 
+                          child.type === 'h1' || 
+                          child.type === 'h2' || 
+                          child.type === 'h3' || 
+                          child.type === 'h4'
+                        )
+                        .map((heading: any, index: number) => {
+                          // Create an ID from the heading text
+                          const headingText = heading.children?.[0]?.text || '';
+                          const headingId = headingText
+                            .toLowerCase()
+                            .replace(/[^\w\s]/g, '')
+                            .replace(/\s+/g, '-');
+                            
+                          // Determine the heading level for indentation
+                          let indentClass = '';
+                          if (heading.type === 'h2') indentClass = 'ml-3';
+                          if (heading.type === 'h3') indentClass = 'ml-6';
+                          if (heading.type === 'h4') indentClass = 'ml-9';
+                          
+                          return (
+                            <li key={index} className={indentClass}>
+                              <a 
+                                href={`#${headingId}`}
+                                className="text-slate-700 hover:text-gold-600 transition-colors flex items-start"
+                              >
+                                <span className="inline-block w-1.5 h-1.5 bg-gold-500 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
+                                <span>{headingText}</span>
+                              </a>
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </nav>
+                </div>
+                
                 {/* Author Bio */}
                 <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-slate-100 mb-6 sm:mb-8">
                   <h3 className="text-lg font-display font-semibold text-navy-900 mb-4 pb-2 border-b border-slate-100">About the Author</h3>
@@ -469,7 +573,7 @@ const BlogPostPage: React.FC = () => {
                       placeholder="Your email address"
                       className="px-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent"
                     />
-                    <button className="btn btn-primary btn-md justify-center">
+                    <button className="btn btn-primary btn-md justify-center whitespace-nowrap">
                       <Mail size={16} className="mr-2" />
                       <span>Subscribe</span>
                     </button>
@@ -495,7 +599,7 @@ const BlogPostPage: React.FC = () => {
               <div className="md:col-span-4 flex md:justify-end">
                 <Link 
                   to="/contact" 
-                  className="btn btn-primary btn-lg w-full md:w-auto justify-center"
+                  className="btn btn-primary btn-lg w-full md:w-auto justify-center whitespace-nowrap"
                 >
                   Schedule Consultation
                   <ChevronRight size={18} className="ml-1" />

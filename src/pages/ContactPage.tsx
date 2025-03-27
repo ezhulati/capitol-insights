@@ -32,31 +32,49 @@ const ContactPage = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      
-      // Reset form after 5 seconds
-      setTimeout(() => {
-        setIsSubmitted(false);
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          organization: '',
-          interest: 'general',
-          message: '',
-          preferredDate: '',
-          preferredTime: ''
-        });
-      }, 5000);
-    }, 1500);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    // Add form-name field which Netlify requires
+    formData.append("form-name", "contact");
+    
+    // Convert FormData to URL-encoded string
+    const urlEncodedData = new URLSearchParams(formData as any).toString();
+    
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: urlEncodedData,
+    })
+      .then(() => {
+        console.log("Form successfully submitted");
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+        
+        // Reset form after 5 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            organization: '',
+            interest: 'general',
+            message: '',
+            preferredDate: '',
+            preferredTime: ''
+          });
+        }, 5000);
+      })
+      .catch((error) => {
+        console.error("Form submission error:", error);
+        setIsSubmitting(false);
+        alert("There was an error submitting the form. Please try again later.");
+      });
   };
 
   return (
@@ -215,7 +233,16 @@ const ContactPage = () => {
                     </p>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form 
+                    name="contact" 
+                    method="POST" 
+                    data-netlify="true" 
+                    action="/success.html"
+                    onSubmit={handleSubmit} 
+                    className="space-y-6"
+                  >
+                    <input type="hidden" name="form-name" value="contact" />
+                    <input type="hidden" name="recipient" value="byroncampbell@capitol-insights.com,enrizhulati@gmail.com" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="name" className="form-label">
@@ -366,7 +393,7 @@ const ContactPage = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`w-full btn btn-primary btn-lg flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                      className={`w-full btn btn-primary btn-lg flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''} whitespace-nowrap`}
                     >
                       {isSubmitting ? (
                         <>

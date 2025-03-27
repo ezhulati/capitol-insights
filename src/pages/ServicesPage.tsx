@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   GanttChart, 
@@ -15,7 +15,14 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 
-const ServiceCard = ({ icon, title, description, features }) => {
+interface ServiceCardProps {
+  icon: ReactNode;
+  title: string;
+  description: string;
+  features: string[];
+}
+
+const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, description, features }) => {
   return (
     <div className="card p-6 sm:p-8 h-full flex flex-col hover:shadow-md transition-all duration-300">
       <div className="flex items-center mb-4">
@@ -28,7 +35,7 @@ const ServiceCard = ({ icon, title, description, features }) => {
       <div className="mt-auto">
         <h4 className="font-medium text-secondary-900 mb-3">What we provide:</h4>
         <ul className="space-y-2">
-          {features.map((feature, index) => (
+          {features.map((feature: string, index: number) => (
             <li key={index} className="flex items-start text-secondary-700">
               <span className="text-primary-500 mr-2 mt-1">•</span>
               <span>{feature}</span>
@@ -40,7 +47,13 @@ const ServiceCard = ({ icon, title, description, features }) => {
   );
 };
 
-const IndustryCard = ({ icon, title, description }) => {
+interface IndustryCardProps {
+  icon: ReactNode;
+  title: string;
+  description: string;
+}
+
+const IndustryCard: React.FC<IndustryCardProps> = ({ icon, title, description }) => {
   return (
     <div className="bg-white p-5 sm:p-6 rounded-xl border border-secondary-100 shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center mb-3">
@@ -179,7 +192,7 @@ const ServicesPage = () => {
             <span className="inline-block px-3 py-1 bg-primary-500/20 text-primary-200 rounded-full text-sm font-medium mb-4">
               Our Services
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">Government Relations Services</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 whitespace-nowrap">Government Relations Services</h1>
             <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
               We provide focused, effective advocacy that delivers real results through transparent communication and strategic action.
             </p>
@@ -276,7 +289,7 @@ const ServicesPage = () => {
               <div className="mt-8">
                 <Link 
                   to="/approach" 
-                  className="btn btn-primary btn-md"
+                  className="btn btn-primary btn-md whitespace-nowrap"
                 >
                   <div className="flex items-center">
                     <span>Learn More About Our Approach</span>
@@ -381,12 +394,10 @@ const ServicesPage = () => {
               <div className="md:col-span-4 flex md:justify-end">
                 <Link 
                   to="/contact" 
-                  className="btn btn-primary btn-lg w-full md:w-auto justify-center"
+                  className="btn btn-primary btn-lg w-full md:w-auto justify-center whitespace-nowrap"
                 >
-                  <div className="flex items-center whitespace-nowrap">
-                    <span>Schedule a Consultation</span>
-                    <ChevronRight size={18} className="ml-1" />
-                  </div>
+                  Schedule a Consultation
+                  <ChevronRight size={18} className="ml-1" />
                 </Link>
               </div>
             </div>

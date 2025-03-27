@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, ReactNode, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Landmark, 
@@ -23,19 +23,31 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 
-const FeatureCard = ({ icon, title, description }) => {
+interface FeatureCardProps {
+  icon: ReactElement;
+  title: string;
+  description: string;
+}
+
+const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => {
   return (
     <div className="card p-6 sm:p-8 hover:border-gold-200 hover:shadow-md group transition-all duration-300">
-      <div className="bg-gold-50 p-3 rounded-lg w-fit mb-5 group-hover:bg-gold-100 transition-colors">
-        {React.cloneElement(icon, { className: "text-gold-600" })}
+      <div className="flex items-center mb-4">
+        <div className="bg-gold-50 p-3 rounded-lg group-hover:bg-gold-100 transition-colors mr-4">
+          {React.cloneElement(icon, { className: "text-gold-600" })}
+        </div>
+        <h3 className="text-xl font-semibold text-navy-900 group-hover:text-gold-700 transition-colors">{title}</h3>
       </div>
-      <h3 className="text-xl font-semibold text-navy-900 mb-3 group-hover:text-gold-700 transition-colors">{title}</h3>
       <p className="text-slate-600 leading-relaxed">{description}</p>
     </div>
   );
 };
 
-const IndustryTag = ({ children }) => {
+interface IndustryTagProps {
+  children: ReactNode;
+}
+
+const IndustryTag: React.FC<IndustryTagProps> = ({ children }) => {
   return (
     <div className="border border-slate-200 bg-white px-5 py-4 rounded-lg shadow-sm transition-all hover:border-gold-300 hover:shadow-md hover:bg-navy-50/30 group">
       <h3 className="font-medium text-navy-900 group-hover:text-gold-700 transition-colors">{children}</h3>
@@ -43,7 +55,14 @@ const IndustryTag = ({ children }) => {
   );
 };
 
-const TestimonialCard = ({ quote, author, role, company }) => {
+interface TestimonialCardProps {
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+}
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, role, company }) => {
   return (
     <div className="card p-6 sm:p-8 h-full flex flex-col hover:shadow-md transition-all duration-300">
       <div className="flex items-center mb-4">
@@ -64,33 +83,49 @@ const TestimonialCard = ({ quote, author, role, company }) => {
   );
 };
 
-const ValueCard = ({ icon, title, description }) => {
+interface ValueCardProps {
+  icon: ReactElement;
+  title: string;
+  description: string;
+}
+
+const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description }) => {
   return (
     <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group">
-      <div className="bg-gold-50 p-2 rounded-lg w-fit mb-4 group-hover:bg-gold-100 transition-colors">
-        {React.cloneElement(icon, { className: "text-gold-600" })}
+      <div className="flex items-center mb-3">
+        <div className="bg-gold-50 p-2 rounded-lg group-hover:bg-gold-100 transition-colors mr-3">
+          {React.cloneElement(icon, { className: "text-gold-600" })}
+        </div>
+        <h3 className="text-lg font-semibold text-navy-900 group-hover:text-gold-700 transition-colors">{title}</h3>
       </div>
-      <h3 className="text-lg font-semibold text-navy-900 mb-2 group-hover:text-gold-700 transition-colors">{title}</h3>
       <p className="text-slate-600 text-sm leading-relaxed">{description}</p>
     </div>
   );
 };
 
-const MetricCard = ({ icon, value, label }) => {
+interface MetricCardProps {
+  icon: ReactElement;
+  value: string;
+  label: string;
+}
+
+const MetricCard: React.FC<MetricCardProps> = ({ icon, value, label }) => {
   return (
-    <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm flex flex-col items-center text-center hover:shadow-md transition-all duration-300 group">
-      <div className="bg-gold-50 p-3 rounded-full w-fit mb-4 group-hover:bg-gold-100 transition-colors duration-250">
-        {React.cloneElement(icon, { className: "text-gold-600" })}
+    <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group">
+      <div className="flex items-center mb-3">
+        <div className="bg-gold-50 p-3 rounded-full group-hover:bg-gold-100 transition-colors duration-250 mr-3">
+          {React.cloneElement(icon, { className: "text-gold-600" })}
+        </div>
+        <h3 className="text-2xl sm:text-3xl font-bold text-gold-600 font-display">{value}</h3>
       </div>
-      <h3 className="text-2xl sm:text-3xl font-bold text-gold-600 mb-2 font-display">{value}</h3>
       <p className="text-slate-700 font-medium">{label}</p>
     </div>
   );
 };
 
 const HomePage = () => {
-  const servicesRef = useRef(null);
-  const aboutRef = useRef(null);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const aboutRef = useRef<HTMLElement | null>(null);
   
   useEffect(() => {
     if (window.location.hash === '#services' && servicesRef.current) {
@@ -101,7 +136,9 @@ const HomePage = () => {
   }, []);
 
   const scrollToAbout = () => {
-    aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (aboutRef.current) {
+      aboutRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -184,11 +221,11 @@ const HomePage = () => {
         <div className="hidden sm:block absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white">
           <button 
             onClick={scrollToAbout}
-            className="flex flex-col items-center group relative hover:scale-105 transition-transform duration-300"
+            className="flex items-center group relative hover:scale-105 transition-transform duration-300"
             aria-label="Scroll to learn more about Capitol Insights"
           >
             <div className="absolute -inset-4 rounded-full opacity-0 group-hover:opacity-10 bg-white transition-opacity duration-300"></div>
-            <span className="text-sm font-medium mb-2 text-white group-hover:text-gold-300 transition-colors tracking-wide uppercase">
+            <span className="text-sm font-medium text-white group-hover:text-gold-300 transition-colors tracking-wide uppercase mr-3">
               Learn More
             </span>
             
@@ -600,26 +637,32 @@ const HomePage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mb-4">
-                <Target size={22} className="text-gold-600" />
+              <div className="flex items-center mb-3">
+                <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-4">
+                  <Target size={22} className="text-gold-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-navy-900">Focused Expertise</h3>
               </div>
-              <h3 className="text-lg font-semibold text-navy-900 mb-2">Focused Expertise</h3>
               <p className="text-slate-600 leading-relaxed">We don't try to be everything to everyone. Our specialized focus on Texas government relations means deeper expertise and stronger relationships where they matter most.</p>
             </div>
             
             <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mb-4">
-                <Users size={22} className="text-gold-600" />
+              <div className="flex items-center mb-3">
+                <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-4">
+                  <Users size={22} className="text-gold-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-navy-900">Senior-Level Service</h3>
               </div>
-              <h3 className="text-lg font-semibold text-navy-900 mb-2">Senior-Level Service</h3>
               <p className="text-slate-600 leading-relaxed">You'll never be passed off to junior associates. Our principals work directly with clients, bringing decades of experience to every engagement.</p>
             </div>
             
             <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mb-4">
-                <Sparkles size={22} className="text-gold-600" />
+              <div className="flex items-center mb-3">
+                <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-4">
+                  <Sparkles size={22} className="text-gold-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-navy-900">Authentic Relationships</h3>
               </div>
-              <h3 className="text-lg font-semibold text-navy-900 mb-2">Authentic Relationships</h3>
               <p className="text-slate-600 leading-relaxed">Our team has built genuine, longstanding relationships with key decision-makers across Texas government—not just transactional connections.</p>
             </div>
           </div>
@@ -650,8 +693,10 @@ const HomePage = () => {
                 to="/contact" 
                 className="btn bg-gold-600 text-navy-950 hover:bg-gold-500 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg shadow-lg transition-colors inline-block group relative overflow-hidden w-full sm:w-auto justify-center"
               >
-                <span className="relative z-10">Schedule Your Policy Assessment</span>
-                <ChevronRight size={18} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
+                <div className="flex items-center">
+                  <span className="relative z-10 whitespace-nowrap">Schedule Your Policy Assessment</span>
+                  <ChevronRight size={18} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
+                </div>
               </Link>
               <Link
                 to="/approach"
@@ -679,7 +724,7 @@ const HomePage = () => {
 };
 
 // Define missing Shield component
-const Shield = props => {
+const Shield: React.FC<React.ComponentProps<typeof ShieldCheck>> = (props) => {
   return <ShieldCheck {...props} />;
 };
 
