@@ -18,10 +18,12 @@ import SEO from '../components/SEO';
 const ServiceCard = ({ icon, title, description, features }) => {
   return (
     <div className="card p-6 sm:p-8 h-full flex flex-col hover:shadow-md transition-all duration-300">
-      <div className="bg-primary-50 p-3 rounded-lg w-fit mb-5">
-        {icon}
+      <div className="flex items-center mb-4">
+        <div className="bg-primary-50 p-3 rounded-lg mr-4">
+          {icon}
+        </div>
+        <h3 className="text-xl font-semibold text-secondary-900">{title}</h3>
       </div>
-      <h3 className="text-xl font-semibold text-secondary-900 mb-3">{title}</h3>
       <p className="text-secondary-600 mb-6">{description}</p>
       <div className="mt-auto">
         <h4 className="font-medium text-secondary-900 mb-3">What we provide:</h4>
@@ -41,10 +43,12 @@ const ServiceCard = ({ icon, title, description, features }) => {
 const IndustryCard = ({ icon, title, description }) => {
   return (
     <div className="bg-white p-5 sm:p-6 rounded-xl border border-secondary-100 shadow-sm hover:shadow-md transition-all duration-300">
-      <div className="bg-primary-50 p-2 rounded-lg w-fit mb-4">
-        {icon}
+      <div className="flex items-center mb-3">
+        <div className="bg-primary-50 p-2 rounded-lg mr-4">
+          {icon}
+        </div>
+        <h3 className="text-lg font-semibold text-secondary-900">{title}</h3>
       </div>
-      <h3 className="text-lg font-semibold text-secondary-900 mb-2">{title}</h3>
       <p className="text-secondary-600 text-sm">{description}</p>
     </div>
   );
@@ -274,8 +278,10 @@ const ServicesPage = () => {
                   to="/approach" 
                   className="btn btn-primary btn-md"
                 >
-                  Learn More About Our Approach
-                  <ChevronRight size={18} className="ml-1" />
+                  <div className="flex items-center">
+                    <span>Learn More About Our Approach</span>
+                    <ChevronRight size={18} className="ml-1" />
+                  </div>
                 </Link>
               </div>
             </div>
@@ -377,8 +383,10 @@ const ServicesPage = () => {
                   to="/contact" 
                   className="btn btn-primary btn-lg w-full md:w-auto justify-center"
                 >
-                  Schedule a Consultation
-                  <ChevronRight size={18} className="ml-1" />
+                  <div className="flex items-center whitespace-nowrap">
+                    <span>Schedule a Consultation</span>
+                    <ChevronRight size={18} className="ml-1" />
+                  </div>
                 </Link>
               </div>
             </div>
