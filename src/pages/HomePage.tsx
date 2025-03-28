@@ -360,8 +360,8 @@ const HomePage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950/20 to-transparent"></div>
               </div>
-              <div className="absolute -bottom-6 -right-6 w-64 h-64 bg-gold-100 rounded-2xl -z-10"></div>
-              <div className="absolute -top-6 -left-6 w-40 h-40 bg-slate-100 rounded-2xl -z-10"></div>
+              <div className="absolute -bottom-6 -right-6 w-32 sm:w-64 h-32 sm:h-64 bg-gold-100 rounded-2xl -z-10"></div>
+              <div className="absolute -top-6 -left-6 w-24 sm:w-40 h-24 sm:h-40 bg-slate-100 rounded-2xl -z-10"></div>
               
               <div className="absolute bottom-4 left-4 right-4 bg-navy-950/90 backdrop-blur-sm p-4 rounded-lg border border-white/10 text-white">
                 <div className="flex items-start gap-3">
