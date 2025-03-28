@@ -27,7 +27,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError('');
@@ -39,27 +39,59 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
       return;
     }
 
-    // In a real implementation, you would send this data to your backend
-    // For now, we'll simulate a successful submission
-    setTimeout(() => {
+    try {
+      // Send lead data to backend or email service
+      // This endpoint is redirected to /.netlify/functions/lead-capture via netlify.toml configuration
+      const response = await fetch('/api/lead-capture', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          industry: industry || 'Not specified',
+          leadSource: 'Website Lead Magnet',
+          downloadedGuide: title,
+          downloadUrl,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit form');
+      }
+
+      // If successful, mark as submitted and redirect to download
       setIsSubmitting(false);
       setIsSubmitted(true);
       
       // Redirect to the download URL
       window.location.href = downloadUrl;
       
-      // You could also track this conversion in your analytics
+      // Track this conversion in analytics
       try {
         if (typeof window !== 'undefined' && (window as any).gtag) {
           (window as any).gtag('event', 'lead_magnet_download', {
             'event_category': 'lead_generation',
             'event_label': title,
+            'lead_email': email,
+            'lead_name': name,
+            'lead_industry': industry || 'Not specified',
           });
         }
       } catch (e) {
         console.error('Analytics error:', e);
       }
-    }, 1500);
+    } catch (error) {
+      console.error('Form submission error:', error);
+      
+      // Even if the API call fails, we'll still give the user access to the download
+      // but log the error for debugging
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      window.location.href = downloadUrl;
+    }
   };
 
   return (

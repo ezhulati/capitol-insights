@@ -1,6 +1,7 @@
 [build]
   publish = "dist"
   command = "npm run build"
+  functions = "netlify/functions"
 
 [build.processing]
   skip_processing = false
@@ -24,9 +25,23 @@
   email = "enrizhulati@gmail.com"
   subject = "New Contact Form Submission"
 
+# Lead magnet form notifications
+[[forms.lead_magnet.notifications]]
+  email = "byroncampbell@capitol-insights.com"
+  subject = "New Lead Magnet Download"
+  
+[[forms.lead_magnet.notifications]]
+  email = "enrizhulati@gmail.com"
+  subject = "New Lead Magnet Download"
+
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
+  status = 200
+  
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200
 
 [[headers]]
