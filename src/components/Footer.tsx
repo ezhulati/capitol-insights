@@ -32,7 +32,7 @@ const Footer = () => {
             </Link>
             
             <p className="text-slate-300 max-w-md mb-6 leading-relaxed">
-              Providing ethical, effective government relations since 2010. We connect organizations with legislative decision-makers to create meaningful policy impact throughout Texas.
+              Providing ethical, effective government relations since 1983. We connect organizations with legislative decision-makers to create meaningful policy impact throughout Texas.
             </p>
             
             <div className="flex space-x-3 mb-8">
