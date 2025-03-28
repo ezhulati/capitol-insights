@@ -82,20 +82,63 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     
     setIsSubmitting(true);
     
-    // Simulate API call
+    // Create a hidden form to submit to Netlify
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/success.html';
+    form.setAttribute('data-netlify', 'true');
+    form.setAttribute('name', 'download-form');
+    form.style.display = 'none';
+    
+    // Add form fields
+    const nameField = document.createElement('input');
+    nameField.name = 'name';
+    nameField.value = formData.name;
+    form.appendChild(nameField);
+    
+    const emailField = document.createElement('input');
+    emailField.name = 'email';
+    emailField.value = formData.email;
+    form.appendChild(emailField);
+    
+    const industryField = document.createElement('input');
+    industryField.name = 'industry';
+    industryField.value = formData.industry;
+    form.appendChild(industryField);
+    
+    const documentField = document.createElement('input');
+    documentField.name = 'document';
+    documentField.value = pdfTitle;
+    form.appendChild(documentField);
+    
+    // Add form-name field for Netlify
+    const formNameField = document.createElement('input');
+    formNameField.type = 'hidden';
+    formNameField.name = 'form-name';
+    formNameField.value = 'download-form';
+    form.appendChild(formNameField);
+    
+    // Add recipient field to send to the same emails as contact form
+    const recipientField = document.createElement('input');
+    recipientField.type = 'hidden';
+    recipientField.name = 'recipient';
+    recipientField.value = 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com';
+    form.appendChild(recipientField);
+    
+    // Append form to body, submit it, and remove it
+    document.body.appendChild(form);
+    
+    // Submit the form
+    form.submit();
+    
+    // Set state to show success message
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    
+    // Open the PDF in a new tab after a short delay
     setTimeout(() => {
-      // In a real implementation, you would send this data to your server
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      
-      // In a real implementation, you might track this download for analytics
-      // For now, we'll just simulate the download after a short delay
-      setTimeout(() => {
-        // In a real implementation, this would be a direct link to the PDF
-        window.open(pdfUrl, '_blank');
-      }, 1000);
-    }, 1500);
+      window.open(pdfUrl, '_blank');
+    }, 1000);
   };
   
   const industries = [
