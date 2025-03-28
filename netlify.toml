@@ -6,11 +6,6 @@
 [build.environment]
   NODE_VERSION = "18.19.1"
   NPM_VERSION = "10.2.4"
-  VITE_TINA_TOKEN = "4bcfd909695d3399d8836a58873059276ce4f73d"
-  VITE_TINA_PUBLIC_CLIENT_ID = "3db951f1-1013-495b-976f-b111359664bc"
-  VITE_TINA_BRANCH = "main"
-  VITE_USE_LOCAL_CLIENT = "0"
-  VITE_TINA_PUBLIC_IS_LOCAL = "false"
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
@@ -19,23 +14,8 @@
   package = "@netlify/plugin-emails"
 
 [[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
-
-[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/api/tina-proxy/*"
-  to = "/.netlify/functions/tina-proxy/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/admin/api/*"
-  to = "/.netlify/functions/tina-proxy"
   status = 200
 
 [[headers]]
@@ -48,11 +28,3 @@
     X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
-
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-    Access-Control-Allow-Origin = "https://capitol-insights.com"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com https://*.tinajs.io; font-src 'self' data:; frame-ancestors 'none'; upgrade-insecure-requests;"

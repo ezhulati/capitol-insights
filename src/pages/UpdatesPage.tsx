@@ -14,10 +14,9 @@ import {
   Mail
 } from 'lucide-react';
 import SEO from '../components/SEO';
-import client from '../tina-client';
 
-// Fallback blog posts when Tina CMS fails
-const fallbackPosts = [
+// Blog posts data
+const blogPosts = [
   {
     _sys: {
       filename: "texas-legislative-session-2025-preview.mdx",
@@ -160,11 +159,10 @@ const UpdatesPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>(blogPosts);
   const [categories, setCategories] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   
   // Get URL parameters
   useEffect(() => {
@@ -177,48 +175,17 @@ const UpdatesPage: React.FC = () => {
     if (search) setSearchTerm(search);
   }, [searchParams]);
   
-  // Fetch all posts
+  // Initialize categories and tags
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      try {
-        const postsResponse = await client.postConnection({
-          sort: "date:desc", // Sort by date descending
-        });
-        
-        if (postsResponse.data.postConnection.edges) {
-          const fetchedPosts = postsResponse.data.postConnection.edges
-            .filter(edge => edge?.node)
-            .map(edge => edge?.node as BlogPost);
-          
-          setPosts(fetchedPosts);
-          
-          // Extract unique categories and tags
-          const uniqueCategories = [...new Set(fetchedPosts.map(post => post.category))];
-          const uniqueTags = [...new Set(fetchedPosts.flatMap(post => post.tags))];
-          
-          setCategories(uniqueCategories);
-          setAllTags(uniqueTags);
-        }
-      } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to load blog posts from Tina CMS. Using fallback posts.');
-        
-        // Use fallback posts when Tina CMS fails
-        setPosts(fallbackPosts);
-        
-        // Extract unique categories and tags from fallback posts
-        const uniqueCategories = [...new Set(fallbackPosts.map(post => post.category))];
-        const uniqueTags = [...new Set(fallbackPosts.flatMap(post => post.tags))];
-        
-        setCategories(uniqueCategories);
-        setAllTags(uniqueTags);
-      } finally {
-        setLoading(false);
-      }
-    };
+    setLoading(true);
     
-    fetchPosts();
+    // Extract unique categories and tags from blogPosts
+    const uniqueCategories = [...new Set(blogPosts.map(post => post.category))];
+    const uniqueTags = [...new Set(blogPosts.flatMap(post => post.tags))];
+    
+    setCategories(uniqueCategories);
+    setAllTags(uniqueTags);
+    setLoading(false);
   }, []);
   
   // Filter posts based on search, category, and tag

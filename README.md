@@ -6,7 +6,6 @@ A modern, responsive website for Capitol Insights, a government relations and lo
 
 - Responsive design optimized for all devices
 - Fast performance with React and Vite
-- Content management with TinaCMS
 - SEO optimization with structured data (JSON-LD)
 - Blog/updates section with categorization
 - Team member profiles
@@ -18,7 +17,6 @@ A modern, responsive website for Capitol Insights, a government relations and lo
 
 - **Frontend**: React, TypeScript, TailwindCSS
 - **Build Tool**: Vite
-- **Content Management**: TinaCMS
 - **Deployment**: Netlify
 
 ## Development
@@ -46,27 +44,16 @@ npm install
 npm run dev
 ```
 
-4. Start TinaCMS
-```bash
-npm run tina
-```
-
 ## Content Management
 
-This site uses TinaCMS for content management. To access the CMS:
+Content is managed through markdown files in the content directory. The site uses a file-based content structure where:
 
-1. Set up environment variables for TinaCMS:
-   - Create a `.env` file in the root directory
-   - Add the following variables:
-     ```
-     TINA_CLIENT_ID=your_client_id_from_tina_io
-     TINA_TOKEN=your_token_from_tina_io
-     ```
-   - You can obtain these credentials from the Tina.io dashboard
+- Blog posts are stored in `content/posts/`
+- Page content is stored in dedicated folders like `content/home/`, `content/team/`, etc.
 
-2. Start the TinaCMS server: `npm run tina`
-3. Navigate to `http://localhost:3000/admin` in your browser
-4. Edit content through the user-friendly interface
+To modify content:
+1. Edit the appropriate markdown files in the content directory
+2. The changes will be reflected in the site after rebuilding
 
 ## Deployment
 

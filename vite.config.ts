@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
+import path from 'path';
 
 export default defineConfig(({ mode }) => {
   // Load env variables
@@ -130,6 +131,10 @@ export default defineConfig(({ mode }) => {
       open: true,
       host: true,
       port: 3000,
+      fs: {
+        // Allow serving files from the project root
+        allow: ['.']
+      }
     },
     preview: {
       port: 4173,
@@ -139,6 +144,13 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: {
       include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react'],
       exclude: []
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        'content': path.resolve(__dirname, './content')
+      },
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mdx', '.md']
     },
   };
 });

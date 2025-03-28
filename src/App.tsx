@@ -92,109 +92,109 @@ function App() {
           <div className="flex flex-col min-h-screen">
             <Header />
             <main id="main-content" className="flex-grow">
-              <Suspense fallback={<PageLoader />}>
-                <Routes>
-                  <Route 
-                    path="/" 
-                    element={
-                      <PageTransition>
-                        <HomePage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/services" 
-                    element={
-                      <PageTransition>
-                        <ServicesPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/team" 
-                    element={
-                      <PageTransition>
-                        <TeamPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/results" 
-                    element={
-                      <PageTransition>
-                        <ResultsPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/approach" 
-                    element={
-                      <PageTransition>
-                        <ApproachPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/contact" 
-                    element={
-                      <PageTransition>
-                        <ContactPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/updates" 
-                    element={
-                      <PageTransition>
-                        <UpdatesPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/updates/:slug" 
-                    element={
-                      <PageTransition>
-                        <BlogPostPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/privacy" 
-                    element={
-                      <PageTransition>
-                        <PrivacyPolicyPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/terms" 
-                    element={
-                      <PageTransition>
-                        <TermsPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/legislative-calendar" 
-                    element={
-                      <PageTransition>
-                        <LegislativeCalendarPage />
-                      </PageTransition>
-                    } 
-                  />
-                  <Route 
-                    path="/policy-briefings" 
-                    element={
-                      <PageTransition>
-                        <PolicyBriefingsPage />
-                      </PageTransition>
-                    } 
-                  />
-                </Routes>
-              </Suspense>
-            </main>
-            <Footer />
-          </div>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route 
+                  path="/" 
+                  element={
+                    <PageTransition>
+                      <HomePage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/services" 
+                  element={
+                    <PageTransition>
+                      <ServicesPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/team" 
+                  element={
+                    <PageTransition>
+                      <TeamPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/results" 
+                  element={
+                    <PageTransition>
+                      <ResultsPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/approach" 
+                  element={
+                    <PageTransition>
+                      <ApproachPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/contact" 
+                  element={
+                    <PageTransition>
+                      <ContactPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/updates" 
+                  element={
+                    <PageTransition>
+                      <UpdatesPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/updates/:slug" 
+                  element={
+                    <PageTransition>
+                      <BlogPostPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/privacy" 
+                  element={
+                    <PageTransition>
+                      <PrivacyPolicyPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/terms" 
+                  element={
+                    <PageTransition>
+                      <TermsPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/legislative-calendar" 
+                  element={
+                    <PageTransition>
+                      <LegislativeCalendarPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/policy-briefings" 
+                  element={
+                    <PageTransition>
+                      <PolicyBriefingsPage />
+                    </PageTransition>
+                  } 
+                />
+              </Routes>
+            </Suspense>
+          </main>
+          <Footer />
+        </div>
         </Router>
       </ErrorBoundary>
     </HelmetProvider>

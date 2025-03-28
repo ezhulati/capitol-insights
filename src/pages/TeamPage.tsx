@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Award, Building2, BarChart, FileText, GraduationCap, Calendar } from 'lucide-react';
-import client from '../tina-client';
 import SEO from '../components/SEO';
 
 // Define types for team members
 interface TeamMember {
-  id?: number;
+  id: number;
   name: string;
   title: string;
   bio: string;
@@ -19,78 +18,14 @@ interface TeamMember {
   contactLink: string;
 }
 
-interface TeamPageData {
-  title: string;
-  heroHeading: string;
-  heroSubheading: string;
-  teamMembers?: {
-    name?: string;
-    title?: string;
-    bio?: string;
-    image?: string;
-    email?: string | null;
-    phone?: string | null;
-    linkedin?: string | null;
-  }[];
-}
-
 const TeamPage = () => {
-  const [pageData, setPageData] = useState<TeamPageData>({
+  const pageData = {
     title: 'Meet Our Team',
     heroHeading: 'Meet the Team',
-    heroSubheading: 'Our team brings decades of experience in government relations and lobbying, with authentic connections and specialized knowledge in key policy areas.',
-    teamMembers: []
-  });
-  const [loading, setLoading] = useState<boolean>(true);
+    heroSubheading: 'Our team brings decades of experience in government relations and lobbying, with authentic connections and specialized knowledge in key policy areas.'
+  };
   
-  // Fetch team page data from Tina CMS
-  useEffect(() => {
-    const fetchTeamPage = async () => {
-      try {
-        const response = await client.teamPage({ relativePath: 'index.mdx' });
-        if (response.data.teamPage) {
-          setPageData({
-            title: response.data.teamPage.title,
-            heroHeading: response.data.teamPage.heroHeading,
-            heroSubheading: response.data.teamPage.heroSubheading,
-            teamMembers: response.data.teamPage.teamMembers?.map(member => ({
-              name: member?.name,
-              title: member?.title,
-              bio: member?.bio,
-              image: member?.image,
-              email: member?.email,
-              phone: member?.phone,
-              linkedin: member?.linkedin
-            })) || []
-          });
-        }
-      } catch (err) {
-        console.error('Error fetching team page:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchTeamPage();
-  }, []);
-  // Process the team members data
-  const processedTeamMembers = pageData.teamMembers?.map((member, index) => ({
-    id: index + 1,
-    name: member?.name || '',
-    title: member?.title || '',
-    bio: member?.bio || '',
-    image: member?.image || '',
-    email: member?.email,
-    phone: member?.phone,
-    linkedin: member?.linkedin,
-    expertise: ['Legislative Strategy', 'Transportation Policy', 'Local Government Relations', 'Coalition Building'],
-    education: member?.name?.includes('Drew') ? 
-      'B.A. Political Science, University of Texas' : 
-      'J.D., Southern Methodist University; B.A. Government, University of Texas',
-    contactLink: `/contact?member=${member?.name?.split(' ')[0]?.toLowerCase()}`
-  })) || [];
-  
-  // Fallback data in case CMS data is not available
+  // Team member data
   const fallbackTeamMembers = [
     {
       id: 1,
@@ -122,21 +57,9 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
     }
   ];
   
-  // Use fallback data if CMS data is not available
-  const teamMembers = processedTeamMembers.length ? processedTeamMembers : fallbackTeamMembers;
-  const heroHeading = pageData.heroHeading || 'Meet the Team';
-  const heroSubheading = pageData.heroSubheading || 'Our team brings decades of experience in government relations and lobbying, with authentic connections and specialized knowledge in key policy areas.';
-  
-  if (loading) {
-    return (
-      <div className="pt-24 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <FileText size={48} className="text-slate-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-semibold text-navy-900 mb-2">Loading team information...</h2>
-        </div>
-      </div>
-    );
-  }
+  const teamMembers = fallbackTeamMembers;
+  const heroHeading = pageData.heroHeading;
+  const heroSubheading = pageData.heroSubheading;
   
   return (
     <div className="pt-16">
