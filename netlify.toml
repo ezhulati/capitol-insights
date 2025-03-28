@@ -6,7 +6,7 @@
 [build.environment]
   NODE_VERSION = "18.19.1"
   NPM_VERSION = "10.2.4"
-  SECRETS_SCAN_OMIT_KEYS = "AUTH0_AUDIENCE"
+  SECRETS_SCAN_OMIT_KEYS = "AUTH0_AUDIENCE,AUTH0_CLIENT_ID"
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
