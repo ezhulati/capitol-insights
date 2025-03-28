@@ -1,18 +1,8 @@
 import { defineConfig } from "tinacms";
 
-// Your hosting provider likely exposes this as an environment variable
-const branch =
-  process.env.GITHUB_BRANCH ||
-  process.env.VERCEL_GIT_COMMIT_REF ||
-  process.env.HEAD ||
-  "main";
-
 export default defineConfig({
   branch: "main",
-
-  // Get this from tina.io
   clientId: "3db951f1-1013-495b-976f-b111359664bc",
-  // Get this from tina.io
   token: process.env.VITE_TINA_TOKEN,
 
   build: {
@@ -26,7 +16,6 @@ export default defineConfig({
       publicFolder: "public",
     },
   },
-  // See docs on content modeling for more info on how to setup new content models: https://tina.io/docs/schema/
   schema: {
     collections: [
       {
@@ -130,7 +119,7 @@ export default defineConfig({
             isBody: true,
           }
         ],
-      },
+      }
     ],
   },
-});
+}); 
