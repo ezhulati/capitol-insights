@@ -5,7 +5,7 @@ window.fetch = function(url, options) {
   // Check if the URL is for identity.tinajs.io
   if (typeof url === 'string' && url.includes('identity.tinajs.io')) {
     // Replace the URL with our proxy endpoint
-    const proxyUrl = url.replace('https://identity.tinajs.io', '/api/tina-proxy');
+    const proxyUrl = url.replace('https://identity.tinajs.io', '/admin/api');
     console.log(`Redirecting request from ${url} to ${proxyUrl}`);
     
     // Ensure we have options object with headers
