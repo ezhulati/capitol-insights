@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
     "tina": "tinacms dev -c \"npm run dev\"",
-    "tina:build": "tinacms build && cp -r public/admin dist/"
+    "tina:build": "tinacms build --skip-cloud-checks && cp -r public/admin dist/"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
