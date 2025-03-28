@@ -8,7 +8,9 @@
   },
   "scripts": {
     "dev": "tinacms dev -c \"vite\"",
-    "build": "tinacms build && vite build",
+    "build": "vite build",
+    "build:tina": "tinacms build",
+    "build:full": "npm run build:tina && npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",

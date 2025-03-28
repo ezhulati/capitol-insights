@@ -2,31 +2,27 @@
   command = "npm run build"
   publish = "dist"
   node_version = "18.19.1"
-  functions = "netlify/functions"
-
-[build.processing]
-  skip_processing = false
-
-[build.processing.html]
-  pretty_urls = true
 
 [build.environment]
   NODE_VERSION = "18.19.1"
   NPM_VERSION = "10.2.4"
+  VITE_TINA_TOKEN = "4bcfd909695d3399d8836a58873059276ce4f73d"
+  VITE_TINA_PUBLIC_CLIENT_ID = "3db951f1-1013-495b-976f-b111359664bc"
+  VITE_TINA_BRANCH = "main"
+  VITE_USE_LOCAL_CLIENT = "0"
+  VITE_TINA_PUBLIC_IS_LOCAL = "false"
 
-# Enable form detection
-[build.processing.forms]
-  enabled = true
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
 
-# Form notifications configuration - uses environment variable for recipients
-# The email addresses are set in the Netlify environment variables
-# as FORM_NOTIFICATION_RECIPIENTS (comma-separated list)
+[[plugins]]
+  package = "@netlify/plugin-emails"
 
 [[redirects]]
   from = "/admin/*"
   to = "/admin/index.html"
   status = 200
-  
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
@@ -42,35 +38,21 @@
   to = "/.netlify/functions/tina-proxy"
   status = 200
 
-# Comprehensive security headers for all pages
 [[headers]]
   for = "/*"
   [headers.values]
-    # Prevent clickjacking
-    X-Frame-Options = "DENY"
-    # Prevent MIME type sniffing
-    X-Content-Type-Options = "nosniff"
-    # Enable XSS protection
-    X-XSS-Protection = "1; mode=block"
-    # Enforce HTTPS
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    # Control referrer information
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    # Restrict browser features
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-    # Default Content Security Policy
     Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-attr 'self' 'unsafe-inline' https://*.unsplash.com; img-src 'self' data: https://www.google-analytics.com https://*.unsplash.com https://images.unsplash.com; connect-src 'self' https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests;"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
 
-# Additional headers for admin area
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    # More permissive CSP for admin area to allow Tina Cloud connections
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com https://*.tinajs.io; font-src 'self' data:; frame-ancestors 'none'; upgrade-insecure-requests;"
-    # Controlled CORS for admin API
-    Access-Control-Allow-Origin = "https://capitol-insights.com"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type, Authorization"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Origin = "https://capitol-insights.com"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com https://*.tinajs.io; font-src 'self' data:; frame-ancestors 'none'; upgrade-insecure-requests;"
