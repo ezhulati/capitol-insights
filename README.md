@@ -46,14 +46,24 @@ npm run dev
 
 ## Content Management
 
+### File-Based Content
 Content is managed through markdown files in the content directory. The site uses a file-based content structure where:
 
 - Blog posts are stored in `content/posts/`
 - Page content is stored in dedicated folders like `content/home/`, `content/team/`, etc.
 
+### Decap CMS (Netlify CMS)
+The site now includes Decap CMS (formerly Netlify CMS) for content management:
+
+- Access the CMS at `/admin/` (e.g., https://capitol-insights.com/admin/)
+- Content editors need to be invited through Netlify Identity
+- The CMS is configured to work with the existing content structure
+- All CMS configuration is in `public/admin/config.yml`
+
 To modify content:
-1. Edit the appropriate markdown files in the content directory
-2. The changes will be reflected in the site after rebuilding
+1. Either edit the markdown files directly in the content directory
+2. Or use the CMS interface at `/admin/`
+3. The changes will be reflected in the site after rebuilding or publishing via the CMS
 
 ## Deployment
 
