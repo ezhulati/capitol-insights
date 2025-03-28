@@ -394,9 +394,9 @@ const ServicesPage = () => {
               <div className="md:col-span-4 flex md:justify-end">
                 <Link 
                   to="/contact" 
-                  className="btn btn-primary btn-lg w-full md:w-auto justify-center whitespace-nowrap"
+                  className="btn btn-primary btn-lg w-full md:w-auto justify-center"
                 >
-                  Schedule a Consultation
+                  <span className="whitespace-nowrap">Schedule a Consultation</span>
                   <ChevronRight size={18} className="ml-1" />
                 </Link>
               </div>
