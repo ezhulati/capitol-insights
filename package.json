@@ -4,13 +4,13 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "tinacms dev -c \"vite\"",
+    "build": "tinacms build && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
     "tina": "tinacms dev -c \"npm run dev\"",
-    "tina:build": "tinacms build --skip-cloud-checks && cp -r public/admin dist/"
+    "tina:build": "tinacms build && cp -r public/admin dist/"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.10",
@@ -22,12 +22,13 @@
     "react-helmet-async": "^2.0.4",
     "react-intersection-observer": "^9.8.1",
     "react-router-dom": "^6.22.3",
-    "tinacms": "^1.5.28",
+    "tinacms": "^2.7.3",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
-    "@tinacms/cli": "^1.5.29",
+    "@tinacms/cli": "^1.9.3",
+    "@types/node": "^22.13.14",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

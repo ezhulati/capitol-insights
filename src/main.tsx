@@ -3,15 +3,16 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { reportWebVitals } from './utils/analytics.ts';
-import { TinaEditProvider } from 'tinacms/dist/edit-state';
+import { TinaProvider } from 'tinacms';
+import { client } from './lib/tina';
 
 // Mount app
 const root = createRoot(document.getElementById('root')!);
 root.render(
   <StrictMode>
-    <TinaEditProvider editMode={<App />}>
+    <TinaProvider client={client}>
       <App />
-    </TinaEditProvider>
+    </TinaProvider>
   </StrictMode>
 );
 

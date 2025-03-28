@@ -1,6 +1,6 @@
-const https = require('https');
+import https from 'https';
 
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   // Only allow POST, GET, and OPTIONS requests
   if (event.httpMethod !== 'POST' && event.httpMethod !== 'GET' && event.httpMethod !== 'OPTIONS') {
     return {
@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
       headers: {
         'Allow': 'GET, POST, OPTIONS',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://capitol-insights.com',
+        'Access-Control-Allow-Origin': process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://capitol-insights.com',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://capitol-insights.com',
+        'Access-Control-Allow-Origin': process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://capitol-insights.com',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Credentials': 'true'
@@ -76,7 +76,7 @@ exports.handler = async (event, context) => {
       body: response.body,
       headers: {
         'Content-Type': response.headers['content-type'] || 'application/json',
-        'Access-Control-Allow-Origin': 'https://capitol-insights.com',
+        'Access-Control-Allow-Origin': process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://capitol-insights.com',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Credentials': 'true'
@@ -88,7 +88,7 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: 'Internal Server Error', message: error.message }),
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://capitol-insights.com',
+        'Access-Control-Allow-Origin': process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://capitol-insights.com',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Credentials': 'true'

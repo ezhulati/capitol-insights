@@ -1,7 +1,7 @@
 // Netlify Function to handle lead capture form submissions
 // This function receives form data and sends it to your email marketing system or CRM
 
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {

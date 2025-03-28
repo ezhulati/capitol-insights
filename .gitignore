@@ -42,3 +42,6 @@ build
 
 # Tina CMS
 .tina/__generated__/*
+
+# Local Netlify folder
+.netlify
