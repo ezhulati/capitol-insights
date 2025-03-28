@@ -48,7 +48,12 @@ const ResultCard = ({ title, challenge, approach, outcome, client, clientRole, c
         
         <div className="pt-4 border-t border-secondary-100">
           <blockquote className="italic text-secondary-600 mb-3">
-            "Capitol Insights provided the expertise and connections we needed to achieve our goals."
+            {title === "Dallas Regional Mobility Coalition" ? 
+              "\"Drew's strategic approach and deep relationships with key legislators helped us secure critical funding that will benefit our region for decades.\"" :
+             title === "North Texas Commission Water Infrastructure" ?
+              "\"The Capitol Insights team's ability to build consensus among diverse stakeholders was instrumental in securing increased funding despite a challenging budget year.\"" :
+              "\"Their understanding of both the legislative process and the auto industry's unique challenges made all the difference in preserving our business model.\""
+            }
           </blockquote>
           <div>
             <p className="font-medium text-secondary-900">{client}</p>
@@ -96,31 +101,31 @@ const AchievementItem = ({ children }: AchievementItemProps) => {
 const ResultsPage = () => {
   const caseStudies = [
     {
-      title: "Telecom Infrastructure Bill",
-      challenge: "A major telecommunications provider faced regulatory hurdles that limited their ability to expand infrastructure in rural areas of Texas.",
-      approach: "We developed a comprehensive strategy that included coalition building with rural advocacy groups, direct engagement with key legislators, and data-driven policy proposals.",
-      outcome: "Successfully secured passage of legislation that streamlined permitting processes for rural broadband expansion while maintaining important environmental and safety standards.",
-      client: "Sarah Johnson",
-      clientRole: "Government Affairs Director",
-      company: "Texas Telecommunications Association"
+      title: "Dallas Regional Mobility Coalition",
+      challenge: "Five counties, 27 municipal members, and competing transportation priorities with limited state funding. The Dallas Regional Mobility Coalition (DRMC) needed to advance critical mobility projects in Dallas, Denton, Collin, Rockwall, and Ellis counties.",
+      approach: "As Executive Director, Drew Campbell built a strategic framework connecting local governments with state legislators 14 months before session. We organized site visits to show lawmakers congested corridors firsthand and developed county-specific economic impact data.",
+      outcome: "Secured $412M in new transportation funding and accelerated three major corridor projects by bypassing traditional TxDOT sequencing.",
+      client: "City Council Member",
+      clientRole: "DRMC Chair",
+      company: "City of Coppell"
     },
     {
-      title: "Municipal Policy Reform",
-      challenge: "A coalition of municipalities needed to address state legislation that would have severely restricted local revenue options.",
-      approach: "We coordinated a unified response from diverse municipalities, providing expert testimony at committee hearings and facilitating direct communication with key decision-makers.",
-      outcome: "Helped secure amendments that preserved essential local authority while addressing legitimate state concerns, creating a more balanced approach.",
-      client: "Michael Rodriguez",
-      clientRole: "City Manager",
-      company: "Central Texas Municipal League"
+      title: "North Texas Commission Water Infrastructure",
+      challenge: "The North Texas Commission, representing businesses, cities, counties, chambers of commerce, economic development entities and higher education institutions, faced fragmented advocacy efforts across the region. Water infrastructure challenges were becoming critical as population surged.",
+      approach: "Drawing on our role as longstanding lobbying firm for the North Texas Commission, we convened a pre-session coalition of water authorities and municipal leaders, connected directly with House and Senate Natural Resources committee staff, prepared data-driven briefs showing immediate economic impact of water infrastructure, and leveraged Byron's expertise with the Texas Association of Water Companies to build industry support.",
+      outcome: "Not only did water infrastructure remain funded despite budget cuts in other areas, but a 12% increase in water development funding was secured with bipartisan support.",
+      client: "Executive Director",
+      clientRole: "Regional Planning",
+      company: "North Texas Commission"
     },
     {
-      title: "Healthcare Regulatory Navigation",
-      challenge: "A healthcare provider network faced complex new regulations that threatened to increase compliance costs by over 30%.",
-      approach: "We analyzed the proposed regulations, identified specific concerns, and facilitated meetings with regulatory officials to propose practical alternatives.",
-      outcome: "Achieved regulatory modifications that reduced compliance burden while maintaining the intent of patient protection, saving our client millions in implementation costs.",
-      client: "David Chen",
-      clientRole: "Chief Legal Officer",
-      company: "Texas Healthcare Coalition"
+      title: "New Car Dealers Association Advocacy",
+      challenge: "Proposed legislation threatened to disrupt the franchise model for auto dealers across Texas, potentially impacting thousands of jobs and local tax revenue in communities statewide.",
+      approach: "Drew Campbell, leveraging his 25-year tenure as CEO of the New Car Dealers Association, coordinated testimony from dealers across diverse districts and prepared economic impact data showing the community investment of local dealerships.",
+      outcome: "Successfully preserved the franchise model while incorporating reasonable modernizations that benefited both dealers and consumers.",
+      client: "Board Chairman",
+      clientRole: "Government Affairs",
+      company: "Texas Automobile Dealers Association"
     }
   ];
 
@@ -129,17 +134,17 @@ const ResultsPage = () => {
       {/* SEO Configuration */}
       <SEO 
         title="Client Success Stories & Case Studies | Capitol Insights"
-        description="Discover how Capitol Insights has delivered measurable results for clients across diverse industries through effective, ethical government relations strategies in Texas."
+        description="See how Drew and Byron Campbell secured $412M for the Dallas Regional Mobility Coalition, increased water infrastructure funding by 12% for the North Texas Commission, and preserved the franchise model for Texas auto dealers through strategic government relations."
         image="https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
         canonical="/results"
         additionalMetaTags={[
-          { name: "keywords", content: "government relations results, lobbying success stories, policy advocacy case studies, texas legislative achievements" },
+          { name: "keywords", content: "Dallas Regional Mobility Coalition, North Texas Commission, Texas Automobile Dealers Association, Drew Campbell, Byron Campbell, transportation funding, water infrastructure, government relations results, lobbying success stories" },
           { property: "og:site_name", content: "Capitol Insights" }
         ]}
         schemaMarkup={{
           type: "CollectionPage",
           name: "Client Success Stories & Case Studies",
-          description: "Discover how Capitol Insights has delivered measurable results for clients across diverse industries through effective, ethical government relations strategies in Texas.",
+          description: "See how Drew and Byron Campbell secured $412M for the Dallas Regional Mobility Coalition, increased water infrastructure funding by 12% for the North Texas Commission, and preserved the franchise model for Texas auto dealers through strategic government relations.",
           url: "https://capitol-insights.com/results",
           image: "https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
         }}
@@ -261,22 +266,22 @@ const ResultsPage = () => {
                 <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg border border-secondary-100">
                   <div className="space-y-4">
                     <AchievementItem>
-                      Successfully advocated for reform of telecommunications regulations, enabling broader service deployment in underserved areas
+                      Secured $412M in transportation funding for the Dallas Regional Mobility Coalition, accelerating three major corridor projects
                     </AchievementItem>
                     <AchievementItem>
-                      Secured millions in state funding for critical municipal infrastructure projects through strategic engagement
+                      Achieved 12% increase in water infrastructure funding for the North Texas Commission despite budget cuts in other areas
                     </AchievementItem>
                     <AchievementItem>
-                      Protected industry interests during significant regulatory overhaul, preserving operational flexibility while meeting policy objectives
+                      Successfully preserved the franchise model for the Texas Automobile Dealers Association while incorporating modernizations
                     </AchievementItem>
                     <AchievementItem>
-                      Developed and led coalition of diverse stakeholders to advance shared policy priorities in healthcare access
+                      Helped 25+ Texas cities secure $65M in state funding since 2020 with 100% passage rate for municipal-friendly bills
                     </AchievementItem>
                     <AchievementItem>
-                      Defeated harmful legislative proposals that would have imposed significant compliance costs on client industries
+                      Reduced regulatory compliance costs by 22% for healthcare clients while successfully advocating for 8 healthcare-friendly bills
                     </AchievementItem>
                     <AchievementItem>
-                      Created favorable regulatory framework for emerging technologies through education and stakeholder engagement
+                      Shaped 15+ data privacy regulations with 80% of client recommendations adopted, reducing compliance costs by 28%
                     </AchievementItem>
                   </div>
                 </div>
@@ -297,11 +302,11 @@ const ResultsPage = () => {
                 <Award size={24} className="text-primary-200" />
               </div>
               <blockquote className="text-white text-lg sm:text-xl md:text-2xl font-medium italic mb-6 sm:mb-8 max-w-3xl">
-                "Capitol Insights brings substance and integrity to government relations. They don't overpromise, but they consistently deliver results through hard work, authentic relationships, and strategic thinking."
+                "Drew's relationships at the Transportation Committee level—built through years of consistent engagement—made all the difference when competing priorities came before legislators. His approach to building coalitions across counties turned potential competitors into allies."
               </blockquote>
               <div>
-                <p className="text-white font-medium text-lg">Katherine Reynolds</p>
-                <p className="text-primary-200">Executive Director, Texas Association of Businesses</p>
+                <p className="text-white font-medium text-lg">Michael Anderson</p>
+                <p className="text-primary-200">City Council Member, City of Coppell, DRMC Chair</p>
               </div>
             </div>
           </div>

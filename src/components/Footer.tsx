@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   // Smooth scroll to top function
-  const scrollToTop = (e) => {
+  const scrollToTop = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     window.scrollTo({
       top: 0,
@@ -106,24 +106,14 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className="text-slate-300 hover:text-white transition-colors inline-flex items-center"
-                  rel="noopener noreferrer"
-                >
-                  <span>Legislative Calendar</span>
-                  <ExternalLink size={14} className="ml-1 opacity-70" />
-                </a>
+                <Link to="/legislative-calendar" className="text-slate-300 hover:text-white transition-colors">
+                  Legislative Calendar
+                </Link>
               </li>
               <li>
-                <a 
-                  href="#" 
-                  className="text-slate-300 hover:text-white transition-colors inline-flex items-center"
-                  rel="noopener noreferrer"
-                >
-                  <span>Policy Briefings</span>
-                  <ExternalLink size={14} className="ml-1 opacity-70" />
-                </a>
+                <Link to="/policy-briefings" className="text-slate-300 hover:text-white transition-colors">
+                  Policy Briefings
+                </Link>
               </li>
               <li>
                 <Link to="/privacy" className="text-slate-300 hover:text-white transition-colors">

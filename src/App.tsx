@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense, ReactNode, ComponentType, LazyExoticComponent } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from './components/Header';
@@ -7,17 +7,24 @@ import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
 import { lazyWithPreload } from './utils/lazyWithPreload';
 
+// Define a type for components with preload method
+interface LazyComponentWithPreload<T extends ComponentType<any>> extends LazyExoticComponent<T> {
+  preload: () => Promise<{ default: T }>;
+}
+
 // Lazy-loaded page components
-const HomePage = lazyWithPreload(() => import('./pages/HomePage'));
-const ServicesPage = lazyWithPreload(() => import('./pages/ServicesPage'));
-const TeamPage = lazyWithPreload(() => import('./pages/TeamPage'));
-const ResultsPage = lazyWithPreload(() => import('./pages/ResultsPage'));
-const ApproachPage = lazyWithPreload(() => import('./pages/ApproachPage'));
-const ContactPage = lazyWithPreload(() => import('./pages/ContactPage'));
-const UpdatesPage = lazyWithPreload(() => import('./pages/UpdatesPage'));
-const BlogPostPage = lazyWithPreload(() => import('./pages/BlogPostPage'));
-const PrivacyPolicyPage = lazyWithPreload(() => import('./pages/PrivacyPolicyPage'));
-const TermsPage = lazyWithPreload(() => import('./pages/TermsPage'));
+const HomePage = lazyWithPreload(() => import('./pages/HomePage')) as LazyComponentWithPreload<any>;
+const ServicesPage = lazyWithPreload(() => import('./pages/ServicesPage')) as LazyComponentWithPreload<any>;
+const TeamPage = lazyWithPreload(() => import('./pages/TeamPage')) as LazyComponentWithPreload<any>;
+const ResultsPage = lazyWithPreload(() => import('./pages/ResultsPage')) as LazyComponentWithPreload<any>;
+const ApproachPage = lazyWithPreload(() => import('./pages/ApproachPage')) as LazyComponentWithPreload<any>;
+const ContactPage = lazyWithPreload(() => import('./pages/ContactPage')) as LazyComponentWithPreload<any>;
+const UpdatesPage = lazyWithPreload(() => import('./pages/UpdatesPage')) as LazyComponentWithPreload<any>;
+const BlogPostPage = lazyWithPreload(() => import('./pages/BlogPostPage')) as LazyComponentWithPreload<any>;
+const PrivacyPolicyPage = lazyWithPreload(() => import('./pages/PrivacyPolicyPage')) as LazyComponentWithPreload<any>;
+const TermsPage = lazyWithPreload(() => import('./pages/TermsPage')) as LazyComponentWithPreload<any>;
+const LegislativeCalendarPage = lazyWithPreload(() => import('./pages/LegislativeCalendarPage')) as LazyComponentWithPreload<any>;
+const PolicyBriefingsPage = lazyWithPreload(() => import('./pages/PolicyBriefingsPage')) as LazyComponentWithPreload<any>;
 
 // Loading fallback component
 const PageLoader = () => (
@@ -66,7 +73,7 @@ const ScrollToTop = () => {
 };
 
 // Simple page transition
-const PageTransition = ({ children }) => (
+const PageTransition: React.FC<{ children: ReactNode }> = ({ children }) => (
   <div>{children}</div>
 );
 
@@ -164,6 +171,22 @@ function App() {
                     element={
                       <PageTransition>
                         <TermsPage />
+                      </PageTransition>
+                    } 
+                  />
+                  <Route 
+                    path="/legislative-calendar" 
+                    element={
+                      <PageTransition>
+                        <LegislativeCalendarPage />
+                      </PageTransition>
+                    } 
+                  />
+                  <Route 
+                    path="/policy-briefings" 
+                    element={
+                      <PageTransition>
+                        <PolicyBriefingsPage />
                       </PageTransition>
                     } 
                   />
