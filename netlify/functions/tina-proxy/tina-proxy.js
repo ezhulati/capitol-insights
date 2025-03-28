@@ -1,15 +1,32 @@
 const https = require('https');
 
 exports.handler = async (event, context) => {
-  // Only allow POST and GET requests
-  if (event.httpMethod !== 'POST' && event.httpMethod !== 'GET') {
+  // Only allow POST, GET, and OPTIONS requests
+  if (event.httpMethod !== 'POST' && event.httpMethod !== 'GET' && event.httpMethod !== 'OPTIONS') {
     return {
       statusCode: 405,
       body: JSON.stringify({ error: 'Method Not Allowed' }),
       headers: {
-        'Allow': 'GET, POST',
-        'Content-Type': 'application/json'
+        'Allow': 'GET, POST, OPTIONS',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'https://capitol-insights.com',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
       }
+    };
+  }
+
+  // Handle OPTIONS preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': 'https://capitol-insights.com',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true'
+      },
+      body: ''
     };
   }
 
@@ -61,7 +78,8 @@ exports.handler = async (event, context) => {
         'Content-Type': response.headers['content-type'] || 'application/json',
         'Access-Control-Allow-Origin': 'https://capitol-insights.com',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true'
       }
     };
   } catch (error) {
@@ -72,7 +90,8 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'https://capitol-insights.com',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true'
       }
     };
   }
