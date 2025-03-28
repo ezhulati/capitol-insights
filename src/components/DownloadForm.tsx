@@ -125,6 +125,27 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     recipientField.value = 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com';
     form.appendChild(recipientField);
     
+    // Add subject field to make it clear what was downloaded
+    const subjectField = document.createElement('input');
+    subjectField.type = 'hidden';
+    subjectField.name = 'subject';
+    subjectField.value = `Document Downloaded: ${pdfTitle}`;
+    form.appendChild(subjectField);
+    
+    // Add message field with additional context
+    const messageField = document.createElement('input');
+    messageField.type = 'hidden';
+    messageField.name = 'message';
+    const timestamp = new Date().toLocaleString();
+    messageField.value = `
+Document: ${pdfTitle}
+Downloaded: ${timestamp}
+URL: ${pdfUrl}
+
+This user has downloaded the above document. Please follow up with appropriate information related to this topic.
+    `;
+    form.appendChild(messageField);
+    
     // Append form to body, submit it, and remove it
     document.body.appendChild(form);
     
