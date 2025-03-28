@@ -104,7 +104,7 @@ export default defineConfig(({ mode }) => {
         }),
     ],
     build: {
-      cssMinify: 'lightningcss',
+      cssMinify: false, // Disable lightningcss which is causing build errors
       rollupOptions: {
         output: {
           manualChunks: {
