@@ -103,6 +103,7 @@ fragment ApproachPageParts on ApproachPage {
   metaKeywords
   heroHeading
   heroSubheading
+  image
   schemaMarkup {
     __typename
     type

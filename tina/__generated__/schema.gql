@@ -420,6 +420,7 @@ type ApproachPage implements Node & Document {
   metaKeywords: [String]
   heroHeading: String!
   heroSubheading: String!
+  image: String
   schemaMarkup: ApproachPageSchemaMarkup
   approachSteps: [ApproachPageApproachSteps]
   principles: [ApproachPagePrinciples]
@@ -464,6 +465,7 @@ input ApproachPageFilter {
   metaKeywords: StringFilter
   heroHeading: StringFilter
   heroSubheading: StringFilter
+  image: ImageFilter
   schemaMarkup: ApproachPageSchemaMarkupFilter
   approachSteps: ApproachPageApproachStepsFilter
   principles: ApproachPagePrinciplesFilter
@@ -1041,6 +1043,7 @@ input ApproachPageMutation {
   metaKeywords: [String]
   heroHeading: String
   heroSubheading: String
+  image: String
   schemaMarkup: ApproachPageSchemaMarkupMutation
   approachSteps: [ApproachPageApproachStepsMutation]
   principles: [ApproachPagePrinciplesMutation]

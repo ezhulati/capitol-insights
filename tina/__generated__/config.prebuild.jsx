@@ -1,12 +1,12 @@
 // tina/config.ts
 import { defineConfig } from "tinacms";
-var branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
+var branch = process.env.GIT_BRANCH || "main";
 var config_default = defineConfig({
   branch,
-  clientId: process.env.TINA_CLIENT_ID || "3db951f1-1013-495b-976f-b111359664bc",
-  // Get this from tina.io
-  token: process.env.TINA_TOKEN || "95f1cd687bb4738130614315066031cf884e72ac",
-  // Get this from tina.io
+  clientId: process.env.TINA_PUBLIC_CLIENT_ID,
+  // Get this from tina.io and set as environment variable
+  token: process.env.TINA_TOKEN,
+  // Get this from tina.io and set as environment variable
   build: {
     outputFolder: "admin",
     publicFolder: "public"
@@ -618,6 +618,12 @@ var config_default = defineConfig({
             ui: {
               component: "textarea"
             }
+          },
+          {
+            type: "image",
+            name: "image",
+            label: "Featured Image",
+            description: "The main image for the page, used in SEO and social sharing"
           },
           {
             type: "object",

@@ -640,6 +640,7 @@ export type ApproachPage = Node & Document & {
   metaKeywords?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   heroHeading: Scalars['String']['output'];
   heroSubheading: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
   schemaMarkup?: Maybe<ApproachPageSchemaMarkup>;
   approachSteps?: Maybe<Array<Maybe<ApproachPageApproachSteps>>>;
   principles?: Maybe<Array<Maybe<ApproachPagePrinciples>>>;
@@ -684,6 +685,7 @@ export type ApproachPageFilter = {
   metaKeywords?: InputMaybe<StringFilter>;
   heroHeading?: InputMaybe<StringFilter>;
   heroSubheading?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
   schemaMarkup?: InputMaybe<ApproachPageSchemaMarkupFilter>;
   approachSteps?: InputMaybe<ApproachPageApproachStepsFilter>;
   principles?: InputMaybe<ApproachPagePrinciplesFilter>;
@@ -1434,6 +1436,7 @@ export type ApproachPageMutation = {
   metaKeywords?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   heroHeading?: InputMaybe<Scalars['String']['input']>;
   heroSubheading?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
   schemaMarkup?: InputMaybe<ApproachPageSchemaMarkupMutation>;
   approachSteps?: InputMaybe<Array<InputMaybe<ApproachPageApproachStepsMutation>>>;
   principles?: InputMaybe<Array<InputMaybe<ApproachPagePrinciplesMutation>>>;
@@ -1600,7 +1603,7 @@ export type HomePagePartsFragment = { __typename: 'HomePage', title: string, met
 
 export type PagePartsFragment = { __typename: 'Page', title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, description: string, body?: any | null, schemaMarkup?: { __typename: 'PageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null };
 
-export type ApproachPagePartsFragment = { __typename: 'ApproachPage', title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, schemaMarkup?: { __typename: 'ApproachPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, approachSteps?: Array<{ __typename: 'ApproachPageApproachSteps', title: string, description: string, stepNumber: number } | null> | null, principles?: Array<{ __typename: 'ApproachPagePrinciples', title: string, description: string, icon?: string | null } | null> | null };
+export type ApproachPagePartsFragment = { __typename: 'ApproachPage', title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, image?: string | null, schemaMarkup?: { __typename: 'ApproachPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, approachSteps?: Array<{ __typename: 'ApproachPageApproachSteps', title: string, description: string, stepNumber: number } | null> | null, principles?: Array<{ __typename: 'ApproachPagePrinciples', title: string, description: string, icon?: string | null } | null> | null };
 
 export type ResultsPagePartsFragment = { __typename: 'ResultsPage', title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, schemaMarkup?: { __typename: 'ResultsPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, metrics?: Array<{ __typename: 'ResultsPageMetrics', value: string, label: string, icon?: string | null } | null> | null, caseStudies?: Array<{ __typename: 'ResultsPageCaseStudies', title: string, challenge: string, approach: string, outcome: string, client: string, clientRole: string, company: string } | null> | null, achievements?: Array<{ __typename: 'ResultsPageAchievements', text: string } | null> | null, testimonial?: { __typename: 'ResultsPageTestimonial', quote: string, author: string, role: string, company: string } | null };
 
@@ -1674,7 +1677,7 @@ export type ApproachPageQueryVariables = Exact<{
 }>;
 
 
-export type ApproachPageQuery = { __typename?: 'Query', approachPage: { __typename: 'ApproachPage', id: string, title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, schemaMarkup?: { __typename: 'ApproachPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, approachSteps?: Array<{ __typename: 'ApproachPageApproachSteps', title: string, description: string, stepNumber: number } | null> | null, principles?: Array<{ __typename: 'ApproachPagePrinciples', title: string, description: string, icon?: string | null } | null> | null } };
+export type ApproachPageQuery = { __typename?: 'Query', approachPage: { __typename: 'ApproachPage', id: string, title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, image?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, schemaMarkup?: { __typename: 'ApproachPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, approachSteps?: Array<{ __typename: 'ApproachPageApproachSteps', title: string, description: string, stepNumber: number } | null> | null, principles?: Array<{ __typename: 'ApproachPagePrinciples', title: string, description: string, icon?: string | null } | null> | null } };
 
 export type ApproachPageConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -1686,7 +1689,7 @@ export type ApproachPageConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ApproachPageConnectionQuery = { __typename?: 'Query', approachPageConnection: { __typename?: 'ApproachPageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ApproachPageConnectionEdges', cursor: string, node?: { __typename: 'ApproachPage', id: string, title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, schemaMarkup?: { __typename: 'ApproachPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, approachSteps?: Array<{ __typename: 'ApproachPageApproachSteps', title: string, description: string, stepNumber: number } | null> | null, principles?: Array<{ __typename: 'ApproachPagePrinciples', title: string, description: string, icon?: string | null } | null> | null } | null } | null> | null } };
+export type ApproachPageConnectionQuery = { __typename?: 'Query', approachPageConnection: { __typename?: 'ApproachPageConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ApproachPageConnectionEdges', cursor: string, node?: { __typename: 'ApproachPage', id: string, title: string, metaDescription?: string | null, metaKeywords?: Array<string | null> | null, heroHeading: string, heroSubheading: string, image?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, schemaMarkup?: { __typename: 'ApproachPageSchemaMarkup', type: string, name?: string | null, description?: string | null, url?: string | null, image?: string | null } | null, approachSteps?: Array<{ __typename: 'ApproachPageApproachSteps', title: string, description: string, stepNumber: number } | null> | null, principles?: Array<{ __typename: 'ApproachPagePrinciples', title: string, description: string, icon?: string | null } | null> | null } | null } | null> | null } };
 
 export type ResultsPageQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1892,6 +1895,7 @@ export const ApproachPagePartsFragmentDoc = gql`
   metaKeywords
   heroHeading
   heroSubheading
+  image
   schemaMarkup {
     __typename
     type
@@ -2682,7 +2686,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/1.5/content/3db951f1-1013-495b-976f-b111359664bc/github/main",
         queries,
       })
     )
