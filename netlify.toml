@@ -1,3 +1,4 @@
+
 [build]
   publish = "dist"
   command = "npm run tina:build && npm run build"
@@ -53,8 +54,8 @@
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    # More restrictive CSP for admin area
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; font-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+    # More permissive CSP for admin area to allow Tina Cloud connections
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com https://*.tinajs.io; font-src 'self' data:; frame-ancestors 'none'; upgrade-insecure-requests;"
     # Controlled CORS for admin API
     Access-Control-Allow-Origin = "https://capitol-insights.com"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
