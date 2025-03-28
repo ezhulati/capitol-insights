@@ -80,10 +80,40 @@
     <!-- Accessibility -->
     <meta name="apple-mobile-web-app-title" content="Capitol Insights">
     <meta name="application-name" content="Capitol Insights">
+    
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body class="antialiased text-slate-700 bg-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Check if user is logged in and handle invite tokens
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+
+        // Handle the invite token redirect
+        const hash = window.location.hash;
+        if (hash && hash.startsWith('#invite_token=')) {
+          const token = hash.replace('#invite_token=', '');
+          window.netlifyIdentity.open('signup');
+          window.netlifyIdentity.gotrue.acceptInvite(token, null, false)
+            .then(() => {
+              // After sign up, redirect to admin
+              setTimeout(function() {
+                document.location.href = "/admin/";
+              }, 1000);
+            })
+            .catch(err => console.error('Error accepting invite:', err));
+        }
+      }
+    </script>
     <noscript>
       <div style="padding: 2rem; text-align: center;">
         <h1>JavaScript Required</h1>
