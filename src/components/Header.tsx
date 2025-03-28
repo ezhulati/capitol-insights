@@ -53,11 +53,11 @@ const Header = () => {
   // Simplified navigation links
   const navLinks = [
     { title: 'Services', path: '/services' },
-    { title: 'Our Team', path: '/team' },
+    { title: 'Team', path: '/team' },
     { title: 'Results', path: '/results' },
     { title: 'Updates', path: '/updates' },
-    { title: 'Legislative Calendar', path: '/legislative-calendar' },
-    { title: 'Policy Briefings', path: '/policy-briefings' },
+    { title: 'Calendar', path: '/legislative-calendar' },
+    { title: 'Briefings', path: '/policy-briefings' },
     { title: 'Contact', path: '/contact' },
   ];
 
