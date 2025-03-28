@@ -159,10 +159,10 @@ const Footer = () => {
                 <Mail size={20} className="text-gold-400 mt-1 flex-shrink-0" />
                 <div>
                   <a 
-                    href="mailto:info@capitol-insights.com" 
+                    href="mailto:byroncampbell@capitol-insights.com"
                     className="text-white font-medium hover:text-gold-300 transition-colors"
                   >
-                    info@capitol-insights.com
+                    byroncampbell@capitol-insights.com
                   </a>
                   <p className="text-slate-300">For general inquiries</p>
                 </div>

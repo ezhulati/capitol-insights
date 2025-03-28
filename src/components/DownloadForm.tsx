@@ -118,12 +118,8 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     formNameField.value = 'download-form';
     form.appendChild(formNameField);
     
-    // Add recipient field to send to the same emails as contact form
-    const recipientField = document.createElement('input');
-    recipientField.type = 'hidden';
-    recipientField.name = 'recipient';
-    recipientField.value = 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com';
-    form.appendChild(recipientField);
+    // Recipient is configured in Netlify form settings using environment variables
+    // No need to add it here as it's managed through the Netlify dashboard
     
     // Add subject field to make it clear what was downloaded
     const subjectField = document.createElement('input');

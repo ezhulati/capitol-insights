@@ -16,23 +16,9 @@
 [build.processing.forms]
   enabled = true
 
-# Form notifications configuration
-[[forms.contact.notifications]]
-  email = "byroncampbell@capitol-insights.com"
-  subject = "New Contact Form Submission"
-
-[[forms.contact.notifications]]
-  email = "enrizhulati@gmail.com"
-  subject = "New Contact Form Submission"
-
-# Lead magnet form notifications
-[[forms.lead_magnet.notifications]]
-  email = "byroncampbell@capitol-insights.com"
-  subject = "New Lead Magnet Download"
-  
-[[forms.lead_magnet.notifications]]
-  email = "enrizhulati@gmail.com"
-  subject = "New Lead Magnet Download"
+# Form notifications configuration - uses environment variable for recipients
+# The email addresses are set in the Netlify environment variables
+# as FORM_NOTIFICATION_RECIPIENTS (comma-separated list)
 
 [[redirects]]
   from = "/admin/*"
@@ -44,15 +30,32 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    Content-Security-Policy = "frame-ancestors 'none'"
-    Access-Control-Allow-Origin = "*"
-
+# Comprehensive security headers for all pages
 [[headers]]
   for = "/*"
   [headers.values]
-    Access-Control-Allow-Origin = "*"
+    # Prevent clickjacking
+    X-Frame-Options = "DENY"
+    # Prevent MIME type sniffing
+    X-Content-Type-Options = "nosniff"
+    # Enable XSS protection
+    X-XSS-Protection = "1; mode=block"
+    # Enforce HTTPS
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    # Control referrer information
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Restrict browser features
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    # Default Content Security Policy
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com; font-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+
+# Additional headers for admin area
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    # More restrictive CSP for admin area
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; font-src 'self'; frame-ancestors 'none'; upgrade-insecure-requests;"
+    # Controlled CORS for admin API
+    Access-Control-Allow-Origin = "https://capitol-insights.com"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"

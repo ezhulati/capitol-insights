@@ -136,8 +136,8 @@ const ContactPage = () => {
                         </li>
                         <li className="flex items-center gap-3">
                           <Mail size={18} className="text-gold-600 flex-shrink-0" />
-                          <a href="mailto:info@capitol-insights.com" className="text-gold-600 hover:text-gold-700">
-                            info@capitol-insights.com
+                          <a href="mailto:byroncampbell@capitol-insights.com" className="text-gold-600 hover:text-gold-700">
+                            byroncampbell@capitol-insights.com
                           </a>
                         </li>
                       </ul>

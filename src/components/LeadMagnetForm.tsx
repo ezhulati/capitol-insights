@@ -69,16 +69,29 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
       // Redirect to the download URL
       window.location.href = downloadUrl;
       
-      // Track this conversion in analytics
+      // Track this conversion in analytics without sending PII
       try {
         if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'lead_magnet_download', {
+          // Check if we should anonymize data based on environment variable
+          const shouldAnonymize = process.env.ANALYTICS_ANONYMIZE_IP === 'true';
+          const shouldSendPII = process.env.ANALYTICS_SEND_PII === 'true';
+          
+          // Create analytics event with non-PII data
+          const analyticsData: Record<string, any> = {
             'event_category': 'lead_generation',
             'event_label': title,
-            'lead_email': email,
-            'lead_name': name,
-            'lead_industry': industry || 'Not specified',
-          });
+            'anonymize_ip': shouldAnonymize
+          };
+          
+          // Only include PII if explicitly allowed
+          if (shouldSendPII) {
+            analyticsData.lead_email = email;
+            analyticsData.lead_name = name;
+            analyticsData.lead_industry = industry || 'Not specified';
+          }
+          
+          // Send the event
+          (window as any).gtag('event', 'lead_magnet_download', analyticsData);
         }
       } catch (e) {
         console.error('Analytics error:', e);

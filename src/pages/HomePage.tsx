@@ -212,7 +212,7 @@ const HomePage = () => {
             
             <div className="mt-2 sm:mt-6 pb-4">
               <a 
-                href="tel:+1234567890" 
+                href="tel:2142133443"
                 className="inline-flex items-center text-white/70 hover:text-gold-300 text-sm transition-colors"
               >
                 <Phone size={14} className="mr-2 text-gold-400" />
@@ -825,7 +825,7 @@ const HomePage = () => {
             
             <div className="mt-8 sm:mt-10 flex flex-col items-center">
               <a 
-                href="tel:+1234567890" 
+                href="tel:2142133443" 
                 className="text-white/80 hover:text-gold-300 transition-colors inline-flex items-center text-sm mb-4"
               >
                 <Phone size={14} className="mr-2 text-gold-400" />
@@ -841,11 +841,6 @@ const HomePage = () => {
       </section>
     </div>
   );
-};
-
-// Define missing Shield component
-const Shield: React.FC<React.ComponentProps<typeof ShieldCheck>> = (props) => {
-  return <ShieldCheck {...props} />;
 };
 
 export default HomePage;

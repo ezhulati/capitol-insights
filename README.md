@@ -55,13 +55,49 @@ npm run tina
 
 This site uses TinaCMS for content management. To access the CMS:
 
-1. Start the TinaCMS server: `npm run tina`
-2. Navigate to `http://localhost:3000/admin` in your browser
-3. Edit content through the user-friendly interface
+1. Set up environment variables for TinaCMS:
+   - Create a `.env` file in the root directory
+   - Add the following variables:
+     ```
+     TINA_CLIENT_ID=your_client_id_from_tina_io
+     TINA_TOKEN=your_token_from_tina_io
+     ```
+   - You can obtain these credentials from the Tina.io dashboard
+
+2. Start the TinaCMS server: `npm run tina`
+3. Navigate to `http://localhost:3000/admin` in your browser
+4. Edit content through the user-friendly interface
 
 ## Deployment
 
 The site is configured for deployment on Netlify. Push to the main branch to trigger a deployment.
+
+## Security Considerations
+
+This project implements several security best practices:
+
+1. **Environment Variables**: Sensitive information like API keys, tokens, and email addresses are stored as environment variables rather than hardcoded in the codebase.
+
+2. **Security Headers**: Comprehensive security headers are implemented in both `netlify.toml` and `public/_headers`:
+   - Content-Security-Policy (CSP)
+   - Strict-Transport-Security (HSTS)
+   - X-Content-Type-Options
+   - X-Frame-Options
+   - X-XSS-Protection
+   - Referrer-Policy
+   - Permissions-Policy
+
+3. **CORS Configuration**: Controlled Cross-Origin Resource Sharing (CORS) settings to prevent unauthorized access.
+
+4. **Privacy Protection**: Options to anonymize IP addresses and prevent sending personally identifiable information (PII) to analytics services.
+
+5. **Form Security**: Netlify forms are configured with honeypot fields to prevent spam.
+
+To maintain these security measures:
+- Always use environment variables for sensitive information
+- Keep dependencies updated
+- Review security headers periodically
+- Follow the principle of least privilege
 
 ## License
 

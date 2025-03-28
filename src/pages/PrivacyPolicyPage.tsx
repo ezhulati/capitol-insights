@@ -157,7 +157,7 @@ const PrivacyPolicyPage = () => {
                 If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact us at:
               </p>
               <p>
-                Email: <a href="mailto:info@capitol-insights.com">info@capitol-insights.com</a><br />
+                Email: <a href="mailto:byroncampbell@capitol-insights.com">byroncampbell@capitol-insights.com</a><br />
                 Mail: Capitol Insights, Privacy Office, Dallas, TX
               </p>
             </div>

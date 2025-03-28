@@ -7,7 +7,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isContactVisible, setIsContactVisible] = useState(false);
   const location = useLocation();
-  const contactRef = useRef(null);
+  const contactRef = useRef<HTMLDivElement | null>(null);
 
   // Close mobile menu and contact info when route changes
   useEffect(() => {
@@ -27,8 +27,8 @@ const Header = () => {
 
   // Handle clicks outside of contact dropdown
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (contactRef.current && !contactRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (contactRef.current && !contactRef.current.contains(event.target as Node)) {
         setIsContactVisible(false);
       }
     };
@@ -39,7 +39,7 @@ const Header = () => {
 
   // Handle keyboard accessibility for dropdowns
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsContactVisible(false);
         setIsMenuOpen(false);
@@ -61,7 +61,7 @@ const Header = () => {
     { title: 'Contact', path: '/contact' },
   ];
 
-  const isActive = (path) => {
+  const isActive = (path: string) => {
     if (path === '/') {
       return location.pathname === path;
     }
@@ -197,7 +197,7 @@ const Header = () => {
               <li className="pt-4 px-4" role="none">
                 <div className="flex flex-col space-y-3">
                   <a 
-                    href="mailto:info@capitol-insights.com" 
+                    href="mailto:byroncampbell@capitol-insights.com" 
                     className={`flex items-center text-sm ${
                       isScrolled ? 'text-navy-700' : 'text-white/80'
                     }`}
@@ -205,7 +205,7 @@ const Header = () => {
                     role="menuitem"
                   >
                     <Mail size={14} className="mr-2 text-gold-500" />
-                    info@capitol-insights.com
+                    byroncampbell@capitol-insights.com
                   </a>
                   <p 
                     className={`flex items-center text-sm ${

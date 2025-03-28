@@ -143,7 +143,7 @@ const TermsPage = () => {
                 Questions or comments about the website or these Terms of Service may be directed to:
               </p>
               <p>
-                Email: <a href="mailto:info@capitol-insights.com">info@capitol-insights.com</a><br />
+                Email: <a href="mailto:byroncampbell@capitol-insights.com">byroncampbell@capitol-insights.com</a><br />
                 Address: Capitol Insights, Dallas, TX
               </p>
             </div>
