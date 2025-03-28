@@ -4,19 +4,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Capitol Insights Content Manager</title>
-    <link href="/favicon.ico" rel="shortcut icon" />
     
-    <!-- Decap CMS styles -->
-    <link href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" rel="stylesheet" />
+    <!-- Directly load Netlify CMS (simpler than Decap CMS for compatibility) -->
+    <link href="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.css" rel="stylesheet" />
+    
+    <!-- Debug console output -->
+    <script>
+      console.log("Admin page loading...");
+      window.onerror = function(message, source, lineno, colno, error) {
+        console.error("Error loading CMS:", message, error);
+      };
+    </script>
   </head>
   <body>
-    <!-- Include Netlify Identity Widget for older links -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <div id="nc-root"></div>
     
-    <!-- Include the Decap CMS script -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!-- Load Netlify CMS from CDN -->
+    <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
     
-    <!-- Include custom CMS initialization script -->
-    <script type="module" src="./cms.js"></script>
+    <!-- GitHub backend configuration -->
+    <script>
+      console.log("Configuring CMS...");
+      
+      // GitHub backend config
+      CMS.registerBackend('github', {
+        repo: 'ezhulati/capitol-insights',
+        branch: 'main',
+        auth_type: 'implicit',
+        base_url: 'https://api.netlify.com',
+        auth_endpoint: 'auth',
+        app_id: 'Ov23lirnvx6NcUDsjyJh',
+        api_root: 'https://api.github.com'
+      });
+      
+      console.log("CMS initialization complete");
+    </script>
   </body>
 </html>
