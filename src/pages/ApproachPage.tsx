@@ -109,7 +109,7 @@ const ApproachPage = () => {
       <SEO 
         title="Our Strategic Advocacy Approach | Capitol Insights"
         description="Learn about Capitol Insights' transparent, relationship-driven approach to government relations in Texas and what sets us apart from other lobbying firms."
-        image="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
+        image="/images/approach-capitol.jpg"
         canonical="/approach"
         additionalMetaTags={[
           { name: "keywords", content: "government relations approach, lobbying methodology, ethical advocacy, texas policy strategy, transparent lobbying" },
@@ -178,7 +178,7 @@ const ApproachPage = () => {
             <div className="relative mt-6 lg:mt-0">
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80" 
+                  src="/images/approach-capitol.jpg" 
                   alt="Capitol building representing government relations approach" 
                   className="w-full h-auto"
                 />
