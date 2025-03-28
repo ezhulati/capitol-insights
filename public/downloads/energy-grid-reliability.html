@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Grid Reliability: Policy Recommendations | Capitol Insights</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+    }
+    
+    .container {
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      background-color: white;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #eab308;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+    }
+    
+    .logo-text h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
+    }
+    
+    .logo-text p {
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin: 0;
+      color: #64748b;
+    }
+    
+    .document-info {
+      text-align: right;
+    }
+    
+    .document-info h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem 0;
+    }
+    
+    .document-info p {
+      font-size: 0.875rem;
+      margin: 0;
+      color: #64748b;
+    }
+    
+    .intro {
+      margin-bottom: 2rem;
+    }
+    
+    .intro h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    
+    .intro p {
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      color: #475569;
+    }
+    
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+    }
+    
+    .meta-item svg {
+      margin-right: 0.5rem;
+      color: #64748b;
+    }
+    
+    .meta-item span {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+    
+    .meta-item.category span {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+    
+    .section {
+      margin-bottom: 2rem;
+    }
+    
+    .section h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #0f172a;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .section h4 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+    
+    .section p {
+      margin-bottom: 1rem;
+    }
+    
+    .section ul, .section ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    
+    .section li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    
+    .table th {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .table td {
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    
+    .callout {
+      background-color: #f0f9ff;
+      border-left: 4px solid #0ea5e9;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+    
+    .callout h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: #0369a1;
+    }
+    
+    .callout p {
+      margin: 0;
+      color: #0c4a6e;
+    }
+    
+    .conclusion {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .conclusion h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #0f172a;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .conclusion p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .references {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .references h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    
+    .references ol {
+      padding-left: 1.5rem;
+    }
+    
+    .references li {
+      margin-bottom: 0.75rem;
+      font-size: 0.875rem;
+      color: #475569;
+    }
+    
+    .author {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .author-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+    }
+    
+    .author-name {
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .author-title {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin: 0;
+    }
+    
+    .author-bio {
+      font-size: 0.875rem;
+      color: #475569;
+    }
+    
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.75rem;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .footer p {
+      margin: 0;
+    }
+    
+    .footer a {
+      color: #0284c7;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media print {
+      body {
+        background-color: white;
+      }
+      
+      .container {
+        max-width: none;
+        padding: 0.5in;
+        box-shadow: none;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      @page {
+        margin: 0.5in;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0f172a;">
+            <path d="M3 22h18"></path>
+            <path d="M6 18h12"></path>
+            <path d="M4 14h16"></path>
+            <path d="M8 6h8"></path>
+            <path d="M12 2v4"></path>
+            <path d="M18 10v4"></path>
+            <path d="M6 10v4"></path>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Capitol Insights</h1>
+          <p>TEXAS GOVERNMENT RELATIONS</p>
+        </div>
+      </div>
+      <div class="document-info">
+        <h2>Policy Briefing</h2>
+        <p>August 22, 2024</p>
+      </div>
+    </div>
+    
+    <div class="intro">
+      <h2>Energy Grid Reliability: Policy Recommendations</h2>
+      <p>This briefing provides an overview of current challenges facing the Texas energy grid and offers policy recommendations to enhance reliability and resilience.</p>
+    </div>
+    
+    <div class="meta">
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>August 22, 2024</span>
+      </div>
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>Drew Campbell, President</span>
+      </div>
+      <div class="meta-item category">
+        <span>Energy</span>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>Executive Summary</h3>
+      <p>The Texas electric grid faces significant reliability challenges as it navigates the transition to a more diverse energy mix, responds to extreme weather events, and addresses infrastructure aging. This briefing provides a straightforward assessment of these challenges and offers practical policy recommendations to enhance grid reliability and resilience.</p>
+      <p>Our analysis indicates that while Texas has made important improvements following the February 2021 winter storm, substantial vulnerabilities remain. Addressing these vulnerabilities requires a balanced approach that leverages market mechanisms while ensuring adequate reliability safeguards. The most effective solutions will be those that maintain Texas's competitive electricity market while providing appropriate incentives for reliability investments.</p>
+      <p>Key findings from this briefing include:</p>
+      <ul>
+        <li>Weather-related grid vulnerabilities persist despite recent weatherization requirements</li>
+        <li>Resource adequacy concerns are growing as thermal generation retires and intermittent resources increase</li>
+        <li>Transmission constraints limit the grid's ability to deliver power where and when it's needed</li>
+        <li>Market design improvements are needed to properly value reliability and resilience</li>
+        <li>Demand-side resources represent an underutilized reliability tool</li>
+      </ul>
+    </div>
+    
+    <div class="section">
+      <h3>Current State of the Texas Grid</h3>
+      <p>The Electric Reliability Council of Texas (ERCOT) manages the flow of electric power to more than 26 million Texas customers, representing about 90 percent of the state's electric load. As a unique, largely isolated grid, ERCOT faces distinct challenges and opportunities.</p>
+      
+      <h4>Generation Mix Evolution</h4>
+      <p>Texas's generation portfolio has undergone significant transformation in recent years:</p>
+      <ul>
+        <li><strong>Natural Gas:</strong> Remains the largest source of electricity generation (approximately 42% in 2023), providing both baseload and peaking capacity</li>
+        <li><strong>Wind:</strong> Has grown dramatically to become the second-largest source (approximately 25% in 2023), with Texas leading the nation in wind generation</li>
+        <li><strong>Solar:</strong> The fastest-growing resource (approximately 8% in 2023), with substantial additional capacity in development</li>
+        <li><strong>Coal:</strong> Continuing to decline (approximately 15% in 2023) as plants retire due to economic and environmental factors</li>
+        <li><strong>Nuclear:</strong> Provides stable baseload generation (approximately 10% in 2023) from two facilities</li>
+      </ul>
+      
+      <h4>Recent Reliability Challenges</h4>
+      <p>Several significant events have highlighted vulnerabilities in the Texas grid:</p>
+      <ul>
+        <li><strong>February 2021 Winter Storm:</strong> Extended freezing temperatures led to widespread generation outages across all fuel types, resulting in rotating outages affecting millions of customers for multiple days</li>
+        <li><strong>Summer Peak Demands:</strong> Record-breaking summer temperatures have pushed the grid to its limits during peak demand periods, requiring emergency measures to maintain reliability</li>
+        <li><strong>Transmission Constraints:</strong> Bottlenecks in the transmission system have limited the delivery of power from resource-rich areas to load centers, particularly affecting West Texas wind and solar resources</li>
+        <li><strong>Ancillary Services Shortages:</strong> Increasing variability in the generation mix has created challenges in maintaining sufficient grid services like frequency response and voltage support</li>
+      </ul>
+      
+      <h4>Post-Winter Storm Reforms</h4>
+      <p>Following the February 2021 winter storm, Texas implemented several important reforms:</p>
+      <ul>
+        <li><strong>Weatherization Requirements:</strong> New standards for both generation and natural gas facilities to ensure operation during extreme weather events</li>
+        <li><strong>Critical Natural Gas Designation:</strong> Identification of critical natural gas infrastructure to prioritize during power emergencies</li>
+        <li><strong>Market Design Changes:</strong> Adjustments to the Operating Reserve Demand Curve (ORDC) and other market mechanisms to improve scarcity pricing</li>
+        <li><strong>Communication Improvements:</strong> Enhanced protocols for emergency communications among regulators, market participants, and the public</li>
+        <li><strong>Governance Reforms:</strong> Changes to the governance structure of ERCOT and the Public Utility Commission of Texas (PUCT)</li>
+      </ul>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Reliability Metric</th>
+            <th>Pre-2021 Storm</th>
+            <th>Current Status</th>
+            <th>Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Reserve Margin</td>
+            <td>8.6%</td>
+            <td>13.2%</td>
+            <td>15.0%</td>
+          </tr>
+          <tr>
+            <td>Weatherized Generation</td>
+            <td>&lt;50%</td>
+            <td>~85%</td>
+            <td>100%</td>
+          </tr>
+          <tr>
+            <td>Critical Natural Gas Facilities Identified</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes + Weatherized</td>
+          </tr>
+          <tr>
+            <td>Firm Fuel Requirements</td>
+            <td>No</td>
+            <td>Partial</td>
+            <td>Comprehensive</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section">
+      <h3>Key Reliability Challenges</h3>
+      <p>Despite recent improvements, several significant challenges to grid reliability remain:</p>
+      
+      <h4>Weather Vulnerability</h4>
+      <p>While weatherization standards have improved, the Texas grid remains vulnerable to extreme weather events:</p>
+      <ul>
+        <li><strong>Implementation Gaps:</strong> Not all critical infrastructure has fully implemented weatherization measures</li>
+        <li><strong>Natural Gas Supply Chain:</strong> Vulnerabilities persist in the natural gas supply chain, which is critical for power generation during extreme events</li>
+        <li><strong>Climate Change Impacts:</strong> Increasing frequency and severity of extreme weather events will test the grid's resilience</li>
+        <li><strong>Weatherization Standards:</strong> Current standards may not be sufficient for increasingly extreme weather scenarios</li>
+      </ul>
+      
+      <h4>Resource Adequacy</h4>
+      <p>Ensuring sufficient generation capacity to meet demand remains a challenge:</p>
+      <ul>
+        <li><strong>Thermal Generation Retirements:</strong> Continued retirement of coal and older natural gas plants reduces dispatchable capacity</li>
+        <li><strong>Intermittent Resource Integration:</strong> Growing reliance on wind and solar resources introduces variability that must be managed</li>
+        <li><strong>Peak Demand Growth:</strong> Population growth, economic expansion, and electrification are driving increased peak demand</li>
+        <li><strong>Investment Incentives:</strong> Current market structures may not provide adequate incentives for new dispatchable generation</li>
+      </ul>
+      
+      <h4>Transmission Constraints</h4>
+      <p>The transmission system faces increasing pressure:</p>
+      <ul>
+        <li><strong>West-to-East Congestion:</strong> Limited capacity to deliver renewable energy from West Texas to major load centers</li>
+        <li><strong>Interconnection Queues:</strong> Long queues for new generation interconnection delay resource availability</li>
+        <li><strong>Aging Infrastructure:</strong> Much of the transmission system is approaching or exceeding its designed lifespan</li>
+        <li><strong>Planning Processes:</strong> Current transmission planning may not adequately account for changing generation patterns and extreme events</li>
+      </ul>
+      
+      <h4>Market Design Limitations</h4>
+      <p>The current market structure has several limitations for ensuring reliability:</p>
+      <ul>
+        <li><strong>Energy-Only Market:</strong> Reliance on scarcity pricing may not provide sufficient certainty for long-term investments</li>
+        <li><strong>Reliability Services Valuation:</strong> Inadequate compensation for essential reliability services like firm capacity and fast ramping</li>
+        <li><strong>Fuel Security:</strong> Limited incentives for generators to maintain firm fuel supplies or dual-fuel capability</li>
+        <li><strong>Demand-Side Participation:</strong> Barriers to full participation of demand response and distributed energy resources</li>
+      </ul>
+      
+      <div class="callout">
+        <h4>The Resource Adequacy Challenge</h4>
+        <p>ERCOT's current reserve margin of 13.2% remains below the target of 15.0%, and projections indicate this gap may widen as thermal generation retires faster than new dispatchable resources are added. While substantial renewable capacity is in development, its intermittent nature means it cannot fully replace the reliability contribution of retiring thermal generation without significant storage or other firm capacity additions.</p>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>Policy Recommendations</h3>
+      <p>Based on our analysis, we recommend the following policy approaches to enhance grid reliability while maintaining the competitive benefits of the Texas electricity market:</p>
+      
+      <h4>1. Strengthen Weatherization Requirements</h4>
+      <ul>
+        <li><strong>Expand Scope:</strong> Extend weatherization requirements to cover the entire natural gas supply chain critical for power generation</li>
+        <li><strong>Enhance Standards:</strong> Update weatherization standards to address more extreme weather scenarios based on climate projections rather than historical patterns</li>
+        <li><strong>Verification Process:</strong> Implement a more robust inspection and verification process for weatherization compliance</li>
+        <li><strong>Financial Support:</strong> Provide targeted financial assistance for smaller entities to implement weatherization measures</li>
+      </ul>
+      
+      <h4>2. Implement a Reliability Service Mechanism</h4>
+      <ul>
+        <li><strong>Forward Reliability Service:</strong> Establish a forward market for reliability services that values firm, dispatchable capacity</li>
+        <li><strong>Technology-Neutral Approach:</strong> Design the mechanism to be technology-neutral, allowing participation from traditional generation, storage, and demand response</li>
+        <li><strong>Performance Requirements:</strong> Include strict performance requirements with penalties for non-delivery during reliability events</li>
+        <li><strong>Targeted Procurement:</strong> Focus procurement on specific reliability needs rather than a one-size-fits-all capacity approach</li>
+      </ul>
+      
+      <h4>3. Accelerate Transmission Development</h4>
+      <ul>
+        <li><strong>West-to-East Capacity:</strong> Prioritize new transmission capacity from West Texas renewable resource areas to major load centers</li>
+        <li><strong>Planning Reform:</strong> Update transmission planning processes to better account for extreme weather scenarios and changing generation patterns</li>
+        <li><strong>Interconnection Process:</strong> Streamline the generation interconnection process to reduce delays for new resources</li>
+        <li><strong>Grid-Enhancing Technologies:</strong> Deploy advanced technologies to increase the capacity and flexibility of existing transmission infrastructure</li>
+      </ul>
+      
+      <h4>4. Enhance Demand-Side Resources</h4>
+      <ul>
+        <li><strong>Demand Response Programs:</strong> Expand and simplify demand response programs to increase participation</li>
+        <li><strong>Price Responsiveness:</strong> Enable greater retail price responsiveness to reflect wholesale market conditions</li>
+        <li><strong>Distributed Energy Resources:</strong> Remove barriers to participation of distributed energy resources in providing grid services</li>
+        <li><strong>Energy Efficiency:</strong> Strengthen energy efficiency programs to reduce overall demand and peak loads</li>
+      </ul>
+      
+      <h4>5. Improve Fuel Security</h4>
+      <ul>
+        <li><strong>Firm Fuel Requirements:</strong> Establish requirements for generators to maintain firm fuel arrangements or on-site fuel storage</li>
+        <li><strong>Dual-Fuel Capability:</strong> Provide incentives for dual-fuel capability at natural gas plants</li>
+        <li><strong>Gas-Electric Coordination:</strong> Strengthen coordination between the natural gas and electricity sectors</li>
+        <li><strong>Strategic Reserves:</strong> Consider establishing strategic reserves of critical fuels for emergency situations</li>
+      </ul>
+    </div>
+    
+    <div class="section">
+      <h3>Implementation Considerations</h3>
+      <p>Effective implementation of these recommendations requires careful consideration of several factors:</p>
+      
+      <h4>Cost Allocation</h4>
+      <p>Any reliability enhancements will have associated costs that must be allocated fairly:</p>
+      <ul>
+        <li>Balance reliability benefits against consumer cost impacts</li>
+        <li>Consider allocating costs based on reliability benefit received</li>
+        <li>Evaluate impacts on different customer classes and regions</li>
+        <li>Implement consumer protections for vulnerable populations</li>
+      </ul>
+      
+      <h4>Market Integration</h4>
+      <p>New reliability mechanisms must be carefully integrated with the existing market:</p>
+      <ul>
+        <li>Maintain the efficiency of the energy market while addressing reliability needs</li>
+        <li>Ensure compatibility between reliability mechanisms and scarcity pricing</li>
+        <li>Avoid unintended consequences that could distort market signals</li>
+        <li>Preserve the competitive benefits of the ERCOT market</li>
+      </ul>
+      
+      <h4>Regulatory Coordination</h4>
+      <p>Implementation requires coordination among multiple regulatory entities:</p>
+      <ul>
+        <li>Align efforts between the PUCT, Railroad Commission, and ERCOT</li>
+        <li>Clarify jurisdictional boundaries for various aspects of reliability</li>
+        <li>Establish clear lines of authority during emergency situations</li>
+        <li>Develop consistent standards across regulatory domains</li>
+      </ul>
+      
+      <h4>Transition Management</h4>
+      <p>Changes must be implemented in a way that maintains reliability during the transition:</p>
+      <ul>
+        <li>Phase in new requirements to allow for orderly adaptation</li>
+        <li>Provide regulatory certainty for long-term investments</li>
+        <li>Establish interim measures to address immediate reliability concerns</li>
+        <li>Develop clear metrics to track progress and effectiveness</li>
+      </ul>
+    </div>
+    
+    <div class="section">
+      <h3>Legislative Considerations for the 89th Session</h3>
+      <p>The 89th Texas Legislative Session presents an opportunity to address grid reliability through several potential legislative approaches:</p>
+      
+      <h4>Potential Legislative Actions</h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Policy Area</th>
+            <th>Potential Legislative Approach</th>
+            <th>Implementation Timeline</th>
+            <th>Political Viability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Weatherization</td>
+            <td>Expand authority for weatherization standards and enforcement</td>
+            <td>1-2 years</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td>Market Design</td>
+            <td>Authorize PUCT to implement reliability service mechanism</td>
+            <td>2-3 years</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td>Transmission</td>
+            <td>Streamline approval process for critical transmission projects</td>
+            <td>1-3 years</td>
+            <td>Medium-High</td>
+          </tr>
+          <tr>
+            <td>Demand Response</td>
+            <td>Remove barriers to demand response participation</td>
+            <td>1-2 years</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td>Fuel Security</td>
+            <td>Establish requirements for firm fuel arrangements</td>
+            <td>2-3 years</td>
+            <td>Medium</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h4>Key Legislative Considerations</h4>
+      <p>Legislators should consider several factors when developing grid reliability legislation:</p>
+      <ul>
+        <li><strong>Balance of Authority:</strong> Determine the appropriate balance between legislative mandates and regulatory discretion</li>
+        <li><strong>Funding Mechanisms:</strong> Identify sustainable funding sources for reliability investments</li>
+        <li><strong>Regional Impacts:</strong> Consider how policies will affect different regions of Texas</li>
+        <li><strong>Federal Coordination:</strong> Address areas where state policy interfaces with federal jurisdiction</li>
+        <li><strong>Technology Neutrality:</strong> Ensure policies do not unduly favor specific technologies or fuels</li>
+      </ul>
+    </div>
+    
+    <div class="conclusion">
+      <h3>Conclusion</h3>
+      <p>The reliability of the Texas electric grid is essential for the state's economic prosperity and public safety. While significant improvements have been made since the February 2021 winter storm, substantial challenges remain that require thoughtful policy responses.</p>
+      <p>By taking a straightforward, relationship-driven approach to these challenges, Texas can enhance grid reliability while preserving the competitive benefits of its unique electricity market. This will require balancing multiple objectives, including reliability, affordability, and environmental considerations, while maintaining the flexibility to adapt to changing conditions.</p>
+      <p>The 89th Legislative Session provides an important opportunity to address these challenges through targeted policy interventions. By focusing on weatherization, market design, transmission development, demand-side resources, and fuel security, legislators can make meaningful progress toward a more reliable and resilient Texas grid.</p>
+    </div>
+    
+    <div class="references">
+      <h3>References</h3>
+      <ol>
+        <li>Electric Reliability Council of Texas. (2024). <em>2024 State of the Grid Report</em>.</li>
+        <li>Public Utility Commission of Texas. (2023). <em>Review of ERCOT Scarcity Pricing Mechanisms</em>.</li>
+        <li>Texas Department of Emergency Management. (2023). <em>Winter Storm Uri After-Action Report: Three-Year Update</em>.</li>
+        <li>University of Texas Energy Institute. (2024). <em>Texas Electric Grid Reliability Assessment</em>.</li>
+        <li>Federal Energy Regulatory Commission. (2023). <em>Report on ERCOT Winter Preparedness</em>.</li>
+        <li>Texas 2036. (2024). <em>Ensuring Electric Reliability in Texas: Policy Options for the 89th Legislature</em>.</li>
+        <li>North American Electric Reliability Corporation. (2024). <em>2024 Summer Reliability Assessment</em>.</li>
+      </ol>
+    </div>
+    
+    <div class="author">
+      <div class="author-info">
+        <div class="author-avatar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b;">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div>
+          <p class="author-name">Drew Campbell</p>
+          <p class="author-title">President, Capitol Insights</p>
+        </div>
+      </div>
+      <p class="author-bio">Drew Campbell brings over 30 years of government relations experience to Capitol Insights. As a founding partner, he has established the firm as a respected voice in Texas politics. His approach is straightforward and relationship-driven, leveraging decades of experience and genuine connections to help clients navigate complex legislative environments.</p>
+      <p>Prepared by Drew Campbell</p>
+    </div>
+    
+    <div class="footer">
+      <p>&copy; 2024 Capitol Insights. All rights reserved.</p>
+      <p>Contact: <a href="mailto:info@capitol-insights.com">info@capitol-insights.com</a> | <a href="https://capitol-insights.com">capitol-insights.com</a></p>
+    </div>

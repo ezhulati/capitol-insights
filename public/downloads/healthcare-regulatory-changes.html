@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Regulatory Changes: Impact Analysis for Texas Providers | Capitol Insights</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      background-color: #f8fafc;
+    }
+    
+    .container {
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+      background-color: white;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #eab308;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+    }
+    
+    .logo-text h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
+    }
+    
+    .logo-text p {
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin: 0;
+      color: #64748b;
+    }
+    
+    .document-info {
+      text-align: right;
+    }
+    
+    .document-info h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem 0;
+    }
+    
+    .document-info p {
+      font-size: 0.875rem;
+      margin: 0;
+      color: #64748b;
+    }
+    
+    .intro {
+      margin-bottom: 2rem;
+    }
+    
+    .intro h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    
+    .intro p {
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      color: #475569;
+    }
+    
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .meta-item {
+      display: flex;
+      align-items: center;
+    }
+    
+    .meta-item svg {
+      margin-right: 0.5rem;
+      color: #64748b;
+    }
+    
+    .meta-item span {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+    
+    .meta-item.category span {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+    
+    .section {
+      margin-bottom: 2rem;
+    }
+    
+    .section h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #0f172a;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .section h4 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+    
+    .section p {
+      margin-bottom: 1rem;
+    }
+    
+    .section ul, .section ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+    
+    .section li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    
+    .table th {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .table td {
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    
+    .callout {
+      background-color: #f0f9ff;
+      border-left: 4px solid #0ea5e9;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+    
+    .callout h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      color: #0369a1;
+    }
+    
+    .callout p {
+      margin: 0;
+      color: #0c4a6e;
+    }
+    
+    .conclusion {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .conclusion h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #0f172a;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .conclusion p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .references {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .references h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #0f172a;
+    }
+    
+    .references ol {
+      padding-left: 1.5rem;
+    }
+    
+    .references li {
+      margin-bottom: 0.75rem;
+      font-size: 0.875rem;
+      color: #475569;
+    }
+    
+    .author {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+    
+    .author-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+    }
+    
+    .author-name {
+      font-weight: 600;
+      color: #0f172a;
+      margin: 0;
+    }
+    
+    .author-title {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin: 0;
+    }
+    
+    .author-bio {
+      font-size: 0.875rem;
+      color: #475569;
+    }
+    
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.75rem;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .footer p {
+      margin: 0;
+    }
+    
+    .footer a {
+      color: #0284c7;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media print {
+      body {
+        background-color: white;
+      }
+      
+      .container {
+        max-width: none;
+        padding: 0.5in;
+        box-shadow: none;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      @page {
+        margin: 0.5in;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0f172a;">
+            <path d="M3 22h18"></path>
+            <path d="M6 18h12"></path>
+            <path d="M4 14h16"></path>
+            <path d="M8 6h8"></path>
+            <path d="M12 2v4"></path>
+            <path d="M18 10v4"></path>
+            <path d="M6 10v4"></path>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>Capitol Insights</h1>
+          <p>TEXAS GOVERNMENT RELATIONS</p>
+        </div>
+      </div>
+      <div class="document-info">
+        <h2>Policy Briefing</h2>
+        <p>September 28, 2024</p>
+      </div>
+    </div>
+    
+    <div class="intro">
+      <h2>Healthcare Regulatory Changes: Impact Analysis for Texas Providers</h2>
+      <p>This briefing examines recent regulatory changes affecting healthcare providers in Texas and provides strategic recommendations for adaptation and compliance.</p>
+    </div>
+    
+    <div class="meta">
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span>September 28, 2024</span>
+      </div>
+      <div class="meta-item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>Byron Campbell, Senior Partner</span>
+      </div>
+      <div class="meta-item category">
+        <span>Healthcare</span>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>Executive Summary</h3>
+      <p>The healthcare regulatory landscape in Texas is undergoing significant transformation, driven by both federal policy shifts and state-level initiatives. This briefing provides a methodical analysis of recent and upcoming regulatory changes, their potential impacts on Texas healthcare providers, and strategic recommendations for adaptation and compliance.</p>
+      <p>Our analysis indicates that while these regulatory changes present compliance challenges, they also create opportunities for providers who can strategically adapt their operations and leverage new reimbursement models. The most successful providers will be those who take a proactive approach to compliance while advocating for reasonable implementation timelines and technical assistance.</p>
+      <p>Key findings from this briefing include:</p>
+      <ul>
+        <li>Recent changes to telehealth regulations create both opportunities and compliance challenges for Texas providers</li>
+        <li>New price transparency requirements will significantly impact provider operations and patient interactions</li>
+        <li>Value-based care initiatives continue to expand, requiring strategic adaptation of business models</li>
+        <li>Data privacy and security regulations are becoming more stringent, necessitating enhanced compliance programs</li>
+        <li>Rural healthcare providers face unique challenges that require tailored regulatory approaches</li>
+      </ul>
+    </div>
+    
+    <div class="section">
+      <h3>Recent Regulatory Changes</h3>
+      <p>The following regulatory changes have been implemented or announced in the past six months, with significant implications for Texas healthcare providers:</p>
+      
+      <h4>Telehealth Regulations</h4>
+      <p>The Texas Legislature and Texas Medical Board have implemented permanent changes to telehealth regulations following the temporary measures enacted during the COVID-19 pandemic:</p>
+      <ul>
+        <li><strong>Expanded Reimbursement:</strong> Texas Medicaid now provides permanent reimbursement parity for telehealth services, though commercial payers have varying policies</li>
+        <li><strong>Cross-State Licensing:</strong> Texas has joined the Interstate Medical Licensure Compact, streamlining the process for physicians to practice across state lines</li>
+        <li><strong>Prescribing Authority:</strong> Revised regulations allow for prescribing controlled substances via telehealth under specific circumstances, though with additional documentation requirements</li>
+        <li><strong>Technology Standards:</strong> Updated technical standards for telehealth platforms emphasize security, interoperability, and accessibility</li>
+      </ul>
+      
+      <h4>Price Transparency Requirements</h4>
+      <p>Both federal and state initiatives are expanding price transparency requirements for healthcare providers:</p>
+      <ul>
+        <li><strong>Hospital Price Transparency:</strong> Enhanced enforcement of federal requirements for hospitals to publish standard charges and negotiated rates</li>
+        <li><strong>Texas Price Transparency Law:</strong> New state legislation requires additional disclosures for non-emergency services and facility fees</li>
+        <li><strong>Good Faith Estimate Requirements:</strong> Providers must provide cost estimates to uninsured and self-pay patients prior to scheduled services</li>
+        <li><strong>Surprise Billing Protections:</strong> Implementation of the No Surprises Act continues with new requirements for 2025</li>
+      </ul>
+      
+      <h4>Value-Based Care Initiatives</h4>
+      <p>The shift from fee-for-service to value-based care continues to accelerate:</p>
+      <ul>
+        <li><strong>Texas Medicaid Value-Based Programs:</strong> Expansion of alternative payment models with increased financial risk for providers</li>
+        <li><strong>Medicare Advantage Quality Bonus Program:</strong> Revised star rating system with greater emphasis on patient outcomes and experience</li>
+        <li><strong>Accountable Care Organization (ACO) Models:</strong> New ACO REACH model replacing the Direct Contracting model with modified risk-sharing arrangements</li>
+        <li><strong>Rural Emergency Hospital Designation:</strong> New Medicare designation allowing eligible rural hospitals to convert to a new provider type focused on emergency and outpatient services</li>
+      </ul>
+      
+      <h4>Data Privacy and Security</h4>
+      <p>Healthcare data regulations continue to evolve in response to increasing cybersecurity threats and privacy concerns:</p>
+      <ul>
+        <li><strong>Texas Medical Privacy Act Amendments:</strong> Enhanced requirements for breach notification and patient consent for data sharing</li>
+        <li><strong>Information Blocking Rules:</strong> Full implementation of federal information blocking provisions with expanded enforcement</li>
+        <li><strong>Cybersecurity Safe Harbor:</strong> Texas law providing liability protection for entities that implement specified cybersecurity frameworks</li>
+        <li><strong>HIPAA Compliance Updates:</strong> Proposed modifications to the HIPAA Privacy Rule with implications for patient access and information sharing</li>
+      </ul>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Regulatory Area</th>
+            <th>Key Changes</th>
+            <th>Effective Date</th>
+            <th>Primary Regulatory Authority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Telehealth</td>
+            <td>Permanent reimbursement parity for Medicaid; revised prescribing standards</td>
+            <td>July 1, 2024</td>
+            <td>Texas Medical Board; HHSC</td>
+          </tr>
+          <tr>
+            <td>Price Transparency</td>
+            <td>Enhanced enforcement; additional disclosure requirements</td>
+            <td>October 1, 2024</td>
+            <td>CMS; Texas Department of Insurance</td>
+          </tr>
+          <tr>
+            <td>Value-Based Care</td>
+            <td>Expanded APMs; new ACO REACH model</td>
+            <td>January 1, 2025</td>
+            <td>CMS; HHSC</td>
+          </tr>
+          <tr>
+            <td>Data Privacy</td>
+            <td>Enhanced breach notification; information blocking enforcement</td>
+            <td>September 1, 2024</td>
+            <td>Texas Attorney General; ONC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section">
+      <h3>Impact Analysis</h3>
+      <p>These regulatory changes will have varying impacts across different types of healthcare providers in Texas. The following analysis examines these impacts by provider type and operational area.</p>
+      
+      <h4>Hospitals and Health Systems</h4>
+      <p>Large hospitals and health systems face the most comprehensive regulatory impact:</p>
+      <ul>
+        <li><strong>Operational Impact:</strong> Significant resources required for price transparency compliance and value-based care implementation</li>
+        <li><strong>Financial Impact:</strong> Potential revenue fluctuations as payment models shift; increased administrative costs for compliance</li>
+        <li><strong>Strategic Opportunities:</strong> Enhanced ability to leverage telehealth for specialty care networks; potential competitive advantage through transparent pricing</li>
+        <li><strong>Compliance Challenges:</strong> Complex implementation of price transparency requirements; cybersecurity risk management across large systems</li>
+      </ul>
+      
+      <h4>Physician Practices</h4>
+      <p>Independent and small group practices face distinct challenges:</p>
+      <ul>
+        <li><strong>Operational Impact:</strong> Need for telehealth integration into workflow; adaptation to new documentation requirements</li>
+        <li><strong>Financial Impact:</strong> Potential revenue enhancement through telehealth expansion; compliance costs may be disproportionately burdensome</li>
+        <li><strong>Strategic Opportunities:</strong> Participation in value-based models through clinically integrated networks; telehealth expansion to underserved areas</li>
+        <li><strong>Compliance Challenges:</strong> Limited administrative resources for implementing new requirements; technology integration costs</li>
+      </ul>
+      
+      <h4>Rural Healthcare Providers</h4>
+      <p>Rural hospitals and clinics face unique regulatory challenges:</p>
+      <ul>
+        <li><strong>Operational Impact:</strong> Potential for service line reconfiguration under Rural Emergency Hospital model; telehealth as a critical service delivery mechanism</li>
+        <li><strong>Financial Impact:</strong> Significant implications of value-based care models on already strained finances; potential stabilization through new rural-focused programs</li>
+        <li><strong>Strategic Opportunities:</strong> Rural Emergency Hospital designation for struggling facilities; telehealth partnerships with urban centers</li>
+        <li><strong>Compliance Challenges:</strong> Limited resources for regulatory compliance; technology infrastructure limitations</li>
+      </ul>
+      
+      <div class="callout">
+        <h4>Rural Provider Spotlight</h4>
+        <p>Rural healthcare providers face disproportionate challenges in implementing new regulatory requirements while maintaining financial viability. The Rural Emergency Hospital designation represents a significant regulatory change that could provide a sustainable path forward for some facilities, though it requires careful strategic evaluation and community engagement.</p>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h3>Compliance Considerations</h3>
+      <p>Effective compliance with these regulatory changes requires a methodical approach that balances technical requirements with practical implementation considerations.</p>
+      
+      <h4>Telehealth Compliance</h4>
+      <ul>
+        <li>Ensure telehealth platforms meet updated technical standards for security and accessibility</li>
+        <li>Implement robust documentation protocols for telehealth visits, particularly for prescribing controlled substances</li>
+        <li>Review and update policies for interstate practice under the Interstate Medical Licensure Compact</li>
+        <li>Develop clear patient communication materials regarding telehealth services and limitations</li>
+      </ul>
+      
+      <h4>Price Transparency Implementation</h4>
+      <ul>
+        <li>Conduct a comprehensive audit of current price transparency practices against new requirements</li>
+        <li>Develop standardized processes for providing good faith estimates to patients</li>
+        <li>Train front-line staff on new disclosure requirements and patient communication strategies</li>
+        <li>Implement technology solutions to streamline price transparency compliance</li>
+      </ul>
+      
+      <h4>Value-Based Care Readiness</h4>
+      <ul>
+        <li>Assess organizational readiness for increased financial risk under expanded value-based models</li>
+        <li>Evaluate data analytics capabilities for tracking quality metrics and cost performance</li>
+        <li>Review care coordination processes and identify opportunities for improvement</li>
+        <li>Develop provider education programs on value-based care principles and incentives</li>
+      </ul>
+      
+      <h4>Data Privacy and Security Enhancement</h4>
+      <ul>
+        <li>Update privacy policies and procedures to align with Texas Medical Privacy Act amendments</li>
+        <li>Implement cybersecurity frameworks eligible for safe harbor protection under Texas law</li>
+        <li>Develop comprehensive information blocking compliance strategies</li>
+        <li>Conduct regular risk assessments and staff training on data security best practices</li>
+      </ul>
+    </div>
+    
+    <div class="section">
+      <h3>Strategic Recommendations</h3>
+      <p>Based on our analysis, we recommend the following strategies for Texas healthcare providers navigating this complex regulatory environment:</p>
+      
+      <h4>1. Develop a Comprehensive Regulatory Compliance Calendar</h4>
+      <p>Create a detailed timeline of upcoming regulatory deadlines and implementation milestones to ensure adequate preparation and resource allocation:</p>
+      <ul>
+        <li>Map interdependencies between different regulatory requirements</li>
+        <li>Identify potential resource conflicts and develop mitigation strategies</li>
+        <li>Establish clear accountability for each regulatory workstream</li>
+        <li>Build in buffer time for unexpected challenges and implementation delays</li>
+      </ul>
+      
+      <h4>2. Implement a Structured Approach to Telehealth Integration</h4>
+      <p>Maximize the opportunities presented by telehealth regulatory changes while ensuring compliance:</p>
+      <ul>
+        <li>Conduct a service line analysis to identify optimal telehealth expansion opportunities</li>
+        <li>Develop standardized protocols for telehealth visits that ensure regulatory compliance</li>
+        <li>Implement telehealth-specific quality monitoring and improvement processes</li>
+        <li>Create clear documentation templates that satisfy enhanced requirements for telehealth encounters</li>
+      </ul>
+      
+      <h4>3. Adopt a Proactive Approach to Price Transparency</h4>
+      <p>Transform price transparency compliance from a regulatory burden to a strategic advantage:</p>
+      <ul>
+        <li>Conduct competitive analysis of price transparency implementations in your market</li>
+        <li>Develop patient-friendly interfaces for accessing price information</li>
+        <li>Train staff to effectively communicate about prices and financial responsibility</li>
+        <li>Use transparency data to inform strategic pricing decisions and payer negotiations</li>
+      </ul>
+      
+      <h4>4. Strategically Engage with Value-Based Care Models</h4>
+      <p>Develop a deliberate approach to value-based care participation that aligns with organizational capabilities:</p>
+      <ul>
+        <li>Assess organizational readiness for different levels of financial risk</li>
+        <li>Identify high-impact quality improvement opportunities that align with value-based incentives</li>
+        <li>Develop physician engagement strategies that align clinical practice with value-based objectives</li>
+        <li>Consider strategic partnerships to enhance capabilities for value-based care success</li>
+      </ul>
+      
+      <h4>5. Engage in Regulatory Advocacy</h4>
+      <p>Actively participate in shaping the implementation of these regulatory changes:</p>
+      <ul>
+        <li>Provide feedback during comment periods for proposed regulations</li>
+        <li>Engage with professional associations to amplify provider perspectives</li>
+        <li>Document implementation challenges and communicate them to regulatory authorities</li>
+        <li>Advocate for reasonable implementation timelines and technical assistance resources</li>
+      </ul>
+    </div>
+    
+    <div class="conclusion">
+      <h3>Conclusion</h3>
+      <p>The current wave of healthcare regulatory changes presents both significant challenges and strategic opportunities for Texas providers. While compliance requirements are substantial, providers who take a methodical and transparent approach to implementation can position themselves for success in this evolving landscape.</p>
+      <p>The most effective response will combine technical compliance with strategic adaptation, ensuring that regulatory requirements are met while advancing organizational objectives. By developing structured implementation plans, engaging in regulatory advocacy, and maintaining a patient-centered focus, Texas healthcare providers can navigate these changes successfully.</p>
+      <p>Capitol Insights will continue to monitor regulatory developments and provide updates as implementation progresses. For more detailed analysis or specific questions about how these regulatory changes may affect your organization, please contact our healthcare policy team.</p>
+    </div>
+    
+    <div class="references">
+      <h3>References</h3>
+      <ol>
+        <li>Texas Medical Board. (2024). <em>Telemedicine Rules and Regulations Update</em>.</li>
+        <li>Texas Health and Human Services Commission. (2024). <em>Medicaid Value-Based Payment Initiatives: 2024-2025 Implementation Plan</em>.</li>
+        <li>Centers for Medicare & Medicaid Services. (2024). <em>Hospital Price Transparency Requirements: Compliance Guide</em>.</li>
+        <li>Texas Department of Insurance. (2024). <em>Implementation of SB 2038: Provider Price Transparency Requirements</em>.</li>
+        <li>Office of the National Coordinator for Health Information Technology. (2024). <em>Information Blocking Final Rule: Implementation Guidance</em>.</li>
+        <li>Texas Attorney General. (2024). <em>Texas Medical Privacy Act: Compliance Guidelines for Healthcare Providers</em>.</li>
+        <li>American Hospital Association. (2024). <em>Rural Emergency Hospital Conversion Guide</em>.</li>
+      </ol>
+    </div>
+    
+    <div class="author">
+      <div class="author-info">
+        <div class="author-avatar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #64748b;">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div>
+          <p class="author-name">Byron Campbell</p>
+          <p class="author-title">Senior Partner, Capitol Insights</p>
+        </div>
+      </div>
+      <p class="author-bio">Byron Campbell has dedicated over 10 years to understanding and navigating the intersection of policy, politics, and business. His experience spans local, state, and federal government, giving him valuable perspective on how decisions at each level impact organizations. His approach to government relations is methodical and transparent, helping clients develop realistic goals and strategic communication plans.</p>
+      <p>Prepared by Byron Campbell</p>
+    </div>
+    
+    <div class="footer">
+      <p>&copy; 2024 Capitol Insights. All rights reserved.</p>
+      <p>Contact: <a href="mailto:info@capitol-insights.com">info@capitol-insights.com</a> | <a href="https://capitol-insights.com">capitol-insights.com</a></p>
+    </div>
+  </div>
+</body>
+</html>

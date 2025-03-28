@@ -122,7 +122,7 @@ const PolicyBriefingsPage = () => {
       authorTitle: "Senior Partner",
       category: "Healthcare",
       tags: ["Regulatory", "Compliance", "Healthcare Policy"],
-      pdfUrl: "#"
+      pdfUrl: "/downloads/healthcare-regulatory-changes.html"
     },
     {
       title: "Water Infrastructure Funding: Legislative Priorities for 2025",
@@ -132,7 +132,7 @@ const PolicyBriefingsPage = () => {
       authorTitle: "Senior Partner",
       category: "Water Resources",
       tags: ["Infrastructure", "Funding", "Water Policy"],
-      pdfUrl: "#"
+      pdfUrl: "/downloads/water-infrastructure-funding.html"
     },
     {
       title: "Energy Grid Reliability: Policy Recommendations",
@@ -142,7 +142,7 @@ const PolicyBriefingsPage = () => {
       authorTitle: "President",
       category: "Energy",
       tags: ["Energy Policy", "Regulatory", "Infrastructure"],
-      pdfUrl: "#"
+      pdfUrl: "/downloads/energy-grid-reliability.html"
     },
     {
       title: "Municipal Advocacy Strategies for the 89th Legislative Session",
@@ -152,7 +152,7 @@ const PolicyBriefingsPage = () => {
       authorTitle: "President",
       category: "Municipal Affairs",
       tags: ["Local Government", "Advocacy", "Strategy"],
-      pdfUrl: "#"
+      pdfUrl: "/downloads/municipal-advocacy-strategies.html"
     },
     {
       title: "Telecommunications Regulatory Outlook for Texas",
@@ -162,7 +162,7 @@ const PolicyBriefingsPage = () => {
       authorTitle: "Senior Partner",
       category: "Telecommunications",
       tags: ["Regulatory", "Technology", "Communications"],
-      pdfUrl: "#"
+      pdfUrl: "/downloads/telecommunications-regulatory-outlook.html"
     }
   ];
   
