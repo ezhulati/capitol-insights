@@ -6,6 +6,7 @@
 [build.environment]
   NODE_VERSION = "18.19.1"
   NPM_VERSION = "10.2.4"
+  SECRETS_SCAN_OMIT_KEYS = "AUTH0_AUDIENCE"
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
@@ -14,8 +15,18 @@
   package = "@netlify/plugin-emails"
 
 [[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
 
 [[headers]]
