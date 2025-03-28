@@ -211,7 +211,7 @@ const ServicesPage = () => {
               Expert Advocacy at Every Level
             </h2>
             <p className="section-subtitle mb-0">
-              We don't promise vague "influence" or make exaggerated claims. Our services deliver tangible results through ethical advocacy and strategic relationship building.
+              We focus on delivering concrete, measurable outcomes. Our services provide tangible results through ethical advocacy and strategic relationship building.
             </p>
           </div>
           
@@ -310,7 +310,7 @@ const ServicesPage = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-secondary-900 mb-1">Ethical Transparency</h4>
-                      <p className="text-secondary-600 text-sm">Unlike firms that make vague promises, we're honest about what government relations can and cannot achieve. We never guarantee specific legislative outcomes.</p>
+                      <p className="text-secondary-600 text-sm">We believe in complete honesty about what government relations can and cannot achieve. We provide realistic assessments and never guarantee specific legislative outcomes.</p>
                     </div>
                   </div>
                   

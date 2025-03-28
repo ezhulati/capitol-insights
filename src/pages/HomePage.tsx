@@ -278,10 +278,10 @@ const HomePage = () => {
                 Direct Communication, <br className="hidden md:block"/> Real Results
               </h2>
               <p className="text-slate-700 mb-4 sm:mb-6 leading-relaxed">
-                Unlike firms that make vague promises, we're transparent about what government relations work actually involves. Our team has built authentic relationships with lawmakers over decades, providing us access that benefits our clients.
+                We believe in transparency about what government relations work actually involves. Our team has built authentic relationships with lawmakers over decades, providing us access that directly benefits our clients.
               </p>
               <p className="text-slate-700 mb-6 sm:mb-8 leading-relaxed">
-                We're straightforward about our approach: we connect your organization with the right decision-makers, help you communicate your position clearly, and navigate the legislative process with expertise and integrity.
+                Our approach is straightforward and effective: we connect your organization with the right decision-makers, help you communicate your position clearly, and navigate the legislative process with expertise and integrity.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -349,7 +349,7 @@ const HomePage = () => {
               Focused Expertise, Tailored Approach
             </h2>
             <p className="section-subtitle">
-              We don't promise vague "influence" or make exaggerated claims. Instead, we offer specific, practical services that deliver tangible results through ethical advocacy.
+              We focus on delivering concrete, measurable outcomes. Our specific, practical services provide tangible results through ethical advocacy and strategic expertise.
             </p>
           </div>
           
@@ -643,7 +643,7 @@ const HomePage = () => {
                 </div>
                 <h3 className="text-lg font-semibold text-navy-900">Focused Expertise</h3>
               </div>
-              <p className="text-slate-600 leading-relaxed">We don't try to be everything to everyone. Our specialized focus on Texas government relations means deeper expertise and stronger relationships where they matter most.</p>
+              <p className="text-slate-600 leading-relaxed">We excel through specialization. Our dedicated focus on Texas government relations allows us to develop deeper expertise and stronger relationships where they matter most.</p>
             </div>
             
             <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
