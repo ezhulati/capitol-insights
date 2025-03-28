@@ -1,4 +1,6 @@
-import CMS from 'decap-cms-app';
+// Initialize CMS with GitHub authentication
+// This script now just provides additional customization
+// The main CMS is loaded from the CDN in index.html
+console.log("Initializing CMS with GitHub authentication");
 
-// Initialize CMS with GitHub authentication (configured in config.yml)
-CMS.init();
+// Custom previews or other extensions could be added here

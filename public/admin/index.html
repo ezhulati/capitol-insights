@@ -10,7 +10,13 @@
     <link href="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.css" rel="stylesheet" />
   </head>
   <body>
-    <!-- Include custom CMS script that includes Auth0 -->
+    <!-- Include Netlify Identity Widget for older links -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Include the Decap CMS script -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- Include custom CMS initialization script -->
     <script type="module" src="./cms.js"></script>
   </body>
 </html>
