@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -14,6 +14,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import DownloadForm from '../components/DownloadForm';
 
 interface BriefingProps {
   title: string;
@@ -26,7 +27,7 @@ interface BriefingProps {
   pdfUrl: string;
 }
 
-const PolicyBriefing: React.FC<BriefingProps> = ({ 
+const PolicyBriefing: React.FC<BriefingProps & { onDownload: (briefing: BriefingProps) => void }> = ({ 
   title, 
   description, 
   date, 
@@ -34,7 +35,8 @@ const PolicyBriefing: React.FC<BriefingProps> = ({
   authorTitle, 
   category, 
   tags, 
-  pdfUrl 
+  pdfUrl,
+  onDownload
 }) => {
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-secondary-100 hover:shadow-md transition-all duration-300">
@@ -74,15 +76,13 @@ const PolicyBriefing: React.FC<BriefingProps> = ({
             </div>
           </div>
           
-          <a 
-            href={pdfUrl} 
+          <button 
+            onClick={() => onDownload({ title, description, date, author, authorTitle, category, tags, pdfUrl })}
             className="text-primary-600 font-medium inline-flex items-center hover:text-primary-700"
-            target="_blank"
-            rel="noopener noreferrer"
           >
             <Download size={16} className="mr-1" />
             <span>Download PDF</span>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -90,9 +90,17 @@ const PolicyBriefing: React.FC<BriefingProps> = ({
 };
 
 const PolicyBriefingsPage = () => {
-  const [searchTerm, setSearchTerm] = React.useState<string>('');
-  const [selectedCategory, setSelectedCategory] = React.useState<string>('');
-  const [selectedTag, setSelectedTag] = React.useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedTag, setSelectedTag] = useState<string>('');
+  const [showDownloadForm, setShowDownloadForm] = useState(false);
+  const [selectedBriefing, setSelectedBriefing] = useState<BriefingProps | null>(null);
+  
+  // Handle download request
+  const handleDownload = (briefing: BriefingProps) => {
+    setSelectedBriefing(briefing);
+    setShowDownloadForm(true);
+  };
   
   // Sample policy briefings
   const briefings: BriefingProps[] = [
@@ -104,7 +112,7 @@ const PolicyBriefingsPage = () => {
       authorTitle: "President",
       category: "Transportation",
       tags: ["Infrastructure", "Funding", "Legislative Priorities"],
-      pdfUrl: "#"
+      pdfUrl: "/downloads/texas-transportation-funding-outlook.html"
     },
     {
       title: "Healthcare Regulatory Changes: Impact Analysis for Texas Providers",
@@ -194,6 +202,17 @@ const PolicyBriefingsPage = () => {
           { property: "og:site_name", content: "Capitol Insights" }
         ]}
       />
+
+      {/* Download Form Modal */}
+      {showDownloadForm && selectedBriefing && (
+        <DownloadForm
+          title={`Download ${selectedBriefing.title}`}
+          description="Please provide your information to download this policy briefing."
+          pdfUrl={selectedBriefing.pdfUrl}
+          pdfTitle={selectedBriefing.title}
+          onClose={() => setShowDownloadForm(false)}
+        />
+      )}
 
       {/* Briefings Header */}
       <section className="hero-section">
@@ -365,7 +384,10 @@ const PolicyBriefingsPage = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                      <PolicyBriefing {...briefing} />
+                      <PolicyBriefing 
+                        {...briefing} 
+                        onDownload={handleDownload}
+                      />
                     </motion.div>
                   ))}
                 </div>

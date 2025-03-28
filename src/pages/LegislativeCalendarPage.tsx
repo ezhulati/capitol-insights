@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -12,6 +12,7 @@ import {
   Info
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import DownloadForm from '../components/DownloadForm';
 
 interface CalendarEventProps {
   date: string;
@@ -57,6 +58,8 @@ const CalendarEvent: React.FC<CalendarEventProps> = ({ date, title, description,
 };
 
 const LegislativeCalendarPage = () => {
+  const [showDownloadForm, setShowDownloadForm] = useState(false);
+  
   // Sample calendar events for the 2025 Texas Legislative Session
   const upcomingEvents: CalendarEventProps[] = [
     {
@@ -137,6 +140,17 @@ const LegislativeCalendarPage = () => {
         ]}
       />
 
+      {/* Download Form Modal */}
+      {showDownloadForm && (
+        <DownloadForm
+          title="Download Texas Legislative Calendar"
+          description="Please provide your information to download the complete Texas Legislative Calendar for 2025-2026."
+          pdfUrl="/downloads/texas-legislative-calendar-2025.html"
+          pdfTitle="Legislative Calendar"
+          onClose={() => setShowDownloadForm(false)}
+        />
+      )}
+
       {/* Calendar Header */}
       <section className="hero-section">
         <div className="hero-overlay"></div>
@@ -187,15 +201,13 @@ const LegislativeCalendarPage = () => {
             <div className="mb-12">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-secondary-900">89th Legislative Session (2025)</h2>
-                <a 
-                  href="#" 
+                <button 
+                  onClick={() => setShowDownloadForm(true)}
                   className="text-primary-600 hover:text-primary-700 font-medium flex items-center"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   <Download size={16} className="mr-1" />
                   <span>Download Calendar</span>
-                </a>
+                </button>
               </div>
               
               <div className="space-y-4">
