@@ -10,9 +10,6 @@ export default defineConfig(({ mode }) => {
   const analyzeBundle = mode === 'analyze';
 
   return {
-    define: {
-      'process.env.TINA_PUBLIC_IS_LOCAL': JSON.stringify(false),
-    },
     plugins: [
       react(),
       VitePWA({

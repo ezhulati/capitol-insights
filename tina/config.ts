@@ -1,12 +1,12 @@
 import { defineConfig } from "tinacms";
 
 // Your hosting provider likely exposes this as an environment variable
-const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
+const branch = process.env.GIT_BRANCH || "main";
 
 export default defineConfig({
   branch,
-  clientId: process.env.TINA_CLIENT_ID || "", // Get this from tina.io and set as environment variable
-  token: process.env.TINA_TOKEN || "", // Get this from tina.io and set as environment variable
+  clientId: process.env.TINA_PUBLIC_CLIENT_ID, // Get this from tina.io and set as environment variable
+  token: process.env.TINA_TOKEN, // Get this from tina.io and set as environment variable
   build: {
     outputFolder: "admin",
     publicFolder: "public",
