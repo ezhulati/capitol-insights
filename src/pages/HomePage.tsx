@@ -22,6 +22,7 @@ import {
   Phone
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import LeadMagnetForm from '../components/LeadMagnetForm';
 
 interface FeatureCardProps {
   icon: ReactElement;
@@ -241,6 +242,28 @@ const HomePage = () => {
               </div>
             </div>
           </button>
+        </div>
+      </section>
+
+      {/* Lead Magnet Section */}
+      <section className="py-16 sm:py-20 bg-slate-50 relative">
+        <div className="grain-overlay opacity-[0.02]"></div>
+        <div className="container">
+          <LeadMagnetForm 
+            title="The Texas Legislative Influence Guide: Strategies for Effective Advocacy"
+            subtitle="By Drew Campbell & Byron Campbell, Capitol Insights"
+            description="After four decades in Texas politics and helping secure billions in funding for our clients, we've distilled our approach into a practical guide that reveals the proven strategies for effective legislative advocacy."
+            bulletPoints={[
+              "The Legislative Relationship Timeline: The strategic engagement calendar that successful organizations follow between sessions",
+              "The Three Levels of Influence: Why building relationships with staff and subject matter experts is often as critical as connecting with lawmakers",
+              "The Coalition Framework: How to transform individual priorities into regional consensus",
+              "The Issue Framing Matrix: Converting technical expertise into compelling policy narratives",
+              "The Legislative Session Strategy: Maximizing impact during the intense 140-day period"
+            ]}
+            ctaText="GET THE GUIDE"
+            downloadUrl="/downloads/texas-legislative-advocacy-guide.html"
+            className="max-w-5xl mx-auto"
+          />
         </div>
       </section>
 
