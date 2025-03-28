@@ -523,7 +523,7 @@ const HomePage = () => {
                   to="/team" 
                   className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 group"
                 >
-                  <span>Learn more</span>
+                  <span>Learn more about Drew Campbell</span>
                   <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -550,7 +550,7 @@ const HomePage = () => {
                   to="/team" 
                   className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 group"
                 >
-                  <span>Learn more</span>
+                  <span>Learn more about Byron Campbell</span>
                   <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
