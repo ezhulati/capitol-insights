@@ -121,7 +121,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
             </span>
           </div>
           
-          <h3 className="text-xl md:text-2xl font-bold text-navy-900 mb-2">{title}</h3>
+          <h2 className="text-xl md:text-2xl font-bold text-navy-900 mb-2">{title}</h2>
           <p className="text-gold-700 font-medium mb-4">{subtitle}</p>
           
           <p className="text-slate-700 mb-4">{description}</p>
@@ -140,7 +140,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
         <div className="bg-navy-50 p-6 md:p-8 md:w-2/5">
           {!isSubmitted ? (
             <>
-              <h4 className="text-navy-900 font-semibold mb-4">Get Instant Access</h4>
+              <h3 className="text-navy-900 font-semibold mb-4">Get Instant Access</h3>
               <p className="text-slate-600 text-sm mb-4">Enter your information below to receive the guide immediately.</p>
               
               {error && (
@@ -235,7 +235,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
               <div className="bg-green-100 p-3 rounded-full inline-flex items-center justify-center mb-4">
                 <Download size={24} className="text-green-600" />
               </div>
-              <h4 className="text-navy-900 font-semibold mb-2">Thank You!</h4>
+              <h3 className="text-navy-900 font-semibold mb-2">Thank You!</h3>
               <p className="text-slate-600 mb-4">Your guide is downloading now.</p>
               <p className="text-slate-600 text-sm">
                 If your download doesn't start automatically,{' '}
