@@ -620,6 +620,12 @@ export default defineConfig({
             },
           },
           {
+            type: "image",
+            name: "image",
+            label: "Featured Image",
+            description: "The main image for the page, used in SEO and social sharing",
+          },
+          {
             type: "object",
             name: "schemaMarkup",
             label: "Schema Markup (JSON-LD)",
