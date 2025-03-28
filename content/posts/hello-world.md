@@ -1,5 +1,16 @@
 ---
 title: Hello, World!
+metaDescription: Welcome to Capitol Insights - Your trusted source for Texas government relations and lobbying insights.
+metaKeywords: ["Texas", "Government Relations", "Lobbying", "Legislative Affairs"]
+excerpt: Welcome to Capitol Insights, where we transform policy challenges into strategic advantages for organizations throughout Texas.
+date: 2024-03-28T12:00:00.000Z
+author: Capitol Insights Team
+authorTitle: Government Relations Experts
+readTime: 5 minutes
+category: Legislative Preview
+tags: ["Texas Legislature", "Government Relations", "Policy"]
+featured: true
+image: /images/blog/hello-world.jpg
 ---
 
 ## Hello World!
