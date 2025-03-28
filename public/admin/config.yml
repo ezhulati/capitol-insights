@@ -3,6 +3,7 @@ backend:
   repo: ezhulati/capitol-insights
   branch: main
   auth_scope: repo
+  client_id: Ov23lirnvx6NcUDsjyJh
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'
     update: 'Update {{collection}} "{{slug}}"'
