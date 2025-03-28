@@ -62,7 +62,7 @@ export const generateSEO = ({
   title = 'Capitol Insights | Government Relations & Lobbying',
   description = 'Capitol Insights transforms policy challenges into strategic business advantages through direct access to Texas decision-makers and decades of insider experience.',
   canonical = '',
-  image = 'https://images.unsplash.com/photo-1585468274952-66591eb14165?w=1200&h=630&fit=crop',
+  image = '/images/capitol-background.jpg',
   type = 'website',
   twitterCardType = 'summary_large_image',
   additionalMetaTags = [],

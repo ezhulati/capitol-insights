@@ -149,7 +149,7 @@ const HomePage = () => {
       <SEO 
         title="Capitol Insights | 40+ Years of Texas Legislative Relationships"
         description="When legislation threatens your business, will you be introducing yourself to lawmakers or activating relationships you've already built? Capitol Insights has spent four decades building the relationships that turn legislative challenges into opportunities."
-        image="https://images.unsplash.com/photo-1585468274952-66591eb14165?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
+        image="/images/capitol-background.jpg"
         canonical="/"
         additionalMetaTags={[
           { name: "keywords", content: "Texas government relations, legislative advocacy, Drew Campbell, Byron Campbell, Dallas Regional Mobility Coalition, North Texas Commission, Texas lobbying, policy consultants" },
@@ -160,7 +160,7 @@ const HomePage = () => {
           name: "Capitol Insights",
           description: "When legislation threatens your business, will you be introducing yourself to lawmakers or activating relationships you've already built? Capitol Insights has spent four decades building the relationships that turn legislative challenges into opportunities.",
           url: "https://capitol-insights.com",
-          image: "https://images.unsplash.com/photo-1585468274952-66591eb14165?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
+          image: "/images/capitol-background.jpg"
         }}
       />
 
@@ -354,7 +354,7 @@ const HomePage = () => {
             <div className="relative mt-6 lg:mt-0">
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80" 
+                  src="/images/texas-capitol.jpg" 
                   alt="The Texas State Capitol building" 
                   className="w-full h-auto aspect-[4/3] object-cover"
                 />
