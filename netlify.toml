@@ -1,7 +1,7 @@
-
 [build]
+  command = "npm run build"
   publish = "dist"
-  command = "npm run tina:build && npm run build"
+  node_version = "18.19.1"
   functions = "netlify/functions"
 
 [build.processing]
@@ -11,7 +11,8 @@
   pretty_urls = true
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "18.19.1"
+  NPM_VERSION = "10.2.4"
 
 # Enable form detection
 [build.processing.forms]
@@ -70,3 +71,6 @@
     Access-Control-Allow-Origin = "https://capitol-insights.com"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
