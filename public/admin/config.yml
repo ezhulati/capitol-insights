@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: ezhulati/capitol-insights
+  name: git-gateway
   branch: main
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'

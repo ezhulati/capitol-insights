@@ -1,43 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Capitol Insights Content Manager</title>
-    
-    <!-- Directly load Netlify CMS (simpler than Decap CMS for compatibility) -->
-    <link href="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.css" rel="stylesheet" />
-    
-    <!-- Debug console output -->
-    <script>
-      console.log("Admin page loading...");
-      window.onerror = function(message, source, lineno, colno, error) {
-        console.error("Error loading CMS:", message, error);
-      };
-    </script>
-  </head>
-  <body>
-    <div id="nc-root"></div>
-    
-    <!-- Load Netlify CMS from CDN -->
-    <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
-    
-    <!-- GitHub backend configuration -->
-    <script>
-      console.log("Configuring CMS...");
-      
-      // GitHub backend config
-      CMS.registerBackend('github', {
-        repo: 'ezhulati/capitol-insights',
-        branch: 'main',
-        auth_type: 'implicit',
-        base_url: 'https://api.netlify.com',
-        auth_endpoint: 'auth',
-        app_id: 'Ov23lirnvx6NcUDsjyJh',
-        api_root: 'https://api.github.com'
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capitol Insights Content Manager</title>
+
+  <!-- Include the Netlify Identity Widget -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <!-- Include the script that builds the page and powers Netlify CMS -->
+  <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
+
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
       });
-      
-      console.log("CMS initialization complete");
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
