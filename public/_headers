@@ -12,7 +12,7 @@
   # Restrict browser features
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   # Default Content Security Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.google-analytics.com https://*.unsplash.com; connect-src 'self' https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-attr 'unsafe-inline';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.unsplash.com; img-src 'self' data: https://www.google-analytics.com https://*.unsplash.com; connect-src 'self' https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.unsplash.com; style-src-attr 'self' 'unsafe-inline' https://*.unsplash.com;
 
 /admin/*
   # More restrictive CSP for admin area
