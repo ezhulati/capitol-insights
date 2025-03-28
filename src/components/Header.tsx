@@ -52,7 +52,6 @@ const Header = () => {
 
   // Simplified navigation links
   const navLinks = [
-    { title: 'Home', path: '/' },
     { title: 'Services', path: '/services' },
     { title: 'Our Team', path: '/team' },
     { title: 'Results', path: '/results' },
