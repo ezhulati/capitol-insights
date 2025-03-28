@@ -36,6 +36,11 @@
   to = "/.netlify/functions/tina-proxy/:splat"
   status = 200
 
+[[redirects]]
+  from = "/admin/api/*"
+  to = "/.netlify/functions/tina-proxy"
+  status = 200
+
 # Comprehensive security headers for all pages
 [[headers]]
   for = "/*"
