@@ -15,10 +15,18 @@
   package = "@netlify/plugin-emails"
 
 [[redirects]]
-  from = "/#invite_token=*"
-  to = "/invite.html"
-  status = 200
+  from = "/"
+  to = "/invite-help.html"
+  status = 302
   force = true
+  conditions = {Query = [["invite_token", ""]]}
+
+[[redirects]]
+  from = "/"
+  to = "/invite-help.html"
+  status = 302
+  force = true
+  conditions = {Hash = ["#invite_token=*"]}
 
 [[redirects]]
   from = "/admin/*"

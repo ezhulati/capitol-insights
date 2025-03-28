@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capitol Insights - Accept Invitation (Manual)</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    h1, h2 {
+      color: #102A43;
+    }
+    .instructions {
+      background-color: #f4f4f7;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .code {
+      font-family: monospace;
+      background-color: #eee;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+    .url-box {
+      background-color: #e8f4ff;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #a8c7e3;
+      margin: 15px 0;
+      word-break: break-all;
+    }
+    .button {
+      display: inline-block;
+      background-color: #102A43;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+    .note {
+      background-color: #fff8e1;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid #ffc107;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Capitol Insights - Accept Invitation</h1>
+    
+    <div class="instructions">
+      <h2>Manual Invitation Acceptance</h2>
+      <p>It appears there's an issue with the automated invitation handling. Let's try a manual approach:</p>
+      
+      <ol>
+        <li>Your invitation token is in the URL of this page after <span class="code">#invite_token=</span></li>
+        <li>Copy the full token value (everything after <span class="code">#invite_token=</span>)</li>
+        <li>Click the manual signup link below and complete the signup form</li>
+        <li>After signing up, you'll be able to access the CMS</li>
+      </ol>
+
+      <div class="note">
+        <strong>Invitation Token:</strong>
+        <div id="token-display" class="url-box">[Token will appear here]</div>
+        <button onclick="copyToken()" id="copy-button">Copy Token</button>
+      </div>
+
+      <p><a href="/admin/#recovery" class="button" id="signup-link">Go to Manual Signup Page</a></p>
+      
+      <div class="note">
+        <strong>Note:</strong> If you continue to experience issues, please contact your site administrator for assistance.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Extract token from URL hash
+      let token = '';
+      const hash = window.location.hash;
+      
+      if (hash && hash.startsWith('#invite_token=')) {
+        token = hash.replace('#invite_token=', '');
+        document.getElementById('token-display').textContent = token;
+      } else {
+        document.getElementById('token-display').textContent = 'No token found in URL. Please check your invitation link.';
+        document.getElementById('copy-button').disabled = true;
+      }
+      
+      // Update signup link
+      if (token) {
+        document.getElementById('signup-link').href = `/admin/#invite_token=${token}`;
+      }
+    });
+    
+    function copyToken() {
+      const tokenText = document.getElementById('token-display').textContent;
+      if (tokenText && tokenText !== 'No token found in URL. Please check your invitation link.') {
+        navigator.clipboard.writeText(tokenText)
+          .then(() => {
+            const button = document.getElementById('copy-button');
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+              button.textContent = 'Copy Token';
+            }, 2000);
+          })
+          .catch(err => {
+            console.error('Error copying token: ', err);
+            alert('Failed to copy token. Please select and copy it manually.');
+          });
+      }
+    }
+  </script>
+</body>
+</html>
