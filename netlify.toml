@@ -47,7 +47,7 @@
     # Restrict browser features
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
     # Default Content Security Policy
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-attr 'self' 'unsafe-inline' https://*.unsplash.com; img-src 'self' data: https://www.google-analytics.com https://*.unsplash.com; connect-src 'self' https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests;"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-attr 'self' 'unsafe-inline' https://*.unsplash.com; img-src 'self' data: https://www.google-analytics.com https://*.unsplash.com https://images.unsplash.com; connect-src 'self' https://www.google-analytics.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests;"
 
 # Additional headers for admin area
 [[headers]]
