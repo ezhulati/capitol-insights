@@ -57,6 +57,8 @@ const Header = () => {
     { title: 'Our Team', path: '/team' },
     { title: 'Results', path: '/results' },
     { title: 'Updates', path: '/updates' },
+    { title: 'Legislative Calendar', path: '/legislative-calendar' },
+    { title: 'Policy Briefings', path: '/policy-briefings' },
     { title: 'Contact', path: '/contact' },
   ];
 
