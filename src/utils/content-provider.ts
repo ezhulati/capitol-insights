@@ -9,7 +9,7 @@
 import { BlogPost, PageContent } from './mdx-sanity';
 
 // Set this to 'sanity' to use Sanity CMS content, or 'local' to use local MDX files
-const CONTENT_SOURCE = 'local';
+const CONTENT_SOURCE = 'sanity';
 
 // Fallback blog posts data for use in browser
 const fallbackPosts: BlogPost[] = [
@@ -77,15 +77,12 @@ const fallbackPosts: BlogPost[] = [
  */
 export async function getAllPosts(): Promise<BlogPost[]> {
   try {
-    // In development/browser environment, return fallback data
-    return Promise.resolve(fallbackPosts);
-    
-    // In production with SSR, this would use:
-    // if (CONTENT_SOURCE === 'sanity') {
-    //   return MDXSanity.getAllPosts();
-    // } else {
-    //   return MDXLocal.getAllPosts() as unknown as BlogPost[];
-    // }
+    // Use the correct data source based on configuration
+    if (CONTENT_SOURCE === 'sanity') {
+      return import('./mdx-sanity').then(MDXSanity => MDXSanity.getAllPosts());
+    } else {
+      return Promise.resolve(fallbackPosts);
+    }
   } catch (error) {
     console.error("Error getting posts:", error);
     return fallbackPosts;
@@ -97,16 +94,14 @@ export async function getAllPosts(): Promise<BlogPost[]> {
  */
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    // In development/browser environment, use fallback data
-    const post = fallbackPosts.find(p => p._sys.basename === slug);
-    return Promise.resolve(post || null);
-    
-    // In production with SSR, this would use:
-    // if (CONTENT_SOURCE === 'sanity') {
-    //   return MDXSanity.getPostBySlug(slug);
-    // } else {
-    //   return MDXLocal.getPostBySlug(slug) as unknown as BlogPost;
-    // }
+    // Use the correct data source based on configuration
+    if (CONTENT_SOURCE === 'sanity') {
+      return import('./mdx-sanity').then(MDXSanity => MDXSanity.getPostBySlug(slug));
+    } else {
+      // Use fallback data for local mode
+      const post = fallbackPosts.find(p => p._sys.basename === slug);
+      return Promise.resolve(post || null);
+    }
   } catch (error) {
     console.error(`Error getting post with slug ${slug}:`, error);
     const post = fallbackPosts.find(p => p._sys.basename === slug);
@@ -119,25 +114,23 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
  */
 export async function getPageContent(pagePath: string): Promise<PageContent | null> {
   try {
-    // In development/browser environment, return mock page content
-    const mockPageContent: PageContent = {
-      _sys: {
-        filename: "index.mdx",
-        basename: "index",
-        relativePath: `${pagePath}/index.mdx`
-      },
-      title: `${pagePath.charAt(0).toUpperCase() + pagePath.slice(1)} Page`,
-      body: "Content will be provided by Sanity CMS in production"
-    };
-    
-    return Promise.resolve(mockPageContent);
-    
-    // In production with SSR, this would use:
-    // if (CONTENT_SOURCE === 'sanity') {
-    //   return MDXSanity.getPageContent(pagePath);
-    // } else {
-    //   return MDXLocal.getPageContent(pagePath) as unknown as PageContent;
-    // }
+    // Use the correct data source based on configuration
+    if (CONTENT_SOURCE === 'sanity') {
+      return import('./mdx-sanity').then(MDXSanity => MDXSanity.getPageContent(pagePath));
+    } else {
+      // Use mock data for local mode
+      const mockPageContent: PageContent = {
+        _sys: {
+          filename: "index.mdx",
+          basename: "index",
+          relativePath: `${pagePath}/index.mdx`
+        },
+        title: `${pagePath.charAt(0).toUpperCase() + pagePath.slice(1)} Page`,
+        body: "Content will be provided by Sanity CMS in production"
+      };
+      
+      return Promise.resolve(mockPageContent);
+    }
   } catch (error) {
     console.error(`Error getting content for page ${pagePath}:`, error);
     return null;
@@ -146,11 +139,49 @@ export async function getPageContent(pagePath: string): Promise<PageContent | nu
 
 /**
  * Render markdown content
+ * 
+ * This handles both markdown string content and Sanity portable text content
  */
-export function renderMarkdown(content: string) {
+export function renderMarkdown(content: string | any) {
   try {
-    // Basic markdown parser for development mode
-    if (!content) {
+    // Check if we're using Sanity and if content appears to be JSON/portable text
+    if (CONTENT_SOURCE === 'sanity' && (typeof content === 'string' && content.startsWith('['))) {
+      try {
+        // If it's a string but actually contains serialized JSON (from Sanity)
+        const parsedContent = JSON.parse(content);
+        
+        // Return the parsed structure directly (already in the format we need)
+        if (Array.isArray(parsedContent)) {
+          return parsedContent.map((block, index) => {
+            if (block._type === 'block') {
+              const style = block.style || 'normal';
+              const text = block.children
+                .map((child: any) => child.text)
+                .join('');
+                
+              if (style === 'h1') {
+                return { type: 'h1', content: text, key: index };
+              } else if (style === 'h2') {
+                return { type: 'h2', content: text, key: index };
+              } else if (style === 'h3') {
+                return { type: 'h3', content: text, key: index };
+              } else {
+                return { type: 'p', content: text, key: index };
+              }
+            }
+            
+            // For images and other block types
+            return { type: 'p', content: '[Complex content]', key: index };
+          });
+        }
+      } catch (jsonError) {
+        // If it's not valid JSON, fall back to regular markdown parsing
+        console.warn("Content appeared to be JSON but couldn't be parsed:", jsonError);
+      }
+    }
+
+    // Basic markdown parser for regular markdown content
+    if (!content || typeof content !== 'string') {
       return [{ type: 'p', content: '', key: 0 }];
     }
 

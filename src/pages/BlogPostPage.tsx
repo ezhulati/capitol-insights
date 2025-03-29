@@ -60,7 +60,31 @@ const BlogPostPage: React.FC = () => {
   }
 
   // Handle Markdown content rendering
-  const formattedContent = renderMarkdown(post.body as string);
+  const [formattedContent, setFormattedContent] = useState<any[]>([]);
+  
+  useEffect(() => {
+    // Skip processing if post is null
+    if (!post) return;
+    
+    async function processContent() {
+      try {
+        const result = renderMarkdown(post.body as string);
+        if (result instanceof Promise) {
+          // If it returns a promise (Sanity content), await it
+          const resolvedContent = await result;
+          setFormattedContent(resolvedContent);
+        } else {
+          // If it's already an array, use it directly
+          setFormattedContent(result);
+        }
+      } catch (error) {
+        console.error("Error processing content:", error);
+        setFormattedContent([{ type: 'p', content: "Error loading content", key: 0 }]);
+      }
+    }
+    
+    processContent();
+  }, [post]);
 
   return (
     <>
