@@ -13,9 +13,11 @@ const BlogPostPage: React.FC = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [formattedContent, setFormattedContent] = useState<any[]>([]);
 
+  // Combine post loading and content formatting in a single effect
   useEffect(() => {
-    async function loadPost() {
+    async function loadPostAndContent() {
       if (!slug) {
         setError('Post not found');
         setLoading(false);
@@ -32,6 +34,23 @@ const BlogPostPage: React.FC = () => {
         }
         
         setPost(postData);
+        
+        // Process the post content
+        try {
+          const result = renderMarkdown(postData.body as string);
+          if (result instanceof Promise) {
+            // If it returns a promise (Sanity content), await it
+            const resolvedContent = await result;
+            setFormattedContent(resolvedContent);
+          } else {
+            // If it's already an array, use it directly
+            setFormattedContent(result);
+          }
+        } catch (contentError) {
+          console.error("Error processing content:", contentError);
+          setFormattedContent([{ type: 'p', content: "Error loading content", key: 0 }]);
+        }
+        
         setLoading(false);
       } catch (err) {
         console.error('Error loading post:', err);
@@ -40,7 +59,7 @@ const BlogPostPage: React.FC = () => {
       }
     }
 
-    loadPost();
+    loadPostAndContent();
   }, [slug]);
 
   if (loading) {
@@ -58,33 +77,6 @@ const BlogPostPage: React.FC = () => {
       </div>
     );
   }
-
-  // Handle Markdown content rendering
-  const [formattedContent, setFormattedContent] = useState<any[]>([]);
-  
-  useEffect(() => {
-    // Skip processing if post is null
-    if (!post) return;
-    
-    async function processContent() {
-      try {
-        const result = renderMarkdown(post.body as string);
-        if (result instanceof Promise) {
-          // If it returns a promise (Sanity content), await it
-          const resolvedContent = await result;
-          setFormattedContent(resolvedContent);
-        } else {
-          // If it's already an array, use it directly
-          setFormattedContent(result);
-        }
-      } catch (error) {
-        console.error("Error processing content:", error);
-        setFormattedContent([{ type: 'p', content: "Error loading content", key: 0 }]);
-      }
-    }
-    
-    processContent();
-  }, [post]);
 
   return (
     <>

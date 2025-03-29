@@ -9,7 +9,7 @@
 import { BlogPost, PageContent } from './mdx-sanity';
 
 // Set this to 'sanity' to use Sanity CMS content, or 'local' to use local MDX files
-const CONTENT_SOURCE = 'sanity';
+const CONTENT_SOURCE: 'sanity' | 'local' = 'local';
 
 // Fallback blog posts data for use in browser
 const fallbackPosts: BlogPost[] = [
