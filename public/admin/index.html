@@ -1,27 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Capitol Insights Content Manager</title>
-
-  <!-- Include the Netlify Identity Widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #102A43;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+    .sidebar {
+      flex: 0 0 300px;
+    }
+    .main {
+      flex: 1;
+    }
+    .field {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    input[type="text"], 
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 14px;
+    }
+    textarea {
+      min-height: 400px;
+      font-family: monospace;
+    }
+    button {
+      background-color: #102A43;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    button:hover {
+      background-color: #1c4872;
+    }
+    .status {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .info {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+    .help-text {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+    #editor-section {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <!-- Include the script that builds the page and powers Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.10.0/dist/netlify-cms.js"></script>
+  <div class="header">
+    <div class="logo">Capitol Insights Admin</div>
+  </div>
 
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
+  <div id="login-section">
+    <h2>Login to GitHub</h2>
+    <p>This simple admin interface connects directly to GitHub to edit your content.</p>
+    
+    <div class="field">
+      <label for="github-token">GitHub Personal Access Token</label>
+      <input type="text" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      <p class="help-text">
+        Create a token with 'repo' permissions at 
+        <a href="https://github.com/settings/tokens/new" target="_blank">GitHub Settings</a>
+      </p>
+    </div>
+    
+    <button id="login-button">Login</button>
+  </div>
+
+  <div id="editor-section">
+    <div class="container">
+      <div class="sidebar">
+        <div class="field">
+          <label for="file-selector">Select File to Edit</label>
+          <select id="file-selector"></select>
+        </div>
+        
+        <div class="field">
+          <button id="save-button">Save Changes</button>
+        </div>
+        
+        <div id="status-message" class="status"></div>
+        
+        <div class="field" style="margin-top: 30px;">
+          <h3>Editing Tips</h3>
+          <ul>
+            <li>Content is in MDX format (Markdown with JSX)</li>
+            <li>Be careful with frontmatter at the top (between --- marks)</li>
+            <li>Preview changes on your site after saving</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="main">
+        <div class="field">
+          <label for="content-editor">Content</label>
+          <textarea id="content-editor" spellcheck="true"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load our self-hosted scripts -->
+  <script src="/admin/index.js"></script>
 </body>
 </html>
