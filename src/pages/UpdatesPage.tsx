@@ -14,9 +14,11 @@ import {
   Mail
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getAllPosts } from '../utils/content-provider';
+import type { BlogPost } from '../utils/mdx-sanity';
 
-// Blog posts data
-const blogPosts = [
+// Fallback blog posts in case fetching fails
+const fallbackPosts = [
   {
     _sys: {
       filename: "texas-legislative-session-2025-preview.mdx",
@@ -34,135 +36,20 @@ const blogPosts = [
     tags: ["Texas Legislature", "Policy", "Government Affairs"],
     featured: true,
     image: "/uploads/posts/texas-legislative.jpg",
-    body: {}
-  },
-  {
-    _sys: {
-      filename: "healthcare-regulatory-changes-impact.mdx",
-      basename: "healthcare-regulatory-changes-impact",
-      relativePath: "healthcare-regulatory-changes-impact.mdx"
-    },
-    id: "healthcare-regulatory-changes-impact",
-    title: "Impact of Recent Healthcare Regulatory Changes on Texas Providers",
-    excerpt: "An analysis of how recent regulatory changes are affecting healthcare providers across Texas and strategies for adaptation.",
-    date: "2024-09-28T12:00:00.000Z",
-    author: "Byron Campbell",
-    authorTitle: "Healthcare Policy Specialist",
-    readTime: "5 min read",
-    category: "Healthcare",
-    tags: ["Healthcare", "Regulatory", "Compliance"],
-    featured: false,
-    image: "/uploads/posts/healthcare-regulatory.jpg",
-    body: {}
-  },
-  {
-    _sys: {
-      filename: "municipal-advocacy-strategies.mdx",
-      basename: "municipal-advocacy-strategies",
-      relativePath: "municipal-advocacy-strategies.mdx"
-    },
-    id: "municipal-advocacy-strategies",
-    title: "Effective Municipal Advocacy Strategies for 2025",
-    excerpt: "Key strategies for organizations to effectively advocate for their interests at the municipal level in Texas.",
-    date: "2024-09-10T12:00:00.000Z",
-    author: "Drew Campbell",
-    authorTitle: "Senior Partner",
-    readTime: "4 min read",
-    category: "Municipal Affairs",
-    tags: ["Local Government", "Advocacy", "Strategy"],
-    featured: false,
-    image: "/uploads/posts/municipal-advocacy.jpg",
-    body: {}
-  },
-  {
-    _sys: {
-      filename: "transportation-funding-outlook.mdx",
-      basename: "transportation-funding-outlook",
-      relativePath: "transportation-funding-outlook.mdx"
-    },
-    id: "transportation-funding-outlook",
-    title: "Texas Transportation Funding Outlook for 2025-2026",
-    excerpt: "A detailed analysis of transportation funding priorities and opportunities in the upcoming legislative session.",
-    date: "2024-08-22T12:00:00.000Z",
-    author: "Byron Campbell",
-    authorTitle: "Transportation Policy Analyst",
-    readTime: "7 min read",
-    category: "Transportation",
-    tags: ["Infrastructure", "Funding", "Transportation"],
-    featured: false,
-    image: "/uploads/posts/transportation-funding.jpg",
-    body: {}
-  },
-  {
-    _sys: {
-      filename: "coalition-building-case-study.mdx",
-      basename: "coalition-building-case-study",
-      relativePath: "coalition-building-case-study.mdx"
-    },
-    id: "coalition-building-case-study",
-    title: "Coalition Building: A Case Study in Effective Advocacy",
-    excerpt: "How strategic coalition building led to legislative success for a diverse group of stakeholders.",
-    date: "2024-08-05T12:00:00.000Z",
-    author: "Drew Campbell",
-    authorTitle: "Senior Partner",
-    readTime: "5 min read",
-    category: "Advocacy Strategy",
-    tags: ["Coalition Building", "Advocacy", "Case Study"],
-    featured: false,
-    image: "/uploads/posts/coalition-building.jpg",
-    body: {}
-  },
-  {
-    _sys: {
-      filename: "telecommunications-regulatory-outlook.mdx",
-      basename: "telecommunications-regulatory-outlook",
-      relativePath: "telecommunications-regulatory-outlook.mdx"
-    },
-    id: "telecommunications-regulatory-outlook",
-    title: "Telecommunications Regulatory Outlook for Texas",
-    excerpt: "An overview of upcoming regulatory changes affecting the telecommunications industry in Texas.",
-    date: "2024-07-18T12:00:00.000Z",
-    author: "Byron Campbell",
-    authorTitle: "Telecommunications Policy Specialist",
-    readTime: "6 min read",
-    category: "Telecommunications",
-    tags: ["Telecommunications", "Regulatory", "Technology"],
-    featured: false,
-    image: "/uploads/posts/telecommunications-regulatory.jpg",
-    body: {}
+    body: ""
   }
 ];
-
-// Define types for blog posts
-interface BlogPost {
-  _sys: {
-    filename: string;
-    basename: string;
-    relativePath: string;
-  };
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  author: string;
-  authorTitle: string;
-  readTime: string;
-  category: string;
-  tags: string[];
-  featured: boolean;
-  image: string;
-  body: any;
-}
 
 const UpdatesPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
-  const [posts, setPosts] = useState<BlogPost[]>(blogPosts);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   
   // Get URL parameters
   useEffect(() => {
@@ -175,17 +62,42 @@ const UpdatesPage: React.FC = () => {
     if (search) setSearchTerm(search);
   }, [searchParams]);
   
-  // Initialize categories and tags
+  // Fetch posts from Sanity via content provider
   useEffect(() => {
-    setLoading(true);
+    async function fetchPosts() {
+      setLoading(true);
+      try {
+        const fetchedPosts = await getAllPosts();
+        
+        if (fetchedPosts && fetchedPosts.length > 0) {
+          setPosts(fetchedPosts);
+          
+          // Extract unique categories and tags from posts
+          const uniqueCategories = [...new Set(fetchedPosts.map(post => post.category || "Uncategorized"))];
+          const uniqueTags = [...new Set(fetchedPosts.flatMap(post => post.tags || []))];
+          
+          setCategories(uniqueCategories);
+          setAllTags(uniqueTags);
+        } else {
+          // Fallback to static data if no posts were returned
+          console.warn("No posts returned from Sanity, using fallback data");
+          setPosts(fallbackPosts as unknown as BlogPost[]);
+          setCategories(["Legislative Preview"]);
+          setAllTags(["Texas Legislature", "Policy", "Government Affairs"]);
+        }
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+        setError(true);
+        // Fallback to static data on error
+        setPosts(fallbackPosts as unknown as BlogPost[]);
+        setCategories(["Legislative Preview"]);
+        setAllTags(["Texas Legislature", "Policy", "Government Affairs"]);
+      } finally {
+        setLoading(false);
+      }
+    }
     
-    // Extract unique categories and tags from blogPosts
-    const uniqueCategories = [...new Set(blogPosts.map(post => post.category))];
-    const uniqueTags = [...new Set(blogPosts.flatMap(post => post.tags))];
-    
-    setCategories(uniqueCategories);
-    setAllTags(uniqueTags);
-    setLoading(false);
+    fetchPosts();
   }, []);
   
   // Filter posts based on search, category, and tag
