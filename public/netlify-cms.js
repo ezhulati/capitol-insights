@@ -1,0 +1,1 @@
+Redirecting to https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js

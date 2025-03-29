@@ -80,75 +80,11 @@
     <!-- Accessibility -->
     <meta name="apple-mobile-web-app-title" content="Capitol Insights">
     <meta name="application-name" content="Capitol Insights">
-    
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
   </head>
   <body class="antialiased text-slate-700 bg-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Wait for document to be fully loaded
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOMContentLoaded - Checking for Netlify Identity');
-        
-        // Function to initialize Netlify Identity handling
-        function initNetlifyIdentity() {
-          console.log('Initializing Netlify Identity handler');
-          
-          if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-              console.log('Netlify Identity initialized', user ? 'with user' : 'without user');
-              
-              if (!user) {
-                window.netlifyIdentity.on("login", () => {
-                  console.log('User logged in, redirecting to admin');
-                  document.location.href = "/admin/";
-                });
-              }
-            });
-            
-            // Handle the invite token redirect
-            const hash = window.location.hash;
-            if (hash && hash.startsWith('#invite_token=')) {
-              const token = hash.replace('#invite_token=', '');
-              console.log('Found invite token, handling signup');
-              
-              // Add small delay to ensure widget is fully loaded
-              setTimeout(() => {
-                try {
-                  console.log('Opening signup modal');
-                  window.netlifyIdentity.open('signup');
-                  
-                  console.log('Accepting invite with token');
-                  window.netlifyIdentity.gotrue.acceptInvite(token, null, false)
-                    .then(() => {
-                      console.log('Invite accepted, redirecting to admin');
-                      // After sign up, redirect to admin
-                      setTimeout(function() {
-                        document.location.href = "/admin/";
-                      }, 1500);
-                    })
-                    .catch(err => {
-                      console.error('Error accepting invite:', err);
-                      alert('There was an error accepting your invitation. Please contact the site administrator.');
-                    });
-                } catch (error) {
-                  console.error('Error in invite handling:', error);
-                }
-              }, 500);
-            }
-          } else {
-            console.log('Netlify Identity not found, retrying...');
-            // If netlifyIdentity isn't loaded yet, wait and try again
-            setTimeout(initNetlifyIdentity, 500);
-          }
-        }
-        
-        // Start the process
-        initNetlifyIdentity();
-      });
-    </script>
+    <!-- Netlify Identity scripts removed -->
     <noscript>
       <div style="padding: 2rem; text-align: center;">
         <h1>JavaScript Required</h1>

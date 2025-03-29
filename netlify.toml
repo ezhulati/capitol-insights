@@ -14,29 +14,9 @@
 [[plugins]]
   package = "@netlify/plugin-emails"
 
-[[redirects]]
-  from = "/"
-  to = "/invite-help.html"
-  status = 302
-  force = true
-  conditions = {Query = [["invite_token", ""]]}
+# Invitation redirects removed - no longer using Netlify Identity
 
-[[redirects]]
-  from = "/"
-  to = "/invite-help.html"
-  status = 302
-  force = true
-  conditions = {Hash = ["#invite_token=*"]}
-
-[[redirects]]
-  from = "/admin"
-  to = "/admin-simple.html"
-  status = 200
-
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/index.html"
-  status = 200
+# Admin redirects removed - will be replaced with a new solution
 
 [[redirects]]
   from = "/api/*"
