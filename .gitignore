@@ -7,26 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependencies
 node_modules
-.pnp
-.pnp.js
-
-# Testing
-coverage
-*.lcov
-.nyc_output
-
-# Build
 dist
 dist-ssr
 *.local
-build
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -40,8 +28,6 @@ build
 .env.*
 !.env.example
 
-# Tina CMS
-.tina/__generated__/*
-
-# Local Netlify folder
-.netlify
+# Sanity
+studio-ci/.sanity
+studio-ci/import-data
