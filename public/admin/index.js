@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const saveButton = document.getElementById('save-button');
   const loginSection = document.getElementById('login-section');
   const editorSection = document.getElementById('editor-section');
-  const statusMessage = document.getElementById('status-message');
+  const loginStatusMessage = document.getElementById('login-status-message');
+  const editorStatusMessage = document.getElementById('status-message');
   const tokenInput = document.getElementById('github-token');
   const loginButton = document.getElementById('login-button');
   
@@ -36,31 +37,48 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Log in with GitHub token
   loginButton.addEventListener('click', function() {
-    githubToken = tokenInput.value.trim();
-    if (!githubToken) {
-      showStatus('Please enter a GitHub token', 'error');
-      return;
+    console.log("Login button clicked");
+    try {
+      githubToken = tokenInput.value.trim();
+      if (!githubToken) {
+        showStatus('Please enter a GitHub token', 'error');
+        console.log("No token entered");
+        return;
+      }
+      
+      console.log("Attempting to verify token with GitHub API...");
+      showStatus('Verifying token...', 'info');
+      
+      // Verify token
+      fetch(`https://api.github.com/repos/${currentRepo}`, {
+        headers: {
+          'Authorization': `Bearer ${githubToken}`
+        }
+      })
+      .then(response => {
+        console.log("GitHub API response received", response.status);
+        if (response.ok) {
+          loginSection.style.display = 'none';
+          editorSection.style.display = 'block';
+          populateFileSelector();
+          showStatus('Logged in successfully!', 'success');
+          console.log("Login successful");
+        } else {
+          console.error("GitHub API error:", response.status, response.statusText);
+          response.text().then(text => {
+            console.error("Error response:", text);
+            showStatus(`GitHub API error (${response.status}): ${response.statusText}`, 'error');
+          });
+        }
+      })
+      .catch(error => {
+        console.error("Fetch error:", error);
+        showStatus('Error connecting to GitHub: ' + error.message, 'error');
+      });
+    } catch (ex) {
+      console.error("Exception in login process:", ex);
+      showStatus('Exception: ' + ex.message, 'error');
     }
-    
-    // Verify token
-    fetch(`https://api.github.com/repos/${currentRepo}`, {
-      headers: {
-        'Authorization': `token ${githubToken}`
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        loginSection.style.display = 'none';
-        editorSection.style.display = 'block';
-        populateFileSelector();
-        showStatus('Logged in successfully!', 'success');
-      } else {
-        showStatus('Invalid token or repository not found', 'error');
-      }
-    })
-    .catch(error => {
-      showStatus('Error connecting to GitHub: ' + error.message, 'error');
-    });
   });
   
   // Populate file selector
@@ -86,14 +104,23 @@ document.addEventListener('DOMContentLoaded', function() {
   function loadFile(path) {
     currentPath = path;
     showStatus('Loading file...', 'info');
+    console.log("Loading file:", path);
     
     fetch(`https://api.github.com/repos/${currentRepo}/contents/${path}?ref=${currentBranch}`, {
       headers: {
-        'Authorization': `token ${githubToken}`
+        'Authorization': `Bearer ${githubToken}`
       }
     })
-    .then(response => response.json())
+    .then(response => {
+      console.log("File load response:", response.status);
+      if (!response.ok) {
+        console.error("File load error:", response.status, response.statusText);
+        throw new Error(`GitHub API error (${response.status}): ${response.statusText}`);
+      }
+      return response.json();
+    })
     .then(data => {
+      console.log("File data received:", data.name);
       currentSha = data.sha;
       // GitHub returns base64 encoded content
       const content = atob(data.content);
@@ -101,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
       showStatus('File loaded successfully', 'success');
     })
     .catch(error => {
+      console.error("File load error:", error);
       showStatus('Error loading file: ' + error.message, 'error');
     });
   }
@@ -113,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     showStatus('Saving file...', 'info');
+    console.log("Saving file:", currentPath);
     
     const content = editor.value;
     const encodedContent = btoa(content);
@@ -120,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(`https://api.github.com/repos/${currentRepo}/contents/${currentPath}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `token ${githubToken}`,
+        'Authorization': `Bearer ${githubToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -144,16 +173,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Show status messages
+  // Show status messages - uses the right status element based on context
   function showStatus(message, type) {
-    statusMessage.textContent = message;
-    statusMessage.className = 'status ' + type;
+    console.log("Status message:", message, type);
+    
+    // Determine which status element to use - login or editor
+    const statusElement = loginSection.style.display === 'none' ? 
+                           editorStatusMessage : loginStatusMessage;
+    
+    statusElement.textContent = message;
+    statusElement.className = 'status ' + type;
     
     // Clear success/info messages after a delay
     if (type === 'success' || type === 'info') {
       setTimeout(() => {
-        statusMessage.textContent = '';
-        statusMessage.className = 'status';
+        if (statusElement.textContent === message) {
+          statusElement.textContent = '';
+          statusElement.className = 'status';
+        }
       }, 3000);
     }
   }
