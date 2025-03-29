@@ -59,16 +59,8 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
-  // Parse the content from Sanity
-  const content = renderMarkdown(post.body);
-  
-  // For Sanity Portable Text rendering
-  let sanityContent;
-  try {
-    sanityContent = JSON.parse(post.body);
-  } catch (e) {
-    console.error('Error parsing Sanity content:', e);
-  }
+  // Handle Markdown content rendering
+  const formattedContent = renderMarkdown(post.body as string);
 
   return (
     <>
@@ -117,39 +109,33 @@ const BlogPostPage: React.FC = () => {
           </header>
 
           <div className="prose prose-lg max-w-none">
-            {sanityContent ? (
-              // Render using Portable Text when we have valid Sanity content
-              <PortableText value={sanityContent} />
-            ) : (
-              // Fallback to our simple renderer when using MDX or if there's an issue with JSON parsing
-              content.map((block: any) => {
-                if (block.type === 'h1') {
-                  return <h1 key={block.key} id={block.id} className="text-3xl font-bold mt-8 mb-4">{block.content}</h1>;
-                } else if (block.type === 'h2') {
-                  return <h2 key={block.key} id={block.id} className="text-2xl font-bold mt-8 mb-4">{block.content}</h2>;
-                } else if (block.type === 'h3') {
-                  return <h3 key={block.key} id={block.id} className="text-xl font-bold mt-6 mb-3">{block.content}</h3>;
-                } else if (block.type === 'ul') {
-                  return (
-                    <ul key={block.key} className="list-disc pl-5 my-4">
-                      {block.items.map((item: string, i: number) => (
-                        <li key={i} className="mb-2">{item}</li>
-                      ))}
-                    </ul>
-                  );
-                } else if (block.type === 'ol') {
-                  return (
-                    <ol key={block.key} className="list-decimal pl-5 my-4">
-                      {block.items.map((item: string, i: number) => (
-                        <li key={i} className="mb-2">{item}</li>
-                      ))}
-                    </ol>
-                  );
-                } else {
-                  return <p key={block.key} className="my-4">{block.content}</p>;
-                }
-              })
-            )}
+            {formattedContent.map((block: any) => {
+              if (block.type === 'h1') {
+                return <h1 key={block.key} id={block.id} className="text-3xl font-bold mt-8 mb-4">{block.content}</h1>;
+              } else if (block.type === 'h2') {
+                return <h2 key={block.key} id={block.id} className="text-2xl font-bold mt-8 mb-4">{block.content}</h2>;
+              } else if (block.type === 'h3') {
+                return <h3 key={block.key} id={block.id} className="text-xl font-bold mt-6 mb-3">{block.content}</h3>;
+              } else if (block.type === 'ul') {
+                return (
+                  <ul key={block.key} className="list-disc pl-5 my-4">
+                    {block.items.map((item: string, i: number) => (
+                      <li key={i} className="mb-2">{item}</li>
+                    ))}
+                  </ul>
+                );
+              } else if (block.type === 'ol') {
+                return (
+                  <ol key={block.key} className="list-decimal pl-5 my-4">
+                    {block.items.map((item: string, i: number) => (
+                      <li key={i} className="mb-2">{item}</li>
+                    ))}
+                  </ol>
+                );
+              } else {
+                return <p key={block.key} className="my-4">{block.content}</p>;
+              }
+            })}
           </div>
         </article>
       </main>

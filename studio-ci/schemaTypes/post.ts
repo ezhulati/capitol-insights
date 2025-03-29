@@ -76,11 +76,77 @@ export default {
         layout: 'tags',
       },
     },
+    {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags',
+      },
+    },
+    {
+      name: 'author',
+      title: 'Author',
+      type: 'string',
+    },
+    {
+      name: 'authorTitle',
+      title: 'Author Title',
+      type: 'string',
+    },
+    {
+      name: 'readTime',
+      title: 'Read Time',
+      type: 'string',
+    },
+    {
+      name: 'category',
+      title: 'Primary Category',
+      type: 'string',
+    },
+    {
+      name: 'featured',
+      title: 'Featured Post',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
+      name: 'showInNavigation',
+      title: 'Show in Navigation',
+      type: 'boolean',
+      description: 'Whether to show this page in the main navigation',
+      initialValue: false,
+    },
+    {
+      name: 'navigationOrder',
+      title: 'Navigation Order',
+      type: 'number',
+      description: 'Order to display in navigation (if shown)',
+      initialValue: 0,
+    },
   ],
   preview: {
     select: {
       title: 'title',
       media: 'featuredImage',
+      author: 'author',
+    },
+    prepare(selection: any) {
+      const {title, media, author} = selection
+      return {
+        title: title,
+        subtitle: author ? `by ${author}` : '',
+        media: media,
+      }
     },
   },
 }
