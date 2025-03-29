@@ -149,15 +149,135 @@ export async function getPageContent(pagePath: string): Promise<PageContent | nu
  */
 export function renderMarkdown(content: string) {
   try {
-    // Simple placeholder for rendering in development/browser
-    return [{ type: 'p', content: content, key: 0 }];
-    
-    // In production with SSR, this would use:
-    // if (CONTENT_SOURCE === 'sanity') {
-    //   return MDXSanity.renderMarkdown(content);
-    // } else {
-    //   return MDXLocal.renderMarkdown(content);
-    // }
+    // Basic markdown parser for development mode
+    if (!content) {
+      return [{ type: 'p', content: '', key: 0 }];
+    }
+
+    // Split content by line breaks
+    const lines = content.split('\n');
+    const result = [];
+    let currentList: string[] = [];
+    let listType = '';
+    let key = 0;
+
+    // Process each line
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const trimmedLine = line.trim();
+
+      // Skip empty lines
+      if (trimmedLine === '') {
+        // If we're building a list, finish it
+        if (currentList.length > 0) {
+          result.push({
+            type: listType,
+            items: [...currentList],
+            key: key++,
+          });
+          currentList = [];
+          listType = '';
+        }
+        continue;
+      }
+
+      // Handle headings
+      if (trimmedLine.startsWith('# ')) {
+        result.push({
+          type: 'h1',
+          content: trimmedLine.substring(2),
+          key: key++,
+          id: trimmedLine.substring(2).toLowerCase().replace(/[^\w]+/g, '-'),
+        });
+      } else if (trimmedLine.startsWith('## ')) {
+        result.push({
+          type: 'h2',
+          content: trimmedLine.substring(3),
+          key: key++,
+          id: trimmedLine.substring(3).toLowerCase().replace(/[^\w]+/g, '-'),
+        });
+      } else if (trimmedLine.startsWith('### ')) {
+        result.push({
+          type: 'h3',
+          content: trimmedLine.substring(4),
+          key: key++,
+          id: trimmedLine.substring(4).toLowerCase().replace(/[^\w]+/g, '-'),
+        });
+      }
+      // Handle unordered lists
+      else if (trimmedLine.startsWith('- ')) {
+        // If we're starting a new list or continuing a list of a different type
+        if (listType !== 'ul') {
+          // If we have a previous list, add it to results
+          if (currentList.length > 0) {
+            result.push({
+              type: listType,
+              items: [...currentList],
+              key: key++,
+            });
+            currentList = [];
+          }
+          listType = 'ul';
+        }
+        currentList.push(trimmedLine.substring(2));
+      }
+      // Handle ordered lists (basic support for numbers only)
+      else if (/^\d+\.\s/.test(trimmedLine)) {
+        // If we're starting a new list or continuing a list of a different type
+        if (listType !== 'ol') {
+          // If we have a previous list, add it to results
+          if (currentList.length > 0) {
+            result.push({
+              type: listType,
+              items: [...currentList],
+              key: key++,
+            });
+            currentList = [];
+          }
+          listType = 'ol';
+        }
+        // Extract the content after the number and period
+        const content = trimmedLine.replace(/^\d+\.\s/, '');
+        currentList.push(content);
+      }
+      // Handle paragraphs
+      else {
+        // If we have a list in progress, finish it
+        if (currentList.length > 0) {
+          result.push({
+            type: listType,
+            items: [...currentList],
+            key: key++,
+          });
+          currentList = [];
+          listType = '';
+        }
+        
+        // Check if this is a continuation of previous paragraph or a new one
+        if (result.length > 0 && result[result.length - 1].type === 'p' && lines[i-1]?.trim() !== '') {
+          // Append to existing paragraph with a space
+          result[result.length - 1].content += ' ' + trimmedLine;
+        } else {
+          // Create new paragraph
+          result.push({
+            type: 'p',
+            content: trimmedLine,
+            key: key++,
+          });
+        }
+      }
+    }
+
+    // If we have a list in progress at the end, add it
+    if (currentList.length > 0) {
+      result.push({
+        type: listType,
+        items: [...currentList],
+        key: key++,
+      });
+    }
+
+    return result;
   } catch (error) {
     console.error("Error rendering markdown:", error);
     return [{ type: 'p', content: "Error rendering content", key: 0 }];

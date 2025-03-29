@@ -31,3 +31,6 @@ dist-ssr
 # Sanity
 studio-ci/.sanity
 studio-ci/import-data
+
+# Local Netlify folder
+.netlify
