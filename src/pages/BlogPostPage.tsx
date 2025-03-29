@@ -108,32 +108,32 @@ const BlogPostPage: React.FC = () => {
             )}
           </header>
 
-          <div className="prose prose-lg max-w-none">
+          <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h2:text-navy-900 prose-h3:text-xl prose-h3:text-navy-800 prose-p:text-slate-700 prose-li:text-slate-700 prose-a:text-gold-600 prose-a:no-underline hover:prose-a:text-gold-700 prose-blockquote:border-l-4 prose-blockquote:border-gold-400 prose-strong:font-bold prose-strong:text-navy-800">
             {formattedContent.map((block: any) => {
               if (block.type === 'h1') {
-                return <h1 key={block.key} id={block.id} className="text-3xl font-bold mt-8 mb-4">{block.content}</h1>;
+                return <h1 key={block.key} id={block.id}>{block.content}</h1>;
               } else if (block.type === 'h2') {
-                return <h2 key={block.key} id={block.id} className="text-2xl font-bold mt-8 mb-4">{block.content}</h2>;
+                return <h2 key={block.key} id={block.id}>{block.content}</h2>;
               } else if (block.type === 'h3') {
-                return <h3 key={block.key} id={block.id} className="text-xl font-bold mt-6 mb-3">{block.content}</h3>;
+                return <h3 key={block.key} id={block.id}>{block.content}</h3>;
               } else if (block.type === 'ul') {
                 return (
-                  <ul key={block.key} className="list-disc pl-5 my-4">
+                  <ul key={block.key}>
                     {block.items.map((item: string, i: number) => (
-                      <li key={i} className="mb-2">{item}</li>
+                      <li key={i}>{item}</li>
                     ))}
                   </ul>
                 );
               } else if (block.type === 'ol') {
                 return (
-                  <ol key={block.key} className="list-decimal pl-5 my-4">
+                  <ol key={block.key}>
                     {block.items.map((item: string, i: number) => (
-                      <li key={i} className="mb-2">{item}</li>
+                      <li key={i}>{item}</li>
                     ))}
                   </ol>
                 );
               } else {
-                return <p key={block.key} className="my-4">{block.content}</p>;
+                return <p key={block.key}>{block.content}</p>;
               }
             })}
           </div>
