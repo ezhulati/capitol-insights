@@ -51,7 +51,7 @@
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://unpkg.com https://identity.netlify.com https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' https://unpkg.com 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-elem 'self' https://unpkg.com 'unsafe-inline' https://*.unsplash.com https://fonts.googleapis.com; style-src-attr 'self' 'unsafe-inline' https://*.unsplash.com; img-src 'self' data: blob: https://www.google-analytics.com https://*.unsplash.com https://images.unsplash.com; connect-src 'self' https://www.google-analytics.com https://api.github.com https://api.netlify.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests;"
+    Content-Security-Policy = "default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
