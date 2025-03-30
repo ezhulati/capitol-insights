@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#D4AF37"/><path d="M35 28C28.925 28 24 32.925 24 39V61C24 67.075 28.925 72 35 72H50C56.075 72 61 67.075 61 61V55H49V61C49 60.448 48.552 60 48 60H37C36.448 60 36 59.552 36 59V41C36 40.448 36.448 40 37 40H48C48.552 40 49 40.448 49 40V46H61V40C61 33.925 56.075 29 50 29H35C34.667 29 35 28 35 28Z" fill="#152C5B"/><rect x="65" y="28" width="12" height="44" rx="2" fill="#152C5B"/><rect width="100" height="100" rx="20" fill="rgba(0,0,0,0.05)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="64" fill="#0A2342" />
+  <g transform="translate(106, 40)">
+    <!-- Capitol Dome -->
+    <path d="M150 50 L150 20 Q150 10 160 10 L160 10 Q170 10 170 20 L170 50 Z" fill="#D4AF37" />
+    <path d="M160 10 Q170 10 175 15 A80 80 0 0 1 300 100 L300 100 L300 432 L20 432 L20 100 L20 100 A80 80 0 0 1 145 15 Q150 10 160 10 Z" 
+      fill="none" 
+      stroke="#D4AF37" 
+      stroke-width="16" 
+      stroke-linejoin="round" />
+    
+    <!-- Columns -->
+    <line x1="60" y1="100" x2="60" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
+    <line x1="110" y1="100" x2="110" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
+    <line x1="160" y1="100" x2="160" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
+    <line x1="210" y1="100" x2="210" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
+    <line x1="260" y1="100" x2="260" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
+    
+    <!-- Base -->
+    <rect x="20" y="320" width="280" height="30" fill="#D4AF37" />
+    <rect x="30" y="350" width="260" height="20" fill="#D4AF37" />
+    <rect x="40" y="370" width="240" height="62" fill="#D4AF37" />
+  </g>
+</svg>

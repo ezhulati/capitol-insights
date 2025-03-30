@@ -110,6 +110,28 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
 }
 
 /**
+ * Get related posts based on category
+ */
+export async function getRelatedPosts(category: string, currentSlug: string): Promise<BlogPost[]> {
+  try {
+    // Get all posts
+    const allPosts = await getAllPosts();
+    
+    // Filter posts by category and exclude the current post
+    const relatedPosts = allPosts.filter(post => 
+      post.category === category && 
+      post._sys.basename !== currentSlug
+    );
+    
+    // Return up to 3 related posts
+    return relatedPosts.slice(0, 3);
+  } catch (error) {
+    console.error(`Error getting related posts for category ${category}:`, error);
+    return [];
+  }
+}
+
+/**
  * Get page content
  */
 export async function getPageContent(pagePath: string): Promise<PageContent | null> {
