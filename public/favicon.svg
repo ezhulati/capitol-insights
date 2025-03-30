@@ -1,24 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="64" fill="#0A2342" />
-  <g transform="translate(106, 40)">
-    <!-- Capitol Dome -->
-    <path d="M150 50 L150 20 Q150 10 160 10 L160 10 Q170 10 170 20 L170 50 Z" fill="#D4AF37" />
-    <path d="M160 10 Q170 10 175 15 A80 80 0 0 1 300 100 L300 100 L300 432 L20 432 L20 100 L20 100 A80 80 0 0 1 145 15 Q150 10 160 10 Z" 
-      fill="none" 
-      stroke="#D4AF37" 
-      stroke-width="16" 
-      stroke-linejoin="round" />
-    
-    <!-- Columns -->
-    <line x1="60" y1="100" x2="60" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
-    <line x1="110" y1="100" x2="110" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
-    <line x1="160" y1="100" x2="160" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
-    <line x1="210" y1="100" x2="210" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
-    <line x1="260" y1="100" x2="260" y2="320" stroke="#D4AF37" stroke-width="12" stroke-linecap="round" />
-    
-    <!-- Base -->
-    <rect x="20" y="320" width="280" height="30" fill="#D4AF37" />
-    <rect x="30" y="350" width="260" height="20" fill="#D4AF37" />
-    <rect x="40" y="370" width="240" height="62" fill="#D4AF37" />
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .dome { fill: #e4b425; }
+    .building { fill: #9d7d1e; }
+    .columns { fill: #c09a1c; }
+    .background { fill: #1a365d; }
+    @media (prefers-color-scheme: dark) {
+      .dome { fill: #ffc107; }
+      .building { fill: #e6b012; }
+      .columns { fill: #f0bd1e; }
+      .background { fill: #1a365d; }
+    }
+  </style>
+  <circle class="background" cx="50" cy="50" r="50"/>
+  <path class="building" d="M30 70h40v20H30z"/>
+  <path class="columns" d="M35 70v20M40 70v20M45 70v20M50 70v20M55 70v20M60 70v20M65 70v20"/>
+  <path class="dome" d="M50 20c-16.6 0-30 13.4-30 30h60c0-16.6-13.4-30-30-30z"/>
 </svg>

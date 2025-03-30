@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <style>
+    .dome { fill: #e4b425; }
+    .building { fill: #9d7d1e; }
+    .columns { fill: #c09a1c; }
+    .background { fill: #1a365d; }
+    @media (prefers-color-scheme: dark) {
+      .dome { fill: #ffc107; }
+      .building { fill: #e6b012; }
+      .columns { fill: #f0bd1e; }
+      .background { fill: #1a365d; }
+    }
+  </style>
+  <circle class="background" cx="96" cy="96" r="96"/>
+  <path class="building" d="M56 134h80v40H56z"/>
+  <path class="columns" d="M66 134v40M76 134v40M86 134v40M96 134v40M106 134v40M116 134v40M126 134v40"/>
+  <path class="dome" d="M96 38c-32 0-58 26-58 58h116c0-32-26-58-58-58z"/>
+</svg>
