@@ -34,3 +34,6 @@ studio-ci/import-data
 
 # Local Netlify folder
 .netlify
+# Uploads directory
+public/uploads/**/*
+
