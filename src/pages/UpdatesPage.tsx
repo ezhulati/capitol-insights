@@ -406,14 +406,7 @@ const UpdatesPage: React.FC = () => {
                 </div>
               </div>
               
-              {loading ? (
-                <div className="flex justify-center items-center py-12">
-                  <div className="text-center">
-                    <FileText size={48} className="text-slate-300 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-navy-900 mb-2">Loading articles...</h3>
-                  </div>
-                </div>
-              ) : (
+  {(
                 <>
                   {filteredPosts.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
