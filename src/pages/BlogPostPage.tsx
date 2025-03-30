@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import SEO from '../components/SEO';
 import { getBlogPostSEO } from '../utils/enhanced-seo';
 import LazyImage from '../components/LazyImage';
@@ -549,8 +548,6 @@ const BlogPostPage: React.FC = () => {
           </div>
         </div>
       )}
-      
-      <Footer />
     </>
   );
 };
