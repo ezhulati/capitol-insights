@@ -1,17 +1,2 @@
 /*
-  # Prevent clickjacking
-  X-Frame-Options: DENY
-  # Prevent MIME type sniffing
-  X-Content-Type-Options: nosniff
-  # Enable XSS protection
-  X-XSS-Protection: 1; mode=block
-  # Enforce HTTPS
-  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  # Control referrer information
-  Referrer-Policy: strict-origin-when-cross-origin
-  # Restrict browser features
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
-  # Default Content Security Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.unsplash.com; img-src 'self' data: https://www.google-analytics.com https://*.unsplash.com https://images.unsplash.com; connect-src 'self' https://www.google-analytics.com https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'; upgrade-insecure-requests; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.unsplash.com; style-src-attr 'self' 'unsafe-inline' https://*.unsplash.com;
-
-# Admin headers removed - will be replaced with a new solution
+  X-Robots-Tag: google-site-verification=m56tQG4npD-YUtq_2kRTIya2nveMVfw1iOYg-ome0jY
