@@ -189,17 +189,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      
-      {/* Back to top button */}
-      <div className="fixed right-4 sm:right-8 bottom-4 sm:bottom-8 z-30">
-        <button 
-          onClick={scrollToTop}
-          className="w-10 h-10 rounded-full bg-navy-800 hover:bg-gold-600 flex items-center justify-center transition-all duration-300 shadow-lg"
-          aria-label="Back to top"
-        >
-          <ArrowRight size={18} className="rotate-[-90deg]" />
-        </button>
-      </div>
+      {/* Back to top button removed - now using the global BackToTop component */}
     </footer>
   );
 };
