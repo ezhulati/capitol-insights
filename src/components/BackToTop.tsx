@@ -49,7 +49,7 @@ const BackToTop: React.FC = () => {
       {showButton && (
         <button 
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-30 bg-navy-700 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-xl hover:bg-navy-600 transition-all duration-300"
+          className="fixed bottom-8 left-8 sm:right-8 sm:left-auto z-20 bg-navy-700 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-xl hover:bg-navy-600 transition-all duration-300"
           aria-label="Back to top"
         >
           <ArrowUp size={20} />
