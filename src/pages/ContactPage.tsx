@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Mail, Phone, MapPin, Send, Building, ExternalLink, Info, Clock, Calendar } from 'lucide-react';
+import { Mail, Phone, Send, Building, ExternalLink, Info, Clock, Calendar } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
 
 const ContactPage = () => {
   const location = useLocation();
   const [selectedTeamMember, setSelectedTeamMember] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,7 +34,7 @@ const ContactPage = () => {
   };
 
   // This is a simpler approach that lets Netlify handle the form submission directly
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = () => {
     // We're not preventing default form submission
     // This allows the form to be submitted directly to Netlify
     setIsSubmitting(true);
@@ -44,16 +45,18 @@ const ContactPage = () => {
 
   return (
     <div className="pt-16">
-      {/* SEO Configuration */}
+      {/* Enhanced SEO Configuration */}
       <SEO 
-        title="Schedule Your Policy Assessment | Capitol Insights"
-        description="Contact Capitol Insights to schedule a consultation with our government relations experts and discuss your organization's policy objectives and challenges."
-        image="https://images.unsplash.com/photo-1564769625688-8478682b7e5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
-        canonical="/contact"
-        additionalMetaTags={[
-          { name: "keywords", content: "texas government relations contact, schedule lobbying consultation, policy assessment, texas lobbying firm" },
-          { property: "og:site_name", content: "Capitol Insights" }
-        ]}
+        {...getPageSEO({
+          pageType: 'contact',
+          title: "Contact Capitol Insights | Schedule Texas Government Relations Consultation",
+          description: "Schedule a policy assessment with our team to discuss your legislative needs, regulatory challenges, and how our government relations expertise can help your organization.",
+          image: "/images/capitol-background.jpg",
+          additionalMetaTags: [
+            { name: "keywords", content: "contact Texas lobbyist, schedule policy assessment, government relations consultation, Texas lobbying firm contact, Drew Campbell contact, Byron Campbell contact" },
+            { property: "og:site_name", content: "Capitol Insights" }
+          ]
+        })}
       />
 
       {/* Contact Header */}

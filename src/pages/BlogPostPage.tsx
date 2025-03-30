@@ -6,7 +6,6 @@ import SEO from '../components/SEO';
 import { getBlogPostSEO } from '../utils/enhanced-seo';
 import LazyImage from '../components/LazyImage';
 import { getPostBySlug, renderMarkdown, getRelatedPosts } from '../utils/content-provider';
-import { PortableText } from '@portabletext/react';
 import type { BlogPost } from '../utils/mdx-sanity';
 
 const BlogPostPage: React.FC = () => {

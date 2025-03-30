@@ -48,8 +48,8 @@ const UpdatesPage: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<string[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
+  const [, setLoading] = useState<boolean>(true);
+  const [, setError] = useState<boolean>(false);
   
   // Get URL parameters
   useEffect(() => {

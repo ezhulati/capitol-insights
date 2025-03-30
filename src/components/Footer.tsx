@@ -1,18 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Twitter, Linkedin, ExternalLink, Landmark, ArrowRight, ChevronRight, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Twitter, Linkedin, Landmark, ChevronRight, Clock } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
-  // Smooth scroll to top function
-  const scrollToTop = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
   
   return (
     <footer className="bg-navy-950 text-white">

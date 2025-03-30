@@ -1,10 +1,10 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Award, Building2, BarChart, FileText, GraduationCap, Calendar } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
 
-// Define types for team members
-interface TeamMember {
+// Define team member shape for strong typing
+type TeamMember = {
   id: number;
   name: string;
   title: string;
@@ -26,7 +26,7 @@ const TeamPage = () => {
   };
   
   // Team member data
-  const fallbackTeamMembers = [
+  const fallbackTeamMembers: TeamMember[] = [
     {
       id: 1,
       name: 'Drew Campbell',
@@ -63,16 +63,18 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
   
   return (
     <div className="pt-16">
-      {/* SEO Configuration */}
+      {/* Enhanced SEO Configuration */}
       <SEO 
-        title={pageData.title || "Our Team | Capitol Insights"}
-        description="Meet the experienced team at Capitol Insights who bring decades of expertise in government relations and policy advocacy throughout Texas."
-        image="/uploads/team/team-page.png"
-        canonical="/team"
-        additionalMetaTags={[
-          { name: "keywords", content: "government relations team, texas lobbyists, policy experts, drew campbell, byron campbell" },
-          { property: "og:site_name", content: "Capitol Insights" }
-        ]}
+        {...getPageSEO({
+          pageType: 'team',
+          title: "Meet Our Texas Government Relations Team | Drew & Byron Campbell",
+          description: "Our lobbying team brings 40+ years of Texas political expertise with direct relationships to key legislators and agency leadership across transportation, energy, and telecom sectors.",
+          image: "/uploads/team/team-page.png",
+          additionalMetaTags: [
+            { name: "keywords", content: "Drew Campbell lobbyist, Byron Campbell government relations, Texas lobbying team, transportation policy experts, energy sector lobbying, telecommunications advocacy" },
+            { property: "og:site_name", content: "Capitol Insights" }
+          ]
+        })}
       />
       
       {/* Team Header */}

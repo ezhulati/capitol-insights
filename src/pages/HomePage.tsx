@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, ReactNode, ReactElement } from 'react';
+import React, { useEffect, useRef, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Landmark, 
@@ -22,6 +22,7 @@ import {
   Phone
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
 import LeadMagnetForm from '../components/LeadMagnetForm';
 
 interface FeatureCardProps {
@@ -146,22 +147,10 @@ const HomePage = () => {
 
   return (
     <div className="pt-16">
-      <SEO 
-        title="Capitol Insights | 40+ Years of Texas Legislative Relationships"
-        description="When legislation threatens your business, will you be introducing yourself to lawmakers or activating relationships you've already built? Capitol Insights has spent four decades building the relationships that turn legislative challenges into opportunities."
-        image="/images/capitol-background.jpg"
-        canonical="/"
-        additionalMetaTags={[
-          { name: "keywords", content: "Texas government relations, legislative advocacy, Drew Campbell, Byron Campbell, Dallas Regional Mobility Coalition, North Texas Commission, Texas lobbying, policy consultants" },
-          { property: "og:site_name", content: "Capitol Insights" }
-        ]}
-        schemaMarkup={{
-          type: "Organization",
-          name: "Capitol Insights",
-          description: "When legislation threatens your business, will you be introducing yourself to lawmakers or activating relationships you've already built? Capitol Insights has spent four decades building the relationships that turn legislative challenges into opportunities.",
-          url: "https://capitol-insights.com",
-          image: "/images/capitol-background.jpg"
-        }}
+      <SEO
+        {...getPageSEO({
+          pageType: 'home'
+        })}
       />
 
       <section className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center">

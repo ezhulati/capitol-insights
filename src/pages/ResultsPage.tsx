@@ -3,16 +3,14 @@ import { Link } from 'react-router-dom';
 import { 
   Award, 
   ChevronRight, 
-  LineChart, 
   Check, 
   FileText, 
-  BookOpen,
   BarChart,
-  Briefcase,
   Building,
   Users
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
 
 interface ResultCardProps {
   title: string;
@@ -131,23 +129,18 @@ const ResultsPage = () => {
 
   return (
     <div className="pt-16">
-      {/* SEO Configuration */}
+      {/* Enhanced SEO Configuration */}
       <SEO 
-        title="Client Success Stories & Case Studies | Capitol Insights"
-        description="See how Drew and Byron Campbell secured $412M for the Dallas Regional Mobility Coalition, increased water infrastructure funding by 12% for the North Texas Commission, and preserved the franchise model for Texas auto dealers through strategic government relations."
-        image="https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
-        canonical="/results"
-        additionalMetaTags={[
-          { name: "keywords", content: "Dallas Regional Mobility Coalition, North Texas Commission, Texas Automobile Dealers Association, Drew Campbell, Byron Campbell, transportation funding, water infrastructure, government relations results, lobbying success stories" },
-          { property: "og:site_name", content: "Capitol Insights" }
-        ]}
-        schemaMarkup={{
-          type: "CollectionPage",
-          name: "Client Success Stories & Case Studies",
-          description: "See how Drew and Byron Campbell secured $412M for the Dallas Regional Mobility Coalition, increased water infrastructure funding by 12% for the North Texas Commission, and preserved the franchise model for Texas auto dealers through strategic government relations.",
-          url: "https://capitol-insights.com/results",
-          image: "https://images.unsplash.com/photo-1427751840561-9852520f8ce8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
-        }}
+        {...getPageSEO({
+          pageType: 'results',
+          title: "Government Relations Success Stories & Measurable Results | Capitol Insights",
+          description: "Our government relations achievements include $412M for Dallas mobility, 12% increase for water infrastructure, and protecting auto dealers through strategic Texas lobbying.",
+          image: "/images/texas-capitol.jpg",
+          additionalMetaTags: [
+            { name: "keywords", content: "government relations case studies, Texas lobbying success, DRMC funding, North Texas Commission, water infrastructure funding, auto dealer protection, measurable lobbying results" },
+            { property: "og:site_name", content: "Capitol Insights" }
+          ]
+        })}
       />
 
       {/* Results Header */}
