@@ -8,13 +8,13 @@
   "theme_color": "#1a365d",
   "icons": [
     {
-      "src": "/clear-ci-favicon.svg",
+      "src": "/ci-favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/clear-ci-favicon-192.svg",
+      "src": "/ci-favicon-192.svg",
       "sizes": "192x192",
       "type": "image/svg+xml", 
       "purpose": "any"
