@@ -5,6 +5,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
+import BackToTop from './components/BackToTop';
 import { lazyWithPreload } from './utils/lazyWithPreload';
 
 // Define a type for components with preload method
@@ -193,6 +194,7 @@ function App() {
               </Routes>
             </Suspense>
           </main>
+          <BackToTop />
           <Footer />
         </div>
         </Router>
