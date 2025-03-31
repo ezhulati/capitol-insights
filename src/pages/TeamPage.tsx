@@ -206,9 +206,12 @@ Byron's educational approach breaks down complex political processes for clients
                       <span>Contact {member.name.split(' ')[0]}</span>
                     </Link>
                     <a 
-                      href="#" 
+                      href={member.name === 'Drew Campbell' 
+                        ? "https://www.linkedin.com/in/drew-campbell-19ab7a6/" 
+                        : "https://www.linkedin.com/in/byron-campbell-9b28282b/"}
                       className="btn btn-secondary btn-md whitespace-nowrap"
                       rel="noopener noreferrer"
+                      target="_blank"
                     >
                       <Linkedin size={18} className="mr-2" />
                       <span>LinkedIn</span>

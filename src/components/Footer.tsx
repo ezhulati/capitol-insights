@@ -36,7 +36,7 @@ const Footer = () => {
                 <Twitter size={18} />
               </a>
               <a 
-                href="https://linkedin.com" 
+                href="https://www.linkedin.com/in/byron-campbell-9b28282b/" 
                 className="w-10 h-10 rounded-full bg-navy-800 flex items-center justify-center hover:bg-gold-600 transition-all duration-300" 
                 aria-label="LinkedIn"
                 rel="noopener noreferrer"
