@@ -4,259 +4,453 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Texas Legislative Influence Guide | Capitol Insights</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <meta name="robots" content="noindex,nofollow">
     <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Simple Styling with Inline CSS - No framework dependencies */
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
-        .content {
-            max-width: 800px;
-        }
-        
-        .navy-bg {
+        header {
             background-color: #0f172a;
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
-        .gold-text {
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            background-color: #eab308;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+        
+        .company-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .tagline {
+            font-size: 0.75rem;
+            color: #eab308;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+        
+        .home-link {
+            color: white;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .home-link:hover {
             color: #eab308;
         }
         
-        .gold-bg {
-            background-color: #eab308;
-        }
-
-        /* Header & Footer Styles to Match Main Site */
-        .site-header {
-            background-color: #0f172a;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        main {
+            flex-grow: 1;
+            padding: 2rem 0;
         }
         
-        .site-footer {
-            background-color: #0f172a;
-            color: #f8fafc;
+        .content-wrap {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
         
-        /* Button styles to match main site */
-        .btn-primary {
+        .guide-header {
+            background: linear-gradient(to right, #1e293b, #0f172a);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background-color: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .guide-subtitle {
+            color: #eab308;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-authors {
+            color: #cbd5e1;
+            font-size: 0.875rem;
+        }
+        
+        .guide-content {
+            padding: 2rem;
+        }
+        
+        .thank-you {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        
+        .description {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
             background-color: #eab308;
             color: #0f172a;
             font-weight: 500;
             padding: 0.75rem 1.5rem;
             border-radius: 0.375rem;
-            display: inline-flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: #ca8a04;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(0px);
-        }
-        
-        /* Custom section styling */
-        .card-section {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            border: 1px solid #e2e8f0;
-            overflow: hidden;
-        }
-        
-        .header-gradient {
-            background: linear-gradient(to right, #1e293b, #0f172a);
-        }
-        
-        /* List styling */
-        .custom-list-item {
-            display: flex;
+            text-decoration: none;
             margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .custom-list-item .bullet {
+        .download-btn:hover {
+            background-color: #ca8a04;
+        }
+        
+        .download-btn svg {
+            margin-right: 0.5rem;
+        }
+        
+        .download-help {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+        
+        .section-divider {
+            height: 1px;
+            background-color: #e2e8f0;
+            margin: 2rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+        
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-bullet {
             color: #eab308;
             margin-right: 0.75rem;
             font-size: 1.25rem;
-            line-height: 1.75rem;
+            line-height: 1.5rem;
         }
         
-        .custom-list-item .content {
-            flex: 1;
+        .feature-content strong {
+            display: block;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
         }
         
-        /* Image styling for PDF icon */
-        .icon-container {
+        .feature-content p {
+            color: #64748b;
+        }
+        
+        .info-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .info-box-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+        
+        .info-box-text {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+        
+        .info-link {
+            color: #eab308;
+            text-decoration: none;
+            font-weight: 500;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            margin-right: 0.5rem;
+        }
+        
+        .info-link:hover {
+            color: #ca8a04;
+        }
+        
+        .contact-section {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            background-color: #1e293b;
+            color: white;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-btn:hover {
+            background-color: #0f172a;
+        }
+        
+        .contact-text {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        
+        footer {
+            background-color: #0f172a;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .copyright {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .footer-link {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .copyright {
+                margin-bottom: 0;
+            }
         }
     </style>
     
-    <!-- Auto-download script -->
+    <!-- Simple auto-download script -->
     <script>
         window.onload = function() {
-            // Trigger download automatically after a short delay
-            setTimeout(function() {
-                const downloadLink = document.getElementById('pdf-download-link');
-                if (downloadLink) {
-                    downloadLink.click();
-                    console.log('Auto-download triggered');
-                }
-            }, 1000);
+            // Force direct link to PDF file
+            window.location.href = "/files/texas-legislative-influence-guide-2025.pdf";
         };
     </script>
 </head>
-<body class="min-h-screen flex flex-col">
-    <!-- No debug button in production -->
-    <header class="navy-bg text-white py-4">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <div class="w-10 h-10 flex items-center justify-center bg-yellow-500 text-navy-950 rounded-md overflow-hidden mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mt-1">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0f172a;">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="company-name">Capitol Insights</div>
+                        <div class="tagline">Texas Government Relations</div>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-xl font-semibold tracking-tight">Capitol Insights</span>
-                    <span class="block text-xs uppercase tracking-wider text-yellow-400">Texas Government Relations</span>
-                </div>
+                <a href="/" class="home-link">Return to Home</a>
             </div>
-            <a href="/" class="text-sm hover:text-yellow-300 transition-colors">
-                Return to Home
-            </a>
         </div>
     </header>
 
-    <main class="flex-grow py-12">
-        <div id="download-content" class="container mx-auto px-4">
-            <div class="content mx-auto">
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-                    <!-- Header -->
-                    <div class="bg-gradient-to-r from-gray-800 to-gray-900 text-white px-6 py-8">
-                        <div class="flex items-center mb-4">
-                            <span class="inline-block px-3 py-1 bg-yellow-500 bg-opacity-20 text-yellow-300 rounded-full text-xs font-medium">
-                                EXCLUSIVE GUIDE
-                            </span>
-                        </div>
-                        <h1 class="text-3xl font-bold mb-2">The Texas Legislative Influence Guide</h1>
-                        <h2 class="text-xl text-yellow-300 mb-4">Strategies for Effective Advocacy</h2>
-                        <p class="text-gray-300">By Drew Campbell & Byron Campbell, Capitol Insights</p>
-                    </div>
+    <main>
+        <div class="container">
+            <div class="content-wrap">
+                <div class="guide-header">
+                    <div class="badge">EXCLUSIVE GUIDE</div>
+                    <h1 class="guide-title">The Texas Legislative Influence Guide</h1>
+                    <h2 class="guide-subtitle">Strategies for Effective Advocacy</h2>
+                    <p class="guide-authors">By Drew Campbell & Byron Campbell, Capitol Insights</p>
+                </div>
 
-                    <!-- Content -->
-                    <div class="px-6 py-8">
-                        <div class="mb-8">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Thank you for your interest!</h3>
-                            <p class="text-gray-600 mb-4">
-                                Your download is ready. This comprehensive guide draws on our four decades of experience in Texas politics and will give you practical strategies to improve your legislative outcomes.
-                            </p>
-                            
-                            <div class="mt-8 mb-6">
-                                <a id="pdf-download-link" href="/files/texas-legislative-influence-guide-2025.pdf" download="texas-legislative-influence-guide-2025.pdf" class="inline-flex items-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                    </svg>
-                                    Download PDF
-                                </a>
+                <div class="guide-content">
+                    <h3 class="thank-you">Thank you for your interest!</h3>
+                    <p class="description">
+                        Your download is ready. This comprehensive guide draws on our four decades of experience 
+                        in Texas politics and will give you practical strategies to improve your legislative outcomes.
+                    </p>
+                    
+                    <a id="pdf-download-link" href="/files/texas-legislative-influence-guide-2025.pdf" download class="download-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download PDF
+                    </a>
+                    
+                    <p class="download-help">
+                        If your download doesn't start automatically, click the button above.
+                    </p>
+                    
+                    <div class="section-divider"></div>
+                    
+                    <h3 class="section-title">What's Included in This Guide:</h3>
+                    
+                    <ul class="features-list">
+                        <li class="feature-item">
+                            <div class="feature-bullet">•</div>
+                            <div class="feature-content">
+                                <strong>The Legislative Relationship Timeline</strong>
+                                <p>The strategic engagement calendar that successful organizations follow between sessions</p>
                             </div>
-                            
-                            <p class="text-sm text-gray-500 mb-6">
-                                If your download doesn't start automatically, click the button above.
-                            </p>
-                        </div>
-                        
-                        <div class="border-t border-gray-200 pt-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">What's Included in This Guide:</h3>
-                            
-                            <ul class="space-y-4 mb-6">
-                                <li class="flex">
-                                    <span class="text-yellow-500 mr-2">•</span>
-                                    <div>
-                                        <strong class="text-gray-800">The Legislative Relationship Timeline:</strong> 
-                                        <p class="text-gray-600">The strategic engagement calendar that successful organizations follow between sessions</p>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="text-yellow-500 mr-2">•</span>
-                                    <div>
-                                        <strong class="text-gray-800">The Three Levels of Influence:</strong> 
-                                        <p class="text-gray-600">Why building relationships with staff and subject matter experts is often as critical as connecting with lawmakers</p>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="text-yellow-500 mr-2">•</span>
-                                    <div>
-                                        <strong class="text-gray-800">The Coalition Framework:</strong> 
-                                        <p class="text-gray-600">How to transform individual priorities into regional consensus</p>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="text-yellow-500 mr-2">•</span>
-                                    <div>
-                                        <strong class="text-gray-800">The Issue Framing Matrix:</strong> 
-                                        <p class="text-gray-600">Converting technical expertise into compelling policy narratives</p>
-                                    </div>
-                                </li>
-                                <li class="flex">
-                                    <span class="text-yellow-500 mr-2">•</span>
-                                    <div>
-                                        <strong class="text-gray-800">The Legislative Session Strategy:</strong>
-                                        <p class="text-gray-600">Maximizing impact during the intense 140-day period</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mt-8">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Want More Insights?</h3>
-                            <p class="text-gray-600 mb-4">
-                                Our team publishes regular updates on the Texas legislative landscape. Join thousands of industry leaders who rely on our expertise.
-                            </p>
-                            <div class="mt-4">
-                                <a href="/updates" class="text-yellow-600 hover:text-yellow-700 font-medium">
-                                    View Latest Updates →
-                                </a>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-bullet">•</div>
+                            <div class="feature-content">
+                                <strong>The Three Levels of Influence</strong>
+                                <p>Why building relationships with staff and subject matter experts is often as critical as connecting with lawmakers</p>
                             </div>
-                        </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-bullet">•</div>
+                            <div class="feature-content">
+                                <strong>The Coalition Framework</strong>
+                                <p>How to transform individual priorities into regional consensus</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-bullet">•</div>
+                            <div class="feature-content">
+                                <strong>The Issue Framing Matrix</strong>
+                                <p>Converting technical expertise into compelling policy narratives</p>
+                            </div>
+                        </li>
+                        <li class="feature-item">
+                            <div class="feature-bullet">•</div>
+                            <div class="feature-content">
+                                <strong>The Legislative Session Strategy</strong>
+                                <p>Maximizing impact during the intense 140-day period</p>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <div class="info-box">
+                        <h4 class="info-box-title">Want More Insights?</h4>
+                        <p class="info-box-text">
+                            Our team publishes regular updates on the Texas legislative landscape. 
+                            Join thousands of industry leaders who rely on our expertise.
+                        </p>
+                        <a href="/updates" class="info-link">
+                            View Latest Updates →
+                        </a>
                     </div>
                 </div>
-                
-                <div class="mt-8 text-center">
-                    <a href="/contact" class="inline-block px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition-colors">
-                        Schedule a Consultation
-                    </a>
-                    <p class="mt-4 text-gray-500 text-sm">
-                        Questions about implementing these strategies? Our team is ready to help.
-                    </p>
-                </div>
+            </div>
+            
+            <div class="contact-section">
+                <a href="/contact" class="contact-btn">Schedule a Consultation</a>
+                <p class="contact-text">
+                    Questions about implementing these strategies? Our team is ready to help.
+                </p>
             </div>
         </div>
     </main>
 
-    <footer class="navy-bg text-white py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <p class="text-sm text-gray-400">&copy; 2025 Capitol Insights. All rights reserved.</p>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="/privacy" class="text-sm text-gray-400 hover:text-gray-300">Privacy Policy</a>
-                    <a href="/terms" class="text-sm text-gray-400 hover:text-gray-300">Terms of Use</a>
-                    <a href="/contact" class="text-sm text-gray-400 hover:text-gray-300">Contact</a>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="copyright">© 2025 Capitol Insights. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="/privacy" class="footer-link">Privacy Policy</a>
+                    <a href="/terms" class="footer-link">Terms of Use</a>
+                    <a href="/contact" class="footer-link">Contact</a>
                 </div>
             </div>
         </div>
