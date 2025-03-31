@@ -1,6 +1,24 @@
-# Allow all crawlers
+# Capitol Insights Website Robots.txt
+# Updated: 3/31/2025
+
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemaps
 Sitemap: https://capitol-insights.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /*?preview=true
+
+# Allow access to key content sections
+Allow: /updates/
+Allow: /resources/
+Allow: /services/
+Allow: /team/
+Allow: /downloads/
+
+# Crawl delay suggestion (in seconds)
+# Some search engines respect this
+Crawl-delay: 2

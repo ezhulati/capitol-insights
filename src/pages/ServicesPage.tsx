@@ -9,11 +9,13 @@ import {
   LineChart,
   Building2,
   Scale,
-  Landmark,
   Building,
-  ChevronRight
+  ChevronRight,
+  HelpCircle
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
+import FAQAccordion from '../components/FAQAccordion';
 
 interface ServiceCardProps {
   icon: ReactNode;
@@ -172,28 +174,30 @@ const ServicesPage = () => {
 
   return (
     <div className="pt-16">
-      {/* SEO Configuration */}
-      <SEO 
-        title="Expert Government Relations Services | Capitol Insights"
-        description="Explore our comprehensive government relations services including legislative advocacy, regulatory affairs, and strategic policy development for Texas organizations."
-        image="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
-        canonical="/services"
-        additionalMetaTags={[
-          { name: "keywords", content: "government relations services, legislative advocacy, lobbying texas, regulatory affairs, policy analysis, coalition building" },
-          { property: "og:site_name", content: "Capitol Insights" }
-        ]}
+      {/* Enhanced SEO Configuration */}
+      <SEO
+        {...getPageSEO({
+          pageType: 'services',
+          image: '/images/approach-capitol.jpg'
+        })}
       />
 
       {/* Services Header */}
-      <section className="hero-section">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-3 py-1 bg-primary-500/20 text-primary-200 rounded-full text-sm font-medium mb-4">
-              Our Services
+      <section className="relative min-h-[50vh] flex items-center justify-center bg-secondary-900 overflow-hidden">
+        <div className="absolute inset-0 bg-capitol bg-cover bg-center opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary-950/90 via-secondary-900/80 to-secondary-800/80"></div>
+        
+        <div className="container relative z-10 py-16 sm:py-20">
+          <div className="max-w-3xl mx-auto text-center px-4">
+            <span className="inline-block px-3 py-1 bg-primary-500/20 text-primary-200 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-5 backdrop-blur-sm border border-primary-500/20">
+              OUR SERVICES
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 whitespace-nowrap">Texas Government Relations Services</h1>
-            <p className="text-lg sm:text-xl text-white/80 max-w-2xl mx-auto">
+            
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
+              Texas Government Relations Services
+            </h1>
+            
+            <p className="text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
               Since 1983, we've delivered measurable policy victories through strategic advocacy, deep relationships, and data-driven approaches tailored to Texas politics.
             </p>
           </div>
@@ -374,6 +378,61 @@ const ServicesPage = () => {
                 description={industry.description}
               />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 sm:py-20 md:py-24 bg-secondary-50">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 mb-6">
+                <HelpCircle size={32} className="text-primary-600" />
+              </div>
+              <h2 className="text-3xl font-bold text-secondary-900 mb-4">Frequently Asked Questions</h2>
+              <p className="text-secondary-600 max-w-2xl mx-auto">
+                Get answers to common questions about our government relations services, process, and approach to achieving policy victories.
+              </p>
+            </div>
+            
+            <FAQAccordion 
+              items={[
+                {
+                  question: "What makes Capitol Insights different from other government relations firms?",
+                  answer: "Capitol Insights stands out through our measurable results approach, with an 85% success rate across 200+ client initiatives. Unlike firms that delegate to junior staff, our principals handle 100% of client work, resulting in 65% faster response times. We maintain a strict conflict management policy with a 0% conflict rate over 40+ years, and our data-driven strategies predict legislative outcomes with 95% accuracy."
+                },
+                {
+                  question: "How long does a typical engagement last?",
+                  answer: "Engagements vary based on objectives and legislative cycles. Our minimum engagement is typically one quarter, while comprehensive legislative campaigns usually span 6-12 months to allow for proper preparation and execution. Many of our clients have maintained continuous relationships for 5+ years to ensure ongoing policy influence and regulatory monitoring."
+                },
+                {
+                  question: "Do you work with clients outside of Texas?",
+                  answer: "Our primary focus and expertise are in Texas government relations, where we maintain relationships with 85% of legislative committee chairs. However, we do support multi-state clients with Texas operations and can refer to trusted partners in other states through our national network of government relations professionals."
+                },
+                {
+                  question: "How do you measure and report on progress?",
+                  answer: "We provide weekly metrics-based reports that quantify tangible progress on client objectives. Our reporting includes: 1) Specific actions taken and outcomes achieved, 2) Stakeholder engagement metrics, 3) Timeline updates with milestones, and 4) Data-driven analysis of legislative/regulatory developments. Clients receive comprehensive scorecards showing progress against agreed KPIs."
+                },
+                {
+                  question: "Can you guarantee specific legislative outcomes?",
+                  answer: "While our 85% success rate demonstrates consistent effectiveness, we never guarantee specific legislative outcomes, as policy-making involves many variables beyond any firm's control. Instead, we promise ethical representation, strategic guidance, transparent reporting, and our best professional efforts. We're known for our realistic assessments and clear communication about what is achievable."
+                },
+                {
+                  question: "What information do you need to get started?",
+                  answer: "To begin an effective engagement, we typically need: 1) A clear understanding of your organization and industry, 2) Your specific policy objectives and priorities, 3) Current challenges and opportunities in the regulatory landscape, 4) Key stakeholders within your organization, 5) Previous government relations efforts and outcomes, and 6) Timeline and budget parameters for the engagement."
+                }
+              ]}
+              title=""
+              includeSchema={true}
+            />
+            
+            <div className="text-center mt-10">
+              <Link to="/faq" className="inline-flex items-center text-primary-600 font-medium hover:text-primary-700">
+                <span>View all frequently asked questions</span>
+                <ChevronRight size={16} className="ml-1" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

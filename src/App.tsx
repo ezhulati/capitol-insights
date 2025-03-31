@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense, ReactNode, ComponentType, LazyExoticComponent } from 'react';
+import React, { useEffect, Suspense, ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from './components/Header';
@@ -6,26 +6,128 @@ import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
 import BackToTop from './components/BackToTop';
-import { lazyWithPreload } from './utils/lazyWithPreload';
+import { lazyWithPreload, prefetchComponents, preloadComponents } from './utils/lazyWithPreload';
 
-// Define a type for components with preload method
-interface LazyComponentWithPreload<T extends ComponentType<any>> extends LazyExoticComponent<T> {
-  preload: () => Promise<{ default: T }>;
-}
+// Performance tracking function
+const trackPageLoad = (pageName: string, loadTimeMs: number) => {
+  console.log(`📊 Page Performance: ${pageName} loaded in ${loadTimeMs.toFixed(2)}ms`);
+  // Could send to analytics service here
+};
 
-// Lazy-loaded page components
-const HomePage = lazyWithPreload(() => import('./pages/HomePage')) as LazyComponentWithPreload<any>;
-const ServicesPage = lazyWithPreload(() => import('./pages/ServicesPage')) as LazyComponentWithPreload<any>;
-const TeamPage = lazyWithPreload(() => import('./pages/TeamPage')) as LazyComponentWithPreload<any>;
-const ResultsPage = lazyWithPreload(() => import('./pages/ResultsPage')) as LazyComponentWithPreload<any>;
-const ApproachPage = lazyWithPreload(() => import('./pages/ApproachPage')) as LazyComponentWithPreload<any>;
-const ContactPage = lazyWithPreload(() => import('./pages/ContactPage')) as LazyComponentWithPreload<any>;
-const UpdatesPage = lazyWithPreload(() => import('./pages/UpdatesPage')) as LazyComponentWithPreload<any>;
-const BlogPostPage = lazyWithPreload(() => import('./pages/BlogPostPage')) as LazyComponentWithPreload<any>;
-const PrivacyPolicyPage = lazyWithPreload(() => import('./pages/PrivacyPolicyPage')) as LazyComponentWithPreload<any>;
-const TermsPage = lazyWithPreload(() => import('./pages/TermsPage')) as LazyComponentWithPreload<any>;
-const LegislativeCalendarPage = lazyWithPreload(() => import('./pages/LegislativeCalendarPage')) as LazyComponentWithPreload<any>;
-const PolicyBriefingsPage = lazyWithPreload(() => import('./pages/PolicyBriefingsPage')) as LazyComponentWithPreload<any>;
+// Lazy-loaded page components with priority levels
+// Primary pages (high priority)
+const HomePage = lazyWithPreload(() => import('./pages/HomePage'), { 
+  name: 'HomePage', 
+  priority: 'high',
+  onLoad: trackPageLoad
+});
+
+const ServicesPage = lazyWithPreload(() => import('./pages/ServicesPage'), { 
+  name: 'ServicesPage', 
+  priority: 'high',
+  onLoad: trackPageLoad
+});
+
+const TeamPage = lazyWithPreload(() => import('./pages/TeamPage'), { 
+  name: 'TeamPage', 
+  priority: 'high',
+  onLoad: trackPageLoad
+});
+
+const ContactPage = lazyWithPreload(() => import('./pages/ContactPage'), { 
+  name: 'ContactPage', 
+  priority: 'high',
+  onLoad: trackPageLoad
+});
+
+// Secondary pages (medium priority)
+const ResultsPage = lazyWithPreload(() => import('./pages/ResultsPage'), { 
+  name: 'ResultsPage', 
+  priority: 'medium',
+  onLoad: trackPageLoad
+});
+
+const ApproachPage = lazyWithPreload(() => import('./pages/ApproachPage'), { 
+  name: 'ApproachPage', 
+  priority: 'medium',
+  onLoad: trackPageLoad
+});
+
+const UpdatesPage = lazyWithPreload(() => import('./pages/UpdatesPage'), { 
+  name: 'UpdatesPage', 
+  priority: 'medium',
+  onLoad: trackPageLoad
+});
+
+const ResourcesPage = lazyWithPreload(() => import('./pages/ResourcesPage'), { 
+  name: 'ResourcesPage', 
+  priority: 'medium',
+  onLoad: trackPageLoad
+});
+
+const FAQPage = lazyWithPreload(() => import('./pages/FAQPage'), { 
+  name: 'FAQPage', 
+  priority: 'medium',
+  onLoad: trackPageLoad
+});
+
+// Tertiary pages (lower priority)
+const BlogPostPage = lazyWithPreload(() => import('./pages/BlogPostPage'), { 
+  name: 'BlogPostPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+const PracticeAreasPage = lazyWithPreload(() => import('./pages/PracticeAreasPage'), { 
+  name: 'PracticeAreasPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+const SuccessStoriesPage = lazyWithPreload(() => import('./pages/SuccessStoriesPage'), { 
+  name: 'SuccessStoriesPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+const LegislativeCalendarPage = lazyWithPreload(() => import('./pages/LegislativeCalendarPage'), { 
+  name: 'LegislativeCalendarPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+const PolicyBriefingsPage = lazyWithPreload(() => import('./pages/PolicyBriefingsPage'), { 
+  name: 'PolicyBriefingsPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+// Utility pages
+const PrivacyPolicyPage = lazyWithPreload(() => import('./pages/PrivacyPolicyPage'), { 
+  name: 'PrivacyPolicyPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+const TermsPage = lazyWithPreload(() => import('./pages/TermsPage'), { 
+  name: 'TermsPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+const NotFoundPage = lazyWithPreload(() => import('./pages/NotFoundPage'), { 
+  name: 'NotFoundPage', 
+  priority: 'low',
+  onLoad: trackPageLoad
+});
+
+// Group components for strategic preloading
+const primaryPages = [HomePage, ServicesPage, TeamPage, ContactPage];
+const secondaryPages = [ResultsPage, ApproachPage, UpdatesPage, ResourcesPage, FAQPage];
+const tertiaryPages = [
+  BlogPostPage, PracticeAreasPage, SuccessStoriesPage,
+  LegislativeCalendarPage, PolicyBriefingsPage
+];
 
 // Loading fallback component
 const PageLoader = () => (
@@ -39,13 +141,27 @@ const PageLoader = () => (
   </div>
 );
 
-// Preload the next pages for better UX
+// Strategic page preloading for better UX
 const preloadNextPages = () => {
-  // Preload the most common pages
-  HomePage.preload();
-  ServicesPage.preload();
-  TeamPage.preload();
-  ContactPage.preload();
+  // Immediately preload primary pages
+  preloadComponents(primaryPages).then(() => {
+    console.log('✅ Primary pages preloaded');
+    
+    // Once primary pages are loaded, prefetch secondary pages
+    prefetchComponents(secondaryPages);
+    
+    // Use requestIdleCallback for tertiary pages to load during idle time
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        prefetchComponents(tertiaryPages);
+      }, { timeout: 5000 });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(() => {
+        prefetchComponents(tertiaryPages);
+      }, 3000);
+    }
+  });
 };
 
 // ScrollToTop component to handle scroll position on route changes
@@ -112,6 +228,14 @@ function App() {
                   } 
                 />
                 <Route 
+                  path="/practice-areas" 
+                  element={
+                    <PageTransition>
+                      <PracticeAreasPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
                   path="/team" 
                   element={
                     <PageTransition>
@@ -124,6 +248,14 @@ function App() {
                   element={
                     <PageTransition>
                       <ResultsPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/success-stories" 
+                  element={
+                    <PageTransition>
+                      <SuccessStoriesPage />
                     </PageTransition>
                   } 
                 />
@@ -188,6 +320,31 @@ function App() {
                   element={
                     <PageTransition>
                       <PolicyBriefingsPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/resources" 
+                  element={
+                    <PageTransition>
+                      <ResourcesPage />
+                    </PageTransition>
+                  } 
+                />
+                <Route 
+                  path="/faq" 
+                  element={
+                    <PageTransition>
+                      <FAQPage />
+                    </PageTransition>
+                  } 
+                />
+                {/* 404 Not Found - This must be the last route */}
+                <Route 
+                  path="*" 
+                  element={
+                    <PageTransition>
+                      <NotFoundPage />
                     </PageTransition>
                   } 
                 />

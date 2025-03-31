@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Favicon Preview</title>
+  <link rel="icon" href="public/ci-favicon.svg" type="image/svg+xml">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .favicon-row {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+      gap: 40px;
+    }
+    .favicon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .favicon {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Favicon Preview</h1>
+  
+  <div class="favicon-row">
+    <div class="favicon-container">
+      <img src="public/ci-favicon.svg" class="favicon">
+      <div>New Custom Favicon</div>
+      <div>(Gold bg, Dark Blue CI)</div>
+    </div>
+    
+    <div class="favicon-container">
+      <img src="public/ci-favicon.svg" class="favicon">
+      <div>Current Browser Favicon</div>
+      <div>(Gold bg, Dark Blue CI)</div>
+    </div>
+  </div>
+  
+  <p>Look at the browser tab to see the new favicon in action.</p>
+</body>
+</html>

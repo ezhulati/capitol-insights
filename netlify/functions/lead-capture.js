@@ -1,6 +1,9 @@
 // Netlify Function to handle lead capture form submissions
 // This function receives form data and sends it to your email marketing system or CRM
 
+// Email addresses to send lead notifications to
+const NOTIFICATION_RECIPIENTS = process.env.FORM_NOTIFICATION_RECIPIENTS || 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com';
+
 export const handler = async (event, context) => {
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
@@ -22,22 +25,42 @@ export const handler = async (event, context) => {
       };
     }
 
-    // Log the lead data for debugging (remove in production)
+    // Log the lead data for debugging
     console.log('Lead captured:', data);
 
-    // Here you would integrate with your email marketing system or CRM
-    // Examples include Mailchimp, HubSpot, SendGrid, etc.
-    
-    // Example: Send to Mailchimp (you would need to add the Mailchimp API key to your environment variables)
-    // const mailchimpResponse = await sendToMailchimp(data);
-    
-    // Example: Send to a custom email service
-    // const emailResponse = await sendEmailNotification(data);
-    
-    // For now, we'll just simulate a successful response
-    // In a real implementation, you would replace this with actual API calls
+    // Format the notification data to be sent to Netlify's form handler
+    const formData = {
+      'form-name': 'lead-magnet-download',
+      name: data.name,
+      email: data.email,
+      industry: data.industry || 'Not specified',
+      leadSource: data.leadSource || 'Website Lead Magnet',
+      downloadedGuide: data.downloadedGuide || 'Texas Legislative Guide',
+      downloadUrl: data.downloadUrl || '/downloads/',
+      timestamp: data.timestamp || new Date().toISOString(),
+      recipients: NOTIFICATION_RECIPIENTS
+    };
 
-    // Return success response
+    // Send the form submission to Netlify's built-in form handler
+    // This will trigger the email notifications based on Netlify's settings
+    try {
+      const response = await fetch(process.env.URL || 'https://capitol-insights.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      });
+      
+      if (!response.ok) {
+        console.warn('Netlify form submission warning:', response.status);
+      } else {
+        console.log('Netlify form submission successful');
+      }
+    } catch (formError) {
+      console.error('Netlify form submission error:', formError);
+      // We'll continue even if this fails, to ensure the user gets their download
+    }
+
+    // Return success response to the client
     return {
       statusCode: 200,
       body: JSON.stringify({ 
@@ -60,74 +83,3 @@ export const handler = async (event, context) => {
     };
   }
 };
-
-// Example function to send data to Mailchimp (would need to be implemented)
-async function sendToMailchimp(data) {
-  // This is a placeholder for actual Mailchimp API integration
-  // You would use the Mailchimp API client here
-  
-  // Example implementation:
-  /*
-  const mailchimp = require('@mailchimp/mailchimp_marketing');
-  
-  mailchimp.setConfig({
-    apiKey: process.env.MAILCHIMP_API_KEY,
-    server: process.env.MAILCHIMP_SERVER_PREFIX,
-  });
-  
-  const listId = process.env.MAILCHIMP_LIST_ID;
-  
-  const response = await mailchimp.lists.addListMember(listId, {
-    email_address: data.email,
-    status: 'subscribed',
-    merge_fields: {
-      FNAME: data.name.split(' ')[0],
-      LNAME: data.name.split(' ').slice(1).join(' '),
-      INDUSTRY: data.industry || '',
-      DOWNLOAD: data.downloadedGuide || '',
-    },
-    tags: ['Lead Magnet', data.downloadedGuide],
-  });
-  
-  return response;
-  */
-  
-  return { success: true };
-}
-
-// Example function to send email notification (would need to be implemented)
-async function sendEmailNotification(data) {
-  // This is a placeholder for actual email sending logic
-  // You would use a service like SendGrid, AWS SES, etc.
-  
-  // Example implementation:
-  /*
-  const sgMail = require('@sendgrid/mail');
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  
-  const msg = {
-    to: 'notifications@capitol-insights.com',
-    from: 'website@capitol-insights.com',
-    subject: 'New Lead Magnet Download',
-    text: `
-      Name: ${data.name}
-      Email: ${data.email}
-      Industry: ${data.industry || 'Not specified'}
-      Downloaded: ${data.downloadedGuide}
-      Date: ${new Date(data.timestamp).toLocaleString()}
-    `,
-    html: `
-      <h2>New Lead Magnet Download</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Industry:</strong> ${data.industry || 'Not specified'}</p>
-      <p><strong>Downloaded:</strong> ${data.downloadedGuide}</p>
-      <p><strong>Date:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
-    `,
-  };
-  
-  return await sgMail.send(msg);
-  */
-  
-  return { success: true };
-}

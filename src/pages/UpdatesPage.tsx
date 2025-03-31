@@ -14,6 +14,9 @@ import {
   Mail
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
+import { generateFAQStructuredData } from '../utils/structured-data';
+import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
 import { getAllPosts } from '../utils/content-provider';
 import type { BlogPost } from '../utils/mdx-sanity';
 
@@ -49,7 +52,6 @@ const UpdatesPage: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<boolean>(false);
   
   // Get URL parameters
   useEffect(() => {
@@ -87,7 +89,6 @@ const UpdatesPage: React.FC = () => {
         }
       } catch (err) {
         console.error("Error fetching posts:", err);
-        setError(true);
         // Fallback to static data on error
         setPosts(fallbackPosts as unknown as BlogPost[]);
         setCategories(["Legislative Preview"]);
@@ -159,14 +160,34 @@ const UpdatesPage: React.FC = () => {
     <div className="pt-16">
       {/* SEO Configuration */}
       <SEO 
-        title="Capitol Watch: Latest Policy Insights | Capitol Insights"
-        description="Stay informed with the latest legislative developments, regulatory changes, and policy trends affecting Texas organizations through Capitol Insights' policy updates."
-        image="https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630"
-        canonical="/updates"
-        additionalMetaTags={[
-          { name: "keywords", content: "texas policy updates, legislative analysis, regulatory changes, government affairs blog, texas lobbying insights" },
-          { property: "og:site_name", content: "Capitol Insights" }
+        {...getPageSEO({
+          pageType: 'updates',
+          title: "Capitol Watch: Latest Policy Insights | Capitol Insights",
+          description: "Stay informed with the latest legislative developments, regulatory changes, and policy trends affecting Texas organizations through Capitol Insights' policy updates.",
+          image: "/images/texas-capitol.jpg"
+        })}
+        structuredData={[
+          // Add FAQ schema for common policy questions
+          generateFAQStructuredData([
+            {
+              question: "How often are Texas policy updates published?",
+              answer: "Capitol Insights publishes new policy updates weekly, with additional special reports during legislative sessions and after significant regulatory developments."
+            },
+            {
+              question: "Who writes Capitol Insights policy analyses?",
+              answer: "Our policy analyses are written by experienced government relations professionals with decades of experience in Texas politics and policy."
+            },
+            {
+              question: "How can I stay updated on Texas legislative developments?",
+              answer: "Subscribe to our Capitol Watch newsletter to receive regular updates on legislative developments, regulatory changes, and policy trends in Texas."
+            }
+          ])
         ]}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://capitol-insights.com/' },
+          { name: 'Policy Updates', url: 'https://capitol-insights.com/updates' }
+        ]}
+        includeOrganizationData={true}
       />
 
       {/* Updates Header */}
@@ -189,6 +210,18 @@ const UpdatesPage: React.FC = () => {
           </motion.div>
         </div>
       </section>
+      
+      {/* Breadcrumb Navigation */}
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="container py-3">
+          <BreadcrumbNavigation 
+            items={[
+              { name: 'Home', path: '/' },
+              { name: 'Policy Updates', path: '/updates', isLast: true }
+            ]}
+          />
+        </div>
+      </div>
 
       {/* Featured Post */}
       {featuredPost && (

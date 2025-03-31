@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Header from '../components/Header';
 import SEO from '../components/SEO';
 import { getBlogPostSEO } from '../utils/enhanced-seo';
+import { generateBlogPostStructuredData } from '../utils/structured-data';
+import { generateBlogPostPreview } from '../utils/social-preview';
+import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
 import LazyImage from '../components/LazyImage';
+import ResponsiveImage from '../components/ResponsiveImage';
+import { generateResponsiveSources, generateWebPSources } from '../utils/image-seo';
 import { getPostBySlug, renderMarkdown, getRelatedPosts } from '../utils/content-provider';
 import type { BlogPost } from '../utils/mdx-sanity';
 
@@ -216,8 +220,35 @@ const BlogPostPage: React.FC = () => {
           date: post.date,
           image: post.image
         })}
+        structuredData={generateBlogPostStructuredData({
+          title: post.title,
+          slug: slug || '',
+          description: post.metaDescription || post.excerpt || '',
+          date: post.date,
+          image: post.image,
+          author: post.author,
+          authorTitle: "Senior Partner", // You may want to make this dynamic if available
+          category: post.category,
+          tags: post.metaKeywords,
+          readTime: post.readTime
+        })}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://capitol-insights.com/' },
+          { name: 'Policy Updates', url: 'https://capitol-insights.com/updates' },
+          { name: post.title, url: `https://capitol-insights.com/updates/${slug}` }
+        ]}
+        includeOrganizationData={true}
+        socialPreview={generateBlogPostPreview({
+          title: post.title,
+          description: post.metaDescription || post.excerpt || '',
+          slug: slug || '',
+          publishDate: new Date(post.date).toISOString(),
+          author: post.author,
+          category: post.category,
+          image: post.image,
+          tags: post.metaKeywords
+        })}
       />
-      <Header />
       
       {/* Reading progress bar */}
       <div 
@@ -226,6 +257,18 @@ const BlogPostPage: React.FC = () => {
       />
       
       <main className="pt-24 pb-20 bg-white" ref={articleRef}>
+        {/* Breadcrumb Navigation */}
+        <div className="bg-slate-50 border-b border-slate-200 py-3 mb-10">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8">
+            <BreadcrumbNavigation 
+              items={[
+                { name: 'Home', path: '/' },
+                { name: 'Policy Updates', path: '/updates' },
+                { name: post.title, path: `/updates/${slug}`, isLast: true }
+              ]}
+            />
+          </div>
+        </div>
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:grid lg:grid-cols-12 lg:gap-12">
           {/* Main content area */}
           <article className="lg:col-span-8 xl:col-span-9 mb-12 lg:mb-0">
@@ -312,10 +355,24 @@ const BlogPostPage: React.FC = () => {
               {/* Featured image */}
               {post.image && (
                 <div className="mt-8 mb-12 overflow-hidden rounded-xl shadow-xl">
-                  <LazyImage
+                  <ResponsiveImage
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto"
+                    sources={generateResponsiveSources(post.image, [640, 768, 1024, 1280, 1536])}
+                    webpSources={generateWebPSources(generateResponsiveSources(post.image, [640, 768, 1024, 1280, 1536]))}
+                    imageSizes={[
+                      '(max-width: 640px) 100vw',
+                      '(max-width: 1024px) 80vw',
+                      '1200px'
+                    ]}
+                    context="Featured image for article"
+                    caption={post.imageCaption}
+                    author={post.author}
+                    contentLocation="Texas Capitol"
+                    datePublished={post.date}
+                    generateStructuredData={true}
+                    aspectRatio="16/9"
                   />
                 </div>
               )}

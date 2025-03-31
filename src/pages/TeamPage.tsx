@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import { Mail, Linkedin, Award, Building2, BarChart, FileText, GraduationCap, Calendar } from 'lucide-react';
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
+import { generateTeamStructuredData } from '../utils/structured-data';
+import { generateTeamMemberPreview } from '../utils/social-preview';
+import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
+import ResponsiveImage from '../components/ResponsiveImage';
 
 // Define education entry type
 type EducationEntry = {
@@ -42,10 +46,14 @@ const TeamPage = () => {
       image: '/uploads/team/drew-campbell.jpg',
       bio: `Drew Campbell brings over forty years of lobbying and government relations expertise to Capitol Insights. With a foundation in agricultural economics from Oklahoma State University and business management from University of Phoenix, Drew applies both technical knowledge and strategic vision to complex legislative challenges.
 
-His career began with the Associated Motor Carriers of Oklahoma before a distinguished twenty-five year tenure as CEO of the New Car Dealers Association of Metropolitan Dallas, where he developed extensive relationships with business leaders and political figures at local, state, and federal levels. As Senior Partner at Capitol Insights, Drew leverages his media and public relations expertise to represent clients across financial, transportation, and manufacturing sectors.
+His career began with the Associated Motor Carriers of Oklahoma before a distinguished twenty-five year tenure as CEO of the New Car Dealers Association of Metropolitan Dallas, where he developed extensive relationships with business leaders and political figures at local, state, and federal levels. During his leadership, the Association grew to represent over 200 dealerships and became one of the most respected industry voices in Texas politics.
 
-Drew's approach combines authoritative experience with practical, solutions-oriented frameworks that create clear pathways forward for clients navigating legislative complexities.`,
-      expertise: ['Legislative Strategy', 'Transportation Policy', 'Local Government Relations', 'Coalition Building'],
+As Executive Director of the Dallas Regional Mobility Coalition (DRMC), Drew has been at the forefront of transportation infrastructure policy in North Texas for over a decade. His leadership in DRMC has been instrumental in securing billions in funding for critical regional transportation projects, crafting innovative public-private partnerships, and developing consensus among diverse stakeholders spanning 28 municipalities.
+
+Throughout his career, Drew has maintained a straightforward, relationship-driven approach to government relations. Rather than promising vague "influence," he focuses on practical frameworks and authentic connections that create clear pathways forward. His methodical preparation and strategic timing have helped clients navigate complex policy challenges with consistently successful outcomes.
+
+As Senior Partner at Capitol Insights, Drew leverages his transportation and infrastructure expertise and extensive connections with Texas legislators to deliver results for clients across financial, transportation, healthcare and manufacturing sectors. His longstanding relationships with key committee chairs and agency leadership provide clients with strategic access when it matters most.`,
+      expertise: ['Legislative Strategy', 'Transportation Policy', 'Local Government Relations', 'Coalition Building', 'Association Management', 'Media Relations'],
       education: [
         {
           institution: 'Oklahoma State University',
@@ -65,12 +73,18 @@ Drew's approach combines authoritative experience with practical, solutions-orie
       name: 'Byron Campbell',
       title: 'Senior Partner',
       image: '/uploads/team/byron-campbell.jpg',
-      bio: `Byron Campbell's political acumen was developed through hands-on experience in the corridors of power, beginning with his education at the University of North Texas, where he also demonstrated leadership as a letterman on the football team. His career trajectory reflects a strategic progression through the political landscape, starting as a Legislative Assistant for the Education and Workforce Committee in the U.S. House of Representatives.
+      bio: `Byron Campbell's political acumen was developed through hands-on experience in the corridors of power, beginning with his education at the University of North Texas, where he also demonstrated leadership as a letterman on the football team. His career trajectory reflects a strategic progression through the political landscape at both federal and state levels.
 
-Byron's expertise was further refined during his time as Field Director for Pete Sessions for Congress and his five-year service as North Texas Regional Director for U.S. Senator Kay Bailey Hutchison. Since joining Capitol Insights as Senior Partner in 2011, Byron has established himself as an expert in relationship-oriented advocacy, with particular focus on the behind-the-scenes dynamics that drive legislative outcomes.
+As Legislative Assistant for the Education and Workforce Committee in the U.S. House of Representatives under Chairman John Boehner, Byron gained invaluable insights into federal policy development, particularly in education and workforce issues. He helped craft committee positions on significant legislation and developed expertise in the intricate relationships between federal and state policy implementation.
 
-Byron's educational approach breaks down complex political processes for clients, emphasizing early engagement and strategic preparation to achieve optimal results.`,
-      expertise: ['Policy Development', 'Regulatory Affairs', 'Telecommunications', 'Technology Policy'],
+Byron's campaign experience as Field Director for Pete Sessions for Congress demonstrated his strategic organizational abilities, where he coordinated grassroots operations across 188 precincts in Texas' 32nd Congressional District, exceeding vote goals by over 5,000 votes. This experience honed his understanding of effective messaging and coalition building.
+
+For five years, Byron served as North Texas Regional Director for U.S. Senator Kay Bailey Hutchison, becoming her point man across 54 counties in Northeast Texas. In this pivotal role, he traveled extensively with Sen. Hutchison, coordinated her regional events, and led outreach initiatives to local leaders—meeting regularly with county judges, mayors, city council members, and business leaders. This experience deepened his understanding of how federal decisions impact local communities and established his extensive network across Texas.
+
+Since co-founding Capitol Insights as Senior Partner in 2011, Byron has established himself as an expert in telecommunications, technology policy, and the behind-the-scenes dynamics that drive legislative outcomes. His approach is characterized by methodical education and preparation, breaking down complex political processes for clients and emphasizing early engagement to achieve optimal results.
+
+Byron's commitment to education and community engagement is reflected in his service as Chairman of the University of North Texas Alumni Association's national board of directors from 2014-2016, where he led initiatives to strengthen alumni connections and support educational advancement. His combination of federal and state experience gives clients a comprehensive perspective on policy matters affecting Texas.`,
+      expertise: ['Policy Development', 'Regulatory Affairs', 'Telecommunications', 'Technology Policy', 'Federal Relations', 'Campaign Strategy', 'Grassroots Mobilization'],
       education: [
         {
           institution: 'University of North Texas',
@@ -101,6 +115,44 @@ Byron's educational approach breaks down complex political processes for clients
             { property: "og:site_name", content: "Capitol Insights" }
           ]
         })}
+        structuredData={generateTeamStructuredData(
+          {
+            name: "Capitol Insights",
+            url: "https://capitol-insights.com",
+            logo: "https://capitol-insights.com/images/logo.png",
+            description: "Capitol Insights is a leading government relations firm in Texas specializing in transportation policy, telecommunications, and coalition building.",
+            sameAs: [
+              "https://www.linkedin.com/company/capitol-insights",
+              "https://twitter.com/capitolinsights"
+            ]
+          },
+          teamMembers.map(member => ({
+            name: member.name,
+            jobTitle: member.title,
+            description: member.bio.substring(0, 250) + "...",
+            image: member.image,
+            url: `https://capitol-insights.com/team#${member.name.toLowerCase().replace(' ', '-')}`,
+            sameAs: [
+              member.linkedin || 
+              (member.name === "Drew Campbell" 
+                ? "https://www.linkedin.com/in/drew-campbell-19ab7a6/"
+                : "https://www.linkedin.com/in/byron-campbell-9b28282b/")
+            ]
+          }))
+        )}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://capitol-insights.com/' },
+          { name: 'Our Team', url: 'https://capitol-insights.com/team' }
+        ]}
+        includeOrganizationData={true}
+        socialPreview={
+          generateTeamMemberPreview({
+            name: "Capitol Insights Team",
+            title: "Texas Government Relations Experts",
+            bio: "Our leadership team brings decades of experience in Texas government relations, with expertise in transportation policy, telecommunications, and legislative advocacy.",
+            image: "/uploads/team/team-page.png"
+          })
+        }
       />
       
       {/* Team Header */}
@@ -118,6 +170,18 @@ Byron's educational approach breaks down complex political processes for clients
           </div>
         </div>
       </section>
+      
+      {/* Breadcrumb Navigation */}
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="container py-3">
+          <BreadcrumbNavigation 
+            items={[
+              { name: 'Home', path: '/' },
+              { name: 'Our Team', path: '/team', isLast: true }
+            ]}
+          />
+        </div>
+      </div>
 
       {/* Team Members */}
       <section className="py-16 sm:py-20 md:py-24 bg-white">
@@ -129,10 +193,17 @@ Byron's educational approach breaks down complex political processes for clients
                   <div className="lg:col-span-4">
                     <div className="relative transition-all duration-300 hover:shadow-lg">
                       <div className="rounded-xl overflow-hidden shadow-lg">
-                        <img 
+                        <ResponsiveImage 
                           src={member.image} 
-                          alt={member.name} 
-                          className="w-full h-auto object-cover aspect-square"
+                          alt={member.name}
+                          className="w-full h-auto aspect-square"
+                          aspectRatio="1/1"
+                          objectFit="cover"
+                          generateStructuredData={true}
+                          caption={`${member.name} - ${member.title}`}
+                          author="Capitol Insights"
+                          contentLocation="Austin, Texas"
+                          context={`Team member portrait of ${member.name}, ${member.title}`}
                         />
                       </div>
                       <div className="absolute -bottom-4 -right-4 w-28 sm:w-40 h-28 sm:h-40 bg-primary-100 rounded-xl -z-10"></div>

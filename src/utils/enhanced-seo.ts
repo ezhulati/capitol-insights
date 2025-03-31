@@ -1,7 +1,7 @@
 import { SEOProps } from './seo';
 
 export interface EnhancedSEOProps extends SEOProps {
-  pageType: 'home' | 'services' | 'team' | 'results' | 'approach' | 'contact' | 'updates' | 'blog' | 'policy';
+  pageType: 'home' | 'services' | 'team' | 'results' | 'approach' | 'contact' | 'updates' | 'blog' | 'policy' | 'resources';
   slug?: string;
 }
 
@@ -236,6 +236,28 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
             content: "privacy policy, terms of service, legal terms, government relations policy, website terms, data privacy" 
           }
         ]
+      };
+      
+    case 'resources':
+      return {
+        ...baseSEO,
+        title: props.title || 'Legislative Resources & Policy Briefs | Capitol Insights',
+        description: props.description || 'Access our library of free resources including legislative guides, policy briefs, and research reports on Texas government, transportation, healthcare, and more.',
+        image: props.image || '/images/texas-capitol.jpg',
+        canonical: '/resources',
+        additionalMetaTags: [
+          { 
+            name: "keywords", 
+            content: "Texas legislative resources, policy briefs, government relations guides, Texas legislative calendar, regulatory analysis, advocacy toolkits" 
+          }
+        ],
+        schemaMarkup: {
+          type: 'CollectionPage',
+          name: 'Legislative Resources & Policy Briefs',
+          description: 'Comprehensive collection of resources to help navigate the Texas legislative and regulatory landscape including guides, briefs, and research reports.',
+          url: 'https://capitol-insights.com/resources',
+          image: '/images/texas-capitol.jpg'
+        }
       };
 
     default:

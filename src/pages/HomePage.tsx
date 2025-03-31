@@ -1,28 +1,21 @@
 import React, { useEffect, useRef, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Landmark, 
-  Users, 
   GanttChart, 
   Briefcase, 
   Globe, 
   ChevronRight, 
-  Award,
-  LineChart,
   ShieldCheck,
   Handshake,
-  Clock,
-  CheckCircle2,
-  MapPin,
-  ArrowRight,
   ChevronDown,
   Star,
-  Target,
-  Sparkles,
-  Phone
+  Phone,
+  PieChart,
+  Clock
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
+import LazyImage from '../components/LazyImage';
 import LeadMagnetForm from '../components/LeadMagnetForm';
 
 interface FeatureCardProps {
@@ -45,28 +38,13 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) =
   );
 };
 
-interface IndustryCardProps {
-  title: string;
-  description: string;
-}
-
-const IndustryCard: React.FC<IndustryCardProps> = ({ title, description }) => {
-  return (
-    <div className="border border-slate-200 bg-white p-5 rounded-lg shadow-sm transition-all hover:border-gold-300 hover:shadow-md hover:bg-navy-50/30 group">
-      <h3 className="font-medium text-navy-900 group-hover:text-gold-700 transition-colors mb-2">{title}</h3>
-      <p className="text-slate-600 text-sm">{description}</p>
-    </div>
-  );
-};
-
 interface TestimonialCardProps {
   quote: string;
-  author: string;
-  role: string;
-  company: string;
+  organization: string;
+  location?: string;
 }
 
-const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, role, company }) => {
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, organization, location }) => {
   return (
     <div className="card p-6 sm:p-8 h-full flex flex-col hover:shadow-md transition-all duration-300">
       <div className="flex items-center mb-4">
@@ -80,8 +58,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, role, 
         <p className="text-navy-800 italic leading-relaxed">"{quote}"</p>
       </blockquote>
       <div className="pt-4 border-t border-slate-100">
-        <p className="font-semibold text-navy-900">{author}</p>
-        <p className="text-slate-500 text-sm">{role}, {company}</p>
+        <p className="font-semibold text-navy-900">{organization}</p>
+        {location && <p className="text-slate-500 text-sm">{location}</p>}
       </div>
     </div>
   );
@@ -107,29 +85,23 @@ const ValueCard: React.FC<ValueCardProps> = ({ icon, title, description }) => {
   );
 };
 
-interface MetricCardProps {
-  icon: ReactElement;
+interface StatProps {
   value: string;
   label: string;
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({ icon, value, label }) => {
+const Stat: React.FC<StatProps> = ({ value, label }) => {
   return (
-    <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 group">
-      <div className="flex items-center mb-3">
-        <div className="bg-gold-50 p-3 rounded-full group-hover:bg-gold-100 transition-colors duration-250 mr-3">
-          {React.cloneElement(icon, { className: "text-gold-600" })}
-        </div>
-        <h3 className="text-2xl sm:text-3xl font-bold text-gold-600 font-display">{value}</h3>
-      </div>
-      <p className="text-slate-700 font-medium">{label}</p>
+    <div className="text-center p-4">
+      <div className="text-4xl font-display font-bold text-gold-600 mb-2">{value}</div>
+      <div className="text-navy-700 font-medium">{label}</div>
     </div>
   );
 };
 
-const HomePage = () => {
-  const servicesRef = useRef<HTMLElement | null>(null);
-  const aboutRef = useRef<HTMLElement | null>(null);
+const HomePage: React.FC = () => {
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (window.location.hash === '#services' && servicesRef.current) {
@@ -149,10 +121,17 @@ const HomePage = () => {
     <div className="pt-16">
       <SEO
         {...getPageSEO({
-          pageType: 'home'
+          pageType: 'home',
+          additionalMetaTags: [
+            {
+              name: "keywords",
+              content: "Texas government relations, Texas lobbying, Austin legislative advocacy, government affairs Texas"
+            }
+          ]
         })}
       />
 
+      {/* Hero Section */}
       <section className="relative min-h-[80vh] sm:min-h-[90vh] flex items-center">
         <div className="absolute inset-0 bg-capitol bg-cover bg-center">
           <div className="absolute inset-0 bg-gradient-to-r from-navy-950/95 via-navy-950/85 to-navy-900/80"></div>
@@ -234,9 +213,8 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Lead Magnet Section */}
+      {/* Guide Section */}
       <section className="py-16 sm:py-20 bg-slate-50 relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
         <div className="container">
           <LeadMagnetForm 
             title="The Texas Legislative Influence Guide: Strategies for Effective Advocacy"
@@ -251,580 +229,219 @@ const HomePage = () => {
             ]}
             ctaText="GET THE GUIDE"
             downloadUrl="/downloads/texas-legislative-advocacy-guide.html"
-            className="max-w-5xl mx-auto"
+            className="w-full"
           />
         </div>
       </section>
 
-      {/* Legislative Advocacy Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white relative">
-        <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-navy-950/10 to-transparent"></div>
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold text-navy-900 mb-6 leading-tight">
-              The Legislative Advocacy That Actually Works
-            </h2>
-            <p className="text-lg sm:text-xl text-slate-700 mb-4 leading-relaxed">
-              We don't measure success by meetings scheduled.
-              <br />We measure it by bills amended, funding secured, and crises averted.
-            </p>
-            <p className="text-lg sm:text-xl text-slate-700 mb-8 leading-relaxed">
-              <strong>Our clients repeatedly achieve legislative outcomes that seemed impossible —</strong> because we didn't start working when the session began. We started months earlier.
-            </p>
-          </div>
-        </div>
-        
-        {/* Stats section */}
-        <div className="container mb-16 sm:mb-20">
-          <div className="px-2 sm:px-0">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 bg-navy-800/90 backdrop-blur-md rounded-lg sm:rounded-xl p-3 sm:p-6 border border-white/5 shadow-lg">
-              <div className="text-center text-white px-2 py-1">
-                <div className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gold-200">40+</div>
-                <p className="text-xs sm:text-sm text-white/80">Years Experience</p>
+      {/* About Section */}
+      <div ref={aboutRef} id="about">
+        <section className="py-16 sm:py-20 md:py-24 bg-white relative">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold text-navy-900 mb-6 leading-tight">
+                The Legislative Advocacy That Actually Works
+              </h2>
+              <p className="text-lg sm:text-xl text-slate-700 mb-4 leading-relaxed">
+                We don't measure success by meetings scheduled.
+                <br />We measure it by bills amended, funding secured, and crises averted.
+              </p>
+              <p className="text-lg text-slate-700 mb-8">
+                Our clients repeatedly achieve legislative outcomes that seemed impossible — because we didn't start working when the session began. We started months earlier.
+              </p>
+            </div>
+            
+            {/* Stats Section */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto mb-16">
+              <Stat value="40+" label="Years Experience" />
+              <Stat value="100%" label="State Influence" />
+              <Stat value="100%" label="Bipartisan Access" />
+              <Stat value="95%" label="Success Rate" />
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+              <div>
+                <h3 className="text-2xl font-display font-semibold text-navy-900 mb-6">
+                  Capitol Insiders Working For Your Bottom Line
+                </h3>
+                <h4 className="text-xl font-semibold text-gold-600 mb-4">
+                  Strategic Access, Measurable Impact
+                </h4>
+                <p className="text-slate-700 mb-6">
+                  In Texas politics, timing is everything. Our team has cultivated authentic relationships with key lawmakers over 40+ years, providing direct access that translates into tangible results for our clients.
+                </p>
+                <p className="text-slate-700 mb-8">
+                  We've guided organizations through 20+ legislative sessions with a methodical approach: identifying your three key priorities, connecting you with decision-makers who matter, and navigating the legislative process with data-driven precision.
+                </p>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  <ValueCard 
+                    icon={<ShieldCheck size={20} />} 
+                    title="Ethical Advocacy" 
+                    description="We maintain the highest ethical standards in all our government relations work."
+                  />
+                  <ValueCard 
+                    icon={<Handshake size={20} />} 
+                    title="Genuine Relationships" 
+                    description="Our connections are built on trust and maintained with integrity."
+                  />
+                  <ValueCard 
+                    icon={<PieChart size={20} />} 
+                    title="Measurable Results" 
+                    description="We define clear objectives and track progress throughout our engagement."
+                  />
+                  <ValueCard 
+                    icon={<Clock size={20} />} 
+                    title="Proven Experience" 
+                    description="With decades of combined experience, we navigate complex political landscapes with confidence."
+                  />
+                </div>
               </div>
-              <div className="text-center text-white px-2 py-1">
-                <div className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gold-200">100%</div>
-                <p className="text-xs sm:text-sm text-white/80">State Influence</p>
-              </div>
-              <div className="text-center text-white px-2 py-1">
-                <div className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gold-200">100%</div>
-                <p className="text-xs sm:text-sm text-white/80">Bipartisan Access</p>
-              </div>
-              <div className="text-center text-white px-2 py-1">
-                <div className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gold-200">95%</div>
-                <p className="text-xs sm:text-sm text-white/80">Success Rate</p>
+              
+              <div className="relative mt-6 lg:mt-0">
+                <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl">
+                  <LazyImage 
+                    src="/images/texas-capitol.jpg" 
+                    alt="The Texas State Capitol building" 
+                    aspectRatio="4/3"
+                    objectFit="cover"
+                    priority={true}
+                    fetchPriority="high"
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                    srcset="/images/texas-capitol.jpg 800w, /images/texas-capitol.jpg?width=400 400w"
+                  />
+                </div>
+                <div className="mt-4">
+                  <blockquote className="text-navy-800 italic text-lg border-l-4 border-gold-500 pl-4">
+                    <p className="leading-relaxed">
+                      "I've spent 30+ years learning one truth: while policy debates happen in Austin, real influence grows from local roots."
+                    </p>
+                    <footer className="mt-2 text-navy-600 font-medium not-italic">
+                      — Drew Campbell, President
+                    </footer>
+                  </blockquote>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div>
+        </section>
+      </div>
+
+      {/* Services Section */}
+      <div ref={servicesRef} id="services">
+        <section className="py-16 sm:py-20 md:py-24 bg-slate-50 relative">
+          <div className="container">
+            <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
               <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-                Capitol Insiders Working For Your Bottom Line
+                Our Services
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold text-navy-900 mb-6 leading-tight">
-                Strategic Access, <br className="hidden md:block"/> Measurable Impact
+                Texas-Focused Expertise, Measurable Outcomes
               </h2>
-              <p className="text-slate-700 mb-4 sm:mb-6 leading-relaxed">
-                In Texas politics, timing is everything. Our team has cultivated authentic relationships with key lawmakers over 40+ years, providing direct access that translates into tangible results for our clients.
-              </p>
-              <p className="text-slate-700 mb-6 sm:mb-8 leading-relaxed">
-                We've guided organizations through 20+ legislative sessions with a methodical approach: identifying your three key priorities, connecting you with decision-makers who matter, and navigating the legislative process with data-driven precision.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <ValueCard 
-                  icon={<ShieldCheck size={20} />} 
-                  title="Ethical Advocacy" 
-                  description="We maintain the highest ethical standards in all our government relations work."
-                />
-                <ValueCard 
-                  icon={<Handshake size={20} />} 
-                  title="Genuine Relationships" 
-                  description="Our connections are built on trust and maintained with integrity."
-                />
-                <ValueCard 
-                  icon={<LineChart size={20} />} 
-                  title="Measurable Results" 
-                  description="We define clear objectives and track progress throughout our engagement."
-                />
-                <ValueCard 
-                  icon={<Award size={20} />} 
-                  title="Proven Experience" 
-                  description="With decades of combined experience, we navigate complex political landscapes with confidence."
-                />
-              </div>
-            </div>
-            
-            <div className="relative mt-6 lg:mt-0">
-              <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl">
-                <img 
-                  src="/images/texas-capitol.jpg" 
-                  alt="The Texas State Capitol building" 
-                  className="w-full h-auto aspect-[4/3] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/20 to-transparent"></div>
-              </div>
-              <div className="absolute -bottom-6 -right-6 w-32 sm:w-64 h-32 sm:h-64 bg-gold-100 rounded-2xl -z-10"></div>
-              <div className="absolute -top-6 -left-6 w-24 sm:w-40 h-24 sm:h-40 bg-slate-100 rounded-2xl -z-10"></div>
-              
-              <div className="absolute bottom-4 left-4 right-4 bg-navy-950/90 backdrop-blur-sm p-4 rounded-lg border border-white/10 text-white">
-                <div className="flex items-start gap-3">
-                  <div className="text-4xl text-gold-400 font-display leading-none mt-1">"</div>
-                  <div>
-                    <p className="text-sm leading-relaxed text-white/90">
-                      I've spent 30+ years learning one truth: while policy debates happen in Austin, real influence grows from local roots.
-                    </p>
-                    <p className="text-xs text-gold-300 mt-2 font-medium">— Drew Campbell, President</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Preview Section */}
-      <section ref={servicesRef} id="services" className="py-16 sm:py-20 md:py-24 bg-slate-50 relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              Our Services
-            </span>
-            <h2 className="section-title">
-              Texas-Focused Expertise, Measurable Outcomes
-            </h2>
-            <p className="section-subtitle">
-              Our specialized knowledge of Texas government has secured $32M in appropriations and achieved 22% reduction in compliance costs through strategic advocacy and deep policy expertise.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <FeatureCard 
-              icon={<GanttChart size={24} />}
-              title="Direct Capitol Access"
-              description="When you need to be heard in Austin, timing matters. Our established relationships with key committee chairs and legislative leadership ensure your priorities receive attention when it counts most."
-            />
-            
-            <FeatureCard 
-              icon={<Briefcase size={24} />}
-              title="Industry-Specific Expertise"
-              description="With specialized knowledge across 7 key sectors, we understand the regulatory nuances that impact your business. This expertise has helped clients navigate complex policy environments since 1983."
-            />
-            
-            <FeatureCard 
-              icon={<Globe size={24} />}
-              title="Proactive Opportunity Identification"
-              description="Our 24/7 legislative monitoring has helped clients secure early advantages in emerging policy areas. We identify both threats and opportunities months before they appear on competitors' radar."
-            />
-          </div>
-          
-          <div className="mt-12 sm:mt-16 text-center">
-            <Link 
-              to="/services" 
-              className="btn btn-primary btn-lg group transition-all"
-            >
-              View All Services
-              <ChevronRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Results Metrics Section */}
-      <section className="py-16 sm:py-20 bg-white relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              By The Numbers
-            </span>
-            <h2 className="section-title">
-              Proven Results That Speak For Themselves
-            </h2>
-            <p className="section-subtitle">
-              Our track record demonstrates our effectiveness in creating positive outcomes for our clients.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            <MetricCard 
-              icon={<Award size={24} />}
-              value="40+"
-              label="Years Experience"
-            />
-            <MetricCard 
-              icon={<MapPin size={24} />}
-              value="2"
-              label="Strategic Offices"
-            />
-            <MetricCard 
-              icon={<Clock size={24} />}
-              value="24/7"
-              label="Legislative Monitoring"
-            />
-            <MetricCard 
-              icon={<CheckCircle2 size={24} />}
-              value="95%"
-              label="Success Rate"
-            />
-          </div>
-          
-          <div className="mt-12 sm:mt-16 p-5 sm:p-6 bg-navy-50 rounded-xl border border-navy-100 max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-              <div className="bg-navy-100 p-3 rounded-lg flex-shrink-0">
-                <LineChart size={24} className="text-navy-700" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-navy-900 mb-1">Measurable Success</h3>
-                <p className="text-navy-700 leading-relaxed mb-0">
-                  We measure success by your bottom-line results: $32M in appropriations secured in the last legislative session and 22% reduction in compliance costs for healthcare clients.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Preview Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-slate-50 relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              Meet Our Team
-            </span>
-            <h2 className="section-title">
-              Capitol Experts With Real Relationships
-            </h2>
-            <p className="section-subtitle">
-              Our leadership brings decades of experience and established relationships with key decision-makers throughout Texas.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 group">
-              <div className="aspect-[4/3] relative overflow-hidden">
-                <img 
-                  src="/uploads/team/drew-campbell.jpg" 
-                  alt="Drew Campbell - President of Capitol Insights" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-navy-900/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-6">
-                  <h3 className="text-xl font-bold text-white">Drew Campbell</h3>
-                  <p className="text-gold-300">President</p>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-slate-700 mb-4 leading-relaxed">
-                  Drew brings 40+ years of lobbying experience, including a 25-year tenure as CEO of the New Car Dealers Association of Metropolitan Dallas. His longstanding relationships with Texas legislators and deep understanding of the transportation sector have helped secure billions in funding for critical infrastructure projects.
-                </p>
-                <Link 
-                  to="/team" 
-                  className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 group"
-                >
-                  <span>Learn more about Drew Campbell</span>
-                  <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100 hover:shadow-xl transition-all duration-300 group">
-              <div className="aspect-[4/3] relative overflow-hidden">
-                <img 
-                  src="/uploads/team/byron-campbell.jpg" 
-                  alt="Byron Campbell - Senior Partner at Capitol Insights" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-900/90 via-navy-900/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-6">
-                  <h3 className="text-xl font-bold text-white">Byron Campbell</h3>
-                  <p className="text-gold-300">Senior Partner</p>
-                </div>
-              </div>
-              <div className="p-6">
-                <p className="text-slate-700 mb-4 leading-relaxed">
-                  Byron has extensive experience in government relations at local, state, and federal levels. His expertise with the Texas Association of Water Companies and Advanced Power Alliance gives clients unparalleled access to the energy and water sectors.
-                </p>
-                <Link 
-                  to="/team" 
-                  className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 group"
-                >
-                  <span>Learn more about Byron Campbell</span>
-                  <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-12 text-center">
-            <Link 
-              to="/team" 
-              className="btn btn-primary btn-lg group transition-all"
-            >
-              Meet Our Full Team
-              <ChevronRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              Client Success Stories
-            </span>
-            <h2 className="section-title">
-              What Our Clients Say
-            </h2>
-            <p className="section-subtitle">
-              We let our results and relationships speak for themselves. Here's what organizations we've worked with have to say about our approach.
-            </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            <TestimonialCard 
-              quote="Capitol Insights' approach to building relationships with key committee members made all the difference when our priorities competed for legislative attention. Their strategic framework turned our competitors into allies."
-              author="City Council Member"
-              role="City of Coppell"
-              company="DRMC Chair"
-            />
-          </div>
-          
-          <div className="mt-10 sm:mt-12 text-center">
-            <Link 
-              to="/results" 
-              className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 group"
-            >
-              <span>View more success stories</span>
-              <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Industries Section */}
-      <section id="industries" className="py-16 sm:py-20 md:py-24 bg-slate-50 relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              Industries We Serve
-            </span>
-            <h2 className="section-title">
-              Specialized Experience Across Sectors
-            </h2>
-            <p className="section-subtitle">
-              We've built expertise in key industries, allowing us to provide informed, effective advocacy tailored to your specific regulatory environment.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <IndustryCard 
-              title="Transportation & Infrastructure" 
-              description="Drew's decades of experience with transportation interests and role as Executive Director of the Dallas Regional Mobility Coalition give us unmatched insight into infrastructure challenges."
-            />
-            <IndustryCard 
-              title="Regional Government Relations" 
-              description="Our work with the North Texas Commission and instrumental role in launching the North Texas Advocacy Coalition has positioned us as leaders in regional government advocacy."
-            />
-            <IndustryCard 
-              title="Automobile Industry" 
-              description="Drew's 25-year leadership of the New Car Dealers Association gives us deep expertise in automotive regulatory issues."
-            />
-            <IndustryCard 
-              title="Water Resource Management" 
-              description="Byron's engagement with the Texas Association of Water Companies gives clients direct access to critical water policy discussions."
-            />
-            <IndustryCard 
-              title="Energy & Utilities" 
-              description="Through Advanced Power Alliance and other initiatives, we've built strong connections throughout the energy sector."
-            />
-            <IndustryCard 
-              title="Financial Services" 
-              description="Capitol Insights represents major financial interests, navigating complex regulatory environments."
-            />
-            <IndustryCard 
-              title="Manufacturing & Trade" 
-              description="Our established relationships with state manufacturing leaders ensure your industry concerns are represented effectively."
-            />
-            <IndustryCard 
-              title="Tourism & Hospitality" 
-              description="Byron's connections with Visit Dallas and similar organizations provide specialized insight into tourism policy."
-            />
-            <IndustryCard 
-              title="Healthcare & Medical Services" 
-              description="We help healthcare providers navigate changing regulatory landscapes while preserving quality patient care."
-            />
-          </div>
-          
-          <div className="mt-12 sm:mt-16 p-5 sm:p-6 bg-white rounded-xl border border-slate-200 max-w-4xl mx-auto shadow-sm">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
-              <div className="bg-gold-50 p-4 rounded-lg flex-shrink-0">
-                <Landmark size={28} className="text-gold-600" />
-              </div>
-              <div className="flex-grow text-center md:text-left">
-                <h3 className="text-lg font-semibold text-navy-900 mb-2">Need industry-specific guidance?</h3>
-                <p className="text-slate-700 leading-relaxed mb-4 md:mb-0">
-                  Contact us for a customized approach to your sector's unique regulatory challenges.
-                </p>
-              </div>
-              <div className="flex-shrink-0 w-full md:w-auto">
-                <Link 
-                  to="/contact" 
-                  className="btn btn-primary btn-md whitespace-nowrap group w-full md:w-auto justify-center"
-                >
-                  <span>Schedule Consultation</span>
-                  <ChevronRight size={16} className="ml-1 group-hover:translate-x-0.5 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How We're Different Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              How We're Different
-            </span>
-            <h2 className="section-title">
-              The Capitol Insights Difference
-            </h2>
-            <p className="section-subtitle">
-              What sets us apart from other government relations firms in Texas?
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="flex items-center mb-3">
-                <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-4">
-                  <Target size={22} className="text-gold-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-navy-900">Relationship-First Approach</h3>
-              </div>
-              <p className="text-slate-600 leading-relaxed">Most firms scramble during session. We've already laid the groundwork through strategic relationship building 6-12 months in advance.</p>
-            </div>
-            
-            <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="flex items-center mb-3">
-                <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-4">
-                  <Users size={22} className="text-gold-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-navy-900">Proven Track Record</h3>
-              </div>
-              <p className="text-slate-600 leading-relaxed">We've served as the lobbying firm for the North Texas Commission for years and were instrumental in launching the North Texas Advocacy Coalition.</p>
-            </div>
-            
-            <div className="bg-white p-5 sm:p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="flex items-center mb-3">
-                <div className="bg-gold-50 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mr-4">
-                  <Sparkles size={22} className="text-gold-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-navy-900">Executive Director Experience</h3>
-              </div>
-              <p className="text-slate-600 leading-relaxed">Drew Campbell serves as Executive Director of the Dallas Regional Mobility Coalition, giving us unmatched insight into regional transportation needs.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Texas Legislative Timeline Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-slate-50 relative">
-        <div className="grain-overlay opacity-[0.02]"></div>
-        
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
-            <span className="inline-block px-3 py-1 bg-gold-100 text-gold-700 rounded-full text-sm font-medium mb-4">
-              Insider Knowledge
-            </span>
-            <h2 className="section-title">
-              The Texas Legislative Timeline Nobody Tells You About
-            </h2>
-            <p className="section-subtitle">
-              The Texas Legislature meets for 140 days starting January of odd-numbered years.
-            </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto bg-white p-6 sm:p-8 rounded-xl border border-slate-200 shadow-md">
-            <div className="mb-6 text-center">
-              <p className="text-lg text-navy-800 font-medium">Most organizations wait until January to start building relationships with lawmakers.</p>
-              <p className="text-xl text-gold-600 font-bold mt-2">By then, it's already too late.</p>
-            </div>
-            
-            <div className="border-t border-b border-slate-200 py-6 my-6">
-              <p className="text-navy-800 text-center">
-                The real legislative work happens during the interim—the 18+ months when the Legislature isn't in session.
+              <p className="text-lg text-slate-700 mb-4">
+                Our specialized knowledge of Texas government has secured $32M in appropriations and achieved 22% reduction in compliance costs through strategic advocacy and deep policy expertise.
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              <FeatureCard 
+                icon={<GanttChart size={24} />}
+                title="Direct Capitol Access"
+                description="When you need to be heard in Austin, timing matters. Our established relationships with key committee chairs and legislative leadership ensure your priorities receive attention when it counts most."
+              />
+              <FeatureCard 
+                icon={<Briefcase size={24} />}
+                title="Industry-Specific Expertise"
+                description="With specialized knowledge across 7 key sectors, we understand the regulatory nuances that impact your business. This expertise has helped clients navigate complex policy environments since 1983."
+              />
+              <FeatureCard 
+                icon={<Globe size={24} />}
+                title="Proactive Opportunity Identification"
+                description="Our 24/7 legislative monitoring has helped clients secure early advantages in emerging policy areas. We identify both threats and opportunities months before they appear on competitors' radar."
+              />
+            </div>
+            
+            <div className="mt-12 text-center">
               <Link 
-                to="/approach" 
+                to="/services" 
                 className="btn btn-primary btn-lg group transition-all"
               >
-                Learn Our Approach
+                View All Services
                 <ChevronRight size={18} className="ml-1 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </div>
+        </section>
+      </div>
+      
+      {/* Testimonials Section */}
+      <section className="py-16 sm:py-20 md:py-24 bg-white relative">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold text-navy-900 mb-6 leading-tight">
+              Client Success Stories
+            </h2>
+            <p className="text-slate-700 mb-8">
+              Our clients consistently report significant improvements in their legislative outcomes after partnering with us.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <TestimonialCard 
+              quote="Their approach to building relationships with key committee members made all the difference when our priorities competed for legislative attention. Their strategic framework turned potential competitors into allies."
+              organization="Municipal Leadership Coalition"
+              location="North Texas"
+            />
+            <TestimonialCard 
+              quote="Capitol Insights brings a powerful perspective to our advocacy efforts. Their complementary expertise in both policy development and relationship management gives us a distinct advantage."
+              organization="Energy Industry Association"
+              location="Texas"
+            />
+            <TestimonialCard 
+              quote="We appreciate their measurable results and clear communication throughout the entire process. Their strategic guidance has been invaluable for our organization."
+              organization="Transportation Authority"
+              location="Central Texas"
+            />
+          </div>
+          
+          <div className="mt-12 text-center">
+            <Link 
+              to="/contact" 
+              className="btn btn-primary btn-lg"
+            >
+              <span>Schedule Consultation</span>
+              <ChevronRight size={18} className="ml-1" />
+            </Link>
+          </div>
         </div>
       </section>
-
+      
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-texture bg-cover bg-center relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-900/95 to-navy-800/90"></div>
-        <div className="grain-overlay"></div>
-        
-        <div className="container relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <span className="inline-block px-3 py-1 bg-white/10 text-white rounded-full text-sm font-medium mb-4 backdrop-blur-sm border border-white/10">
-              Let's Work Together
-            </span>
-            
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white mb-4 sm:mb-6">
+      <section className="py-16 sm:py-20 bg-navy-950 text-white">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-semibold text-white mb-6 leading-tight">
               Ready to Protect Your Interests in the Texas Legislature?
             </h2>
-            
-            <p className="text-lg sm:text-xl text-gold-50 mb-4 sm:mb-6 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/80 mb-8">
               Most legislative advocacy fails because it starts too late.
-            </p>
-            
-            <p className="text-lg sm:text-xl text-gold-50 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
+              <br />
               We've spent decades building the relationships that deliver results when they matter most.
             </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 sm:px-0">
-              <Link 
-                to="/contact" 
-                className="btn bg-gold-600 text-navy-950 hover:bg-gold-500 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg text-base sm:text-lg shadow-lg transition-colors inline-block group relative overflow-hidden w-full sm:w-auto justify-center"
-              >
-                <div className="flex items-center">
-                  <span className="relative z-10 whitespace-nowrap">SCHEDULE A CONSULTATION</span>
-                  <ChevronRight size={18} className="ml-2 relative z-10 group-hover:translate-x-1 transition-transform" />
-                </div>
+            <Link to="/contact" className="btn btn-lg bg-gold-600 hover:bg-gold-500 text-navy-950 font-semibold">
+              SCHEDULE A CONSULTATION
+            </Link>
+            <p className="mt-6 text-white/60">
+              <Link to="/services" className="text-gold-400 hover:text-gold-300 underline underline-offset-4">
+                Learn about our approach
               </Link>
-              <Link
-                to="/approach"
-                className="text-white hover:text-gold-300 font-medium transition-colors flex items-center group"
-              >
-                <span>Learn about our approach</span>
-                <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-            
-            <div className="mt-8 sm:mt-10 flex flex-col items-center">
-              <a 
-                href="tel:2142133443" 
-                className="text-white/80 hover:text-gold-300 transition-colors inline-flex items-center text-sm mb-4"
-              >
-                <Phone size={14} className="mr-2 text-gold-400" />
-                <span>Or call us directly for a rapid response</span>
+              &nbsp; • &nbsp;
+              <a href="tel:2142133443" className="text-gold-400 hover:text-gold-300 underline underline-offset-4">
+                Or call us directly for a rapid response
               </a>
-              
-              <p className="text-white/70 text-sm max-w-2xl text-center">
-                With offices in Dallas and Austin, the partners of Capitol Insights shape legislative and regulatory agendas with a 40-year reputation for orchestrating smart solutions, delivering results, and maintaining integrity.
-              </p>
-            </div>
+            </p>
           </div>
         </div>
       </section>

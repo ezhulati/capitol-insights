@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Lightbulb, 
+  // Removed unused imports
   CheckCircle2, 
   Shield, 
   ChevronRight, 
@@ -10,7 +10,6 @@ import {
   Users, 
   ClipboardList,
   LineChart,
-  MessageSquare,
   Building2,
   Gauge,
   Handshake,
@@ -18,8 +17,16 @@ import {
   Megaphone
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { getPageSEO } from '../utils/enhanced-seo';
 
-const ProcessStep = ({ number, title, description, icon }) => {
+interface ProcessStepProps {
+  number: number;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+}
+
+const ProcessStep = ({ number, title, description, icon }: ProcessStepProps) => {
   return (
     <div className="relative">
       <div className="flex">
@@ -50,7 +57,13 @@ const ProcessStep = ({ number, title, description, icon }) => {
   );
 };
 
-const ValueCard = ({ icon, title, description }) => {
+interface ValueCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const ValueCard = ({ icon, title, description }: ValueCardProps) => {
   return (
     <div className="card p-6 hover:shadow-md transition-all duration-300">
       <div className="flex items-center mb-3">
@@ -64,7 +77,12 @@ const ValueCard = ({ icon, title, description }) => {
   );
 };
 
-const FAQItem = ({ question, answer }) => {
+interface FAQItemProps {
+  question: string;
+  answer: string;
+}
+
+const FAQItem = ({ question, answer }: FAQItemProps) => {
   const [isOpen, setIsOpen] = React.useState(false);
   
   return (
@@ -88,7 +106,13 @@ const FAQItem = ({ question, answer }) => {
   );
 };
 
-const DifferentiatorCard = ({ icon, title, description }) => {
+interface DifferentiatorCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const DifferentiatorCard = ({ icon, title, description }: DifferentiatorCardProps) => {
   return (
     <div className="bg-white p-6 rounded-xl border border-secondary-100 shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center mb-3">
@@ -105,16 +129,18 @@ const DifferentiatorCard = ({ icon, title, description }) => {
 const ApproachPage = () => {
   return (
     <div className="pt-16">
-      {/* SEO Configuration */}
-      <SEO 
-        title="Our Strategic Advocacy Approach | Capitol Insights"
-        description="Learn about Capitol Insights' transparent, relationship-driven approach to government relations in Texas and what sets us apart from other lobbying firms."
-        image="/images/approach-capitol.jpg"
-        canonical="/approach"
-        additionalMetaTags={[
-          { name: "keywords", content: "government relations approach, lobbying methodology, ethical advocacy, texas policy strategy, transparent lobbying" },
-          { property: "og:site_name", content: "Capitol Insights" }
-        ]}
+      {/* Enhanced SEO Configuration */}
+      <SEO
+        {...getPageSEO({
+          pageType: 'approach',
+          title: "Strategic Government Relations Approach | Ethical Texas Lobbying",
+          description: "Our 4-step government relations methodology has secured an 85% success rate through ethical advocacy, transparent reporting, and relationship-driven lobbying since 1983.",
+          image: "/images/approach-capitol.jpg",
+          additionalMetaTags: [
+            { name: "keywords", content: "Texas lobbying methodology, ethical government relations, transparent advocacy, relationship-driven lobbying, strategic policy approach, legislative strategy" },
+            { property: "og:site_name", content: "Capitol Insights" }
+          ]
+        })}
       />
 
       {/* Approach Header */}

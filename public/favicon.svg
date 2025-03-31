@@ -1,18 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <style>
-    .dome { fill: #e4b425; }
-    .building { fill: #9d7d1e; }
-    .columns { fill: #c09a1c; }
-    .background { fill: #1a365d; }
-    @media (prefers-color-scheme: dark) {
-      .dome { fill: #ffc107; }
-      .building { fill: #e6b012; }
-      .columns { fill: #f0bd1e; }
-      .background { fill: #1a365d; }
-    }
+    .background { fill: #e4b425; }
+    .letter-c { fill: #1a365d; }
+    .letter-i { fill: #1a365d; }
   </style>
   <circle class="background" cx="50" cy="50" r="50"/>
-  <path class="building" d="M30 70h40v20H30z"/>
-  <path class="columns" d="M35 70v20M40 70v20M45 70v20M50 70v20M55 70v20M60 70v20M65 70v20"/>
-  <path class="dome" d="M50 20c-16.6 0-30 13.4-30 30h60c0-16.6-13.4-30-30-30z"/>
+  <!-- C letter - custom path that's clearly a C -->
+  <path class="letter-c" d="M25 50 A20 20 0 1 1 43 65 L40 58 A12 12 0 1 0 29 50 A12 12 0 0 0 40 42 L43 35 A20 20 0 0 0 25 50Z"/>
+  <!-- I letter - custom path that's clearly an I -->
+  <path class="letter-i" d="M55 35 L75 35 L75 43 L70 43 L70 57 L75 57 L75 65 L55 65 L55 57 L60 57 L60 43 L55 43 Z"/>
 </svg>

@@ -106,6 +106,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/faq" className="text-slate-300 hover:text-white transition-colors">
+                  FAQ
+                </Link>
+              </li>
+              <li>
                 <Link to="/privacy" className="text-slate-300 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
@@ -127,8 +132,17 @@ const Footer = () => {
               <li className="flex items-start space-x-3">
                 <MapPin size={20} className="text-gold-400 mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-white font-medium">Dallas & Austin</p>
-                  <p className="text-slate-300">Texas</p>
+                  <p className="text-white font-medium">Austin Office</p>
+                  <p className="text-slate-300">1005 Congress Ave Suite 800</p>
+                  <p className="text-slate-300">Austin, TX 78701</p>
+                </div>
+              </li>
+              <li className="flex items-start space-x-3">
+                <MapPin size={20} className="text-gold-400 mt-1 flex-shrink-0" />
+                <div>
+                  <p className="text-white font-medium">Dallas Office</p>
+                  <p className="text-slate-300">P.O. Box 195892</p>
+                  <p className="text-slate-300">Dallas, TX 75219</p>
                 </div>
               </li>
               <li className="flex items-start space-x-3">

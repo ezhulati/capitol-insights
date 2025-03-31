@@ -8,6 +8,12 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   placeholderColor?: string;
   aspectRatio?: string;
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  priority?: boolean; // For critical images that need to load immediately
+  fetchPriority?: 'high' | 'low' | 'auto'; // Provide control over fetchpriority attribute
+  srcset?: string; // Support responsive images
+  sizes?: string; // Support responsive images
+  width?: number; // Original width for better CLS handling
+  height?: number; // Original height for better CLS handling
 }
 
 const LazyImage: React.FC<LazyImageProps> = ({
@@ -18,6 +24,12 @@ const LazyImage: React.FC<LazyImageProps> = ({
   aspectRatio = '16/9',
   objectFit = 'cover',
   className = '',
+  priority = false,
+  fetchPriority = 'auto',
+  srcset,
+  sizes,
+  width,
+  height,
   ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,8 +37,13 @@ const LazyImage: React.FC<LazyImageProps> = ({
   const { ref, inView } = useInView({
     triggerOnce: true,
     rootMargin: '200px 0px',
+    // Skip IntersectionObserver for priority images to load them immediately
+    skip: priority
   });
   const imageRef = useRef<HTMLImageElement>(null);
+  
+  // Set fetchPriority to high for priority images if not explicitly set
+  const effectiveFetchPriority = priority && fetchPriority === 'auto' ? 'high' : fetchPriority;
 
   useEffect(() => {
     if (inView && imageRef.current) {
@@ -55,11 +72,20 @@ const LazyImage: React.FC<LazyImageProps> = ({
     }
   }, [inView]);
 
+  // Calculate aspect ratio styles or use explicit dimensions
   const containerStyle: React.CSSProperties = {
     position: 'relative',
     overflow: 'hidden',
     backgroundColor: placeholderColor,
-    aspectRatio,
+    ...(width && height 
+        ? { 
+            width: '100%', 
+            maxWidth: `${width}px`,
+            // Use padding-bottom for aspect ratio to prevent CLS
+            paddingBottom: `${(height / width) * 100}%` 
+          } 
+        : { aspectRatio }
+    )
   };
 
   const imageStyle: React.CSSProperties = {
@@ -72,10 +98,27 @@ const LazyImage: React.FC<LazyImageProps> = ({
     top: 0,
     left: 0,
   };
+  
+  // For priority images, preload them with a link tag
+  useEffect(() => {
+    if (priority && typeof window !== 'undefined') {
+      const linkEl = document.createElement('link');
+      linkEl.rel = 'preload';
+      linkEl.as = 'image';
+      linkEl.href = src;
+      if (srcset) linkEl.setAttribute('imagesrcset', srcset);
+      if (sizes) linkEl.setAttribute('imagesizes', sizes);
+      document.head.appendChild(linkEl);
+      
+      return () => {
+        document.head.removeChild(linkEl);
+      };
+    }
+  }, [priority, src, srcset, sizes]);
 
   return (
-    <div ref={ref} style={containerStyle} className={className}>
-      {inView && (
+    <div ref={priority ? undefined : ref} style={containerStyle} className={className}>
+      {(inView || priority) && (
         <>
           {lowQualitySrc && !isLoaded && (
             <img
@@ -87,6 +130,8 @@ const LazyImage: React.FC<LazyImageProps> = ({
                 filter: 'blur(10px)',
               }}
               aria-hidden="true"
+              width={width}
+              height={height}
             />
           )}
           <img
@@ -94,7 +139,18 @@ const LazyImage: React.FC<LazyImageProps> = ({
             src={src}
             alt={alt}
             style={imageStyle}
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={effectiveFetchPriority}
+            srcSet={srcset}
+            sizes={sizes}
+            width={width}
+            height={height}
+            decoding={priority ? 'sync' : 'async'}
+            onLoad={() => setIsLoaded(true)}
+            onError={() => {
+              setError(true);
+              setIsLoaded(true);
+            }}
             {...props}
           />
         </>

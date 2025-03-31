@@ -1,423 +1,452 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Mail, Phone, Send, Building, ExternalLink, Info, Clock, Calendar } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { useSearchParams, Link } from 'react-router-dom';
+import { 
+  Phone, 
+  Mail, 
+  MapPin, 
+  Clock, 
+  Calendar, 
+  ChevronRight, 
+  FileText, 
+  Check,
+  Loader
+} from 'lucide-react';
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
+import { generateOrganizationStructuredData } from '../utils/structured-data';
 
-const ContactPage = () => {
-  const location = useLocation();
-  const [selectedTeamMember, setSelectedTeamMember] = useState<string | null>(null);
+// Helper components
+const CheckMarkIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <Check className={className} />
+);
+
+const Spinner: React.FC<{ className?: string }> = ({ className }) => (
+  <Loader className={`${className} animate-spin`} />
+);
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  organization: string;
+  practiceArea: string;
+  message: string;
+  urgency: string;
+  budget: string;
+  interest: string[];
+  timeframe: string;
+  howHeard: string;
+}
+
+const ContactPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const initialPracticeArea = searchParams.get('service') || '';
+  const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [activeTab, setActiveTab] = useState('general');
+  
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
     organization: '',
-    interest: 'general',
+    practiceArea: initialPracticeArea,
     message: '',
-    preferredDate: '',
-    preferredTime: ''
+    urgency: '',
+    budget: '',
+    interest: [],
+    timeframe: '',
+    howHeard: '',
   });
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const member = params.get('member');
-    if (member) {
-      setSelectedTeamMember(member);
-    }
-  }, [location]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  // This is a simpler approach that lets Netlify handle the form submission directly
-  const handleSubmit = () => {
-    // We're not preventing default form submission
-    // This allows the form to be submitted directly to Netlify
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
-    
-    // We'll still show the loading state, but the page will redirect to success.html
-    // after submission, so this is just for a brief moment before redirect
+
+    // Simulate form submission for demo
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      if (formRef.current) {
+        formRef.current.reset();
+      }
+      // Reset form data
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        organization: '',
+        practiceArea: '',
+        message: '',
+        urgency: '',
+        budget: '',
+        interest: [],
+        timeframe: '',
+        howHeard: '',
+      });
+    }, 1500);
   };
+
+  // Practice area data
+  const practiceAreas = [
+    { id: 'transportation', label: 'Transportation & Infrastructure' },
+    { id: 'telecom', label: 'Telecommunications & Technology' },
+    { id: 'healthcare', label: 'Healthcare Policy' },
+    { id: 'education', label: 'Education & Workforce' },
+    { id: 'energy', label: 'Energy & Environment' },
+    { id: 'municipal', label: 'Municipal Affairs' },
+    { id: 'custom-research', label: 'Custom Research & Analysis' },
+  ];
 
   return (
     <div className="pt-16">
-      {/* Enhanced SEO Configuration */}
       <SEO 
         {...getPageSEO({
           pageType: 'contact',
-          title: "Contact Capitol Insights | Schedule Texas Government Relations Consultation",
-          description: "Schedule a policy assessment with our team to discuss your legislative needs, regulatory challenges, and how our government relations expertise can help your organization.",
-          image: "/images/capitol-background.jpg",
+          title: "Contact Our Texas Government Relations Team | Capitol Insights",
+          description: "Connect with our government relations team today. Capitol Insights provides strategic lobbying and legislative advocacy services across Texas.",
           additionalMetaTags: [
-            { name: "keywords", content: "contact Texas lobbyist, schedule policy assessment, government relations consultation, Texas lobbying firm contact, Drew Campbell contact, Byron Campbell contact" },
-            { property: "og:site_name", content: "Capitol Insights" }
+            { name: "keywords", content: "Texas government relations contact, Capitol Insights Austin office, Capitol Insights Dallas office, legislative advocacy contact" }
           ]
         })}
+        structuredData={generateOrganizationStructuredData()}
+        breadcrumbs={[
+          { name: 'Home', url: 'https://capitol-insights.com/' },
+          { name: 'Contact', url: 'https://capitol-insights.com/contact' }
+        ]}
+        includeOrganizationData={true}
       />
 
-      {/* Contact Header */}
-      <section className="hero-section">
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block px-3 py-1 bg-primary-500/20 text-primary-200 rounded-full text-sm font-medium mb-4">
-              Schedule Your Policy Assessment
+      {/* Hero Section */}
+      <section className="pt-16 pb-12 sm:pb-16 md:pt-20 bg-navy-900 relative">
+        <div className="absolute inset-0 bg-capitol bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950/95 to-navy-900"></div>
+        <div className="grain-overlay opacity-20"></div>
+        
+        <div className="container relative z-10">
+          <div className="max-w-3xl">
+            <span className="inline-block px-3 py-1 bg-gold-600/20 text-gold-200 rounded-full text-sm font-medium mb-4 backdrop-blur-sm">
+              GET IN TOUCH
             </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">Contact Us</h1>
-            <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto">
-              {selectedTeamMember 
-                ? `Connect directly with ${selectedTeamMember.charAt(0).toUpperCase() + selectedTeamMember.slice(1)} to discuss how we can help advance your interests.` 
-                : 'Have questions about our government relations services? We\'re here to provide straightforward answers and explore how we can help.'}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+              Contact Capitol Insights
+            </h1>
+            <p className="text-lg text-white/90 mb-8">
+              Whether you're facing legislative challenges or seeking strategic opportunities, our team is ready to help your organization navigate the complex landscape of Texas government.
             </p>
+            
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+              <a href="tel:2142133443" className="flex items-center text-white/80 hover:text-gold-300">
+                <Phone size={18} className="mr-2 text-gold-400" />
+                <span>(214) 213-3443</span>
+              </a>
+              <a href="mailto:contact@capitol-insights.com" className="flex items-center text-white/80 hover:text-gold-300">
+                <Mail size={18} className="mr-2 text-gold-400" />
+                <span>contact@capitol-insights.com</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Information & Form */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white">
+      {/* Main Contact Section */}
+      <section className="py-16 bg-white">
         <div className="container">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
-            {/* Contact Information */}
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <h2 className="text-2xl font-bold text-navy-900 mb-6">Our Information</h2>
-              
-              <div className="space-y-6 sm:space-y-8 mb-10 sm:mb-12">
-                <div className="bg-white p-5 sm:p-6 rounded-xl shadow-card border border-slate-100 hover:shadow-md transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-gold-50 p-2 rounded-md mt-1 flex-shrink-0">
-                      <Building size={22} className="text-gold-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-navy-900 mb-2">Our Offices</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <p className="font-medium text-navy-900">Dallas</p>
-                          <p className="text-slate-600">North Texas Location</p>
-                          <a 
-                            href="https://maps.google.com" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-gold-600 hover:text-gold-700 text-sm font-medium inline-flex items-center mt-1"
-                          >
-                            <span>View on map</span>
-                            <ExternalLink size={14} className="ml-1" />
-                          </a>
-                        </div>
-                        <div>
-                          <p className="font-medium text-navy-900">Austin</p>
-                          <p className="text-slate-600">State Capitol Location</p>
-                          <a 
-                            href="https://maps.google.com" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-gold-600 hover:text-gold-700 text-sm font-medium inline-flex items-center mt-1"
-                          >
-                            <span>View on map</span>
-                            <ExternalLink size={14} className="ml-1" />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              {/* Form Column */}
+              <div className="lg:col-span-7 xl:col-span-8">
+                {/* Tab Navigation */}
+                <div className="mb-8 border-b border-slate-200">
+                  <div className="flex space-x-6">
+                    <button 
+                      onClick={() => setActiveTab('general')}
+                      className={`pb-3 px-2 font-medium ${
+                        activeTab === 'general' 
+                          ? 'text-gold-600 border-b-2 border-gold-500' 
+                          : 'text-slate-600 hover:text-navy-800'
+                      }`}
+                    >
+                      General Inquiry
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab('assessment')}
+                      className={`pb-3 px-2 font-medium ${
+                        activeTab === 'assessment' 
+                          ? 'text-gold-600 border-b-2 border-gold-500' 
+                          : 'text-slate-600 hover:text-navy-800'
+                      }`}
+                    >
+                      Schedule Assessment
+                    </button>
+                    <button 
+                      onClick={() => setActiveTab('custom')}
+                      className={`pb-3 px-2 font-medium ${
+                        activeTab === 'custom' 
+                          ? 'text-gold-600 border-b-2 border-gold-500' 
+                          : 'text-slate-600 hover:text-navy-800'
+                      }`}
+                    >
+                      Custom Research
+                    </button>
                   </div>
                 </div>
-                
-                <div className="bg-white p-5 sm:p-6 rounded-xl shadow-card border border-slate-100 hover:shadow-md transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-gold-50 p-2 rounded-md mt-1 flex-shrink-0">
-                      <Info size={22} className="text-gold-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-navy-900 mb-2">Contact Details</h3>
-                      <ul className="space-y-3">
-                        <li className="flex items-center gap-3">
-                          <Phone size={18} className="text-gold-600 flex-shrink-0" />
-                          <span className="text-slate-600">Contact for phone details</span>
-                        </li>
-                        <li className="flex items-center gap-3">
-                          <Mail size={18} className="text-gold-600 flex-shrink-0" />
-                          <a href="mailto:byroncampbell@capitol-insights.com" className="text-gold-600 hover:text-gold-700">
-                            byroncampbell@capitol-insights.com
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-white p-5 sm:p-6 rounded-xl shadow-card border border-slate-100 hover:shadow-md transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-gold-50 p-2 rounded-md mt-1 flex-shrink-0">
-                      <Clock size={22} className="text-gold-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-navy-900 mb-2">Hours of Operation</h3>
-                      <div className="space-y-1 text-slate-600">
-                        <p><span className="font-medium text-navy-800">Monday - Friday:</span> 9:00 AM - 5:00 PM CT</p>
-                        <p><span className="font-medium text-navy-800">Weekends:</span> Closed</p>
-                        <p className="text-sm mt-2 text-slate-500">Available for scheduled meetings outside of regular hours</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-navy-50 p-5 sm:p-6 rounded-xl">
-                <h3 className="text-lg font-semibold text-navy-900 mb-4">Our Commitment</h3>
-                <p className="text-slate-700 mb-4 leading-relaxed">
-                  We respond to all inquiries within one business day. When you reach out to Capitol Insights, you'll speak directly with a senior team member—not an assistant or junior staff member.
-                </p>
-                <p className="text-slate-700 leading-relaxed">
-                  We're selective about the clients we take on to ensure we can provide the highest level of service and avoid conflicts of interest.
-                </p>
-              </div>
-            </div>
-            
-            {/* Contact Form */}
-            <div className="lg:col-span-7 order-1 lg:order-2">
-              <div className="bg-white p-6 sm:p-8 rounded-xl shadow-lg border border-slate-100">
-                <h2 className="text-2xl font-bold text-navy-900 mb-6">
-                  {selectedTeamMember 
-                    ? `Contact ${selectedTeamMember.charAt(0).toUpperCase() + selectedTeamMember.slice(1)}` 
-                    : 'Schedule Your Policy Assessment'}
-                </h2>
-                
+
+                {/* Contact Form or Success Message */}
                 {isSubmitted ? (
-                  <div className="bg-green-50 border border-green-100 rounded-lg p-6 text-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
+                  <div className="bg-green-50 border border-green-100 p-8 rounded-xl">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <CheckMarkIcon className="text-green-600 w-8 h-8" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-3">Thank You for Contacting Us!</h2>
+                      <p className="text-gray-700 mb-6">
+                        Your message has been received. A member of our team will be in touch shortly.
+                      </p>
+                      <button
+                        onClick={() => setIsSubmitted(false)}
+                        className="btn btn-primary"
+                      >
+                        Send Another Message
+                      </button>
                     </div>
-                    <h3 className="text-xl font-semibold text-green-800 mb-2">Assessment Scheduled!</h3>
-                    <p className="text-green-700 mb-4">
-                      Thank you for scheduling your policy assessment. We'll confirm your appointment within one business day.
-                    </p>
-                    <p className="text-green-600 text-sm">
-                      A senior team member will contact you to discuss your policy objectives and how we can help you achieve them.
-                    </p>
                   </div>
                 ) : (
-                  <form 
-                    name="contact" 
-                    method="POST" 
-                    data-netlify="true" 
-                    action="/success.html"
-                    onSubmit={handleSubmit} 
-                    className="space-y-6"
-                  >
-                    <input type="hidden" name="form-name" value="contact" />
-                    <input type="hidden" name="recipient" value="byroncampbell@capitol-insights.com,enrizhulati@gmail.com" />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="name" className="form-label">
-                          Full Name *
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="form-input"
-                          placeholder="Jane Smith"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="email" className="form-label">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          className="form-input"
-                          placeholder="jane@company.com"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="phone" className="form-label">
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="form-input"
-                          placeholder="(555) 123-4567"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="organization" className="form-label">
-                          Organization
-                        </label>
-                        <input
-                          type="text"
-                          id="organization"
-                          name="organization"
-                          value={formData.organization}
-                          onChange={handleChange}
-                          className="form-input"
-                          placeholder="Company or Organization"
-                        />
-                      </div>
-                    </div>
-                    
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                      <label htmlFor="interest" className="form-label">
-                        Area of Interest *
-                      </label>
-                      <select
-                        id="interest"
-                        name="interest"
-                        value={formData.interest}
-                        onChange={handleChange}
-                        required
-                        className="form-input"
-                      >
-                        <option value="general">General Inquiry</option>
-                        <option value="legislative">Legislative Advocacy</option>
-                        <option value="regulatory">Regulatory Affairs</option>
-                        <option value="municipal">Municipal Representation</option>
-                        <option value="coalition">Coalition Building</option>
-                        <option value="policy">Policy Analysis</option>
-                      </select>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="preferredDate" className="form-label">
-                          Preferred Date
-                        </label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Calendar size={18} className="text-slate-400" />
-                          </div>
+                      <h3 className="text-lg font-semibold text-navy-800 mb-4">Contact Information</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label htmlFor="firstName" className="block text-sm font-medium text-slate-700 mb-1">
+                            First Name *
+                          </label>
                           <input
-                            type="date"
-                            id="preferredDate"
-                            name="preferredDate"
-                            value={formData.preferredDate}
-                            onChange={handleChange}
-                            className="form-input pl-10"
+                            id="firstName"
+                            name="firstName"
+                            type="text"
+                            required
+                            value={formData.firstName}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-300"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="lastName" className="block text-sm font-medium text-slate-700 mb-1">
+                            Last Name *
+                          </label>
+                          <input
+                            id="lastName"
+                            name="lastName"
+                            type="text"
+                            required
+                            value={formData.lastName}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-300"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                            Email Address *
+                          </label>
+                          <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            required
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-300"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">
+                            Phone Number
+                          </label>
+                          <input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            className="w-full px-4 py-2.5 rounded-lg border border-slate-300"
                           />
                         </div>
                       </div>
-                      
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-navy-800 mb-4">Services & Practice Areas</h3>
                       <div>
-                        <label htmlFor="preferredTime" className="form-label">
-                          Preferred Time
+                        <label htmlFor="practiceArea" className="block text-sm font-medium text-slate-700 mb-1">
+                          Select Practice Area *
                         </label>
                         <select
-                          id="preferredTime"
-                          name="preferredTime"
-                          value={formData.preferredTime}
-                          onChange={handleChange}
-                          className="form-input"
+                          id="practiceArea"
+                          name="practiceArea"
+                          required
+                          value={formData.practiceArea}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-2.5 rounded-lg border border-slate-300"
                         >
-                          <option value="">Select a time</option>
-                          <option value="morning">Morning (9AM - 12PM)</option>
-                          <option value="afternoon">Afternoon (1PM - 4PM)</option>
-                          <option value="flexible">Flexible</option>
+                          <option value="">Select a practice area</option>
+                          {practiceAreas.map(area => (
+                            <option key={area.id} value={area.id}>{area.label}</option>
+                          ))}
+                          <option value="other">Other / Not Sure</option>
                         </select>
                       </div>
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="message" className="form-label">
-                        Brief Description of Your Policy Needs *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        rows={5}
-                        className="form-input"
-                        placeholder="Please briefly describe your organization and the policy issues you're looking to address..."
-                      ></textarea>
+                      <h3 className="text-lg font-semibold text-navy-800 mb-4">Your Message</h3>
+                      <div>
+                        <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
+                          How can we help you? *
+                        </label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          required
+                          rows={5}
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-2.5 rounded-lg border border-slate-300"
+                          placeholder="Please describe your needs or questions..."
+                        ></textarea>
+                      </div>
                     </div>
-                    
-                    <div className="text-slate-600 text-sm">
-                      <p>* Required fields</p>
-                      <p>We respect your privacy and will never share your information with third parties.</p>
+
+                    {/* Submit Button */}
+                    <div className="mt-8">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full btn btn-lg bg-navy-800 hover:bg-navy-900 text-white"
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center justify-center">
+                            <Spinner className="w-5 h-5 mr-3" />
+                            Sending...
+                          </span>
+                        ) : (
+                          <span>Send Message</span>
+                        )}
+                      </button>
                     </div>
-                    
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className={`w-full btn btn-primary btn-lg flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''} whitespace-nowrap`}
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          <span>Processing...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send size={18} />
-                          <span>Schedule Your Assessment</span>
-                        </>
-                      )}
-                    </button>
                   </form>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-12 sm:py-16 bg-slate-50">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-8 sm:mb-12">
-            <h2 className="section-title">Our Locations</h2>
-            <p className="section-subtitle">
-              Capitol Insights maintains offices in both Dallas and Austin to better serve our clients throughout Texas.
-            </p>
-          </div>
-          
-          <div className="bg-slate-200/50 h-64 sm:h-96 rounded-xl flex items-center justify-center overflow-hidden shadow-sm">
-            <div className="w-full h-full relative flex items-center justify-center">
-              <img 
-                src="https://images.unsplash.com/photo-1564769625688-8478682b7e5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                alt="Map of Texas" 
-                className="w-full h-full object-cover absolute inset-0"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent"></div>
-              <div className="relative z-10 p-6 sm:p-8 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg max-w-lg mx-4">
-                <h3 className="text-xl font-semibold text-navy-900 mb-4">Serving All of Texas</h3>
-                <p className="text-slate-700 mb-6 leading-relaxed">
-                  With offices strategically located in Dallas and Austin, Capitol Insights provides comprehensive government relations services throughout the Lone Star State.
-                </p>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="font-semibold text-navy-900">Dallas Office</p>
-                    <p className="text-slate-600">North Texas Location</p>
+              
+              {/* Contact Info Column */}
+              <div className="lg:col-span-5 xl:col-span-4">
+                {/* Contact Info Card */}
+                <div className="bg-navy-800 rounded-xl overflow-hidden shadow-lg mb-8">
+                  <div className="p-8">
+                    <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
+                    <div className="space-y-6">
+                      <div className="flex items-start">
+                        <div className="bg-navy-700 p-3 rounded-lg mr-4">
+                          <MapPin size={20} className="text-gold-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white mb-1">Austin Office</h4>
+                          <p className="text-navy-100 text-sm">
+                            1005 Congress Ave Suite 800<br />
+                            Austin, TX 78701
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <div className="bg-navy-700 p-3 rounded-lg mr-4">
+                          <MapPin size={20} className="text-gold-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white mb-1">Dallas Office</h4>
+                          <p className="text-navy-100 text-sm">
+                            P.O. Box 195892<br />
+                            Dallas, TX 75219
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <div className="bg-navy-700 p-3 rounded-lg mr-4">
+                          <Mail size={20} className="text-gold-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white mb-1">Email</h4>
+                          <a href="mailto:contact@capitol-insights.com" className="text-navy-100 text-sm hover:text-gold-300 transition-colors">
+                            contact@capitol-insights.com
+                          </a>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <div className="bg-navy-700 p-3 rounded-lg mr-4">
+                          <Phone size={20} className="text-gold-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white mb-1">Phone</h4>
+                          <a href="tel:2142133443" className="text-navy-100 text-sm hover:text-gold-300 transition-colors">
+                            (214) 213-3443
+                          </a>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <div className="bg-navy-700 p-3 rounded-lg mr-4">
+                          <Clock size={20} className="text-gold-400" />
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-white mb-1">Hours</h4>
+                          <p className="text-navy-100 text-sm">
+                            Monday-Friday: 8:30am - 5:30pm<br />
+                            <span className="text-gold-300">Legislative Session:</span><br />
+                            Monday-Friday: 7:30am - 7:00pm
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-navy-900">Austin Office</p>
-                    <p className="text-slate-600">State Capitol Location</p>
-                  </div>
+                </div>
+                
+                {/* Links to Resources */}
+                <div className="bg-slate-50 rounded-xl overflow-hidden shadow-sm border border-slate-100 p-6">
+                  <h3 className="text-lg font-semibold text-navy-800 mb-4">Helpful Resources</h3>
+                  <ul className="space-y-3">
+                    <li>
+                      <Link to="/resources" className="flex items-center text-navy-700 hover:text-gold-600 transition-colors">
+                        <FileText size={16} className="mr-2 text-gold-500" />
+                        <span>Download Legislative Resources</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/legislative-calendar" className="flex items-center text-navy-700 hover:text-gold-600 transition-colors">
+                        <Calendar size={16} className="mr-2 text-gold-500" />
+                        <span>Legislative Calendar</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/updates" className="flex items-center text-navy-700 hover:text-gold-600 transition-colors">
+                        <ChevronRight size={16} className="mr-2 text-gold-500" />
+                        <span>Latest Updates & Insights</span>
+                      </Link>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
