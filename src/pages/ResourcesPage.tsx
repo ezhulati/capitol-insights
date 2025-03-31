@@ -16,6 +16,7 @@ import { getPageSEO } from '../utils/enhanced-seo';
 import { generateResourceStructuredData, generateFAQStructuredData } from '../utils/structured-data';
 import { generateResourcePreview } from '../utils/social-preview';
 import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
+import DownloadForm from '../components/DownloadForm';
 
 // Types
 interface Resource {
@@ -29,6 +30,7 @@ interface Resource {
   featured?: boolean;
   thumbnailUrl?: string;
   fileSize?: string;
+  pdfUrl?: string; // Actual PDF file URL
 }
 
 // Resource category options for filtering
@@ -59,6 +61,7 @@ const resourcesData: Resource[] = [
     category: 'legislative',
     type: 'calendar',
     downloadUrl: '/downloads/texas-legislative-calendar-2025.html',
+    pdfUrl: '/files/texas-legislative-calendar-2025.pdf',
     date: '2024-12-15',
     featured: true,
     thumbnailUrl: '/images/capitol-background.jpg',
@@ -71,6 +74,7 @@ const resourcesData: Resource[] = [
     category: 'legislative',
     type: 'guide',
     downloadUrl: '/downloads/texas-legislative-advocacy-guide.html',
+    pdfUrl: '/files/texas-legislative-influence-guide-2025.pdf',
     date: '2024-11-20',
     featured: true,
     fileSize: '3.1 MB'
@@ -82,6 +86,7 @@ const resourcesData: Resource[] = [
     category: 'transportation',
     type: 'report',
     downloadUrl: '/downloads/texas-transportation-funding-outlook.html',
+    pdfUrl: '/files/texas-transportation-funding-outlook.pdf',
     date: '2024-10-18',
     fileSize: '1.8 MB'
   },
@@ -92,6 +97,7 @@ const resourcesData: Resource[] = [
     category: 'technology',
     type: 'brief',
     downloadUrl: '/downloads/telecommunications-regulatory-outlook.html',
+    pdfUrl: '/files/telecommunications-regulatory-outlook.pdf',
     date: '2024-09-22',
     fileSize: '1.5 MB'
   },
@@ -102,6 +108,7 @@ const resourcesData: Resource[] = [
     category: 'healthcare',
     type: 'brief',
     downloadUrl: '/downloads/healthcare-regulatory-changes.html',
+    pdfUrl: '/files/healthcare-regulatory-changes.pdf',
     date: '2024-09-05',
     fileSize: '2.2 MB'
   },
@@ -112,6 +119,7 @@ const resourcesData: Resource[] = [
     category: 'municipal',
     type: 'guide',
     downloadUrl: '/downloads/municipal-advocacy-strategies.html',
+    pdfUrl: '/files/municipal-advocacy-strategies.pdf',
     date: '2024-08-15',
     fileSize: '2.7 MB'
   },
@@ -122,6 +130,7 @@ const resourcesData: Resource[] = [
     category: 'municipal',
     type: 'guide',
     downloadUrl: '/downloads/water-infrastructure-funding.html',
+    pdfUrl: '/files/water-infrastructure-funding.pdf',
     date: '2024-07-12',
     fileSize: '3.5 MB'
   },
@@ -132,6 +141,7 @@ const resourcesData: Resource[] = [
     category: 'technology',
     type: 'report',
     downloadUrl: '/downloads/energy-grid-reliability.html',
+    pdfUrl: '/files/energy-grid-reliability.pdf',
     date: '2024-06-20',
     fileSize: '4.1 MB'
   }
@@ -149,6 +159,16 @@ const ResourcesPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  
+  // Download form state
+  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+  const [showDownloadForm, setShowDownloadForm] = useState(false);
+  
+  // Handle resource download click
+  const handleDownloadClick = (resource: Resource) => {
+    setSelectedResource(resource);
+    setShowDownloadForm(true);
+  };
 
   // Get featured resources
   const featuredResources = resourcesData.filter(resource => resource.featured);
@@ -326,15 +346,13 @@ const ResourcesPage: React.FC = () => {
                     <p className="text-slate-600 mb-4">{resource.description}</p>
                   </div>
                   <div className="px-6 pb-6 mt-auto">
-                    <a 
-                      href={resource.downloadUrl}
+                    <button
+                      onClick={() => handleDownloadClick(resource)}
                       className="btn btn-primary w-full flex items-center justify-center"
-                      target="_blank"
-                      rel="noopener noreferrer"
                     >
                       <Download size={16} className="mr-2" />
                       <span>Download Resource</span>
-                    </a>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -543,15 +561,13 @@ const ResourcesPage: React.FC = () => {
                         <p className="text-slate-600 text-sm mb-4">{resource.description}</p>
                       </div>
                       <div className="px-6 pb-6 sm:p-6 sm:pl-0 sm:ml-auto sm:flex sm:flex-col sm:justify-center">
-                        <a
-                          href={resource.downloadUrl}
+                        <button
+                          onClick={() => handleDownloadClick(resource)}
                           className="btn btn-primary whitespace-nowrap flex items-center"
-                          target="_blank"
-                          rel="noopener noreferrer"
                         >
                           <Download size={16} className="mr-2" />
                           <span>Download</span>
-                        </a>
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -635,6 +651,17 @@ const ResourcesPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Download Form */}
+      {showDownloadForm && selectedResource && (
+        <DownloadForm
+          title={`Download ${selectedResource.title}`}
+          description="Please provide your information to download this resource."
+          pdfUrl={selectedResource.pdfUrl || '#'}
+          pdfTitle={selectedResource.title}
+          onClose={() => setShowDownloadForm(false)}
+        />
+      )}
     </div>
   );
 };
