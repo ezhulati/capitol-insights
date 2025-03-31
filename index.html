@@ -157,7 +157,7 @@
   <body class="antialiased text-slate-700 bg-white">
     <div id="root"></div>
     
-    <!-- Hidden form for Netlify form handling -->
+    <!-- Hidden forms for Netlify form handling -->
     <form name="lead-magnet-download" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
       <input type="email" name="email" />
@@ -166,6 +166,16 @@
       <input type="text" name="downloadedGuide" />
       <input type="text" name="downloadUrl" />
       <input type="text" name="timestamp" />
+      <input type="text" name="recipients" />
+    </form>
+    
+    <form name="contact-form" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="practiceArea" />
+      <textarea name="message"></textarea>
       <input type="text" name="recipients" />
     </form>
     
