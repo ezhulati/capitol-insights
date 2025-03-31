@@ -80,14 +80,17 @@ const ContactPage: React.FC = () => {
       const form = e.target as HTMLFormElement;
       const formData = new FormData(form);
       
-      // Add recipients to the form data
-      formData.append('recipients', 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com');
+      // Convert FormData to JSON object
+      const formValues: Record<string, string> = {};
+      formData.forEach((value, key) => {
+        formValues[key] = value.toString();
+      });
       
-      // Submit form data to Netlify's form endpoint
-      const response = await fetch('/', {
+      // Submit form data to our serverless function
+      const response = await fetch('/.netlify/functions/contact-form-handler', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData as any).toString()
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formValues)
       });
       
       if (response.ok) {
@@ -111,6 +114,25 @@ const ContactPage: React.FC = () => {
           timeframe: '',
           howHeard: '',
         });
+        
+        // Also submit to Netlify's form handler (as backup) using the hidden form approach
+        try {
+          const netlifyFormData = new FormData();
+          Object.entries(formValues).forEach(([key, value]) => {
+            netlifyFormData.append(key, value);
+          });
+          netlifyFormData.append('form-name', 'contact-form');
+          netlifyFormData.append('recipients', 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com');
+          
+          await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(netlifyFormData as any).toString()
+          });
+        } catch (netlifyError) {
+          console.warn('Netlify form backup submission error:', netlifyError);
+          // Continue regardless of backup submission status
+        }
       } else {
         console.error('Form submission error:', response.statusText);
         setIsSubmitting(false);
