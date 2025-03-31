@@ -85,7 +85,7 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     // Create a hidden form to submit to Netlify
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/success.html';
+    form.action = `/download-success.html?pdf=${encodeURIComponent(pdfUrl)}`;
     form.setAttribute('data-netlify', 'true');
     form.setAttribute('name', 'download-form');
     form.style.display = 'none';
