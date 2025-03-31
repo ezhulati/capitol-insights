@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Landmark, ChevronRight, ChevronDown, Phone, Mail, Search, Users, FileText, Info } from 'lucide-react';
 import SearchOverlay from './SearchOverlay';
 
@@ -9,6 +9,7 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close mobile menu and dropdowns when route changes
@@ -55,6 +56,18 @@ const Header = () => {
   // Handle dropdown toggle
   const toggleDropdown = (dropdown: string) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  };
+
+  // Better navigation handler for mobile links
+  const handleNavigation = (path: string) => {
+    // First navigate to the desired path
+    navigate(path);
+    
+    // Then close menus after a short delay to ensure navigation happens
+    setTimeout(() => {
+      setIsMenuOpen(false);
+      setActiveDropdown(null);
+    }, 50);
   };
 
   // Reorganized navigation with dropdown structure
@@ -289,13 +302,14 @@ const Header = () => {
                       <ul className="mt-1 ml-4 pl-4 border-l border-slate-200 space-y-1">
                         {link.items?.map(item => (
                           <li key={item.path} onClick={(e) => e.stopPropagation()}>
-                            <Link
-                              to={item.path}
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                setActiveDropdown(null);
+                            {/* Use button instead of Link for more reliable navigation */}
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleNavigation(item.path);
                               }}
-                              className={`block px-4 py-2 rounded-md ${
+                              className={`block w-full text-left px-4 py-2 rounded-md ${
                                 isScrolled 
                                   ? 'text-navy-700 hover:text-gold-600 hover:bg-slate-50' 
                                   : 'text-white/90 hover:text-gold-300 hover:bg-white/10'
@@ -305,7 +319,7 @@ const Header = () => {
                               role="menuitem"
                             >
                               {item.title}
-                            </Link>
+                            </button>
                           </li>
                         ))}
                       </ul>
@@ -314,10 +328,10 @@ const Header = () => {
                 </li>
               ))}
               <li role="none">
-                <Link 
-                  to="/contact" 
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-md transition-colors duration-250 ${
+                {/* Use button instead of Link for more reliable navigation */}
+                <button 
+                  onClick={() => handleNavigation('/contact')}
+                  className={`block w-full text-left px-4 py-3 rounded-md transition-colors duration-250 ${
                     isScrolled 
                       ? 'text-navy-800 hover:text-gold-600 hover:bg-slate-50' 
                       : 'text-white hover:text-gold-300 hover:bg-white/10'
@@ -330,18 +344,18 @@ const Header = () => {
                   role="menuitem"
                 >
                   Contact
-                </Link>
+                </button>
               </li>
               <li className="pt-3 mt-2 border-t border-slate-100/10 px-4" role="none">
-                <Link 
-                  to="/contact"
-                  onClick={() => setIsMenuOpen(false)}
+                {/* Use button instead of Link for more reliable navigation */}
+                <button 
+                  onClick={() => handleNavigation('/contact')}
                   className="btn btn-primary btn-md w-full justify-center group whitespace-nowrap"
                   role="menuitem"
                 >
                   <span>Schedule Assessment</span>
                   <ChevronRight size={16} className="ml-1 transition-transform group-hover:translate-x-0.5" />
-                </Link>
+                </button>
               </li>
               <li className="pt-4 px-4" role="none">
                 <div className="flex flex-col space-y-3">
