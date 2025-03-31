@@ -3,6 +3,14 @@ import { Mail, Linkedin, Award, Building2, BarChart, FileText, GraduationCap, Ca
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
 
+// Define education entry type
+type EducationEntry = {
+  institution: string;
+  degree: string;
+  years: string;
+  activities?: string;
+}
+
 // Define team member shape for strong typing
 type TeamMember = {
   id: number;
@@ -14,7 +22,7 @@ type TeamMember = {
   phone?: string | null;
   linkedin?: string | null;
   expertise: string[];
-  education: string;
+  education: EducationEntry[];
   contactLink: string;
 }
 
@@ -38,7 +46,18 @@ Prior to founding Capitol Insights, Drew served as CEO of the New Car Dealers As
 
 Drew's approach is straightforward and relationship-driven. He doesn't promise miracles or claim special influence—instead, he leverages decades of experience and genuine connections to help clients navigate complex legislative environments.`,
       expertise: ['Legislative Strategy', 'Transportation Policy', 'Local Government Relations', 'Coalition Building'],
-      education: 'B.A. Political Science, University of Texas',
+      education: [
+        {
+          institution: 'Oklahoma State University',
+          degree: 'Bachelor of Science, Agricultural Economics and Accounting',
+          years: '1975-1978'
+        },
+        {
+          institution: 'University of Phoenix',
+          degree: 'Master of Business Administration, MBA',
+          years: '2000-2003'
+        }
+      ],
       contactLink: '/contact?member=drew'
     },
     {
@@ -52,7 +71,14 @@ Byron's approach to government relations is methodical and transparent. He helps
 
 Prior to joining Capitol Insights, Byron worked as a legislative director in the Texas House of Representatives and as a policy advisor for a state agency, where he gained firsthand knowledge of the legislative process and regulatory environment.`,
       expertise: ['Policy Development', 'Regulatory Affairs', 'Telecommunications', 'Technology Policy'],
-      education: 'J.D., Southern Methodist University; B.A. Government, University of Texas',
+      education: [
+        {
+          institution: 'University of North Texas',
+          degree: 'Bachelor of Arts, Political Science',
+          years: '1999-2004',
+          activities: 'Letterman of football team'
+        }
+      ],
       contactLink: '/contact?member=byron'
     }
   ];
@@ -145,11 +171,24 @@ Prior to joining Capitol Insights, Byron worked as a legislative director in the
                       </div>
                       
                       <div className="bg-secondary-50 p-4 sm:p-6 rounded-lg">
-                        <div className="flex items-center mb-3">
+                        <div className="flex items-center mb-4">
                           <GraduationCap size={20} className="text-primary-600 mr-2" />
                           <h3 className="font-semibold text-secondary-900">Education</h3>
                         </div>
-                        <p className="text-secondary-700">{member.education}</p>
+                        <div className="space-y-4">
+                          {member.education.map((edu, eduIndex) => (
+                            <div key={eduIndex} className="border-l-2 border-primary-200 pl-4 py-1">
+                              <div className="font-medium text-secondary-900">{edu.institution}</div>
+                              <div className="text-secondary-700">{edu.degree}</div>
+                              <div className="text-secondary-500 text-sm">{edu.years}</div>
+                              {edu.activities && (
+                                <div className="text-secondary-600 text-sm mt-1 italic">
+                                  {edu.activities}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
