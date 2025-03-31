@@ -73,7 +73,7 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     return valid;
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!validateForm()) {
@@ -82,10 +82,25 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     
     setIsSubmitting(true);
     
+    // Trigger the PDF download first
+    try {
+      // Create a hidden link to download the PDF
+      const downloadLink = document.createElement('a');
+      downloadLink.href = pdfUrl;
+      downloadLink.download = pdfTitle + '.pdf';
+      downloadLink.target = '_blank';
+      downloadLink.style.display = 'none';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+    }
+    
     // Create a hidden form to submit to Netlify
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = `/download-success.html?pdf=${encodeURIComponent(pdfUrl)}`;
+    form.action = '/download-success.html';
     form.setAttribute('data-netlify', 'true');
     form.setAttribute('name', 'download-form');
     form.style.display = 'none';
@@ -152,12 +167,8 @@ This user has downloaded the above document. Please follow up with appropriate i
     setIsSubmitting(false);
     setIsSubmitted(true);
     
-    // Navigate to the PDF file directly after a short delay
-    setTimeout(() => {
-      // Use window.location.href to directly navigate to the PDF file
-      // This is more reliable than window.open which might be blocked by popup blockers
-      window.location.href = pdfUrl;
-    }, 1000);
+    // The form submission will redirect to download-success.html
+    // We've already triggered the download directly before the form submission
   };
   
   const industries = [

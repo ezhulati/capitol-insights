@@ -97,7 +97,7 @@
 </head>
 <body>
   <div class="container">
-    <img src="/logo.png" alt="Capitol Insights Logo" class="logo">
+    <img src="/ci-explicit-v4.svg" alt="Capitol Insights Logo" class="logo">
     
     <div class="success-card">
       <div class="success-icon">
@@ -108,9 +108,9 @@
       
       <h1>Thank You!</h1>
       
-      <p>Your information has been submitted successfully. Your download should begin automatically in a few seconds.</p>
+      <p>Your information has been submitted successfully. Your download should have already started.</p>
       
-      <p>If your download doesn't start automatically, please click the download button below.</p>
+      <p>If your download didn't start, please return to the resources page to try again.</p>
       
       <div>
         <a href="/" id="download-btn" class="btn">
@@ -139,10 +139,7 @@
           downloadBtn.querySelector('.loading').classList.add('hidden');
         }, 1500);
         
-        // Auto-download after a short delay
-        setTimeout(function() {
-          window.location.href = pdfUrl;
-        }, 2000);
+        // We don't need to auto-download anymore as it's handled by the DownloadForm component
       } else {
         // If no PDF URL is provided, update button text
         downloadBtn.querySelector('.loading').classList.add('hidden');
