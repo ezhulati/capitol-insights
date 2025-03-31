@@ -48,8 +48,8 @@ const UpdatesPage: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<string[]>([]);
-  const [, setLoading] = useState<boolean>(true);
-  const [, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   
   // Get URL parameters
   useEffect(() => {
@@ -143,6 +143,18 @@ const UpdatesPage: React.FC = () => {
     setSelectedTag('');
   };
   
+  // Simple loading state to render while fetching posts
+  if (loading) {
+    return (
+      <div className="pt-16 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-navy-800 border-t-gold-500 rounded-full animate-spin mb-4 mx-auto"></div>
+          <p className="text-navy-800 font-medium">Loading updates...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-16">
       {/* SEO Configuration */}
@@ -195,12 +207,11 @@ const UpdatesPage: React.FC = () => {
             </div>
             
             <div className="max-w-4xl mx-auto">
-              <motion.div 
-                className="bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+            <motion.div 
+              className="bg-white rounded-xl overflow-hidden shadow-lg border border-slate-100"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <div className="relative h-48 sm:h-64 overflow-hidden">
                   <img 
@@ -270,9 +281,8 @@ const UpdatesPage: React.FC = () => {
               <motion.div 
                 className="bg-white rounded-xl p-5 sm:p-6 shadow-sm border border-slate-100 lg:sticky lg:top-24"
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
               >
                 <h3 className="text-lg font-display font-semibold text-navy-900 mb-4 pb-2 border-b border-slate-100">Filter Updates</h3>
                 
@@ -415,9 +425,8 @@ const UpdatesPage: React.FC = () => {
                           key={post.id}
                           className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 h-full flex flex-col hover:shadow-md transition-shadow"
                           initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5, staggerChildren: 0.1, delay: 0.4 }}
                         >
                           <div className="relative h-40 sm:h-48 overflow-hidden">
                             <img 
