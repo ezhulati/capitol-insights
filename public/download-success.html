@@ -108,9 +108,9 @@
       
       <h1>Thank You!</h1>
       
-      <p>Your information has been submitted successfully. Your download should have already started.</p>
+      <p>Your information has been submitted successfully. Your download should begin automatically in a few seconds.</p>
       
-      <p>If your download didn't start, please return to the resources page to try again.</p>
+      <p>If your download doesn't start automatically, please click the download button below.</p>
       
       <div>
         <a href="/" id="download-btn" class="btn">
@@ -139,7 +139,17 @@
           downloadBtn.querySelector('.loading').classList.add('hidden');
         }, 1500);
         
-        // We don't need to auto-download anymore as it's handled by the DownloadForm component
+        // Auto-download after a short delay to ensure it works on live site
+        setTimeout(function() {
+          // Create a hidden iframe for download
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = pdfUrl;
+          document.body.appendChild(iframe);
+          
+          // Also try direct window location approach as fallback
+          window.location.href = pdfUrl;
+        }, 2000);
       } else {
         // If no PDF URL is provided, update button text
         downloadBtn.querySelector('.loading').classList.add('hidden');
