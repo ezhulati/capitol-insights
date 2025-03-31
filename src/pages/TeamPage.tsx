@@ -40,11 +40,11 @@ const TeamPage = () => {
       name: 'Drew Campbell',
       title: 'Senior Partner',
       image: '/uploads/team/drew-campbell.jpg',
-      bio: `Drew Campbell brings over 30 years of government relations experience to Capitol Insights. As a founding partner, he has established the firm as a respected voice in Texas politics.
+      bio: `Drew Campbell brings over forty years of lobbying and government relations expertise to Capitol Insights. With a foundation in agricultural economics from Oklahoma State University and business management from University of Phoenix, Drew applies both technical knowledge and strategic vision to complex legislative challenges.
 
-Prior to founding Capitol Insights, Drew served as CEO of the New Car Dealers Association of Metropolitan Dallas and worked with the Associated Motor Carriers of Oklahoma, where he developed extensive knowledge of transportation policy and regulation.
+His career began with the Associated Motor Carriers of Oklahoma before a distinguished twenty-five year tenure as CEO of the New Car Dealers Association of Metropolitan Dallas, where he developed extensive relationships with business leaders and political figures at local, state, and federal levels. As Senior Partner at Capitol Insights, Drew leverages his media and public relations expertise to represent clients across financial, transportation, and manufacturing sectors.
 
-Drew's approach is straightforward and relationship-driven. He doesn't promise miracles or claim special influence—instead, he leverages decades of experience and genuine connections to help clients navigate complex legislative environments.`,
+Drew's approach combines authoritative experience with practical, solutions-oriented frameworks that create clear pathways forward for clients navigating legislative complexities.`,
       expertise: ['Legislative Strategy', 'Transportation Policy', 'Local Government Relations', 'Coalition Building'],
       education: [
         {
@@ -65,11 +65,11 @@ Drew's approach is straightforward and relationship-driven. He doesn't promise m
       name: 'Byron Campbell',
       title: 'Senior Partner',
       image: '/uploads/team/byron-campbell.jpg',
-      bio: `Byron Campbell has dedicated over 10 years to understanding and navigating the intersection of policy, politics, and business. His experience spans local, state, and federal government, giving him valuable perspective on how decisions at each level impact organizations.
+      bio: `Byron Campbell's political acumen was developed through hands-on experience in the corridors of power, beginning with his education at the University of North Texas, where he also demonstrated leadership as a letterman on the football team. His career trajectory reflects a strategic progression through the political landscape, starting as a Legislative Assistant for the Education and Workforce Committee in the U.S. House of Representatives.
 
-Byron's approach to government relations is methodical and transparent. He helps clients develop realistic goals, identify key stakeholders, and create strategic communication plans that resonate with decision-makers.
+Byron's expertise was further refined during his time as Field Director for Pete Sessions for Congress and his five-year service as North Texas Regional Director for U.S. Senator Kay Bailey Hutchison. Since joining Capitol Insights as Senior Partner in 2011, Byron has established himself as an expert in relationship-oriented advocacy, with particular focus on the behind-the-scenes dynamics that drive legislative outcomes.
 
-Prior to joining Capitol Insights, Byron worked as a legislative director in the Texas House of Representatives and as a policy advisor for a state agency, where he gained firsthand knowledge of the legislative process and regulatory environment.`,
+Byron's educational approach breaks down complex political processes for clients, emphasizing early engagement and strategic preparation to achieve optimal results.`,
       expertise: ['Policy Development', 'Regulatory Affairs', 'Telecommunications', 'Technology Policy'],
       education: [
         {
