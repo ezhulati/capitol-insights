@@ -152,9 +152,11 @@ This user has downloaded the above document. Please follow up with appropriate i
     setIsSubmitting(false);
     setIsSubmitted(true);
     
-    // Open the PDF in a new tab after a short delay
+    // Navigate to the PDF file directly after a short delay
     setTimeout(() => {
-      window.open(pdfUrl, '_blank');
+      // Use window.location.href to directly navigate to the PDF file
+      // This is more reliable than window.open which might be blocked by popup blockers
+      window.location.href = pdfUrl;
     }, 1000);
   };
   

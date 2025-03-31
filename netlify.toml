@@ -23,6 +23,12 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# Ensure PDF files are accessible
+[[redirects]]
+  from = "/files/*"
+  to = "/files/:splat"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

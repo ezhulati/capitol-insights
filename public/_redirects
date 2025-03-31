@@ -1,2 +1,4 @@
-/admin/*  /admin/index.html  200
-/*  /index.html  200
+# Netlify redirects
+/api/*          /.netlify/functions/:splat        200
+/files/*        /files/:splat                     200
+/*              /index.html                       200
