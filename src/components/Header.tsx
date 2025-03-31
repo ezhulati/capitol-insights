@@ -288,9 +288,13 @@ const Header = () => {
                     {activeDropdown === link.key && (
                       <ul className="mt-1 ml-4 pl-4 border-l border-slate-200 space-y-1">
                         {link.items?.map(item => (
-                          <li key={item.path}>
+                          <li key={item.path} onClick={(e) => e.stopPropagation()}>
                             <Link
                               to={item.path}
+                              onClick={() => {
+                                setIsMenuOpen(false);
+                                setActiveDropdown(null);
+                              }}
                               className={`block px-4 py-2 rounded-md ${
                                 isScrolled 
                                   ? 'text-navy-700 hover:text-gold-600 hover:bg-slate-50' 
@@ -312,6 +316,7 @@ const Header = () => {
               <li role="none">
                 <Link 
                   to="/contact" 
+                  onClick={() => setIsMenuOpen(false)}
                   className={`block px-4 py-3 rounded-md transition-colors duration-250 ${
                     isScrolled 
                       ? 'text-navy-800 hover:text-gold-600 hover:bg-slate-50' 
@@ -330,6 +335,7 @@ const Header = () => {
               <li className="pt-3 mt-2 border-t border-slate-100/10 px-4" role="none">
                 <Link 
                   to="/contact"
+                  onClick={() => setIsMenuOpen(false)}
                   className="btn btn-primary btn-md w-full justify-center group whitespace-nowrap"
                   role="menuitem"
                 >
