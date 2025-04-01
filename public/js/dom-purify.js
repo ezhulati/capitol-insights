@@ -63,7 +63,7 @@
       elementsToCheck.forEach(element => {
         // Check if tag is allowed
         const tagName = element.tagName.toLowerCase();
-        if (!cfg.ALLOWED_TAGS.includes(tagName)) {
+        if (cfg.ALLOWED_TAGS.indexOf(tagName) === -1) {
           if (element.parentNode) {
             element.parentNode.removeChild(element);
           }
