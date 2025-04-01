@@ -16,7 +16,7 @@ import { getPageSEO } from '../utils/enhanced-seo';
 import { generateResourceStructuredData, generateFAQStructuredData } from '../utils/structured-data';
 import { generateResourcePreview } from '../utils/social-preview';
 import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
-import DownloadForm from '../components/DownloadForm';
+import DocumentViewHandler from '../components/PDFDownloadHandler';
 
 // Types
 interface Resource {
@@ -74,7 +74,7 @@ const resourcesData: Resource[] = [
     category: 'legislative',
     type: 'guide',
     downloadUrl: '/downloads/texas-legislative-advocacy-guide.html',
-    pdfUrl: '/files/texas-legislative-influence-guide-2025.pdf',
+    pdfUrl: '/files/texas-legislative-influence-guide-2025.pdf', // Using the existing PDF file
     date: '2024-11-20',
     featured: true,
     fileSize: '3.1 MB'
@@ -652,13 +652,13 @@ const ResourcesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Download Form */}
+      {/* Document View Handler */}
       {showDownloadForm && selectedResource && (
-        <DownloadForm
-          title={`Download ${selectedResource.title}`}
-          description="Please provide your information to download this resource."
-          pdfUrl={selectedResource.pdfUrl || '#'}
-          pdfTitle={selectedResource.title}
+        <DocumentViewHandler
+          title={`View ${selectedResource.title}`}
+          description="Please provide your information to access this resource."
+          documentUrl={selectedResource.pdfUrl || '#'}
+          documentTitle={selectedResource.title}
           onClose={() => setShowDownloadForm(false)}
         />
       )}
