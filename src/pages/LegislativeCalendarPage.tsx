@@ -140,13 +140,13 @@ const LegislativeCalendarPage = () => {
         ]}
       />
 
-      {/* Download Form Modal */}
+      {/* Calendar Form Modal */}
       {showDownloadForm && (
         <DownloadForm
-          title="Download Texas Legislative Calendar"
-          description="Please provide your information to download the complete Texas Legislative Calendar for 2025-2026."
+          title="View Texas Legislative Calendar"
+          description="Please provide your information to access the complete Texas Legislative Calendar for 2025-2026 online."
           documentUrl="/downloads/texas-legislative-calendar-2025.html"
-          documentTitle="Legislative Calendar"
+          documentTitle="Legislative Calendar (HTML)"
           onClose={() => setShowDownloadForm(false)}
         />
       )}
@@ -206,7 +206,7 @@ const LegislativeCalendarPage = () => {
                   className="text-primary-600 hover:text-primary-700 font-medium flex items-center"
                 >
                   <Download size={16} className="mr-1" />
-                  <span>Download Calendar</span>
+                  <span>View Online Calendar</span>
                 </button>
               </div>
               
