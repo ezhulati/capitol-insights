@@ -1,0 +1,67 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run security scan weekly (Monday at 6AM UTC)
+    - cron: '0 6 * * 1'
+
+jobs:
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run npm audit
+        run: npm run security-audit
+        # We don't want to fail the workflow if npm audit finds vulnerabilities
+        # just make them visible in the workflow output
+        continue-on-error: true
+      
+      - name: Run Snyk scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+        # We don't want to fail the workflow if Snyk finds vulnerabilities
+        # just make them visible in the workflow output
+        continue-on-error: true
+      
+      # CodeQL is GitHub's industry-leading semantic code analysis engine
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript, typescript
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+      
+      # Create a security scan report as an artifact
+      - name: Generate security report
+        run: |
+          mkdir -p security-reports
+          npm run security-audit > security-reports/npm-audit.txt || true
+          npm run snyk-test > security-reports/snyk-test.txt || true
+          
+      - name: Upload security scan results
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-scan-report
+          path: security-reports/
+          retention-days: 30

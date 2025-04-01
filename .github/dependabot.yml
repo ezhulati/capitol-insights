@@ -1,0 +1,47 @@
+# Dependabot configuration file
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for npm packages in the root directory
+    directory: "/"
+    # Check for updates weekly
+    schedule:
+      interval: "weekly"
+      # Run on Monday at a random time
+      day: "monday"
+    # Maximum of 10 open pull requests at once
+    open-pull-requests-limit: 10
+    # Specify labels for pull requests
+    labels:
+      - "dependencies"
+      - "security"
+    # Group all dev dependency updates into a single PR
+    groups:
+      dev-dependencies:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "react*"
+          - "@types/*"
+    # Use a commit message that makes clear the update is automated
+    commit-message:
+      prefix: "deps"
+      prefix-development: "dev-deps"
+      include: "scope"
+    # Create a branch for each update
+    versioning-strategy: auto
+    # Configure additional options for pull requests
+    pull-request-branch-name:
+      # Use a separator that makes sense for branch names
+      separator: "-"
+    # Add reviewers to the pull request
+    reviewers:
+      - "security-team"
+    # Ignore certain updates
+    ignore:
+      # Ignore updates to packages that start with 'aws'
+      # This is an example - modify based on your requirements
+      - dependency-name: "aws*"
