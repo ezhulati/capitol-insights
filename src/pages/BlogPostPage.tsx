@@ -292,7 +292,7 @@ const BlogPostPage: React.FC = () => {
                 <div className="flex items-center flex-shrink-0">
                   <div className="w-12 h-12 rounded-full overflow-hidden mr-4 shadow-sm">
                     <LazyImage 
-                      src={`/uploads/team/${post.author.replace(' ', '-').toLowerCase()}.jpg`}
+                      src={`/uploads/team/${post.author.replace(/ /g, '-').toLowerCase()}.jpg`}
                       alt={post.author}
                       className="w-full h-full object-cover"
                       placeholderColor="#e5e7eb"
@@ -436,7 +436,7 @@ const BlogPostPage: React.FC = () => {
               <div className="flex items-center p-6 bg-gray-50 rounded-xl shadow-sm">
                 <div className="w-20 h-20 rounded-full overflow-hidden mr-6 shadow-md">
                   <LazyImage 
-                    src={`/uploads/team/${post.author.replace(' ', '-').toLowerCase()}.jpg`}
+                    src={`/uploads/team/${post.author.replace(/ /g, '-').toLowerCase()}.jpg`}
                     alt={post.author}
                     className="w-full h-full object-cover"
                     placeholderColor="#e5e7eb"
