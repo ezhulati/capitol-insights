@@ -61,10 +61,16 @@ function displayReadingTime() {
     return;
   }
   
-  const text = document.body.innerText || '';
+  // Get text content, avoiding innerHTML for security
+  const contentElements = document.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, td, th');
+  let textContent = '';
+  for (let i = 0; i < contentElements.length; i++) {
+    textContent += ' ' + contentElements[i].textContent;
+  }
+  
   // Average reading speed (words per minute)
   const wordsPerMinute = 225;
-  const words = text.trim().split(/\s+/).length;
+  const words = textContent.trim().split(/\s+/).length;
   const readingTime = Math.max(1, Math.ceil(words / wordsPerMinute));
   
   const readingTimeElement = document.createElement('div');
