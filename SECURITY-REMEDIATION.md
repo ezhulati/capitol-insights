@@ -30,6 +30,21 @@ This document outlines security vulnerabilities that were identified in the Capi
 - Verified .gitignore properly excludes .env files from version control
 - Configured for Netlify environment variables usage instead
 
+### 3. Implemented Input Validation and Sanitization
+**Issue:** Form data was not properly validated or sanitized before processing.
+**Risk:** Cross-site scripting (XSS) attacks, injection attacks, and submission of malformed data.
+**Files affected:**
+- `netlify/functions/contact-form-handler.js`
+- `netlify/functions/lead-capture.js`
+
+**Resolution:**
+- Added the validator and xss npm packages
+- Implemented proper email validation using validator.isEmail()
+- Normalized email addresses using validator.normalizeEmail()
+- Sanitized all user inputs with xss() to prevent XSS attacks
+- Added URL validation for download links
+- Enhanced error responses with more specific validation feedback
+
 ## Required Next Steps
 
 ### 1. Rotate Compromised Credentials

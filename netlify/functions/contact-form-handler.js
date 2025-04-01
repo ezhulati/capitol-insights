@@ -1,5 +1,7 @@
 // Netlify Function to handle contact form submissions
 // This function receives contact form data and ensures proper email delivery
+import validator from 'validator';
+import xss from 'xss';
 
 // Email addresses to send contact form notifications to
 const NOTIFICATION_RECIPIENTS = process.env.FORM_NOTIFICATION_RECIPIENTS;
@@ -20,15 +22,32 @@ export const handler = async (event, context) => {
 
   try {
     // Parse the incoming request body
-    const data = JSON.parse(event.body);
+    const rawData = JSON.parse(event.body);
     
-    // Validate required fields
-    if (!data.email || !data.firstName || !data.lastName || !data.message) {
+    // Validate required fields with stronger validation
+    if (!rawData.email || !validator.isEmail(rawData.email)) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'Valid email address is required' }),
+      };
+    }
+    
+    if (!rawData.firstName || !rawData.lastName || !rawData.message) {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: 'Required fields are missing' }),
       };
     }
+    
+    // Sanitize all inputs to prevent XSS attacks
+    const data = {
+      email: validator.normalizeEmail(rawData.email) || rawData.email,
+      firstName: xss(rawData.firstName),
+      lastName: xss(rawData.lastName),
+      phone: xss(rawData.phone || ''),
+      practiceArea: xss(rawData.practiceArea || 'Not specified'),
+      message: xss(rawData.message)
+    };
 
     // Log the contact data for debugging
     console.log('Contact form submission:', data);

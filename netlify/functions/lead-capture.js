@@ -1,5 +1,7 @@
 // Netlify Function to handle lead capture form submissions
 // This function receives form data and sends it to your email marketing system or CRM
+import validator from 'validator';
+import xss from 'xss';
 
 // Email addresses to send lead notifications to
 const NOTIFICATION_RECIPIENTS = process.env.FORM_NOTIFICATION_RECIPIENTS;
@@ -20,15 +22,34 @@ export const handler = async (event, context) => {
 
   try {
     // Parse the incoming request body
-    const data = JSON.parse(event.body);
+    const rawData = JSON.parse(event.body);
     
-    // Validate required fields
-    if (!data.email || !data.name) {
+    // Validate required fields with stronger validation
+    if (!rawData.email || !validator.isEmail(rawData.email)) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'Email and name are required' }),
+        body: JSON.stringify({ message: 'Valid email address is required' }),
       };
     }
+    
+    if (!rawData.name) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'Name is required' }),
+      };
+    }
+    
+    // Sanitize all inputs to prevent XSS attacks
+    const data = {
+      email: validator.normalizeEmail(rawData.email) || rawData.email,
+      name: xss(rawData.name),
+      industry: xss(rawData.industry || 'Not specified'),
+      leadSource: xss(rawData.leadSource || 'Website Lead Magnet'),
+      downloadedGuide: xss(rawData.downloadedGuide || 'Texas Legislative Guide'),
+      downloadUrl: validator.isURL(rawData.downloadUrl || '/downloads/') ? 
+                  rawData.downloadUrl : '/downloads/',
+      timestamp: rawData.timestamp || new Date().toISOString()
+    };
 
     // Log the lead data for debugging
     console.log('Lead captured:', data);
