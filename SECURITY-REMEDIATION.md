@@ -108,6 +108,7 @@ This document outlines security vulnerabilities that were identified in the Capi
   CLOUDINARY_API_KEY=[new-api-key]
   CLOUDINARY_API_SECRET=[new-api-secret]
   FORM_NOTIFICATION_RECIPIENTS=byroncampbell@capitol-insights.com,[other-recipients]
+  CSRF_SECRET_KEY=[secure-random-string-at-least-32-characters]
   ```
 
 ### 3. Review Git History for Sensitive Information
