@@ -47,7 +47,9 @@ function addSkipToContentLink() {
   
   // Add ID to first heading for the skip link target
   const firstHeading = document.querySelector('h1, h2, h3');
-  firstHeading.id = 'main-content';
+  if (firstHeading) {
+    firstHeading.id = 'main-content';
+  }
 }
 
 /**
@@ -59,11 +61,11 @@ function displayReadingTime() {
     return;
   }
   
-  const text = document.body.innerText;
+  const text = document.body.innerText || '';
   // Average reading speed (words per minute)
   const wordsPerMinute = 225;
   const words = text.trim().split(/\s+/).length;
-  const readingTime = Math.ceil(words / wordsPerMinute);
+  const readingTime = Math.max(1, Math.ceil(words / wordsPerMinute));
   
   const readingTimeElement = document.createElement('div');
   readingTimeElement.className = 'reading-time';
@@ -75,8 +77,16 @@ function displayReadingTime() {
     document.querySelector('.author') || 
     document.querySelector('h1');
   
-  if (targetElement && targetElement.nextSibling) {
+  if (targetElement && targetElement.parentNode) {
     targetElement.parentNode.insertBefore(readingTimeElement, targetElement.nextSibling);
+  } else {
+    // Fallback - add to beginning of body if no suitable element found
+    const bodyFirstChild = document.body.firstChild;
+    if (bodyFirstChild) {
+      document.body.insertBefore(readingTimeElement, bodyFirstChild);
+    } else {
+      document.body.appendChild(readingTimeElement);
+    }
   }
 }
 
