@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, FileText, User, Mail, Building } from 'lucide-react';
+import { getCsrfToken } from '../utils/csrf-protection';
 
 interface DownloadFormProps {
   title: string;
@@ -20,7 +21,25 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     name: '',
     email: '',
     industry: '',
+    'csrf-token': '', // Add CSRF token to form data
   });
+  
+  // Fetch CSRF token when component mounts
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const token = await getCsrfToken();
+        setFormData(prev => ({
+          ...prev,
+          'csrf-token': token
+        }));
+      } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+      }
+    };
+    
+    fetchCsrfToken();
+  }, []);
   
   const [errors, setErrors] = useState({
     name: '',
@@ -119,6 +138,15 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     industryField.name = 'industry';
     industryField.value = formData.industry;
     form.appendChild(industryField);
+    
+    // Add CSRF token field
+    if (formData['csrf-token']) {
+      const csrfField = document.createElement('input');
+      csrfField.type = 'hidden';
+      csrfField.name = 'csrf-token';
+      csrfField.value = formData['csrf-token'];
+      form.appendChild(csrfField);
+    }
     
   const documentField = document.createElement('input');
   documentField.name = 'document';
@@ -312,7 +340,7 @@ This user has viewed the above document. Please follow up with appropriate infor
                     ) : (
                       <>
                         <FileText size={16} className="mr-2" />
-                        View {documentTitle}
+                        View Online {documentTitle}
                       </>
                     )}
                   </button>

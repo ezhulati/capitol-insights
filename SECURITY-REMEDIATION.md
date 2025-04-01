@@ -75,6 +75,22 @@ This document outlines security vulnerabilities that were identified in the Capi
 - Added proper error handling for invalid URLs
 - Implemented a fallback to the default endpoint when validation fails
 
+### 6. Implemented CSRF Protection
+**Issue:** Forms lacked Cross-Site Request Forgery (CSRF) protection.
+**Risk:** Attackers could potentially trick users into submitting unauthorized requests.
+**Files affected:**
+- `netlify/functions/contact-form-handler.js`
+- `netlify/functions/lead-capture.js`
+- `src/components/DownloadForm.tsx`
+
+**Resolution:**
+- Created a CSRF token generation endpoint (`netlify/functions/get-csrf-token.js`)
+- Implemented a token validation utility (`netlify/utils/csrf-validator.js`)
+- Added client-side CSRF token handling (`src/utils/csrf-protection.ts`)
+- Updated form components to automatically fetch and include CSRF tokens
+- Added server-side token validation in form handlers
+- Implemented secure token creation with cryptographic signatures and expiration timestamps
+
 ## Required Next Steps
 
 ### 1. Rotate Compromised Credentials
