@@ -75,69 +75,29 @@
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="m56tQG4npD-YUtq_2kRTIya2nveMVfw1iOYg-ome0jY"/>
 
-    <!-- Structured Data for Rich Results -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "Capitol Insights",
-        "description": "Capitol Insights delivers ethical effective government relations services throughout Texas transforming policy challenges into strategic advantages for organizations.",
-        "image": "https://images.unsplash.com/photo-1585468274952-66591eb14165?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630",
-        "url": "https://capitol-insights.com",
-        "telephone": "214-213-3443",
-        "location": [
-          {
-            "@type": "Place",
-            "name": "Capitol Insights Austin Office",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "1005 Congress Ave Suite 800",
-              "addressLocality": "Austin",
-              "addressRegion": "TX",
-              "postalCode": "78701",
-              "addressCountry": "US"
-            },
-            "geo": {
-              "@type": "GeoCoordinates",
-              "latitude": "30.2712",
-              "longitude": "-97.7403"
-            }
-          },
-          {
-            "@type": "Place",
-            "name": "Capitol Insights Dallas Office",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "P.O. Box 195892",
-              "addressLocality": "Dallas",
-              "addressRegion": "TX",
-              "postalCode": "75219",
-              "addressCountry": "US"
-            }
-          }
-        ],
-        "areaServed": {
-          "@type": "State",
-          "name": "Texas"
-        },
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday"
-          ],
-          "opens": "09:00",
-          "closes": "17:00"
-        },
-        "sameAs": [
-          "https://twitter.com/capitolinsights",
-          "https://linkedin.com/company/capitol-insights"
-        ]
-      }
+    <!-- CSP Nonce Initialization (must be before any scripts) -->
+    <script>
+      // Generate a nonce for this page
+      window.__CSP_NONCE__ = (function() {
+        // Create a buffer with random bytes
+        const randomBytes = new Uint8Array(16);
+        crypto.getRandomValues(randomBytes);
+        // Convert the random bytes to a base64 string
+        return btoa(String.fromCharCode.apply(null, Array.from(randomBytes)));
+      })();
+      
+      // Add the nonce to the CSP meta tag
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add CSP meta tag with nonce
+        const meta = document.createElement('meta');
+        meta.httpEquiv = 'Content-Security-Policy';
+        meta.content = `script-src 'self' https://identity.netlify.com https://www.googletagmanager.com https://www.google-analytics.com 'nonce-${window.__CSP_NONCE__}';`;
+        document.head.appendChild(meta);
+      });
     </script>
+    
+    <!-- Structured Data loaded from external file for better CSP compliance -->
+    <script src="/js/structured-data.js"></script>
 
     <!-- PWA Support -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -180,8 +140,8 @@
     </form>
     
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Meta description fixer script -->
-    <script src="/meta-fixer.js"></script>
+    <!-- Meta description fixer script (moved to external file) -->
+    <script src="/js/meta-fixer.js"></script>
     <!-- Netlify Identity scripts removed -->
     <noscript>
       <div style="padding: 2rem; text-align: center;">

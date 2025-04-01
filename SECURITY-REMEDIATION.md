@@ -45,6 +45,22 @@ This document outlines security vulnerabilities that were identified in the Capi
 - Added URL validation for download links
 - Enhanced error responses with more specific validation feedback
 
+### 4. Strengthened Content Security Policy
+**Issue:** Content Security Policy was too permissive, allowing unsafe inline scripts.
+**Risk:** Potential cross-site scripting (XSS) attacks could inject malicious code that would be executed due to 'unsafe-inline' directives.
+**Files affected:**
+- `netlify.toml`
+- `index.html`
+- Moved inline scripts to external files
+
+**Resolution:**
+- Removed 'unsafe-inline' directive from the CSP in netlify.toml
+- Created a CSP nonce generator for necessary inline scripts
+- Moved structured data JSON to an external JavaScript file
+- Created a utility to manage CSP nonces
+- Relocated meta-fixer.js to a separate file in public/js/
+- Updated the content security policy to use nonces rather than 'unsafe-inline'
+
 ## Required Next Steps
 
 ### 1. Rotate Compromised Credentials
