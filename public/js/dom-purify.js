@@ -1,126 +1,142 @@
 /**
- * DOM Purify - Minimal sanitization utility for Capitol Insights HTML documents
- * This is a simplified implementation focused on preventing XSS attacks in HTML content
+ * DOM Purify - Simple JS utility for sanitizing HTML content
+ * ES5-compatible version for maximum browser compatibility
  */
-
-(function (global, factory) {
-  // UMD pattern to support different environments
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.DOMPurify = factory());
-}(this, function() {
+(function(window) {
   'use strict';
 
-  const DOMPurify = {
-    /**
-     * Sanitizes HTML string to prevent XSS attacks
-     * @param {string} dirty - The untrusted HTML to sanitize
-     * @param {Object} config - Optional configuration 
-     * @returns {string} - Sanitized HTML
-     */
-    sanitize: function(dirty, config) {
-      if (!dirty) {
-        return '';
-      }
-      
-      // Default configuration
-      const cfg = Object.assign({
-        ALLOWED_TAGS: [
-          'a', 'b', 'br', 'div', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-          'i', 'li', 'ol', 'p', 'span', 'strong', 'table', 'tbody', 'td',
-          'th', 'thead', 'tr', 'ul'
-        ],
-        ALLOWED_ATTR: [
-          'class', 'href', 'id', 'style', 'target', 'title', 'aria-*', 'role',
-          'tabindex', 'scope'
-        ],
-        ALLOW_DATA_ATTR: false
-      }, config || {});
-      
-      // Create a temporary document fragment to work with
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = dirty;
-      
-      // Remove potentially dangerous elements
-      this._sanitizeNode(tempDiv, cfg);
-      
-      // Return the sanitized HTML
-      return tempDiv.innerHTML;
-    },
-    
-    /**
-     * Recursively sanitizes DOM nodes
-     * @private
-     */
-    _sanitizeNode: function(node, cfg) {
-      // Get all elements including the root 
-      const elementsToCheck = Array.prototype.slice.call(node.getElementsByTagName('*'));
-      if (node.nodeType === 1) { // Element node
-        elementsToCheck.unshift(node);
-      }
-      
-      // Process each element
-      elementsToCheck.forEach(element => {
-        // Check if tag is allowed
-        const tagName = element.tagName.toLowerCase();
-        if (cfg.ALLOWED_TAGS.indexOf(tagName) === -1) {
-          if (element.parentNode) {
-            element.parentNode.removeChild(element);
-          }
-          return; // Skip further processing
-        }
-        
-        // Check and sanitize attributes
-        const attributesToRemove = [];
-        for (let i = 0; i < element.attributes.length; i++) {
-          const attr = element.attributes[i];
-          const attrName = attr.name.toLowerCase();
-          
-          // Check if attribute is allowed
-          let isAllowed = false;
-          for (let j = 0; j < cfg.ALLOWED_ATTR.length; j++) {
-            const allowedAttr = cfg.ALLOWED_ATTR[j];
-            if ((allowedAttr.indexOf('-*') === allowedAttr.length - 2) && 
-                attrName.indexOf(allowedAttr.substring(0, allowedAttr.length - 2)) === 0) {
-              isAllowed = true;
-              break;
-            }
-            if (allowedAttr === attrName) {
-              isAllowed = true;
-              break;
-            }
-          }
-          
-          // Check data attributes
-          const isDataAttr = attrName.indexOf('data-') === 0;
-          if (!isAllowed && !(isDataAttr && cfg.ALLOW_DATA_ATTR)) {
-            attributesToRemove.push(attrName);
-            continue;
-          }
-          
-          // Sanitize URLs in href attributes
-          if (attrName === 'href') {
-            const value = attr.value.trim().toLowerCase();
-            if (value.indexOf('javascript:') === 0 || value.indexOf('data:') === 0) {
-              attributesToRemove.push(attrName);
-              continue;
-            }
-          }
-        }
-        
-        // Remove disallowed attributes
-        attributesToRemove.forEach(attr => {
-          element.removeAttribute(attr);
-        });
-      });
+  // List of allowed HTML tags
+  var ALLOWED_TAGS = [
+    'a', 'b', 'br', 'code', 'div', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'i', 'li', 'ol', 'p', 'pre', 'span', 'strong', 'table', 'tbody', 'td', 
+    'th', 'thead', 'tr', 'ul'
+  ];
+
+  // List of allowed attributes
+  var ALLOWED_ATTRS = [
+    'class', 'href', 'id', 'style', 'target', 'title', 'rel'
+  ];
+
+  // URL protocols that are allowed
+  var ALLOWED_PROTOCOLS = [
+    'http:', 'https:', 'mailto:', 'tel:'
+  ];
+
+  /**
+   * Checks if a value exists in an array using indexOf (ES5 compatible)
+   * @param {Array} arr - The array to check
+   * @param {*} value - The value to look for
+   * @return {boolean} True if the value is in the array
+   */
+  function arrayIncludes(arr, value) {
+    return arr.indexOf(value) !== -1;
+  }
+
+  /**
+   * Check if a URL has a safe protocol
+   * @param {string} url - URL to check
+   * @return {boolean} True if URL has a safe protocol
+   */
+  function hasSafeProtocol(url) {
+    try {
+      var protocol = new URL(url).protocol;
+      return arrayIncludes(ALLOWED_PROTOCOLS, protocol);
+    } catch (e) {
+      // If URL parsing fails, reject the URL
+      return false;
     }
+  }
+
+  /**
+   * Creates a new DOM element from an HTML string
+   * @param {string} html - HTML string to convert to DOM
+   * @return {HTMLElement} A DOM element containing the converted HTML
+   */
+  function createElementFromHTML(html) {
+    var div = document.createElement('div');
+    div.innerHTML = html.trim();
+    return div;
+  }
+
+  /**
+   * Sanitize an HTML string by removing disallowed tags and attributes
+   * @param {string} html - The HTML string to sanitize
+   * @return {string} The sanitized HTML
+   */
+  function sanitizeHTML(html) {
+    if (!html || typeof html !== 'string') {
+      return '';
+    }
+
+    // Create a DOM element from the HTML string
+    var container = createElementFromHTML(html);
+    
+    // Process all elements recursively
+    sanitizeNode(container);
+    
+    // Return the sanitized HTML
+    return container.innerHTML;
+  }
+
+  /**
+   * Recursively sanitize a DOM node and its children
+   * @param {Node} node - The node to sanitize
+   */
+  function sanitizeNode(node) {
+    // Get all child nodes as a static array (since we'll be modifying the tree)
+    var childNodes = Array.prototype.slice.call(node.childNodes);
+    
+    // Process each child node
+    for (var i = 0; i < childNodes.length; i++) {
+      var child = childNodes[i];
+      
+      // Handle element nodes
+      if (child.nodeType === 1) { // ELEMENT_NODE
+        var tagName = child.nodeName.toLowerCase();
+        
+        // Remove disallowed tags
+        if (!arrayIncludes(ALLOWED_TAGS, tagName)) {
+          node.removeChild(child);
+          continue;
+        }
+        
+        // Filter attributes
+        var attributes = Array.prototype.slice.call(child.attributes);
+        for (var j = 0; j < attributes.length; j++) {
+          var attr = attributes[j];
+          var attrName = attr.name.toLowerCase();
+          
+          // Remove disallowed attributes
+          if (!arrayIncludes(ALLOWED_ATTRS, attrName)) {
+            child.removeAttribute(attrName);
+          }
+          
+          // Special handling for href attributes
+          if (attrName === 'href') {
+            var url = attr.value;
+            if (!hasSafeProtocol(url)) {
+              child.removeAttribute('href');
+            }
+          }
+        }
+        
+        // Recursively process this element's children
+        sanitizeNode(child);
+      }
+      // Handle text nodes - do nothing
+      else if (child.nodeType === 3) { // TEXT_NODE
+        continue;
+      }
+      // Remove all other node types (comments, CDATA, etc.)
+      else {
+        node.removeChild(child);
+      }
+    }
+  }
+
+  // Expose the sanitizeHTML function globally
+  window.DOMPurify = {
+    sanitize: sanitizeHTML
   };
-  
-  // Public API
-  return {
-    sanitize: function(dirty, config) {
-      return DOMPurify.sanitize(dirty, config);
-    },
-    version: '1.0.0'
-  };
-}));
+
+})(window);
