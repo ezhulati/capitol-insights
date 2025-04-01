@@ -107,6 +107,23 @@ This document outlines security vulnerabilities that were identified in the Capi
 - Implemented 429 status code responses for rate-limited requests
 - Added exponential backoff guidance through Retry-After headers
 
+### 8. Secured Puppeteer Automation Scripts
+**Issue:** Puppeteer scripts had no input validation or security restrictions.
+**Risk:** Potential for server-side request forgery, arbitrary file access, and remote code execution via parameter injection.
+**Files affected:**
+- `capture-images.js`
+- `capture-page.js`
+
+**Resolution:**
+- Implemented strict URL validation with allowlists for permitted domains
+- Added strict CSS selector validation to prevent selector injection attacks
+- Added output path validation to prevent arbitrary file writing
+- Implemented secure browser launch options
+- Added optional authentication requirement
+- Enforced headless mode for all operations
+- Applied strict Content Security Policy to browser context
+- Created modular, reusable API with parameter validation
+
 ## Required Next Steps
 
 ### 1. Rotate Compromised Credentials
