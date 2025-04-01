@@ -2,9 +2,14 @@
 // This function receives contact form data and ensures proper email delivery
 
 // Email addresses to send contact form notifications to
-const NOTIFICATION_RECIPIENTS = process.env.FORM_NOTIFICATION_RECIPIENTS || 'byroncampbell@capitol-insights.com,enrizhulati@gmail.com';
+const NOTIFICATION_RECIPIENTS = process.env.FORM_NOTIFICATION_RECIPIENTS;
 
 export const handler = async (event, context) => {
+  // Validate required environment variables
+  if (!NOTIFICATION_RECIPIENTS) {
+    console.error('Missing required environment variable: FORM_NOTIFICATION_RECIPIENTS');
+    // Continue execution but log the error - don't expose this to the client response
+  }
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {
