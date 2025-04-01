@@ -98,8 +98,6 @@ function makeTablesResponsive() {
     // Add row headers for better accessibility where appropriate
     const headerRow = table.querySelector('tr:first-child');
     if (headerRow && headerRow.querySelectorAll('th').length > 0) {
-      const columnHeaders = Array.from(headerRow.querySelectorAll('th')).map(th => th.textContent);
-      
       // Add scope attribute to header cells
       headerRow.querySelectorAll('th').forEach(th => {
         th.setAttribute('scope', 'col');
@@ -115,7 +113,8 @@ function makeTablesResponsive() {
           
           const headerCell = document.createElement('th');
           headerCell.setAttribute('scope', 'row');
-          headerCell.innerHTML = firstCell.innerHTML;
+          // Use textContent instead of innerHTML for security
+          headerCell.textContent = firstCell.textContent;
           headerCell.className = firstCell.className;
           row.replaceChild(headerCell, firstCell);
         }
@@ -162,22 +161,25 @@ function enhanceTOC() {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       const targetId = this.getAttribute('href').substring(1);
-      const targetElement = document.getElementById(targetId);
-      
-      if (targetElement) {
-        targetElement.scrollIntoView({
-          behavior: 'smooth'
-        });
+      // Only proceed if targetId is valid
+      if (/^[A-Za-z0-9_-]+$/.test(targetId)) {
+        const targetElement = document.getElementById(targetId);
         
-        // Set focus to the target element
-        targetElement.setAttribute('tabindex', '-1');
-        targetElement.focus();
-        setTimeout(() => {
-          targetElement.removeAttribute('tabindex');
-        }, 1000);
-        
-        // Update URL without causing page jump
-        history.pushState(null, null, `#${targetId}`);
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+          
+          // Set focus to the target element
+          targetElement.setAttribute('tabindex', '-1');
+          targetElement.focus();
+          setTimeout(() => {
+            targetElement.removeAttribute('tabindex');
+          }, 1000);
+          
+          // Update URL without causing page jump
+          history.pushState(null, null, `#${targetId}`);
+        }
       }
     });
   });
@@ -192,23 +194,26 @@ function setupSmoothScrolling() {
       const targetId = this.getAttribute('href').substring(1);
       if (targetId === '') return; // Skip empty anchors
       
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        e.preventDefault();
-        
-        targetElement.scrollIntoView({
-          behavior: 'smooth'
-        });
-        
-        // Set focus to the target element
-        targetElement.setAttribute('tabindex', '-1');
-        targetElement.focus();
-        setTimeout(() => {
-          targetElement.removeAttribute('tabindex');
-        }, 1000);
-        
-        // Update URL without causing page jump
-        history.pushState(null, null, `#${targetId}`);
+      // Validate the targetId to prevent XSS attacks
+      if (/^[A-Za-z0-9_-]+$/.test(targetId)) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          
+          targetElement.scrollIntoView({
+            behavior: 'smooth'
+          });
+          
+          // Set focus to the target element
+          targetElement.setAttribute('tabindex', '-1');
+          targetElement.focus();
+          setTimeout(() => {
+            targetElement.removeAttribute('tabindex');
+          }, 1000);
+          
+          // Update URL without causing page jump
+          history.pushState(null, null, `#${targetId}`);
+        }
       }
     });
   });
