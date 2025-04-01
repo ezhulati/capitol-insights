@@ -16,7 +16,7 @@ import { getPageSEO } from '../utils/enhanced-seo';
 import { generateResourceStructuredData, generateFAQStructuredData } from '../utils/structured-data';
 import { generateResourcePreview } from '../utils/social-preview';
 import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
-import DocumentViewHandler from '../components/PDFDownloadHandler';
+import DocumentViewHandler from '../components/DocumentViewHandler';
 
 // Types
 interface Resource {
@@ -30,7 +30,7 @@ interface Resource {
   featured?: boolean;
   thumbnailUrl?: string;
   fileSize?: string;
-  pdfUrl?: string; // Actual PDF file URL
+  documentUrl?: string; // Actual HTML document URL
 }
 
 // Resource category options for filtering
@@ -60,8 +60,8 @@ const resourcesData: Resource[] = [
     description: 'Comprehensive guide to the 89th Texas Legislative Session with important deadlines, committee meeting schedules, and key dates.',
     category: 'legislative',
     type: 'calendar',
-    downloadUrl: '/downloads/texas-legislative-calendar-2025.html',
-    pdfUrl: '/files/texas-legislative-calendar-2025.pdf',
+    downloadUrl: '/files/texas-legislative-calendar-2025.html',
+    documentUrl: '/files/texas-legislative-calendar-2025.html',
     date: '2024-12-15',
     featured: true,
     thumbnailUrl: '/images/capitol-background.jpg',
@@ -73,8 +73,8 @@ const resourcesData: Resource[] = [
     description: 'A comprehensive guide to effective advocacy during the Texas legislative session, including strategies, best practices, and key contacts.',
     category: 'legislative',
     type: 'guide',
-    downloadUrl: '/downloads/texas-legislative-advocacy-guide.html',
-    pdfUrl: '/files/texas-legislative-influence-guide-2025.pdf', // Using the existing PDF file
+    downloadUrl: '/files/texas-legislative-influence-guide-2025.html',
+    documentUrl: '/files/texas-legislative-influence-guide-2025.html',
     date: '2024-11-20',
     featured: true,
     fileSize: '3.1 MB'
@@ -85,8 +85,8 @@ const resourcesData: Resource[] = [
     description: 'Analysis of transportation funding trends, legislative priorities, and future funding projections for Texas infrastructure.',
     category: 'transportation',
     type: 'report',
-    downloadUrl: '/downloads/texas-transportation-funding-outlook.html',
-    pdfUrl: '/files/texas-transportation-funding-outlook.pdf',
+    downloadUrl: '/files/texas-transportation-funding-outlook.html',
+    documentUrl: '/files/texas-transportation-funding-outlook.html',
     date: '2024-10-18',
     fileSize: '1.8 MB'
   },
@@ -96,8 +96,8 @@ const resourcesData: Resource[] = [
     description: 'Overview of upcoming regulatory changes, legislative priorities, and industry trends affecting telecommunications in Texas.',
     category: 'technology',
     type: 'brief',
-    downloadUrl: '/downloads/telecommunications-regulatory-outlook.html',
-    pdfUrl: '/files/telecommunications-regulatory-outlook.pdf',
+    downloadUrl: '/files/telecommunications-regulatory-outlook.html',
+    documentUrl: '/files/telecommunications-regulatory-outlook.html',
     date: '2024-09-22',
     fileSize: '1.5 MB'
   },
@@ -107,8 +107,8 @@ const resourcesData: Resource[] = [
     description: 'Analysis of recent and upcoming healthcare regulatory changes and their potential impact on providers and patients in Texas.',
     category: 'healthcare',
     type: 'brief',
-    downloadUrl: '/downloads/healthcare-regulatory-changes.html',
-    pdfUrl: '/files/healthcare-regulatory-changes.pdf',
+    downloadUrl: '/files/healthcare-regulatory-changes.html',
+    documentUrl: '/files/healthcare-regulatory-changes.html',
     date: '2024-09-05',
     fileSize: '2.2 MB'
   },
@@ -118,8 +118,8 @@ const resourcesData: Resource[] = [
     description: 'Effective advocacy strategies for cities and local governments to advance their legislative priorities in the Texas Legislature.',
     category: 'municipal',
     type: 'guide',
-    downloadUrl: '/downloads/municipal-advocacy-strategies.html',
-    pdfUrl: '/files/municipal-advocacy-strategies.pdf',
+    downloadUrl: '/files/municipal-advocacy-strategies.html',
+    documentUrl: '/files/municipal-advocacy-strategies.html',
     date: '2024-08-15',
     fileSize: '2.7 MB'
   },
@@ -129,8 +129,8 @@ const resourcesData: Resource[] = [
     description: 'Comprehensive guide to funding opportunities for water infrastructure projects in Texas, including state and federal programs.',
     category: 'municipal',
     type: 'guide',
-    downloadUrl: '/downloads/water-infrastructure-funding.html',
-    pdfUrl: '/files/water-infrastructure-funding.pdf',
+    downloadUrl: '/files/water-infrastructure-funding.html',
+    documentUrl: '/files/water-infrastructure-funding.html',
     date: '2024-07-12',
     fileSize: '3.5 MB'
   },
@@ -140,8 +140,8 @@ const resourcesData: Resource[] = [
     description: 'Analysis of Texas energy grid reliability, regulatory framework, and policy recommendations for improving resilience.',
     category: 'technology',
     type: 'report',
-    downloadUrl: '/downloads/energy-grid-reliability.html',
-    pdfUrl: '/files/energy-grid-reliability.pdf',
+    downloadUrl: '/files/energy-grid-reliability.html',
+    documentUrl: '/files/energy-grid-reliability.html',
     date: '2024-06-20',
     fileSize: '4.1 MB'
   }
@@ -657,7 +657,7 @@ const ResourcesPage: React.FC = () => {
         <DocumentViewHandler
           title={`View ${selectedResource.title}`}
           description="Please provide your information to access this resource."
-          documentUrl={selectedResource.pdfUrl || '#'}
+          documentUrl={selectedResource.documentUrl || '#'}
           documentTitle={selectedResource.title}
           onClose={() => setShowDownloadForm(false)}
         />
