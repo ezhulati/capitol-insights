@@ -1,542 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Texas Transportation Funding Outlook | Capitol Insights</title>
-  <style>
-    /* Base styles */
-    body {
-      font-family: 'Helvetica', 'Arial', sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    /* Header styles */
-    .header {
-      text-align: center;
-      padding: 20px 0;
-      margin-bottom: 30px;
-      border-bottom: 2px solid #102A43;
-    }
-    
-    .company-name {
-      color: #102A43;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    
-    .document-title {
-      color: #102A43;
-      font-size: 36px;
-      margin: 20px 0 10px;
-    }
-    
-    .document-subtitle {
-      color: #486581;
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    
-    .gold-line {
-      height: 3px;
-      background-color: #AA8843;
-      width: 40%;
-      margin: 30px auto;
-    }
-    
-    /* Section styles */
-    .section {
-      margin-bottom: 40px;
-    }
-    
-    .section-heading {
-      color: #102A43;
-      font-size: 26px;
-      border-bottom: 1px solid #AA8843;
-      padding-bottom: 10px;
-      margin-top: 40px;
-    }
-    
-    .subsection-heading {
-      color: #486581;
-      font-size: 20px;
-      margin-top: 30px;
-      margin-bottom: 15px;
-    }
-    
-    /* Content styles */
-    p {
-      margin-bottom: 15px;
-    }
-    
-    ul {
-      margin-bottom: 20px;
-    }
-    
-    li {
-      margin-bottom: 8px;
-    }
-    
-    /* Footer styles */
-    .footer {
-      margin-top: 60px;
-      padding-top: 20px;
-      border-top: 1px solid #ddd;
-      text-align: center;
-      color: #627D98;
-      font-size: 14px;
-    }
-    
-    /* Print styles */
-    @media print {
-      body {
-        font-size: 12pt;
-      }
-      
-      .no-print {
-        display: none;
-      }
-      
-      .page-break {
-        page-break-before: always;
-      }
-      
-      a {
-        text-decoration: none;
-        color: #333;
-      }
-    }
-    
-    /* Table of Contents styles */
-    .toc {
-      background-color: #f5f7fa;
-      padding: 20px;
-      margin: 30px 0;
-      border-radius: 5px;
-    }
-    
-    .toc-title {
-      color: #102A43;
-      font-size: 20px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-    
-    .toc a {
-      color: #333;
-      text-decoration: none;
-    }
-    
-    .toc a:hover {
-      text-decoration: underline;
-    }
-    
-    .toc ul {
-      list-style-type: none;
-      padding-left: 10px;
-    }
-    
-    .toc li {
-      margin-bottom: 10px;
-    }
-    
-    .print-button {
-      background-color: #102A43;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 4px;
-      margin: 20px 0;
-    }
-    
-    .print-button:hover {
-      background-color: #1f3e5a;
-    }
-
-    /* Table styles */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px 12px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f5f7fa;
-      font-weight: bold;
-      color: #102A43;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texas Transportation Funding Outlook - Capitol Insights</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #1a365d;
+            border-bottom: 2px solid #e4b425;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #1a365d;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #1a365d;
+            margin-top: 25px;
+        }
+        h4 {
+            color: #1a365d;
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            color: #1a56db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .author {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        .date {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 0.9em;
+            color: #666;
+        }
+        blockquote {
+            border-left: 3px solid #e4b425;
+            padding-left: 15px;
+            margin-left: 0;
+            color: #555;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add "Continue to Part 2" link at the appropriate location 
+            const part2Link = document.createElement('div');
+            part2Link.style.margin = '20px 0';
+            part2Link.style.padding = '10px';
+            part2Link.style.backgroundColor = '#f8f9fa';
+            part2Link.style.borderRadius = '5px';
+            part2Link.style.textAlign = 'center';
+            part2Link.innerHTML = '<a href="/files/texas-transportation-funding-outlook-part2.html" style="color: #1a56db; font-weight: 500; padding: 5px 10px;">Continue to Part 2 <span style="margin-left: 5px;">→</span></a>';
+            
+            // The content is split at the conclusion section, so we'll add the link after the shortened conclusion section
+            const conclusionSection = document.getElementById('conclusion');
+            if (conclusionSection) {
+                // Insert after the conclusion section and its first paragraph
+                let targetElement = conclusionSection.nextElementSibling;
+                if (targetElement && targetElement.tagName === 'P') {
+                    targetElement = targetElement.nextElementSibling;
+                }
+                
+                if (targetElement) {
+                    conclusionSection.parentNode.insertBefore(part2Link, targetElement);
+                } else {
+                    // If we couldn't find the right place, append to the body
+                    document.body.appendChild(part2Link);
+                }
+            } else {
+                // Fallback - just append to the body
+                document.body.appendChild(part2Link);
+            }
+        });
+    </script>
 </head>
 <body>
-  <div class="header">
-    <div class="company-name">CAPITOL INSIGHTS</div>
-    <h1 class="document-title">Texas Transportation Funding Outlook</h1>
-    <h2 class="document-subtitle">Analysis & Projections, 2025-2035</h2>
-    <div class="gold-line"></div>
-    <p>By: Drew Campbell & Byron Campbell, Capitol Insights</p>
-    <p>March 2025</p>
-  </div>
-  
-  <div class="no-print">
-    <button class="print-button" onclick="window.print()">Print this Document</button>
-  </div>
-  
-  <div class="toc">
-    <div class="toc-title">TABLE OF CONTENTS</div>
-    <ul>
-      <li><a href="#introduction">1. Introduction</a></li>
-      <li><a href="#current-state">2. Current State of Transportation Funding</a>
-        <ul>
-          <li><a href="#funding-sources">2.1 Key Funding Sources</a></li>
-          <li><a href="#recent-trends">2.2 Recent Funding Trends</a></li>
-          <li><a href="#comparative-analysis">2.3 Comparative Analysis with Other States</a></li>
-        </ul>
-      </li>
-      <li><a href="#challenges">3. Funding Challenges & Gaps</a>
-        <ul>
-          <li><a href="#infrastructure-needs">3.1 Infrastructure Needs Assessment</a></li>
-          <li><a href="#funding-shortfalls">3.2 Projected Funding Shortfalls</a></li>
-          <li><a href="#fuel-tax-decline">3.3 Fuel Tax Revenue Decline</a></li>
-        </ul>
-      </li>
-      <li><a href="#policy-innovations">4. Policy & Funding Innovations</a>
-        <ul>
-          <li><a href="#legislative-initiatives">4.1 Recent Legislative Initiatives</a></li>
-          <li><a href="#alternative-mechanisms">4.2 Alternative Funding Mechanisms</a></li>
-          <li><a href="#federal-opportunities">4.3 Federal Funding Opportunities</a></li>
-        </ul>
-      </li>
-      <li><a href="#recommendations">5. Strategic Recommendations</a>
-        <ul>
-          <li><a href="#policy-approaches">5.1 Policy Approaches</a></li>
-          <li><a href="#engagement-strategies">5.2 Stakeholder Engagement Strategies</a></li>
-          <li><a href="#preparation-strategies">5.3 Preparation Strategies for Organizations</a></li>
-        </ul>
-      </li>
-      <li><a href="#conclusion">6. Conclusion</a></li>
-    </ul>
-  </div>
-  
-  <div class="section" id="introduction">
-    <h2 class="section-heading">1. Introduction</h2>
+    <h1>Texas Transportation Funding Outlook</h1>
+    <h2>Analysis & Projections, 2025-2035</h2>
+    <p class="author"><em>By: Drew Campbell & Byron Campbell, Capitol Insights</em></p>
+    <p class="date"><em>March 2025</em></p>
+
+    <h2>TABLE OF CONTENTS</h2>
+    <ol>
+        <li>Introduction</li>
+        <li>Current State of Transportation Funding
+            <ul>
+                <li>2.1 Key Funding Sources</li>
+                <li>2.2 Recent Funding Trends</li>
+                <li>2.3 Comparative Analysis with Other States</li>
+            </ul>
+        </li>
+        <li>Funding Challenges & Gaps
+            <ul>
+                <li>3.1 Infrastructure Needs Assessment</li>
+                <li>3.2 Projected Funding Shortfalls</li>
+                <li>3.3 Fuel Tax Revenue Decline</li>
+            </ul>
+        </li>
+        <li>Policy & Funding Innovations
+            <ul>
+                <li>4.1 Recent Legislative Initiatives</li>
+                <li>4.2 Alternative Funding Mechanisms</li>
+                <li>4.3 Federal Funding Opportunities</li>
+            </ul>
+        </li>
+        <li>Strategic Recommendations
+            <ul>
+                <li>5.1 Policy Approaches</li>
+                <li>5.2 Stakeholder Engagement Strategies</li>
+                <li>5.3 Preparation Strategies for Organizations</li>
+            </ul>
+        </li>
+        <li>Conclusion</li>
+    </ol>
+
+    <h2 id="introduction">1. Introduction</h2>
     <p>Texas maintains the largest state-maintained highway system in the nation, with over 80,000 miles of roadways serving a rapidly growing population and economy. The funding structures that support this vast transportation network face significant challenges and are undergoing substantial evolution. This analysis examines current transportation funding mechanisms in Texas, identifies emerging challenges, and presents strategic recommendations for stakeholders navigating this changing landscape.</p>
     <p>Transportation infrastructure quality directly impacts economic competitiveness, public safety, quality of life, and environmental outcomes. However, traditional funding mechanisms are increasingly strained by:</p>
     <ul>
-      <li>Exceptional population growth and urbanization, creating demand for new and expanded infrastructure</li>
-      <li>Rising construction and maintenance costs that outpace inflation</li>
-      <li>Aging infrastructure requiring more frequent maintenance and rehabilitation</li>
-      <li>Vehicle fuel efficiency improvements and electrification eroding fuel tax revenues</li>
-      <li>Political resistance to tax and fee increases</li>
+        <li>Exceptional population growth and urbanization, creating demand for new and expanded infrastructure</li>
+        <li>Rising construction and maintenance costs that outpace inflation</li>
+        <li>Aging infrastructure requiring more frequent maintenance and rehabilitation</li>
+        <li>Vehicle fuel efficiency improvements and electrification eroding fuel tax revenues</li>
+        <li>Political resistance to tax and fee increases</li>
     </ul>
     <p>This document provides an in-depth analysis of these challenges and presents innovative approaches to ensuring sustainable transportation funding for Texas's future.</p>
-  </div>
-  
-  <div class="section" id="current-state">
-    <h2 class="section-heading">2. Current State of Transportation Funding</h2>
+
+    <h2 id="current-state">2. Current State of Transportation Funding</h2>
     <p>The Texas Department of Transportation (TxDOT) operates with an annual budget of approximately $16.9 billion for FY 2025. Understanding the sources, trends, and comparative position of Texas transportation funding provides essential context for future planning.</p>
-    
-    <div id="funding-sources">
-      <h3 class="subsection-heading">2.1 Key Funding Sources</h3>
-      <p>Texas transportation funding comes from several key sources:</p>
-      <ul>
-        <li><strong>State Highway Fund (Fund 6):</strong> The primary state funding mechanism, composed of:
-          <ul>
-            <li>State motor fuels taxes ($0.20 per gallon for gasoline and diesel, unchanged since 1991)</li>
-            <li>Vehicle registration fees</li>
-            <li>Other fees and revenue sources, including permits and oil and natural gas severance taxes</li>
-          </ul>
+
+    <h3 id="funding-sources">2.1 Key Funding Sources</h3>
+    <p>Texas transportation funding comes from several key sources:</p>
+    <ul>
+        <li><strong>State Highway Fund (Fund 6)</strong>: The primary state funding mechanism, composed of:
+            <ul>
+                <li>State motor fuels taxes ($0.20 per gallon for gasoline and diesel, unchanged since 1991)</li>
+                <li>Vehicle registration fees</li>
+                <li>Other fees and revenue sources, including permits and oil and natural gas severance taxes</li>
+            </ul>
         </li>
-        <li><strong>Proposition 1 (2014):</strong> Dedicates a portion of oil and natural gas production tax revenues to transportation when the Economic Stabilization Fund (ESF) reaches a certain threshold</li>
-        <li><strong>Proposition 7 (2015):</strong> Dedicates up to $5 billion annually from state sales tax and motor vehicle sales tax revenue to transportation</li>
-        <li><strong>Federal Funds:</strong> Highway Trust Fund allocations and discretionary grants, including supplemental funding from the Infrastructure Investment and Jobs Act (IIJA)</li>
-        <li><strong>Local Funding:</strong> Including bonds, toll revenues, tax increment financing, and transportation reinvestment zones</li>
-        <li><strong>Comprehensive Development Agreements (CDAs):</strong> Public-private partnerships for certain major projects</li>
-      </ul>
-      <p>The relative contribution of these sources has shifted significantly over the past decade, with Propositions 1 and 7 now providing nearly 40% of TxDOT's budget, reducing the relative importance of traditional gas tax revenues.</p>
-    </div>
-    
-    <div id="recent-trends">
-      <h3 class="subsection-heading">2.2 Recent Funding Trends</h3>
-      <p>Texas transportation funding has evolved significantly in the past decade:</p>
-      <ul>
-        <li><strong>Overall Funding Growth:</strong> Total TxDOT funding has increased from approximately $11 billion in FY 2015 to $16.9 billion in FY 2025, representing a 54% increase over ten years</li>
-        <li><strong>Shift from Traditional Sources:</strong> The share of funding from motor fuels taxes has declined from 36% in 2010 to approximately 19% in 2025</li>
-        <li><strong>Volatile Funding from Oil and Gas:</strong> Proposition 1 funding has fluctuated dramatically with oil prices, from a high of $1.74 billion in FY 2018 to $434 million in FY 2021, before rebounding to $1.12 billion in FY 2024</li>
-        <li><strong>Federal Funding Increases:</strong> The IIJA provides Texas with approximately $27.4 billion in formula funding for highways and bridges over five years (2022-2026), a 30% increase over previous federal authorization levels</li>
-        <li><strong>Reduction in New Toll Projects:</strong> Legislative restrictions have limited new toll road development since 2017, shifting focus to tax-funded projects</li>
-      </ul>
-      <p>While overall funding has increased, these trends indicate a shift toward greater reliance on general revenue and economically sensitive funding sources rather than transportation-specific user fees.</p>
-      
-      <table>
-        <thead>
-          <tr>
+        <li><strong>Proposition 1 (2014)</strong>: Dedicates a portion of oil and natural gas production tax revenues to transportation when the Economic Stabilization Fund (ESF) reaches a certain threshold</li>
+        <li><strong>Proposition 7 (2015)</strong>: Dedicates up to $5 billion annually from state sales tax and motor vehicle sales tax revenue to transportation</li>
+        <li><strong>Federal Funds</strong>: Highway Trust Fund allocations and discretionary grants, including supplemental funding from the Infrastructure Investment and Jobs Act (IIJA)</li>
+        <li><strong>Local Funding</strong>: Including bonds, toll revenues, tax increment financing, and transportation reinvestment zones</li>
+        <li><strong>Comprehensive Development Agreements (CDAs)</strong>: Public-private partnerships for certain major projects</li>
+    </ul>
+    <p>The relative contribution of these sources has shifted significantly over the past decade, with Propositions 1 and 7 now providing nearly 40% of TxDOT's budget, reducing the relative importance of traditional gas tax revenues.</p>
+
+    <h3 id="funding-trends">2.2 Recent Funding Trends</h3>
+    <p>Texas transportation funding has evolved significantly in the past decade:</p>
+    <ul>
+        <li><strong>Overall Funding Growth</strong>: Total TxDOT funding has increased from approximately $11 billion in FY 2015 to $16.9 billion in FY 2025, representing a 54% increase over ten years</li>
+        <li><strong>Shift from Traditional Sources</strong>: The share of funding from motor fuels taxes has declined from 36% in 2010 to approximately 19% in 2025</li>
+        <li><strong>Volatile Funding from Oil and Gas</strong>: Proposition 1 funding has fluctuated dramatically with oil prices, from a high of $1.74 billion in FY 2018 to $434 million in FY 2021, before rebounding to $1.12 billion in FY 2024</li>
+        <li><strong>Federal Funding Increases</strong>: The IIJA provides Texas with approximately $27.4 billion in formula funding for highways and bridges over five years (2022-2026), a 30% increase over previous federal authorization levels</li>
+        <li><strong>Reduction in New Toll Projects</strong>: Legislative restrictions have limited new toll road development since 2017, shifting focus to tax-funded projects</li>
+    </ul>
+    <p>While overall funding has increased, these trends indicate a shift toward greater reliance on general revenue and economically sensitive funding sources rather than transportation-specific user fees.</p>
+
+    <table>
+        <tr>
             <th>Funding Source</th>
             <th>FY 2015</th>
             <th>FY 2020</th>
             <th>FY 2025</th>
             <th>10-Year Change</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
+        </tr>
+        <tr>
             <td>State Motor Fuels Taxes</td>
             <td>$2.62B</td>
             <td>$2.85B</td>
             <td>$3.21B</td>
             <td>+22%</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Vehicle Registration Fees</td>
             <td>$1.43B</td>
             <td>$1.76B</td>
             <td>$2.06B</td>
             <td>+44%</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Proposition 1 (Oil & Gas)</td>
             <td>$1.74B</td>
             <td>$1.15B</td>
             <td>$0.98B</td>
             <td>-44%</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Proposition 7 (Sales Tax)</td>
             <td>$0.00B</td>
             <td>$3.74B</td>
             <td>$4.92B</td>
             <td>N/A</td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
             <td>Federal Funds</td>
             <td>$3.86B</td>
             <td>$4.23B</td>
             <td>$5.73B</td>
             <td>+48%</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <div id="comparative-analysis">
-      <h3 class="subsection-heading">2.3 Comparative Analysis with Other States</h3>
-      <p>Texas transportation funding exhibits several distinctive characteristics when compared to other large states:</p>
-      <ul>
-        <li><strong>Low Per-Capita Spending:</strong> Despite recent increases, Texas ranks 43rd nationally in per-capita transportation spending at approximately $510 per resident, compared to the national average of $640</li>
-        <li><strong>Low Fuel Tax Rates:</strong> Texas's $0.20 per gallon fuel tax is significantly below the national average of $0.36 per gallon and well below peer states like California ($0.68) and Pennsylvania ($0.59)</li>
-        <li><strong>High Reliance on Federal Funds:</strong> Federal dollars constitute approximately 34% of TxDOT's budget, higher than the national average of 27%</li>
-        <li><strong>Greater Use of General Revenue:</strong> Texas's dedication of general sales tax revenue to transportation through Proposition 7 is relatively uncommon among states, most of which rely more heavily on transportation-specific user fees</li>
-        <li><strong>Limited Indexing Mechanisms:</strong> Unlike 22 states that have some form of fuel tax indexing for inflation or other factors, Texas's fuel tax rate remains fixed</li>
-      </ul>
-      <p>These comparisons reveal that while Texas has developed innovative funding mechanisms like Propositions 1 and 7, it maintains relatively low direct user fees for transportation and has become increasingly dependent on general revenue and federal funds compared to peer states.</p>
-    </div>
-  </div>
-  
-  <div class="section page-break" id="challenges">
-    <h2 class="section-heading">3. Funding Challenges & Gaps</h2>
+        </tr>
+    </table>
+
+    <h3 id="comparative-analysis">2.3 Comparative Analysis with Other States</h3>
+    <p>Texas transportation funding exhibits several distinctive characteristics when compared to other large states:</p>
+    <ul>
+        <li><strong>Low Per-Capita Spending</strong>: Despite recent increases, Texas ranks 43rd nationally in per-capita transportation spending at approximately $510 per resident, compared to the national average of $640</li>
+        <li><strong>Low Fuel Tax Rates</strong>: Texas's $0.20 per gallon fuel tax is significantly below the national average of $0.36 per gallon and well below peer states like California ($0.68) and Pennsylvania ($0.59)</li>
+        <li><strong>High Reliance on Federal Funds</strong>: Federal dollars constitute approximately 34% of TxDOT's budget, higher than the national average of 27%</li>
+        <li><strong>Greater Use of General Revenue</strong>: Texas's dedication of general sales tax revenue to transportation through Proposition 7 is relatively uncommon among states, most of which rely more heavily on transportation-specific user fees</li>
+        <li><strong>Limited Indexing Mechanisms</strong>: Unlike 22 states that have some form of fuel tax indexing for inflation or other factors, Texas's fuel tax rate remains fixed</li>
+    </ul>
+    <p>These comparisons reveal that while Texas has developed innovative funding mechanisms like Propositions 1 and 7, it maintains relatively low direct user fees for transportation and has become increasingly dependent on general revenue and federal funds compared to peer states.</p>
+
+    <h2 id="funding-challenges">3. Funding Challenges & Gaps</h2>
     <p>Despite recent funding increases, Texas faces substantial transportation infrastructure challenges that threaten to create growing funding gaps over the next decade.</p>
-    
-    <div id="infrastructure-needs">
-      <h3 class="subsection-heading">3.1 Infrastructure Needs Assessment</h3>
-      <p>The 2025 Texas Transportation Plan identifies significant infrastructure needs across the state:</p>
-      <ul>
-        <li><strong>System Maintenance:</strong> Approximately 28% of Texas pavements and 12% of bridges require rehabilitation or reconstruction, with maintenance needs growing as infrastructure ages</li>
-        <li><strong>Urban Congestion:</strong> Texas has 8 of the 100 most congested roadway segments in the United States, with congestion costing the state economy an estimated $14.9 billion annually</li>
-        <li><strong>Rural Connectivity:</strong> Approximately 68% of rural roads require upgrades to meet modern safety and capacity standards</li>
-        <li><strong>Safety Improvements:</strong> Over 4,800 traffic fatalities occurred in Texas in 2023, requiring targeted safety investments to support the state's goal of reducing fatalities by 50% by 2035</li>
-        <li><strong>Intermodal Connectivity:</strong> Freight movement efficiency requires expanded rail, port, and intermodal facility investments to support Texas's position as the nation's leading export state</li>
-        <li><strong>Resilience Upgrades:</strong> Climate-related challenges including more frequent flooding events require infrastructure hardening and adaptation</li>
-      </ul>
-      <p>TxDOT's needs assessment indicates that maintaining and expanding the system to meet projected population and economic growth would require approximately $25-28 billion annually over the next decade, substantially above current funding levels.</p>
-    </div>
-    
-    <div id="funding-shortfalls">
-      <h3 class="subsection-heading">3.2 Projected Funding Shortfalls</h3>
-      <p>Analysis of funding projections against infrastructure needs reveals growing gaps:</p>
-      <ul>
-        <li><strong>10-Year Funding Gap:</strong> Based on current revenue sources and growth trends, Texas faces an estimated cumulative transportation funding shortfall of $82-97 billion over the 2025-2035 period</li>
-        <li><strong>Maintenance vs. Expansion Tension:</strong> Growing maintenance requirements for aging infrastructure compete with capacity expansion needs, with maintenance costs projected to increase 4.7% annually through 2035</li>
-        <li><strong>Proposition 7 Sunset:</strong> The most significant transportation funding source is scheduled to expire in 2034 unless renewed by the Legislature, potentially creating a $5+ billion annual funding cliff</li>
-        <li><strong>Construction Cost Inflation:</strong> Transportation construction costs have increased approximately 45% since 2019, significantly outpacing general inflation and eroding purchasing power</li>
-        <li><strong>Federal Funding Uncertainty:</strong> The Highway Trust Fund faces long-term solvency challenges, creating uncertainty about post-IIJA federal funding levels</li>
-      </ul>
-      <p>These shortfalls will require difficult prioritization decisions and likely lead to deteriorating infrastructure conditions without new funding mechanisms or significant increases to existing revenue sources.</p>
-    </div>
-    
-    <div id="fuel-tax-decline">
-      <h3 class="subsection-heading">3.3 Fuel Tax Revenue Decline</h3>
-      <p>The motor fuels tax, once the cornerstone of transportation funding, faces structural challenges:</p>
-      <ul>
-        <li><strong>Fuel Efficiency Improvements:</strong> Average fuel economy for new vehicles has increased from 20.1 mpg in 2007 to 26.4 mpg in 2023, reducing per-mile tax revenue</li>
-        <li><strong>Electric Vehicle Adoption:</strong> Texas had approximately 210,000 registered electric vehicles in 2023, projected to grow to 2.2 million by 2035, representing vehicles that contribute minimal direct user fees for road use</li>
-        <li><strong>Inflation Erosion:</strong> Since Texas last raised its fuel tax in 1991, inflation has reduced its purchasing power by over 50%</li>
-        <li><strong>Projections:</strong> TxDOT models project that motor fuels tax revenue will peak around 2028 at $3.4 billion before beginning a gradual decline despite increasing vehicle miles traveled</li>
-        <li><strong>Equity Concerns:</strong> Lower-income Texans typically drive older, less fuel-efficient vehicles, creating a regressive impact as the user-fee component of transportation funding declines</li>
-      </ul>
-      <p>The declining efficacy of the motor fuels tax creates a structural challenge for transportation funding that requires fundamental reconsideration of how road usage is taxed or charged.</p>
-    </div>
-  </div>
-  
-  <div class="section page-break" id="policy-innovations">
-    <h2 class="section-heading">4. Policy & Funding Innovations</h2>
+
+    <h3 id="infrastructure-needs">3.1 Infrastructure Needs Assessment</h3>
+    <p>The 2025 Texas Transportation Plan identifies significant infrastructure needs across the state:</p>
+    <ul>
+        <li><strong>System Maintenance</strong>: Approximately 28% of Texas pavements and 12% of bridges require rehabilitation or reconstruction, with maintenance needs growing as infrastructure ages</li>
+        <li><strong>Urban Congestion</strong>: Texas has 8 of the 100 most congested roadway segments in the United States, with congestion costing the state economy an estimated $14.9 billion annually</li>
+        <li><strong>Rural Connectivity</strong>: Approximately 68% of rural roads require upgrades to meet modern safety and capacity standards</li>
+        <li><strong>Safety Improvements</strong>: Over 4,800 traffic fatalities occurred in Texas in 2023, requiring targeted safety investments to support the state's goal of reducing fatalities by 50% by 2035</li>
+        <li><strong>Intermodal Connectivity</strong>: Freight movement efficiency requires expanded rail, port, and intermodal facility investments to support Texas's position as the nation's leading export state</li>
+        <li><strong>Resilience Upgrades</strong>: Climate-related challenges including more frequent flooding events require infrastructure hardening and adaptation</li>
+    </ul>
+    <p>TxDOT's needs assessment indicates that maintaining and expanding the system to meet projected population and economic growth would require approximately $25-28 billion annually over the next decade, substantially above current funding levels.</p>
+
+    <h3 id="funding-shortfalls">3.2 Projected Funding Shortfalls</h3>
+    <p>Analysis of funding projections against infrastructure needs reveals growing gaps:</p>
+    <ul>
+        <li><strong>10-Year Funding Gap</strong>: Based on current revenue sources and growth trends, Texas faces an estimated cumulative transportation funding shortfall of $82-97 billion over the 2025-2035 period</li>
+        <li><strong>Maintenance vs. Expansion Tension</strong>: Growing maintenance requirements for aging infrastructure compete with capacity expansion needs, with maintenance costs projected to increase 4.7% annually through 2035</li>
+        <li><strong>Proposition 7 Sunset</strong>: The most significant transportation funding source is scheduled to expire in 2034 unless renewed by the Legislature, potentially creating a $5+ billion annual funding cliff</li>
+        <li><strong>Construction Cost Inflation</strong>: Transportation construction costs have increased approximately 45% since 2019, significantly outpacing general inflation and eroding purchasing power</li>
+        <li><strong>Federal Funding Uncertainty</strong>: The Highway Trust Fund faces long-term solvency challenges, creating uncertainty about post-IIJA federal funding levels</li>
+    </ul>
+    <p>These shortfalls will require difficult prioritization decisions and likely lead to deteriorating infrastructure conditions without new funding mechanisms or significant increases to existing revenue sources.</p>
+
+    <h3 id="fuel-tax-decline">3.3 Fuel Tax Revenue Decline</h3>
+    <p>The motor fuels tax, once the cornerstone of transportation funding, faces structural challenges:</p>
+    <ul>
+        <li><strong>Fuel Efficiency Improvements</strong>: Average fuel economy for new vehicles has increased from 20.1 mpg in 2007 to 26.4 mpg in 2023, reducing per-mile tax revenue</li>
+        <li><strong>Electric Vehicle Adoption</strong>: Texas had approximately 210,000 registered electric vehicles in 2023, projected to grow to 2.2 million by 2035, representing vehicles that contribute minimal direct user fees for road use</li>
+        <li><strong>Inflation Erosion</strong>: Since Texas last raised its fuel tax in 1991, inflation has reduced its purchasing power by over 50%</li>
+        <li><strong>Projections</strong>: TxDOT models project that motor fuels tax revenue will peak around 2028 at $3.4 billion before beginning a gradual decline despite increasing vehicle miles traveled</li>
+        <li><strong>Equity Concerns</strong>: Lower-income Texans typically drive older, less fuel-efficient vehicles, creating a regressive impact as the user-fee component of transportation funding declines</li>
+    </ul>
+    <p>The declining efficacy of the motor fuels tax creates a structural challenge for transportation funding that requires fundamental reconsideration of how road usage is taxed or charged.</p>
+
+    <h2 id="policy-innovations">4. Policy & Funding Innovations</h2>
     <p>In response to identified funding challenges, Texas policymakers and transportation officials are exploring various innovations to ensure sustainable infrastructure investment.</p>
-    
-    <div id="legislative-initiatives">
-      <h3 class="subsection-heading">4.1 Recent Legislative Initiatives</h3>
-      <p>The Texas Legislature has considered several transportation funding proposals in recent sessions:</p>
-      <ul>
-        <li><strong>HB 1698 (2023):</strong> Created an electric vehicle fee structure with an initial $200 registration fee and annual $190 renewal fees, dedicated to the State Highway Fund</li>
-        <li><strong>SB 443 (2023):</strong> Proposed redirecting a portion of motor vehicle sales taxes directly to transportation rather than through the general sales tax mechanism in Proposition 7 (did not pass)</li>
-        <li><strong>HJR 82 (2023):</strong> Proposed constitutional amendment to allow certain counties to create infrastructure funds using property tax revenue (did not pass)</li>
-        <li><strong>SB 1248 (2023):</strong> Expanded the use of Transportation Reinvestment Zones (TRZs) to capture property value increases near transportation projects</li>
-        <li><strong>HB 427 (2023):</strong> Authorized TxDOT to conduct a Road User Charge pilot program to evaluate mileage-based fees as a potential replacement for fuel taxes (passed but not funded)</li>
-      </ul>
-      <p>These initiatives reflect growing legislative recognition of funding challenges, though comprehensive solutions remain politically challenging. The 2025 legislative session is expected to include additional proposals focused on long-term funding sustainability.</p>
-    </div>
-    
-    <div id="alternative-mechanisms">
-      <h3 class="subsection-heading">4.2 Alternative Funding Mechanisms</h3>
-      <p>Several alternative funding approaches show promise for addressing Texas's transportation needs:</p>
-      <ul>
-        <li><strong>Road User Charges (RUC):</strong> Mileage-based fees that charge users based on distance traveled rather than fuel consumed represent the most direct replacement for fuel taxes. Pilot programs in other states have tested various implementation approaches including:
-          <ul>
-            <li>OBD-II port devices with GPS capability</li>
-            <li>Annual odometer readings at inspection or registration</li>
-            <li>Smartphone applications with location services</li>
-            <li>Estimated mileage based on vehicle type and ownership location</li>
-          </ul>
+
+    <h3 id="legislative-initiatives">4.1 Recent Legislative Initiatives</h3>
+    <p>The Texas Legislature has considered several transportation funding proposals in recent sessions:</p>
+    <ul>
+        <li><strong>HB 1698 (2023)</strong>: Created an electric vehicle fee structure with an initial $200 registration fee and annual $190 renewal fees, dedicated to the State Highway Fund</li>
+        <li><strong>SB 443 (2023)</strong>: Proposed redirecting a portion of motor vehicle sales taxes directly to transportation rather than through the general sales tax mechanism in Proposition 7 (did not pass)</li>
+        <li><strong>HJR 82 (2023)</strong>: Proposed constitutional amendment to allow certain counties to create infrastructure funds using property tax revenue (did not pass)</li>
+        <li><strong>SB 1248 (2023)</strong>: Expanded the use of Transportation Reinvestment Zones (TRZs) to capture property value increases near transportation projects</li>
+        <li><strong>HB 427 (2023)</strong>: Authorized TxDOT to conduct a Road User Charge pilot program to evaluate mileage-based fees as a potential replacement for fuel taxes (passed but not funded)</li>
+    </ul>
+    <p>These initiatives reflect growing legislative recognition of funding challenges, though comprehensive solutions remain politically challenging. The 2025 legislative session is expected to include additional proposals focused on long-term funding sustainability.</p>
+
+    <h3 id="alternative-funding">4.2 Alternative Funding Mechanisms</h3>
+    <p>Several alternative funding approaches show promise for addressing Texas's transportation needs:</p>
+    <ul>
+        <li><strong>Road User Charges (RUC)</strong>: Mileage-based fees that charge users based on distance traveled rather than fuel consumed represent the most direct replacement for fuel taxes. Pilot programs in other states have tested various implementation approaches including:
+            <ul>
+                <li>OBD-II port devices with GPS capability</li>
+                <li>Annual odometer readings at inspection or registration</li>
+                <li>Smartphone applications with location services</li>
+                <li>Estimated mileage based on vehicle type and ownership location</li>
+            </ul>
         </li>
-        <li><strong>Expanded Value Capture:</strong> Mechanisms that capture a portion of the property value increase resulting from transportation improvements:
-          <ul>
-            <li>Transportation Reinvestment Zones (already authorized in Texas)</li>
-            <li>Tax Increment Reinvestment Zones dedicated to mobility projects</li>
-            <li>Special assessment districts for specific infrastructure improvements</li>
-            <li>Joint development of transportation facilities and adjacent land</li>
-          </ul>
+        <li><strong>Expanded Value Capture</strong>: Mechanisms that capture a portion of the property value increase resulting from transportation improvements:
+            <ul>
+                <li>Transportation Reinvestment Zones (already authorized in Texas)</li>
+                <li>Tax Increment Reinvestment Zones dedicated to mobility projects</li>
+                <li>Special assessment districts for specific infrastructure improvements</li>
+                <li>Joint development of transportation facilities and adjacent land</li>
+            </ul>
         </li>
-        <li><strong>Congestion Pricing:</strong> Variable tolling based on traffic conditions, time of day, or vehicle occupancy to manage demand and generate revenue</li>
-        <li><strong>Public-Private Partnerships:</strong> Despite legislative restrictions on new comprehensive development agreements, targeted authorization for high-priority corridors could leverage private capital</li>
-        <li><strong>State Infrastructure Bank:</strong> Expanded capitalization and authority for the existing Texas State Infrastructure Bank to provide low-interest loans for transportation projects</li>
-      </ul>
-      <p>Implementation of these mechanisms would require enabling legislation, public education efforts, and careful consideration of privacy, equity, and administrative efficiency.</p>
-    </div>
-    
-    <div id="federal-opportunities">
-      <h3 class="subsection-heading">4.3 Federal Funding Opportunities</h3>
-      <p>The federal funding landscape offers significant opportunities for Texas transportation:</p>
-      <ul>
-        <li><strong>IIJA Competitive Programs:</strong> Beyond formula funding, the Infrastructure Investment and Jobs Act includes approximately $100 billion in competitive grant programs that Texas can target, including:
-          <ul>
-            <li>Bridge Investment Program ($12.5 billion nationally)</li>
-            <li>RAISE Grants ($7.5 billion nationally)</li>
-            <li>INFRA Grants ($8 billion nationally)</li>
-            <li>National Infrastructure Project Assistance ($5 billion nationally)</li>
-            <li>Reconnecting Communities Program ($1 billion nationally)</li>
-          </ul>
+        <li><strong>Congestion Pricing</strong>: Variable tolling based on traffic conditions, time of day, or vehicle occupancy to manage demand and generate revenue</li>
+        <li><strong>Public-Private Partnerships</strong>: Despite legislative restrictions on new comprehensive development agreements, targeted authorization for high-priority corridors could leverage private capital</li>
+        <li><strong>State Infrastructure Bank</strong>: Expanded capitalization and authority for the existing Texas State Infrastructure Bank to provide low-interest loans for transportation projects</li>
+    </ul>
+    <p>Implementation of these mechanisms would require enabling legislation, public education efforts, and careful consideration of privacy, equity, and administrative efficiency.</p>
+
+    <h3 id="federal-funding">4.3 Federal Funding Opportunities</h3>
+    <p>The federal funding landscape offers significant opportunities for Texas transportation:</p>
+    <ul>
+        <li><strong>IIJA Competitive Programs</strong>: Beyond formula funding, the Infrastructure Investment and Jobs Act includes approximately $100 billion in competitive grant programs that Texas can target, including:
+            <ul>
+                <li>Bridge Investment Program ($12.5 billion nationally)</li>
+                <li>RAISE Grants ($7.5 billion nationally)</li>
+                <li>INFRA Grants ($8 billion nationally)</li>
+                <li>National Infrastructure Project Assistance ($5 billion nationally)</li>
+                <li>Reconnecting Communities Program ($1 billion nationally)</li>
+            </ul>
         </li>
-        <li><strong>Federal Financing Tools:</strong> Expanded TIFIA (Transportation Infrastructure Finance and Innovation Act) and RRIF (Railroad Rehabilitation & Improvement Financing) programs offer low-cost financing for eligible projects</li>
-        <li><strong>Targeted Freight Programming:</strong> Growing recognition of supply chain vulnerabilities has increased federal interest in freight-specific infrastructure</li>
-        <li><strong>Resilience Funding:</strong> New programs focused on infrastructure resilience provide opportunities for Texas projects vulnerable to flooding, extreme heat, and other climate impacts</li>
-        <li><strong>EV Charging Infrastructure:</strong> The National Electric Vehicle Infrastructure Formula Program provides Texas with $408 million over five years for electric vehicle charging infrastructure along designated corridors</li>
-      </ul>
-      <p>Successful competition for these federal funds requires strategic project development, robust benefit-cost analysis, and interagency coordination to present compelling applications that align with federal priorities.</p>
-    </div>
-  </div>
-  
-  <div class="section page-break" id="recommendations">
-    <h2 class="section-heading">5. Strategic Recommendations</h2>
+        <li><strong>Federal Financing Tools</strong>: Expanded TIFIA (Transportation Infrastructure Finance and Innovation Act) and RRIF (Railroad Rehabilitation & Improvement Financing) programs offer low-cost financing for eligible projects</li>
+        <li><strong>Targeted Freight Programming</strong>: Growing recognition of supply chain vulnerabilities has increased federal interest in freight-specific infrastructure</li>
+        <li><strong>Resilience Funding</strong>: New programs focused on infrastructure resilience provide opportunities for Texas projects vulnerable to flooding, extreme heat, and other climate impacts</li>
+        <li><strong>EV Charging Infrastructure</strong>: The National Electric Vehicle Infrastructure Formula Program provides Texas with $408 million over five years for electric vehicle charging infrastructure along designated corridors</li>
+    </ul>
+    <p>Successful competition for these federal funds requires strategic project development, robust benefit-cost analysis, and interagency coordination to present compelling applications that align with federal priorities.</p>
+
+    <h2 id="strategic-recommendations">5. Strategic Recommendations</h2>
     <p>Based on our analysis of Texas transportation funding trends, challenges, and opportunities, we recommend the following strategies for stakeholders navigating this landscape.</p>
-    
-    <div id="policy-approaches">
-      <h3 class="subsection-heading">5.1 Policy Approaches</h3>
-      <p>Effective policy development requires balanced consideration of revenue needs, political feasibility, and system outcomes:</p>
-      <ul>
-        <li><strong>Phased Implementation of Road User Charges:</strong> Develop a multi-year transition from fuel taxes to mileage-based fees, beginning with electric vehicles and gradually expanding to hybrid and conventional vehicles. A properly designed system could:
-          <ul>
-            <li>Provide user choice among technology options with varying privacy protections</li>
-            <li>Include rural discounts and income-based fee adjustments to address equity concerns</li>
-            <li>Feature revenue-neutral implementation initially with capacity for future adjustments</li>
-            <li>Incorporate interstate compatibility to facilitate eventual national standardization</li>
-          </ul>
+
+    <h3 id="policy-approaches">5.1 Policy Approaches</h3>
+    <p>Effective policy development requires balanced consideration of revenue needs, political feasibility, and system outcomes:</p>
+    <ul>
+        <li><strong>Phased Implementation of Road User Charges</strong>: Develop a multi-year transition from fuel taxes to mileage-based fees, beginning with electric vehicles and gradually expanding to hybrid and conventional vehicles. A properly designed system could:
+            <ul>
+                <li>Provide user choice among technology options with varying privacy protections</li>
+                <li>Include rural discounts and income-based fee adjustments to address equity concerns</li>
+                <li>Feature revenue-neutral implementation initially with capacity for future adjustments</li>
+                <li>Incorporate interstate compatibility to facilitate eventual national standardization</li>
+            </ul>
         </li>
-        <li><strong>Proposition 7 Enhancement and Extension:</strong> Before the 2034 sunset date, modify Proposition 7 to:
-          <ul>
-            <li>Make the transfer permanent with constitutional protection</li>
-            <li>Index the cap to inflation or state economic growth</li>
-            <li>Explore dedicating additional revenue streams such as vehicle sales taxes</li>
-          </ul>
+        <li><strong>Proposition 7 Enhancement and Extension</strong>: Before the 2034 sunset date, modify Proposition 7 to:
+            <ul>
+                <li>Make the transfer permanent with constitutional protection</li>
+                <li>Index the cap to inflation or state economic growth</li>
+                <li>Explore dedicating additional revenue streams such as vehicle sales taxes</li>
+            </ul>
         </li>
-        <li><strong>Local Option Funding Authority:</strong> Authorize metropolitan regions to implement voter-approved funding mechanisms tailored to local needs, potentially including:
-          <ul>
-            <li>Local option sales taxes dedicated to transportation</li>
-            <li>County registration fee supplements</li>
-            <li>Regional mobility authorities with expanded financing capabilities</li>
-          </ul>
+        <li><strong>Local Option Funding Authority</strong>: Authorize metropolitan regions to implement voter-approved funding mechanisms tailored to local needs, potentially including:
+            <ul>
+                <li>Local option sales taxes dedicated to transportation</li>
+                <li>County registration fee supplements</li>
+                <li>Regional mobility authorities with expanded financing capabilities</li>
+            </ul>
         </li>
-        <li><strong>Targeted Innovative Financing:</strong> Selectively authorize public-private partnerships for high-priority corridors with strong revenue potential, while maintaining state control over tolling policy</li>
-        <li><strong>Streamlined Project Delivery:</strong> Reform environmental review, right-of-way acquisition, and utility relocation processes to reduce project timelines and costs</li>
-      </ul>
-      <p>These policy approaches should be developed with broad stakeholder input and presented as a comprehensive transportation funding package rather than piecemeal solutions.</p>
-    </div>
-    
-    <div id="engagement-strategies">
-      <h3 class="subsection-heading">5.2 Stakeholder Engagement Strategies</h3>
-      <p>Effective engagement in transportation policy development requires coordinated approaches:</p>
-      <ul>
-        <li><strong>Coalition Building:</strong> Develop broad-based coalitions that include:
-          <ul>
-            <li>Business organizations (chambers of commerce, economic development corporations)</li>
-            <li>Transportation user groups (trucking associations, commuter groups)</li>
-            <li>Local governments and planning organizations</li>
-            <li>Environmental and equity advocates</li>
-            <li>Infrastructure construction and engineering firms</li>
-          </ul>
+        <li><strong>Targeted Innovative Financing</strong>: Selectively authorize public-private partnerships for high-priority corridors with strong revenue potential, while maintaining state control over tolling policy</li>
+        <li><strong>Streamlined Project Delivery</strong>: Reform environmental review, right-of-way acquisition, and utility relocation processes to reduce project timelines and costs</li>
+    </ul>
+    <p>These policy approaches should be developed with broad stakeholder input and presented as a comprehensive transportation funding package rather than piecemeal solutions.</p>
+
+    <h3 id="stakeholder-engagement">5.2 Stakeholder Engagement Strategies</h3>
+    <p>Effective engagement in transportation policy development requires coordinated approaches:</p>
+    <ul>
+        <li><strong>Coalition Building</strong>: Develop broad-based coalitions that include:
+            <ul>
+                <li>Business organizations (chambers of commerce, economic development corporations)</li>
+                <li>Transportation user groups (trucking associations, commuter groups)</li>
+                <li>Local governments and planning organizations</li>
+                <li>Environmental and equity advocates</li>
+                <li>Infrastructure construction and engineering firms</li>
+            </ul>
         </li>
-        <li><strong>Data-Driven Messaging:</strong> Frame transportation funding as an investment with quantifiable returns including:
-          <ul>
-            <li>Economic development and job creation impacts</li>
-            <li>Safety improvements and reduced crash costs</li>
-            <li>Travel time savings and reliability benefits</li>
-            <li>Environmental and public health benefits</li>
-          </ul>
+        <li><strong>Data-Driven Messaging</strong>: Frame transportation funding as an investment with quantifiable returns including:
+            <ul>
+                <li>Economic development and job creation impacts</li>
+                <li>Safety improvements and reduced crash costs</li>
+                <li>Travel time savings and reliability benefits</li>
+                <li>Environmental and public health benefits</li>
+            </ul>
         </li>
-        <li><strong>Targeted Legislative Engagement:</strong> Focus on:
-          <ul>
-            <li>House and Senate Transportation Committee members</li>
-            <li>Key Appropriations and Finance Committee members</li>
-            <li>Leadership offices (Governor, Lt. Governor, Speaker)</li>
-            <li>Local delegation members for project-specific discussions</li>
-          </ul>
+        <li><strong>Targeted Legislative Engagement</strong>: Focus on:
+            <ul>
+                <li>House and Senate Transportation Committee members</li>
+                <li>Key Appropriations and Finance Committee members</li>
+                <li>Leadership offices (Governor, Lt. Governor, Speaker)</li>
+                <li>Local delegation members for project-specific discussions</li>
+            </ul>
         </li>
-        <li><strong>Public Education:</strong> Develop accessible materials explaining:
-          <ul>
-            <li>How transportation is currently funded</li>
-            <li>The cost of inaction (congestion, safety, maintenance backlogs)</li>
-            <li>Benefit-cost analyses of proposed solutions</li>
-            <li>Implementation details for new funding mechanisms</li>
-          </ul>
+        <li><strong>Public Education</strong>: Develop accessible materials explaining:
+            <ul>
+                <li>How transportation is currently funded</li>
+                <li>The cost of inaction (congestion, safety, maintenance backlogs)</li>
+                <li>Benefit-cost analyses of proposed solutions</li>
+                <li>Implementation details for new funding mechanisms</li>
+            </ul>
         </li>
-        <li><strong>Thought Leadership:</strong> Publish white papers, op-eds, and policy briefs on transportation funding innovations and case studies from other states and countries</li>
-      </ul>
-      <p>These engagement strategies should emphasize transportation's role as essential infrastructure that supports economic prosperity and quality of life rather than as a standalone government expense.</p>
-    </div>
-    
-    <div id="preparation-strategies">
-      <h3 class="subsection-heading">5.3 Preparation Strategies for Organizations</h3>
-      <p>Organizations can take several steps to
+        <li><strong>Thought Leadership</strong>: Publish white papers, op-eds, and policy briefs on transportation funding innovations and case studies from other states and countries</li>
+    </ul>
+    <p>These engagement strategies should emphasize transportation's role as essential infrastructure that supports economic prosperity and quality of life rather than as a standalone government expense.</p>
+
+    <h3 id="preparation-strategies">5.3 Preparation Strategies for Organizations</h3>
+    <p>Organizations can take several steps to position themselves effectively in the evolving transportation funding landscape:</p>
+
+    <h4>Strategic Project Development</h4>
+    <p>Develop project concepts that align with emerging priorities including:</p>
+    <ul>
+        <li>Multimodal integration and connectivity</li>
+        <li>Technology-enabled infrastructure (connected/automated vehicle readiness)</li>
+        <li>Resilience to extreme weather events</li>
+        <li>Equity considerations and community benefits</li>
+        <li>Emissions reduction and environmental sustainability</li>
+        <li>Economic development catalysts and supply chain efficiency</li>
+    </ul>
+
+    <h4>Federal Funding Readiness</h4>
+    <p>Prepare for competitive federal opportunities by:</p>
+    <ul>
+        <li>Developing robust benefit-cost analyses with transparent methodologies</li>
+        <li>Quantifying broader economic, environmental, and social benefits</li>
+        <li>Cultivating multi-jurisdictional partnerships to demonstrate regional impact</li>
+        <li>Establishing project delivery track records and capability statements</li>
+        <li>Creating "shovel-worthy" project pipelines that can be rapidly advanced</li>
+    </ul>
+
+    <h4>Local Funding Strategies</h4>
+    <p>Position for local funding opportunities through:</p>
+    <ul>
+        <li>Engagement with metropolitan planning organizations on long-range transportation plans</li>
+        <li>Exploration of value capture mechanisms for specific corridors</li>
+        <li>Development of public-private partnership concepts for appropriate projects</li>
+        <li>Consideration of local bond programs and their prioritization criteria</li>
+        <li>Analysis of potential special district financing mechanisms</li>
+    </ul>
+
+    <h4>Alternative Delivery Models</h4>
+    <p>Explore innovative project delivery approaches including:</p>
+    <ul>
+        <li>Design-build and progressive design-build contracting</li>
+        <li>Construction manager/general contractor (CMGC) methods</li>
+        <li>Integrated project delivery frameworks</li>
+        <li>P3 structures with appropriate risk allocation</li>
+        <li>Alliance contracting models for complex projects</li>
+    </ul>
+
+    <h4>Technology and Data Strategy</h4>
+    <p>Leverage technology innovations through:</p>
+    <ul>
+        <li>Integration of digital twins and advanced modeling in project planning</li>
+        <li>Exploration of smart infrastructure components with multiple revenue streams</li>
+        <li>Implementation of advanced asset management systems to optimize maintenance</li>
+        <li>Development of data monetization strategies for infrastructure-generated information</li>
+        <li>Exploration of bundled technology/infrastructure projects with multiple funding sources</li>
+    </ul>
+
+    <h4>Diversified Funding Portfolio</h4>
+    <p>Create strategic funding approaches that:</p>
+    <ul>
+        <li>Combine multiple funding sources for individual projects</li>
+        <li>Layer traditional and innovative financing mechanisms</li>
+        <li>Incorporate phased implementation aligned with available resources</li>
+        <li>Feature scalable elements that can expand with additional funding</li>
+        <li>Include contingency strategies for funding shortfalls or delays</li>
+    </ul>
+
+    <h4>Stakeholder Value Proposition</h4>
+    <p>Develop compelling narratives that:</p>
+    <ul>
+        <li>Quantify project benefits to diverse constituencies</li>
+        <li>Demonstrate alignment with state and regional priorities</li>
+        <li>Provide clear return-on-investment metrics relevant to different funding sources</li>
+        <li>Address potential concerns proactively with evidence-based solutions</li>
+        <li>Create visual and digital materials that communicate complex benefits effectively</li>
+    </ul>
+
+    <h4>Regulatory Navigation Strategy</h4>
+    <p>Prepare for evolving regulatory frameworks through:</p>
+    <ul>
+        <li>Engagement with early initiatives like TxDOT's Road User Charge pilot</li>
+        <li>Development of technical capability for new funding mechanisms</li>
+        <li>Research on best practices from other states and countries</li>
+        <li>Partnership with technology providers on innovative solutions</li>
+        <li>Monitoring of federal policy developments on transportation funding</li>
+    </ul>
+
+    <h4>Strategic Planning Horizon</h4>
+    <p>Extend planning timelines to address funding transitions:</p>
+    <ul>
+        <li>Develop scenarios for potential funding mechanism changes</li>
+        <li>Incorporate longer lead times for complex project development</li>
+        <li>Build financial models with sensitivity analysis for funding volatility</li>
+        <li>Create adaptable implementation strategies for changing fiscal environments</li>
+        <li>Establish processes for regular reassessment as funding landscapes evolve</li>
+    </ul>
+
+    <p>By implementing these strategies, organizations can navigate the complex and changing transportation funding environment while positioning their priorities for successful advancement despite resource constraints.</p>
+
+    <h2 id="conclusion">6. Conclusion</h2>
+    <p>Texas transportation funding stands at a critical crossroads. The current system, while recently bolstered by innovative mechanisms like Propositions 1 and 7, faces fundamental challenges from declining fuel tax efficacy, volatile revenue sources, and growing infrastructure needs. The projected $82-97 billion funding gap over the next decade represents not merely a financial challenge but a threat to Texas's economic competitiveness, public safety, and quality of life.</p>
+    <p>The path forward requires a comprehensive transformation of how Texas funds transportation infrastructure. This transformation must balance
