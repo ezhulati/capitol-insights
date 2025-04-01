@@ -4,6 +4,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
 import path from 'path';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig(({ mode }) => {
   // Load env variables
@@ -104,8 +106,16 @@ export default defineConfig(({ mode }) => {
           filename: 'dist/stats.html',
         }),
     ],
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss,
+          autoprefixer,
+        ],
+      },
+    },
     build: {
-      cssMinify: false, // Disable lightningcss which is causing build errors
+      cssMinify: 'lightningcss',
       rollupOptions: {
         output: {
           manualChunks: {
