@@ -61,6 +61,20 @@ This document outlines security vulnerabilities that were identified in the Capi
 - Relocated meta-fixer.js to a separate file in public/js/
 - Updated the content security policy to use nonces rather than 'unsafe-inline'
 
+### 5. Prevented Server-Side Request Forgery (SSRF)
+**Issue:** Netlify functions were using unchecked environment variables for URL endpoints.
+**Risk:** Potential SSRF attacks could cause the server to make requests to unintended internal or external resources.
+**Files affected:**
+- `netlify/functions/contact-form-handler.js`
+- `netlify/functions/lead-capture.js`
+
+**Resolution:**
+- Implemented a fixed endpoint URL as the default
+- Added strict URL validation when using environment variables
+- Created an allowlist of permitted domains
+- Added proper error handling for invalid URLs
+- Implemented a fallback to the default endpoint when validation fails
+
 ## Required Next Steps
 
 ### 1. Rotate Compromised Credentials

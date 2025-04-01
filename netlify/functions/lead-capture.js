@@ -70,7 +70,27 @@ export const handler = async (event, context) => {
     // Send the form submission to Netlify's built-in form handler
     // This will trigger the email notifications based on Netlify's settings
     try {
-      const response = await fetch(process.env.URL || 'https://capitol-insights.com', {
+      // Use a fixed endpoint URL to prevent SSRF attacks
+      const FORM_ENDPOINT = 'https://capitol-insights.com';
+      
+      // If we need to use environment variable URL, validate it strictly
+      let submissionUrl = FORM_ENDPOINT;
+      if (process.env.URL) {
+        try {
+          const urlObj = new URL(process.env.URL);
+          // Only allow specific domains
+          const allowedDomains = ['capitol-insights.com', 'www.capitol-insights.com'];
+          if (allowedDomains.includes(urlObj.hostname)) {
+            submissionUrl = process.env.URL;
+          } else {
+            console.warn('Invalid domain in URL environment variable, using default endpoint');
+          }
+        } catch (urlError) {
+          console.warn('Invalid URL format in environment variable, using default endpoint');
+        }
+      }
+      
+      const response = await fetch(submissionUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData).toString()
