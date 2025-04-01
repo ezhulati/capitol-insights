@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { X, Download, User, Mail, Building } from 'lucide-react';
+import { X, FileText, User, Mail, Building } from 'lucide-react';
 
 interface DownloadFormProps {
   title: string;
   description: string;
-  pdfUrl: string;
-  pdfTitle: string;
+  documentUrl: string;
+  documentTitle: string;
   onClose: () => void;
 }
 
 const DownloadForm: React.FC<DownloadFormProps> = ({ 
   title, 
   description, 
-  pdfUrl, 
-  pdfTitle,
+  documentUrl, 
+  documentTitle,
   onClose 
 }) => {
   const [formData, setFormData] = useState({
@@ -82,25 +82,24 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     
     setIsSubmitting(true);
     
-    // Trigger the PDF download first
-    try {
-      // Create a hidden link to download the PDF
-      const downloadLink = document.createElement('a');
-      downloadLink.href = pdfUrl;
-      downloadLink.download = pdfTitle + '.pdf';
-      downloadLink.target = '_blank';
-      downloadLink.style.display = 'none';
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    } catch (error) {
-      console.error('Error downloading file:', error);
-    }
-    
-    // Create a hidden form to submit to Netlify
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = `/download-success.html?pdf=${encodeURIComponent(pdfUrl)}`;
+  // Open the document in a new tab
+  try {
+    // Create a link to open the document
+    const documentLink = document.createElement('a');
+    documentLink.href = documentUrl;
+    documentLink.target = '_blank';
+    documentLink.style.display = 'none';
+    document.body.appendChild(documentLink);
+    documentLink.click();
+    document.body.removeChild(documentLink);
+  } catch (error) {
+    console.error('Error opening document:', error);
+  }
+  
+  // Create a hidden form to submit to Netlify
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = `/download-success.html?doc=${encodeURIComponent(documentUrl)}`;
     form.setAttribute('data-netlify', 'true');
     form.setAttribute('name', 'download-form');
     form.style.display = 'none';
@@ -121,10 +120,10 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     industryField.value = formData.industry;
     form.appendChild(industryField);
     
-    const documentField = document.createElement('input');
-    documentField.name = 'document';
-    documentField.value = pdfTitle;
-    form.appendChild(documentField);
+  const documentField = document.createElement('input');
+  documentField.name = 'document';
+  documentField.value = documentTitle;
+  form.appendChild(documentField);
     
     // Add form-name field for Netlify
     const formNameField = document.createElement('input');
@@ -136,24 +135,24 @@ const DownloadForm: React.FC<DownloadFormProps> = ({
     // Recipient is configured in Netlify form settings using environment variables
     // No need to add it here as it's managed through the Netlify dashboard
     
-    // Add subject field to make it clear what was downloaded
-    const subjectField = document.createElement('input');
-    subjectField.type = 'hidden';
-    subjectField.name = 'subject';
-    subjectField.value = `Document Downloaded: ${pdfTitle}`;
-    form.appendChild(subjectField);
-    
-    // Add message field with additional context
-    const messageField = document.createElement('input');
-    messageField.type = 'hidden';
-    messageField.name = 'message';
-    const timestamp = new Date().toLocaleString();
-    messageField.value = `
-Document: ${pdfTitle}
-Downloaded: ${timestamp}
-URL: ${pdfUrl}
+  // Add subject field to make it clear what was viewed
+  const subjectField = document.createElement('input');
+  subjectField.type = 'hidden';
+  subjectField.name = 'subject';
+  subjectField.value = `Document Viewed: ${documentTitle}`;
+  form.appendChild(subjectField);
+  
+  // Add message field with additional context
+  const messageField = document.createElement('input');
+  messageField.type = 'hidden';
+  messageField.name = 'message';
+  const timestamp = new Date().toLocaleString();
+  messageField.value = `
+Document: ${documentTitle}
+Viewed: ${timestamp}
+URL: ${documentUrl}
 
-This user has downloaded the above document. Please follow up with appropriate information related to this topic.
+This user has viewed the above document. Please follow up with appropriate information related to this topic.
     `;
     form.appendChild(messageField);
     
@@ -312,15 +311,15 @@ This user has downloaded the above document. Please follow up with appropriate i
                       </>
                     ) : (
                       <>
-                        <Download size={16} className="mr-2" />
-                        Download {pdfTitle}
+                        <FileText size={16} className="mr-2" />
+                        View {documentTitle}
                       </>
                     )}
                   </button>
                 </div>
                 
                 <div className="mt-4 text-xs text-center text-secondary-500">
-                  By downloading this document, you agree to our{' '}
+                  By viewing this document, you agree to our{' '}
                   <a href="/privacy" className="text-primary-600 hover:text-primary-700">
                     Privacy Policy
                   </a>{' '}
@@ -334,13 +333,13 @@ This user has downloaded the above document. Please follow up with appropriate i
           ) : (
             <div className="text-center py-6">
               <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Download size={24} className="text-primary-600" />
+                <FileText size={24} className="text-primary-600" />
               </div>
               <h3 className="text-xl font-semibold text-secondary-900 mb-2">Thank You!</h3>
               <p className="text-secondary-700 mb-6">
-                Your download should begin automatically. If it doesn't,{' '}
+                The document should open in a new tab. If it doesn't,{' '}
                 <a 
-                  href={pdfUrl} 
+                  href={documentUrl} 
                   className="text-primary-600 hover:text-primary-700 font-medium"
                   target="_blank"
                   rel="noopener noreferrer"

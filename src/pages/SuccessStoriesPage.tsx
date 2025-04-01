@@ -98,12 +98,11 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({
 
 interface TestimonialCardProps {
   quote: string;
-  author: string;
   title: string;
   company: string;
 }
 
-const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, title, company }) => {
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, title, company }) => {
   return (
     <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-slate-100">
       <div className="mb-4">
@@ -120,8 +119,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, title,
       </blockquote>
       
       <div className="border-t border-slate-100 pt-4">
-        <p className="font-semibold text-navy-900">{author}</p>
-        <p className="text-slate-600 text-sm">{title}, {company}</p>
+        <p className="font-semibold text-navy-900">{title}</p>
+        <p className="text-slate-600 text-sm">{company}</p>
       </div>
     </div>
   );
@@ -209,25 +208,21 @@ const SuccessStoriesPage = () => {
   const testimonials: TestimonialCardProps[] = [
     {
       quote: "The Capitol Insights team delivered results that far exceeded our expectations. They didn't just secure additional funding—they built a sustainable coalition that continues to advance our infrastructure priorities year after year.",
-      author: "Robert Jameson",
       title: "Executive Director",
       company: "North Texas Transportation Consortium"
     },
     {
       quote: "Byron's expertise in telecommunications policy was invaluable as we navigated complex regulatory challenges. His methodical approach and strong relationships with key committee members made the difference in passing critical legislation.",
-      author: "Sarah Chen",
       title: "Vice President, Government Affairs",
       company: "Texas Telecommunications Association"
     },
     {
       quote: "Drew's transportation expertise and strategic approach helped us secure critical funding that other firms told us was impossible. His straightforward assessment of our position and practical roadmap delivered tangible results.",
-      author: "Michael Rodriguez",
       title: "County Administrator",
       company: "Ellis County"
     },
     {
       quote: "We've worked with several government relations firms over the years, but Capitol Insights stands apart in their ethical approach and measurable results. They actually deliver on what they promise.",
-      author: "Patricia Willingham",
       title: "CEO",
       company: "Central Texas Health Partners"
     }
@@ -340,7 +335,6 @@ const SuccessStoriesPage = () => {
               <TestimonialCard
                 key={index}
                 quote={testimonial.quote}
-                author={testimonial.author}
                 title={testimonial.title}
                 company={testimonial.company}
               />

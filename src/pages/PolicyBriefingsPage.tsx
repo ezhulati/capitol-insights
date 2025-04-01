@@ -108,7 +108,7 @@ const PolicyBriefingsPage = () => {
       title: "Texas Transportation Funding: 2025-2026 Outlook",
       description: "A comprehensive analysis of transportation funding priorities for the upcoming legislative session, including potential impacts on infrastructure development and regional mobility initiatives.",
       date: "October 15, 2024",
-      author: "Drew Campbell",
+      author: "Capitol Insights Team",
       authorTitle: "President",
       category: "Transportation",
       tags: ["Infrastructure", "Funding", "Legislative Priorities"],
@@ -118,7 +118,7 @@ const PolicyBriefingsPage = () => {
       title: "Healthcare Regulatory Changes: Impact Analysis for Texas Providers",
       description: "This briefing examines recent regulatory changes affecting healthcare providers in Texas and provides strategic recommendations for adaptation and compliance.",
       date: "September 28, 2024",
-      author: "Byron Campbell",
+      author: "Capitol Insights Team",
       authorTitle: "Senior Partner",
       category: "Healthcare",
       tags: ["Regulatory", "Compliance", "Healthcare Policy"],
@@ -128,7 +128,7 @@ const PolicyBriefingsPage = () => {
       title: "Water Infrastructure Funding: Legislative Priorities for 2025",
       description: "An analysis of water infrastructure needs across Texas and recommendations for securing funding in the upcoming legislative session.",
       date: "September 10, 2024",
-      author: "Byron Campbell",
+      author: "Capitol Insights Team",
       authorTitle: "Senior Partner",
       category: "Water Resources",
       tags: ["Infrastructure", "Funding", "Water Policy"],
@@ -138,7 +138,7 @@ const PolicyBriefingsPage = () => {
       title: "Energy Grid Reliability: Policy Recommendations",
       description: "This briefing provides an overview of current challenges facing the Texas energy grid and offers policy recommendations to enhance reliability and resilience.",
       date: "August 22, 2024",
-      author: "Drew Campbell",
+      author: "Capitol Insights Team",
       authorTitle: "President",
       category: "Energy",
       tags: ["Energy Policy", "Regulatory", "Infrastructure"],
@@ -148,7 +148,7 @@ const PolicyBriefingsPage = () => {
       title: "Municipal Advocacy Strategies for the 89th Legislative Session",
       description: "Strategic guidance for municipalities seeking to effectively advocate for their interests in the upcoming legislative session.",
       date: "August 5, 2024",
-      author: "Drew Campbell",
+      author: "Capitol Insights Team",
       authorTitle: "President",
       category: "Municipal Affairs",
       tags: ["Local Government", "Advocacy", "Strategy"],
@@ -158,7 +158,7 @@ const PolicyBriefingsPage = () => {
       title: "Telecommunications Regulatory Outlook for Texas",
       description: "An overview of upcoming regulatory changes affecting the telecommunications industry in Texas and strategies for adaptation.",
       date: "July 18, 2024",
-      author: "Byron Campbell",
+      author: "Capitol Insights Team",
       authorTitle: "Senior Partner",
       category: "Telecommunications",
       tags: ["Regulatory", "Technology", "Communications"],
@@ -208,8 +208,8 @@ const PolicyBriefingsPage = () => {
         <DownloadForm
           title={`Download ${selectedBriefing.title}`}
           description="Please provide your information to download this policy briefing."
-          pdfUrl={selectedBriefing.pdfUrl}
-          pdfTitle={selectedBriefing.title}
+          documentUrl={selectedBriefing.pdfUrl}
+          documentTitle={selectedBriefing.title}
           onClose={() => setShowDownloadForm(false)}
         />
       )}

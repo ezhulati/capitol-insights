@@ -298,6 +298,7 @@ Byron's commitment to education and community engagement is reflected in his ser
       {/* Our Approach */}
       <section className="py-16 sm:py-20 md:py-24 bg-secondary-50">
         <div className="container">
+          {/* Section Header */}
           <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16">
             <span className="inline-block px-3 py-1 bg-primary-100 text-primary-600 rounded-full text-sm font-medium mb-4">
               Our Approach
@@ -308,58 +309,98 @@ Byron's commitment to education and community engagement is reflected in his ser
             </p>
           </div>
           
+          {/* Process Steps */}
           <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
-              <div className="card p-4 sm:p-6">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
-                    <FileText size={20} className="text-primary-600" />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">1. Assess</h3>
-                </div>
-                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
-                  We begin with a thorough assessment of your needs, goals, and the legislative landscape.
-                </p>
-              </div>
+            {/* Process Timeline */}
+            <div className="mb-16 relative">
+              {/* Process flow line */}
+              <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-primary-200 -translate-x-1/2 z-0"></div>
               
-              <div className="card p-4 sm:p-6">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
-                    <BarChart size={20} className="text-primary-600" />
+              <div className="relative z-10 space-y-16">
+                {/* Step 1: Assess */}
+                <div className="flex flex-col md:flex-row items-center md:items-start">
+                  <div className="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1 mt-6 md:mt-0">
+                    <div className="bg-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                      <h3 className="text-xl font-bold text-secondary-900 mb-3">1. Assess</h3>
+                      <p className="text-secondary-700">
+                        We begin with a thorough assessment of your needs, goals, and the legislative landscape.
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">2. Strategize</h3>
-                </div>
-                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
-                  We develop a tailored strategy with clear objectives and stakeholder mapping.
-                </p>
-              </div>
-              
-              <div className="card p-4 sm:p-6">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
-                    <Building2 size={20} className="text-primary-600" />
+                  <div className="md:w-0 flex justify-center order-1 md:order-2">
+                    <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                      <FileText size={24} className="text-primary-600" />
+                    </div>
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">3. Engage</h3>
-                </div>
-                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
-                  We connect you with decision-makers and build supporting coalitions.
-                </p>
-              </div>
-              
-              <div className="card p-4 sm:p-6">
-                <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
-                    <Calendar size={20} className="text-primary-600" />
+                  <div className="md:w-1/2 md:pl-12 order-3 invisible md:visible">
+                    {/* Empty spacer div for layout */}
                   </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-secondary-900">4. Adapt</h3>
                 </div>
-                <p className="text-secondary-600 text-sm ml-16 sm:ml-20">
-                  We continuously monitor developments and provide regular progress updates.
-                </p>
+                
+                {/* Step 2: Strategize */}
+                <div className="flex flex-col md:flex-row items-center md:items-start">
+                  <div className="md:w-1/2 md:pr-12 invisible md:visible order-1">
+                    {/* Empty spacer div for layout */}
+                  </div>
+                  <div className="md:w-0 flex justify-center order-2">
+                    <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                      <BarChart size={24} className="text-primary-600" />
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 md:pl-12 order-3 mt-6 md:mt-0">
+                    <div className="bg-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                      <h3 className="text-xl font-bold text-secondary-900 mb-3">2. Strategize</h3>
+                      <p className="text-secondary-700">
+                        We develop a tailored strategy with clear objectives and stakeholder mapping.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Step 3: Engage */}
+                <div className="flex flex-col md:flex-row items-center md:items-start">
+                  <div className="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1 mt-6 md:mt-0">
+                    <div className="bg-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                      <h3 className="text-xl font-bold text-secondary-900 mb-3">3. Engage</h3>
+                      <p className="text-secondary-700">
+                        We connect you with decision-makers and build supporting coalitions.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="md:w-0 flex justify-center order-1 md:order-2">
+                    <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                      <Building2 size={24} className="text-primary-600" />
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 md:pl-12 order-3 invisible md:visible">
+                    {/* Empty spacer div for layout */}
+                  </div>
+                </div>
+                
+                {/* Step 4: Adapt */}
+                <div className="flex flex-col md:flex-row items-center md:items-start">
+                  <div className="md:w-1/2 md:pr-12 invisible md:visible order-1">
+                    {/* Empty spacer div for layout */}
+                  </div>
+                  <div className="md:w-0 flex justify-center order-2">
+                    <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg">
+                      <Calendar size={24} className="text-primary-600" />
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 md:pl-12 order-3 mt-6 md:mt-0">
+                    <div className="bg-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                      <h3 className="text-xl font-bold text-secondary-900 mb-3">4. Adapt</h3>
+                      <p className="text-secondary-700">
+                        We continuously monitor developments and provide regular progress updates.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <div className="mt-10 sm:mt-16 p-6 sm:p-8 bg-white border border-secondary-100 rounded-xl shadow-card">
+            {/* Transparency Section */}
+            <div className="p-6 sm:p-8 bg-white border border-secondary-100 rounded-xl shadow-card">
               <h3 className="text-xl font-semibold text-secondary-900 mb-4">Our Commitment to Transparency</h3>
               <p className="text-secondary-700 mb-6">
                 We believe clients deserve complete honesty about what government relations can and cannot achieve. 

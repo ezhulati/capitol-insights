@@ -320,7 +320,7 @@ const HomePage: React.FC = () => {
                       "I've spent 30+ years learning one truth: while policy debates happen in Austin, real influence grows from local roots."
                     </p>
                     <footer className="mt-2 text-navy-600 font-medium not-italic">
-                      — Drew Campbell, President
+                      — President, Capitol Insights
                     </footer>
                   </blockquote>
                 </div>

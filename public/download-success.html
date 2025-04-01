@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resource Download | Capitol Insights</title>
+  <title>Resource Access | Capitol Insights</title>
   <link rel="stylesheet" href="/assets/index.css">
   <style>
     body {
@@ -108,14 +108,14 @@
       
       <h1>Thank You!</h1>
       
-      <p>Your information has been submitted successfully. Your download should begin automatically in a few seconds.</p>
+      <p>Your information has been submitted successfully. The document should open in a new tab automatically.</p>
       
-      <p>If your download doesn't start automatically, please click the download button below.</p>
+      <p>If the document doesn't open automatically, please click the button below.</p>
       
       <div>
         <a href="/" id="download-btn" class="btn">
           <span class="loading"></span>
-          <span>Preparing Download...</span>
+          <span>Preparing Document...</span>
         </a>
         <a href="/" class="btn btn-outline">Return to Homepage</a>
       </div>
@@ -126,32 +126,26 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Parse URL parameters
       const params = new URLSearchParams(window.location.search);
-      const pdfUrl = params.get('pdf');
+      const docUrl = params.get('doc');
       const downloadBtn = document.getElementById('download-btn');
       
-      if (pdfUrl) {
-        // Update download button
-        downloadBtn.href = pdfUrl;
-        downloadBtn.querySelector('span:last-child').textContent = 'Download Resource';
+      if (docUrl) {
+        // Update button
+        downloadBtn.href = docUrl;
+        downloadBtn.querySelector('span:last-child').textContent = 'View Document';
         
         // Hide loading spinner after a delay
         setTimeout(function() {
           downloadBtn.querySelector('.loading').classList.add('hidden');
         }, 1500);
         
-        // Auto-download after a short delay to ensure it works on live site
+        // Open document in a new tab after a short delay
         setTimeout(function() {
-          // Create a hidden iframe for download
-          const iframe = document.createElement('iframe');
-          iframe.style.display = 'none';
-          iframe.src = pdfUrl;
-          document.body.appendChild(iframe);
-          
-          // Also try direct window location approach as fallback
-          window.location.href = pdfUrl;
+          // Open in a new tab
+          window.open(docUrl, '_blank');
         }, 2000);
       } else {
-        // If no PDF URL is provided, update button text
+        // If no document URL is provided, update button text
         downloadBtn.querySelector('.loading').classList.add('hidden');
         downloadBtn.querySelector('span:last-child').textContent = 'Resource Not Found';
         downloadBtn.classList.add('btn-outline');

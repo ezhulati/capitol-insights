@@ -32,7 +32,7 @@ const fallbackPosts = [
     title: "Texas Legislative Session 2025 - What Organizations Need to Know",
     excerpt: "A comprehensive preview of key issues likely to dominate the upcoming legislative session and how they may impact various sectors.",
     date: "2024-10-15T12:00:00.000Z",
-    author: "Drew Campbell",
+    author: "Capitol Insights Team",
     authorTitle: "Senior Partner",
     readTime: "6 min read",
     category: "Legislative Preview",

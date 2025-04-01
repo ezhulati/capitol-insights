@@ -16,7 +16,7 @@ import { getPageSEO } from '../utils/enhanced-seo';
 import { generateResourceStructuredData, generateFAQStructuredData } from '../utils/structured-data';
 import { generateResourcePreview } from '../utils/social-preview';
 import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
-import DocumentViewHandler from '../components/DocumentViewHandler';
+import DownloadForm from '../components/DownloadForm';
 
 // Types
 interface Resource {
@@ -654,7 +654,7 @@ const ResourcesPage: React.FC = () => {
 
       {/* Document View Handler */}
       {showDownloadForm && selectedResource && (
-        <DocumentViewHandler
+        <DownloadForm
           title={`View ${selectedResource.title}`}
           description="Please provide your information to access this resource."
           documentUrl={selectedResource.documentUrl || '#'}

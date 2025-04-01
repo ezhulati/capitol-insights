@@ -1,24 +1,52 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Landmark, ChevronRight, ChevronDown, Phone, Mail, Search, Users, FileText, Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, Landmark, ChevronRight, ChevronDown, Phone, Mail, Search } from 'lucide-react';
 import SearchOverlay from './SearchOverlay';
 
+// Navigation data structure
+const navigationItems = [
+  {
+    title: 'Services',
+    path: '/services',
+    children: [
+      { title: 'Services Overview', path: '/services' },
+      { title: 'Practice Areas', path: '/practice-areas' },
+    ]
+  },
+  {
+    title: 'About Us',
+    path: '/about',
+    children: [
+      { title: 'Our Team', path: '/team' },
+      { title: 'Results', path: '/results' },
+      { title: 'Success Stories', path: '/success-stories' },
+    ]
+  },
+  {
+    title: 'Resources',
+    path: '/resources',
+    children: [
+      { title: 'Updates', path: '/updates' },
+      { title: 'Resources', path: '/resources' },
+      { title: 'Legislative Calendar', path: '/legislative-calendar' },
+      { title: 'Policy Briefings', path: '/policy-briefings' },
+    ]
+  },
+  {
+    title: 'Contact',
+    path: '/contact',
+    children: []
+  }
+];
+
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
-  // Close mobile menu and dropdowns when route changes
-  useEffect(() => {
-    setIsMenuOpen(false);
-    setActiveDropdown(null);
-  }, [location]);
-
-  // Add scroll effect for header
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -28,10 +56,10 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle clicks outside of dropdown
+  // Handle clicks outside of the header
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
         setActiveDropdown(null);
       }
     };
@@ -40,84 +68,41 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Handle keyboard accessibility for dropdowns
+  // Handle Escape key
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
         setActiveDropdown(null);
-        setIsMenuOpen(false);
       }
     };
     
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Handle dropdown toggle
-  const toggleDropdown = (dropdown: string) => {
-    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  // Toggle dropdown menu
+  const toggleDropdown = (title: string) => {
+    setActiveDropdown(activeDropdown === title ? null : title);
   };
 
-  // Better navigation handler for mobile links
-  const handleNavigation = (path: string) => {
-    // First navigate to the desired path
-    navigate(path);
-    
-    // Then close menus after a short delay to ensure navigation happens
-    setTimeout(() => {
-      setIsMenuOpen(false);
-      setActiveDropdown(null);
-    }, 50);
-  };
-
-  // Reorganized navigation with dropdown structure
-  const navLinks = [
-    { 
-      title: 'Services', 
-      key: 'services',
-      hasDropdown: true,
-      icon: <FileText size={16} />,
-      items: [
-        { title: 'Services Overview', path: '/services' },
-        { title: 'Practice Areas', path: '/practice-areas' },
-      ]
-    },
-    { 
-      title: 'About Us', 
-      key: 'about',
-      hasDropdown: true,
-      icon: <Users size={16} />,
-      items: [
-        { title: 'Our Team', path: '/team' },
-        { title: 'Results', path: '/results' },
-        { title: 'Success Stories', path: '/success-stories' },
-      ]
-    },
-    { 
-      title: 'Resources', 
-      key: 'resources',
-      hasDropdown: true,
-      icon: <Info size={16} />,
-      items: [
-        { title: 'Updates', path: '/updates' },
-        { title: 'Resources', path: '/resources' },
-        { title: 'Legislative Calendar', path: '/legislative-calendar' },
-        { title: 'Policy Briefings', path: '/policy-briefings' },
-      ]
-    },
-  ];
-
-  // Safe isActive function that handles undefined paths
-  const isActive = (path?: string) => {
-    if (!path) return false;
+  // Check if a path is active
+  const isActive = (path: string) => {
     if (path === '/') {
-      return location.pathname === path;
+      return window.location.pathname === path;
     }
-    return location.pathname.startsWith(path);
+    return window.location.pathname.startsWith(path);
+  };
+
+  // Helper function to close the mobile menu
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setActiveDropdown(null);
   };
 
   return (
     <header 
+      ref={headerRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
         isScrolled 
           ? 'bg-white py-2 shadow-sm' 
@@ -127,7 +112,12 @@ const Header = () => {
     >
       <div className="container">
         <div className="flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2 group" aria-label="Capitol Insights - Home">
+          {/* Logo */}
+          <Link 
+            to="/"
+            className="flex items-center space-x-2 group" 
+            aria-label="Capitol Insights - Home"
+          >
             <div 
               className={`relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center ${
                 isScrolled ? 'bg-gold-600' : 'bg-gold-500'
@@ -149,68 +139,75 @@ const Header = () => {
             </div>
           </Link>
           
-          <div className="hidden lg:flex items-center space-x-6 ml-auto" ref={dropdownRef}>
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-6 ml-auto">
             <nav className="flex items-center space-x-4" aria-label="Main Navigation">
-              {navLinks.map((link) => (
-                <div key={link.key} className="relative">
-                  <button
-                    onClick={() => toggleDropdown(link.key)}
-                    className={`px-4 py-2 font-medium rounded-md transition-all duration-250 flex items-center ${
+              {navigationItems.map((item) => (
+                item.children.length > 0 ? (
+                  // Dropdown menu for items with children
+                  <div key={item.title} className="relative">
+                    <button
+                      onClick={() => toggleDropdown(item.title)}
+                      className={`px-4 py-2 font-medium rounded-md transition-all duration-250 flex items-center ${
+                        isScrolled 
+                          ? 'text-navy-800 hover:text-gold-600' 
+                          : 'text-white hover:text-gold-300'
+                      } ${
+                        activeDropdown === item.title || isActive(item.path)
+                          ? `font-semibold ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`
+                          : ''
+                      }`}
+                      aria-expanded={activeDropdown === item.title}
+                      aria-haspopup="true"
+                    >
+                      {item.title}
+                      <ChevronDown 
+                        size={16} 
+                        className={`ml-1 transition-transform ${activeDropdown === item.title ? 'rotate-180' : ''}`} 
+                      />
+                    </button>
+                    
+                    {activeDropdown === item.title && (
+                      <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg py-2 z-20 border border-slate-100">
+                        {item.children.map(child => (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            className={`block px-4 py-2 text-navy-800 hover:bg-slate-50 hover:text-gold-600 ${
+                              isActive(child.path) ? 'font-medium text-gold-600 bg-slate-50' : ''
+                            }`}
+                            onClick={() => setActiveDropdown(null)}
+                          >
+                            {child.title}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  // Regular link for items without children
+                  <Link 
+                    key={item.title}
+                    to={item.path}
+                    className={`px-4 py-2 font-medium rounded-md transition-all duration-250 ${
                       isScrolled 
                         ? 'text-navy-800 hover:text-gold-600' 
                         : 'text-white hover:text-gold-300'
                     } ${
-                      activeDropdown === link.key || link.items?.some(item => isActive(item.path))
+                      isActive(item.path)
                         ? `font-semibold ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`
                         : ''
                     }`}
-                    aria-expanded={activeDropdown === link.key}
-                    aria-haspopup="true"
                   >
-                    {link.title}
-                    <ChevronDown 
-                      size={16} 
-                      className={`ml-1 transition-transform ${activeDropdown === link.key ? 'rotate-180' : ''}`} 
-                    />
-                  </button>
-                  
-                  {activeDropdown === link.key && (
-                    <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-md shadow-lg py-2 z-20 border border-slate-100">
-                      {link.items?.map(item => (
-                        <Link
-                          key={item.path}
-                          to={item.path}
-                          className={`block px-4 py-2 text-navy-800 hover:bg-slate-50 hover:text-gold-600 ${
-                            isActive(item.path) ? 'font-medium text-gold-600 bg-slate-50' : ''
-                          }`}
-                        >
-                          {item.title}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                    {item.title}
+                    {isActive(item.path) && (
+                      <div 
+                        className={`h-0.5 mt-0.5 rounded-full ${isScrolled ? 'bg-gold-500' : 'bg-gold-400'}`}
+                      />
+                    )}
+                  </Link>
+                )
               ))}
-              
-              <Link 
-                to="/contact"
-                className={`px-4 py-2 font-medium rounded-md transition-all duration-250 ${
-                  isScrolled 
-                    ? 'text-navy-800 hover:text-gold-600' 
-                    : 'text-white hover:text-gold-300'
-                } ${
-                  isActive('/contact')
-                    ? `font-semibold ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`
-                    : ''
-                }`}
-              >
-                Contact
-                {isActive('/contact') && (
-                  <div 
-                    className={`h-0.5 mt-0.5 rounded-full ${isScrolled ? 'bg-gold-500' : 'bg-gold-400'}`}
-                  />
-                )}
-              </Link>
             </nav>
             
             <Link 
@@ -234,6 +231,7 @@ const Header = () => {
             </button>
           </div>
           
+          {/* Mobile Controls */}
           <div className="lg:hidden flex items-center space-x-1">
             <button
               onClick={() => setIsSearchOpen(true)}
@@ -244,12 +242,12 @@ const Header = () => {
             </button>
             <button 
               className="lg:hidden flex items-center justify-center w-10 h-10 rounded-md focus:outline-none focus-gold"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMenuOpen}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
             >
-              {isMenuOpen ? (
+              {mobileMenuOpen ? (
                 <X size={24} className={isScrolled ? 'text-navy-900' : 'text-white'} />
               ) : (
                 <Menu size={24} className={isScrolled ? 'text-navy-900' : 'text-white'} />
@@ -259,7 +257,7 @@ const Header = () => {
         </div>
         
         {/* Mobile Navigation */}
-        {isMenuOpen && (
+        {mobileMenuOpen && (
           <nav 
             id="mobile-menu"
             className={`lg:hidden pt-4 pb-6 mt-4 border-t ${
@@ -269,95 +267,90 @@ const Header = () => {
             }`}
             aria-label="Mobile Navigation"
           >
-            <ul className="flex flex-col space-y-1" role="menu">
-              {navLinks.map((link) => (
-                <li key={link.key} role="none">
-                  <div>
-                    <button
-                      onClick={() => toggleDropdown(link.key)}
-                      className={`flex items-center justify-between w-full px-4 py-3 rounded-md transition-colors duration-250 ${
-                        isScrolled 
-                          ? 'text-navy-800 hover:text-gold-600' 
-                          : 'text-white hover:text-gold-300'
+            <ul className="flex flex-col space-y-1">
+              {navigationItems.map((item) => (
+                <li key={item.title}>
+                  {item.children.length > 0 ? (
+                    <div>
+                      <button
+                        onClick={() => toggleDropdown(item.title)}
+                        className={`flex items-center justify-between w-full px-4 py-3 rounded-md transition-colors duration-250 ${
+                          isScrolled 
+                            ? 'text-navy-800 hover:text-gold-600' 
+                            : 'text-white hover:text-gold-300'
+                        } ${
+                          activeDropdown === item.title
+                            ? `font-semibold ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`
+                            : ''
+                        }`}
+                        aria-expanded={activeDropdown === item.title}
+                        aria-controls={`${item.title}-dropdown`}
+                      >
+                        <span>{item.title}</span>
+                        <ChevronDown 
+                          size={16} 
+                          className={`transition-transform ${activeDropdown === item.title ? 'rotate-180' : ''}`} 
+                        />
+                      </button>
+                      
+                      {activeDropdown === item.title && (
+                        <ul 
+                          id={`${item.title}-dropdown`}
+                          className="mt-1 ml-4 pl-4 border-l border-slate-200 space-y-1"
+                        >
+                          {item.children.map(child => (
+                            <li key={child.path}>
+                              <Link
+                                to={child.path}
+                                className={`block w-full text-left px-4 py-2 rounded-md ${
+                                  isScrolled
+                                    ? 'text-navy-700 hover:text-gold-600 hover:bg-slate-50'
+                                    : 'text-white/90 hover:text-gold-300 hover:bg-white/10'
+                                } ${
+                                  isActive(child.path) ? `font-medium ${isScrolled ? 'text-gold-600 bg-slate-50' : 'text-gold-300 bg-white/10'}` : ''
+                                }`}
+                                onClick={closeMobileMenu}
+                              >
+                                {child.title}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      className={`block w-full text-left px-4 py-3 rounded-md transition-colors duration-250 ${
+                        isScrolled
+                          ? 'text-navy-800 hover:text-gold-600 hover:bg-slate-50'
+                          : 'text-white hover:text-gold-300 hover:bg-white/10'
                       } ${
-                        activeDropdown === link.key
-                          ? `font-semibold ${isScrolled ? 'text-gold-600' : 'text-gold-300'}`
+                        isActive(item.path)
+                          ? `font-semibold ${isScrolled ? 'text-gold-600 bg-slate-50' : 'text-gold-300 bg-white/10'}`
                           : ''
                       }`}
-                      aria-expanded={activeDropdown === link.key}
-                      aria-haspopup="true"
-                      role="menuitem"
+                      aria-current={isActive(item.path) ? 'page' : undefined}
+                      onClick={closeMobileMenu}
                     >
-                      <div className="flex items-center">
-                        {link.icon && <span className="mr-2">{link.icon}</span>}
-                        {link.title}
-                      </div>
-                      <ChevronDown 
-                        size={16} 
-                        className={`transition-transform ${activeDropdown === link.key ? 'rotate-180' : ''}`} 
-                      />
-                    </button>
-                    
-                    {activeDropdown === link.key && (
-                      <ul className="mt-1 ml-4 pl-4 border-l border-slate-200 space-y-1">
-                        {link.items?.map(item => (
-                          <li key={item.path} onClick={(e) => e.stopPropagation()}>
-                            {/* Use button instead of Link for more reliable navigation */}
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleNavigation(item.path);
-                              }}
-                              className={`block w-full text-left px-4 py-2 rounded-md ${
-                                isScrolled 
-                                  ? 'text-navy-700 hover:text-gold-600 hover:bg-slate-50' 
-                                  : 'text-white/90 hover:text-gold-300 hover:bg-white/10'
-                              } ${
-                                isActive(item.path) ? `font-medium ${isScrolled ? 'text-gold-600 bg-slate-50' : 'text-gold-300 bg-white/10'}` : ''
-                              }`}
-                              role="menuitem"
-                            >
-                              {item.title}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+                      {item.title}
+                    </Link>
+                  )}
                 </li>
               ))}
-              <li role="none">
-                {/* Use button instead of Link for more reliable navigation */}
-                <button 
-                  onClick={() => handleNavigation('/contact')}
-                  className={`block w-full text-left px-4 py-3 rounded-md transition-colors duration-250 ${
-                    isScrolled 
-                      ? 'text-navy-800 hover:text-gold-600 hover:bg-slate-50' 
-                      : 'text-white hover:text-gold-300 hover:bg-white/10'
-                  } ${
-                    isActive('/contact')
-                      ? `font-semibold ${isScrolled ? 'text-gold-600 bg-slate-50' : 'text-gold-300 bg-white/10'}`
-                      : ''
-                  }`}
-                  aria-current={isActive('/contact') ? 'page' : undefined}
-                  role="menuitem"
-                >
-                  Contact
-                </button>
-              </li>
-              <li className="pt-3 mt-2 border-t border-slate-100/10 px-4" role="none">
-                {/* Use button instead of Link for more reliable navigation */}
-                <button 
-                  onClick={() => handleNavigation('/contact')}
+              
+              <li className="pt-3 mt-2 border-t border-slate-100/10 px-4">
+                <Link
+                  to="/contact"
                   className="btn btn-primary btn-md w-full justify-center group whitespace-nowrap"
-                  role="menuitem"
+                  onClick={closeMobileMenu}
                 >
                   <span>Schedule Assessment</span>
                   <ChevronRight size={16} className="ml-1 transition-transform group-hover:translate-x-0.5" />
-                </button>
+                </Link>
               </li>
-              <li className="pt-4 px-4" role="none">
+              
+              <li className="pt-4 px-4">
                 <div className="flex flex-col space-y-3">
                   <a 
                     href="mailto:byroncampbell@capitol-insights.com" 
@@ -365,7 +358,6 @@ const Header = () => {
                       isScrolled ? 'text-navy-700' : 'text-white/80'
                     }`}
                     aria-label="Email us"
-                    role="menuitem"
                   >
                     <Mail size={14} className="mr-2 text-gold-500" />
                     byroncampbell@capitol-insights.com
