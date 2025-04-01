@@ -2,11 +2,14 @@
 // This function receives form data and sends it to your email marketing system or CRM
 import validator from 'validator';
 import xss from 'xss';
+import { validateFormCsrfToken } from '../utils/csrf-validator.js';
+import { applyRateLimit } from '../utils/rate-limiter.js';
 
 // Email addresses to send lead notifications to
 const NOTIFICATION_RECIPIENTS = process.env.FORM_NOTIFICATION_RECIPIENTS;
 
-export const handler = async (event, context) => {
+// Create the base handler function
+const baseHandler = async (event, context) => {
   // Validate required environment variables
   if (!NOTIFICATION_RECIPIENTS) {
     console.error('Missing required environment variable: FORM_NOTIFICATION_RECIPIENTS');
@@ -23,6 +26,14 @@ export const handler = async (event, context) => {
   try {
     // Parse the incoming request body
     const rawData = JSON.parse(event.body);
+    
+    // CSRF validation
+    if (!validateFormCsrfToken(rawData)) {
+      return {
+        statusCode: 403,
+        body: JSON.stringify({ message: 'Invalid or missing CSRF token' }),
+      };
+    }
     
     // Validate required fields with stronger validation
     if (!rawData.email || !validator.isEmail(rawData.email)) {
@@ -129,3 +140,6 @@ export const handler = async (event, context) => {
     };
   }
 };
+
+// Apply rate limiting to the handler (100 requests per hour)
+export const handler = applyRateLimit(baseHandler, 100);

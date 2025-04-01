@@ -91,6 +91,22 @@ This document outlines security vulnerabilities that were identified in the Capi
 - Added server-side token validation in form handlers
 - Implemented secure token creation with cryptographic signatures and expiration timestamps
 
+### 7. Implemented Rate Limiting
+**Issue:** API endpoints were vulnerable to abuse through excessive requests.
+**Risk:** Potential for denial of service attacks, brute force attempts, and API abuse.
+**Files affected:**
+- `netlify/functions/contact-form-handler.js`
+- `netlify/functions/lead-capture.js`
+- `netlify/functions/get-csrf-token.js`
+
+**Resolution:**
+- Created a rate limiting utility (`netlify/utils/rate-limiter.js`)
+- Implemented IP-based request tracking with time windows
+- Applied tiered rate limits (50 requests/hour for contact form, 100 requests/hour for downloads)
+- Added proper rate limit response headers (X-RateLimit-*)
+- Implemented 429 status code responses for rate-limited requests
+- Added exponential backoff guidance through Retry-After headers
+
 ## Required Next Steps
 
 ### 1. Rotate Compromised Credentials

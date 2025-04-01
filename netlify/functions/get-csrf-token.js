@@ -1,5 +1,6 @@
 // Netlify Function to generate CSRF token for form protection
 import crypto from 'crypto';
+import { applyRateLimit } from '../utils/rate-limiter.js';
 
 // CSRF token validity duration (2 hours in milliseconds)
 const TOKEN_EXPIRATION = 2 * 60 * 60 * 1000;
@@ -35,7 +36,8 @@ function generateCsrfToken() {
   };
 }
 
-export const handler = async (event, context) => {
+// Create the base handler function
+const baseHandler = async (event, context) => {
   // Only allow GET requests
   if (event.httpMethod !== 'GET') {
     return {
@@ -72,3 +74,6 @@ export const handler = async (event, context) => {
     };
   }
 };
+
+// Apply rate limiting to the handler (200 requests per hour for CSRF tokens)
+export const handler = applyRateLimit(baseHandler, 200);
