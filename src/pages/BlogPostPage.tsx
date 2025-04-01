@@ -356,11 +356,11 @@ const BlogPostPage: React.FC = () => {
               {post.image && (
                 <div className="mt-8 mb-12 overflow-hidden rounded-xl shadow-xl">
                   <ResponsiveImage
-                    src={post.image}
+                    src={post.image.startsWith('/') ? post.image.substring(1) : post.image}
                     alt={post.title}
                     className="w-full h-auto"
-                    sources={generateResponsiveSources(post.image, [640, 768, 1024, 1280, 1536])}
-                    webpSources={generateWebPSources(generateResponsiveSources(post.image, [640, 768, 1024, 1280, 1536]))}
+                    sources={generateResponsiveSources(post.image.startsWith('/') ? post.image.substring(1) : post.image, [640, 768, 1024, 1280, 1536])}
+                    webpSources={generateWebPSources(generateResponsiveSources(post.image.startsWith('/') ? post.image.substring(1) : post.image, [640, 768, 1024, 1280, 1536]))}
                     imageSizes={[
                       '(max-width: 640px) 100vw',
                       '(max-width: 1024px) 80vw',
