@@ -1,4 +1,15 @@
-# Netlify redirects
-/api/*          /.netlify/functions/:splat        200
-/files/*        /files/:splat                     200
-/*              /index.html                       200
+# Redirect API endpoints to Netlify Functions
+/api/*  /.netlify/functions/:splat  200
+
+# Redirect PDF files to their HTML counterparts
+/files/texas-legislative-influence-guide-2025.pdf /files/texas-legislative-influence-guide-2025.html 301
+/files/healthcare-regulatory-changes.pdf /files/healthcare-regulatory-changes.html 301
+/files/energy-grid-reliability.pdf /files/energy-grid-reliability.html 301
+/files/texas-transportation-funding-outlook.pdf /files/texas-transportation-funding-outlook.html 301
+/files/municipal-advocacy-strategies.pdf /files/municipal-advocacy-strategies.html 301
+/files/telecommunications-regulatory-outlook.pdf /files/telecommunications-regulatory-outlook.html 301
+/files/texas-legislative-calendar-2025.pdf /files/texas-legislative-calendar-2025.html 301
+/files/water-infrastructure-funding.pdf /files/water-infrastructure-funding.html 301
+
+# Redirect any other paths to index.html for client-side routing
+/*    /index.html   200
