@@ -54,7 +54,7 @@
      */
     _sanitizeNode: function(node, cfg) {
       // Get all elements including the root 
-      const elementsToCheck = [...node.getElementsByTagName('*')];
+      const elementsToCheck = Array.prototype.slice.call(node.getElementsByTagName('*'));
       if (node.nodeType === 1) { // Element node
         elementsToCheck.unshift(node);
       }
@@ -77,15 +77,22 @@
           const attrName = attr.name.toLowerCase();
           
           // Check if attribute is allowed
-          const isAllowed = cfg.ALLOWED_ATTR.some(allowedAttr => {
-            if (allowedAttr.endsWith('-*') && attrName.startsWith(allowedAttr.slice(0, -2))) {
-              return true;
+          let isAllowed = false;
+          for (let j = 0; j < cfg.ALLOWED_ATTR.length; j++) {
+            const allowedAttr = cfg.ALLOWED_ATTR[j];
+            if ((allowedAttr.indexOf('-*') === allowedAttr.length - 2) && 
+                attrName.indexOf(allowedAttr.substring(0, allowedAttr.length - 2)) === 0) {
+              isAllowed = true;
+              break;
             }
-            return allowedAttr === attrName;
-          });
+            if (allowedAttr === attrName) {
+              isAllowed = true;
+              break;
+            }
+          }
           
           // Check data attributes
-          const isDataAttr = attrName.startsWith('data-');
+          const isDataAttr = attrName.indexOf('data-') === 0;
           if (!isAllowed && !(isDataAttr && cfg.ALLOW_DATA_ATTR)) {
             attributesToRemove.push(attrName);
             continue;
@@ -94,7 +101,7 @@
           // Sanitize URLs in href attributes
           if (attrName === 'href') {
             const value = attr.value.trim().toLowerCase();
-            if (value.startsWith('javascript:') || value.startsWith('data:')) {
+            if (value.indexOf('javascript:') === 0 || value.indexOf('data:') === 0) {
               attributesToRemove.push(attrName);
               continue;
             }
