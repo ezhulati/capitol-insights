@@ -47,7 +47,12 @@
 
   // Function to log meta data (only in development mode)
   function logDebug(message) {
-    if (process.env.NODE_ENV === 'development') {
+    // Check if we're in development mode based on URL or a global flag
+    const isDevelopment = window.location.hostname === 'localhost' || 
+                         window.location.hostname === '127.0.0.1' ||
+                         window.__DEV_MODE__ === true;
+    
+    if (isDevelopment) {
       console.log(`[MetaFixer] ${message}`);
     }
   }
