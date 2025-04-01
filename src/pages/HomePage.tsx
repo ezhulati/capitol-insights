@@ -16,7 +16,7 @@ import {
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
 import LazyImage from '../components/LazyImage';
-import LeadMagnetForm from '../components/LeadMagnetForm';
+import ImprovedLeadMagnetForm from '../components/ImprovedLeadMagnetForm';
 
 interface FeatureCardProps {
   icon: ReactElement;
@@ -216,7 +216,7 @@ const HomePage: React.FC = () => {
       {/* Guide Section */}
       <section className="py-16 sm:py-20 bg-slate-50 relative">
         <div className="container">
-          <LeadMagnetForm 
+          <ImprovedLeadMagnetForm 
             title="The Texas Legislative Influence Guide: Strategies for Effective Advocacy"
             subtitle="By Drew Campbell & Byron Campbell, Capitol Insights"
             description="After four decades in Texas politics and helping secure billions in funding for our clients, we've distilled our approach into a practical guide that reveals the proven strategies for effective legislative advocacy."
@@ -229,6 +229,7 @@ const HomePage: React.FC = () => {
             ]}
             ctaText="GET THE GUIDE"
             downloadUrl="/downloads/texas-legislative-advocacy-guide.html"
+            pdfUrl="/files/texas-legislative-influence-guide-2025.html"
             className="w-full"
           />
         </div>
