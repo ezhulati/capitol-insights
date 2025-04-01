@@ -145,8 +145,8 @@ const LegislativeCalendarPage = () => {
         <DownloadForm
           title="Download Texas Legislative Calendar"
           description="Please provide your information to download the complete Texas Legislative Calendar for 2025-2026."
-          pdfUrl="/downloads/texas-legislative-calendar-2025.html"
-          pdfTitle="Legislative Calendar"
+          documentUrl="/downloads/texas-legislative-calendar-2025.html"
+          documentTitle="Legislative Calendar"
           onClose={() => setShowDownloadForm(false)}
         />
       )}
