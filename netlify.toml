@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build:ci"
   publish = "dist"
   node_version = "18.19.1" # Trigger rebuild
 
