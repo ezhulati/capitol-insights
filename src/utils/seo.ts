@@ -56,6 +56,11 @@ export interface SEOProps {
   }>;
   schema?: Record<string, any>;
   schemaMarkup?: SchemaMarkup;
+  /**
+   * CSP nonce value for inline scripts
+   * Used to make inline scripts compatible with Content Security Policy
+   */
+  nonce?: string;
 }
 
 export const generateSEO = ({

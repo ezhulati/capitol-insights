@@ -108,19 +108,36 @@ const SEO: React.FC<SEOProps & {
         />
       ))}
       
-      {/* Script tags for schema */}
-      {seoProps.script?.map((script, index) => (
-        <script 
-          key={index} 
-          type={script.type} 
-          dangerouslySetInnerHTML={{ __html: script.innerHTML }} 
-        />
-      ))}
+      {/* Script tags for schema with nonce for CSP compliance */}
+      {seoProps.script?.map((script, index) => {
+        // Make sure the script content is properly sanitized
+        // We're only allowing script tags for schema, which should be JSON
+        try {
+          // Attempt to parse as JSON to validate it's not malicious code
+          if (script.innerHTML) {
+            JSON.parse(script.innerHTML);
+          }
+          
+          return (
+            <script 
+              key={index} 
+              type={script.type} 
+              nonce={props.nonce || undefined}
+              dangerouslySetInnerHTML={{ __html: script.innerHTML }} 
+            />
+          );
+        } catch (e) {
+          console.error('Invalid script content detected:', e);
+          // Return nothing if the script content isn't valid JSON
+          return null;
+        }
+      })}
       
-      {/* JSON-LD structured data */}
+      {/* JSON-LD structured data with nonce for CSP compliance */}
       {jsonLdData.length > 0 && (
         <script 
           type="application/ld+json"
+          nonce={props.nonce || undefined}
           dangerouslySetInnerHTML={{ 
             __html: JSON.stringify(
               jsonLdData.length === 1 ? jsonLdData[0] : jsonLdData
