@@ -127,6 +127,7 @@ const ContactPage: React.FC = () => {
           await fetch('/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             body: new URLSearchParams(netlifyFormData as any).toString()
           });
         } catch (netlifyError) {

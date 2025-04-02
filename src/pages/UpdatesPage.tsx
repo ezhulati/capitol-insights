@@ -291,7 +291,7 @@ const UpdatesPage: React.FC = () => {
                     </div>
                     
                     <Link 
-                      to={`/updates/${featuredPost._sys.basename}`} 
+                      to={`/updates/${featuredPost.slug || featuredPost._sys.basename}`} 
                       className="btn btn-primary btn-md w-full sm:w-auto justify-center sm:justify-start whitespace-nowrap"
                     >
                       Read Full Analysis
@@ -504,7 +504,7 @@ const UpdatesPage: React.FC = () => {
                               </div>
                               
                               <Link 
-                                to={`/updates/${post._sys.basename}`} 
+                                to={`/updates/${post.slug || post._sys.basename}`} 
                                 className="text-gold-600 font-medium inline-flex items-center hover:text-gold-700 text-sm"
                                 aria-label={`Read more about ${post.title}`}
                               >

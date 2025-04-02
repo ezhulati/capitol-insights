@@ -1,4 +1,4 @@
-/**
+s/**
  * Very simple approach: Copy the HTML file content to a PDF file
  * Since the website is designed to serve HTML files, this just ensures
  * there's a file with the .pdf extension to satisfy the layout.

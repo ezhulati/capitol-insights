@@ -6,8 +6,7 @@ import { generateBlogPostStructuredData } from '../utils/structured-data';
 import { generateBlogPostPreview } from '../utils/social-preview';
 import BreadcrumbNavigation from '../components/BreadcrumbNavigation';
 import LazyImage from '../components/LazyImage';
-import ResponsiveImage from '../components/ResponsiveImage';
-import { generateResponsiveSources, generateWebPSources } from '../utils/image-seo';
+// Removed unused imports
 import { getPostBySlug, renderMarkdown, getRelatedPosts } from '../utils/content-provider';
 import type { BlogPost } from '../utils/mdx-sanity';
 
@@ -16,7 +15,7 @@ const BlogPostPage: React.FC = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [formattedContent, setFormattedContent] = useState<any[]>([]);
+  const [formattedContent, setFormattedContent] = useState<Array<{type: string; content?: string; key?: number; id?: string; items?: string[]; src?: string; alt?: string; props?: Record<string, unknown>}>>([]);
   const [activeSection, setActiveSection] = useState<string>('');
   const [readingProgress, setReadingProgress] = useState(0);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
@@ -206,17 +205,9 @@ const BlogPostPage: React.FC = () => {
     day: 'numeric'
   });
 
-  // Determine if the image is a Cloudinary URL or a local path
-  const isCloudinaryImage = post.image && post.image.includes('cloudinary.com');
+  // Removed unused Cloudinary check
 
-  // Get the proper source for the image
-  const getImageSource = (imagePath: string) => {
-    if (isCloudinaryImage) {
-      return imagePath;
-    }
-    // Don't strip the leading slash - keep the absolute path as is
-    return imagePath;
-  };
+
 
   return (
     <>
@@ -392,7 +383,7 @@ const BlogPostPage: React.FC = () => {
 
             {/* Article content */}
             <div className="prose prose-lg max-w-none prose-headings:font-display prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h2:text-navy-900 prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:text-navy-800 prose-h3:mt-10 prose-h3:mb-5 prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-8 prose-li:text-slate-700 prose-li:mb-3 prose-a:text-gold-600 prose-a:no-underline hover:prose-a:text-gold-700 prose-blockquote:border-l-4 prose-blockquote:border-gold-400 prose-blockquote:pl-6 prose-blockquote:py-3 prose-blockquote:my-8 prose-blockquote:italic prose-blockquote:bg-gray-50 prose-blockquote:rounded-r-lg prose-strong:font-bold prose-strong:text-navy-800">
-              {formattedContent.map((block: any) => {
+              {formattedContent.map((block) => {
                 // Store refs to heading elements for TOC scrolling
                 if (['h1', 'h2', 'h3'].includes(block.type)) {
                   return React.createElement(
@@ -402,7 +393,7 @@ const BlogPostPage: React.FC = () => {
                       id: block.id,
                       ref: (el: HTMLElement | null) => {
                         if (el) {
-                          headingsRef.current[block.id] = el;
+                          if (block.id) headingsRef.current[block.id] = el;
                         }
                       }
                     },
@@ -411,7 +402,7 @@ const BlogPostPage: React.FC = () => {
                 } else if (block.type === 'ul') {
                   return (
                     <ul key={block.key} className="list-disc pl-8 mb-8 space-y-3">
-                      {block.items.map((item: string, i: number) => (
+                      {block.items?.map((item: string, i: number) => (
                         <li key={i} className="mb-2">{item}</li>
                       ))}
                     </ul>
@@ -419,7 +410,7 @@ const BlogPostPage: React.FC = () => {
                 } else if (block.type === 'ol') {
                   return (
                     <ol key={block.key} className="list-decimal pl-8 mb-8 space-y-3">
-                      {block.items.map((item: string, i: number) => (
+                      {block.items?.map((item: string, i: number) => (
                         <li key={i} className="mb-2">{item}</li>
                       ))}
                     </ol>
@@ -499,7 +490,7 @@ const BlogPostPage: React.FC = () => {
                           ${activeSection === item.id ? 'text-gold-600 font-medium border-l-2 border-gold-500 pl-3 -ml-[2px]' : 'text-gray-700'}
                         `}>
                           <button
-                            onClick={() => scrollToSection(item.id)}
+                            onClick={() => item.id && scrollToSection(item.id)}
                             className="hover:text-gold-700 text-left w-full transition-colors py-1.5 block"
                           >
                             {item.content}
