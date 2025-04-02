@@ -4,7 +4,9 @@ import { VitePWA } from 'vite-plugin-pwa';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
 import path from 'path';
-// PostCSS configuration is in postcss.config.js
+// Import required for Vite config
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 export default defineConfig(({ mode }) => {
   // Analyze bundle in analyze mode
@@ -104,7 +106,14 @@ export default defineConfig(({ mode }) => {
           filename: 'dist/stats.html',
         }),
     ],
-    // CSS configuration is handled by postcss.config.js
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss(),
+          autoprefixer(),
+        ],
+      },
+    },
     build: {
       cssMinify: true, // Use default minifier instead of lightningcss
       rollupOptions: {
