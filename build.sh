@@ -139,6 +139,12 @@ EOF
     cp -r public/js/* dist/js/ || log "Warning: Failed to copy JS files but continuing with deployment..."
   fi
   
+  # Copy diagnostics script
+  log "Copying diagnostics script..."
+  if [ -f "error-diagnostics.js" ]; then
+    cp error-diagnostics.js dist/ || log "Warning: Failed to copy diagnostics script but continuing with deployment..."
+  fi
+  
   # Verify required JavaScript files exist
   log "Verifying required JavaScript files..."
   required_js_files=(
