@@ -12,17 +12,34 @@ document.addEventListener('DOMContentLoaded', function() {
   // Check if the app has already rendered something substantial to #root
   const checkAndRenderFallback = function() {
     const root = document.getElementById('root');
-    const loading = document.querySelector('.loading');
+    
+    // Safety check
+    if (!root) {
+      console.error('[Fallback] Root element not found');
+      return false;
+    }
     
     // Check if app appears to be loading still
-    if (root && (!root.children.length || 
-        (root.children.length === 1 && root.children[0].className === 'loading'))) {
+    if (!root.children.length || 
+        (root.children.length === 1 && root.children[0].className === 'loading')) {
       
       console.log('[Fallback] App not loaded, rendering fallback UI');
       
-      // Hide loading spinner if it exists
-      if (loading) {
-        loading.style.display = 'none';
+      // First, hide any error messages or loading spinners
+      try {
+        // Hide loading spinner if it exists
+        const loading = root.querySelector('.loading');
+        if (loading) {
+          loading.style.display = 'none';
+        }
+        
+        // Also hide error container if it's shown
+        const errorContainer = document.getElementById('error-container');
+        if (errorContainer) {
+          errorContainer.style.display = 'none';
+        }
+      } catch (e) {
+        console.error('[Fallback] Error hiding elements:', e);
       }
       
       // Clear existing root content
@@ -98,11 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Log success
       console.log('[Fallback] Fallback UI rendered successfully');
       
-      // Remove error container if it exists
-      const errorContainer = document.getElementById('error-container');
-      if (errorContainer) {
-        errorContainer.style.display = 'none';
-      }
+      // Let the mount checker know that we've handled the situation
+      window.FALLBACK_APP_ACTIVE = true;
       
       return true;
     }
