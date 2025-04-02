@@ -21,7 +21,9 @@
     "audit-resolve": "resolve-audit",
     "install-deps": "npm install --legacy-peer-deps",
     "convert-images": "node convert-images-to-webp.js",
-    "optimize": "npm run convert-images"
+    "find-images": "node find-image-components.js",
+    "analyze-js": "node optimize-js.js",
+    "optimize": "npm run convert-images && npm run analyze-js"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.1.3",
