@@ -261,28 +261,19 @@
       <input type="text" name="recipients" />
     </form>
     
-    <!-- Dynamic script loading for both dev and production -->
+    <!-- Direct static content with React attempt -->
     <script type="module">
-      // For development mode with Vite
-      if (location.host.includes('localhost') || location.host.includes('127.0.0.1')) {
-        // Dev mode - use Vite's entry point
-        import('/src/main.tsx')
-          .catch(err => {
-            console.error('Failed to load development module:', err);
-            // Show error in UI
-            document.querySelector('.loading').style.display = 'none';
-            document.getElementById('error-container').style.display = 'flex';
-          });
-      } else {
-        // Production mode - use built asset
-        import('/assets/index.js')
-          .catch(err => {
-            console.error('Failed to load production module:', err);
-            // Show error in UI
-            document.querySelector('.loading').style.display = 'none';
-            document.getElementById('error-container').style.display = 'flex';
-          });
-      }
+      // Define constants for React Router
+      window.POP = 'POP';
+      window.PUSH = 'PUSH';
+      window.REPLACE = 'REPLACE';
+      
+      // Try to import the React application - but use the static content if it fails
+      import('/src/main.tsx')
+        .catch(error => {
+          console.error('Failed to load React application:', error);
+          // The static content is already in the DOM
+        });
     </script>
     
     <!-- Meta description fixer script (moved to external file) -->

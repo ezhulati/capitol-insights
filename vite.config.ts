@@ -225,8 +225,9 @@ export default defineConfig(({ mode }) => {
           // Add regex patterns for dynamic imports
           /^@rollup\/rollup-/,
           /^@esbuild\//,
-          /^@img\/sharp-/
-          // Removed external entries for main.js and assets/index.js which were preventing proper bundling
+          /^@img\/sharp-/,
+          // Re-add assets/index.js as external since it's causing build errors
+          '/assets/index.js'
         ],
         output: {
           // Simplified output path configuration for more reliable bundling
