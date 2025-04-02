@@ -114,7 +114,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      cssMinify: 'lightningcss',
+      cssMinify: true, // Use default minifier instead of lightningcss
       rollupOptions: {
         output: {
           manualChunks: {
