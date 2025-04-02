@@ -22,13 +22,13 @@ import {
   Sparkles,
   Phone
 } from 'lucide-react';
-// @ts-ignore - Module resolution will be handled at runtime
+// @ts-expect-error - Module resolution will be handled at runtime
 import SEO from '../components/SEO';
-// @ts-ignore - Module resolution will be handled at runtime
+// @ts-expect-error - Module resolution will be handled at runtime
 import { pageSEO } from '../utils/seo';
-// @ts-ignore - Module resolution will be handled at runtime
+// @ts-expect-error - Module resolution will be handled at runtime
 import LazyImage from '../components/LazyImage';
-// @ts-ignore - Module resolution will be handled at runtime
+// @ts-expect-error - Module resolution will be handled at runtime
 import { trackEvent } from '../utils/analytics';
 
 interface FeatureCardProps {
