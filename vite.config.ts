@@ -100,16 +100,20 @@ export default defineConfig(({ mode }) => {
   // Filter out plugins that depend on optional dependencies
   const plugins: PluginOption[] = [
     react({
-      // Add React-specific options
+      // Add React-specific options with enhanced handling for router constants
       babel: {
         presets: [
           '@babel/preset-react',
           '@babel/preset-typescript'
         ],
         plugins: [
-          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
+          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
+          // Add transform for React Router constants
+          '@babel/plugin-transform-runtime'
         ]
-      }
+      },
+      // Ensure proper handling of CommonJS/ESM interop
+      jsxImportSource: 'react'
     }),
     VitePWA({
       registerType: 'autoUpdate',
@@ -187,6 +191,15 @@ export default defineConfig(({ mode }) => {
         '@context': resolve(__dirname, 'src/context'),
         '@services': resolve(__dirname, 'src/services'),
         '@api': resolve(__dirname, 'src/api')
+      }
+    },
+    esbuild: {
+      // Add specific handling for React Router constants
+      jsxFactory: 'React.createElement',
+      jsxFragment: 'React.Fragment',
+      // Fix for "Unexpected identifier 'POP'" error
+      define: {
+        "process.env.NODE_ENV": JSON.stringify(mode)
       }
     },
     build: {
