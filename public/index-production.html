@@ -272,21 +272,37 @@
 </head>
 <body class="antialiased text-slate-700 bg-white no-js">
   <script>document.body.classList.remove('no-js');</script>
+  <!-- Define constants for React Router before anything else -->
+  <script>
+    // Define constants for React Router
+    window.POP = 'POP';
+    window.PUSH = 'PUSH';
+    window.REPLACE = 'REPLACE';
+    
+    // Prevent any loading spinners from showing
+    document.addEventListener('DOMContentLoaded', function() {
+      var loadingElements = document.querySelectorAll('.loading, .loading-spinner');
+      loadingElements.forEach(function(el) {
+        if (el) el.style.display = 'none';
+      });
+    });
+  </script>
+  
   <div id="root">
-    <!-- Static content as a fallback -->
-    <header>
+    <!-- NO LOADING ELEMENTS - DIRECT STATIC CONTENT -->
+    <header style="background-color: #1a365d; color: white; padding: 1rem; position: fixed; top: 0; left: 0; right: 0; z-index: 100;">
       <div class="container header-content">
-        <h1 style="margin: 0;">Capitol Insights</h1>
+        <h1 style="margin: 0; font-size: 1.5rem;">Capitol Insights</h1>
         <nav>
-          <a href="/">Home</a>
-          <a href="/services">Services</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
+          <a href="/" style="color: white; text-decoration: none; margin-left: 1.5rem;">Home</a>
+          <a href="/services" style="color: white; text-decoration: none; margin-left: 1.5rem;">Services</a>
+          <a href="/about" style="color: white; text-decoration: none; margin-left: 1.5rem;">About</a>
+          <a href="/contact" style="color: white; text-decoration: none; margin-left: 1.5rem;">Contact</a>
         </nav>
       </div>
     </header>
     
-    <section class="hero">
+    <section class="hero" style="margin-top: 60px; padding-top: 20px;">
       <div class="container">
         <h1>40+ Years of Legislative Relationships Working for You</h1>
         <p>When legislation threatens your business, will you be introducing yourself to lawmakers... or activating relationships you've already built?</p>
@@ -357,19 +373,47 @@
     </footer>
   </div>
   
-  <!-- Simple React App initialization -->
-  <script type="module">
-    // Define constants for React Router
-    window.POP = 'POP';
-    window.PUSH = 'PUSH';
-    window.REPLACE = 'REPLACE';
+  <!-- React App initialization with double fallback -->
+  <script>
+    // Make absolutely sure we have defined these constants
+    window.POP = window.POP || 'POP';
+    window.PUSH = window.PUSH || 'PUSH';
+    window.REPLACE = window.REPLACE || 'REPLACE';
     
-    // Try to import the React application
-    import('/assets/index.js')
-      .catch(error => {
-        console.error('Failed to load React application:', error);
-        // Static fallback already in the DOM, no need to do anything else
+    // Create a static method to ensure the page is visible
+    function ensurePageVisible() {
+      // Remove any loading elements
+      var loadingElements = document.querySelectorAll('.loading, .loading-spinner');
+      loadingElements.forEach(function(el) {
+        if (el) el.style.display = 'none';
       });
+      
+      // Make sure root content is visible
+      var root = document.getElementById('root');
+      if (root) root.style.display = 'block';
+    }
+    
+    // Call immediately
+    ensurePageVisible();
+    // And also after a delay as safety
+    setTimeout(ensurePageVisible, 500);
+    setTimeout(ensurePageVisible, 1500);
+  </script>
+  
+  <script type="module">
+    try {
+      // Try to import the React application
+      import('/assets/index.js')
+        .catch(function(error) {
+          console.error('Failed to load React application:', error);
+          // Make sure static content remains visible
+          ensurePageVisible();
+        });
+    } catch (e) {
+      console.error('Failed to dynamically import React app:', e);
+      // Make sure static content remains visible
+      ensurePageVisible();
+    }
   </script>
   
   <noscript>
