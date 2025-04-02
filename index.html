@@ -28,10 +28,10 @@
     <meta name="theme-color" content="#1a365d" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
 
-    <!-- Performance optimizations - Resource hints -->
-    <link rel="preload" href="/images/approach-capitol.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="preload" href="/images/texas-capitol.webp" as="image" type="image/webp" fetchpriority="high" />
-    <link rel="preload" href="/images/capitol-background.webp" as="image" type="image/webp" fetchpriority="high" />
+    <!-- Performance optimizations - Resource hints with corrected attributes -->
+    <link rel="preload" href="/images/approach-capitol.webp" as="image" type="image/webp" fetchpriority="high" crossorigin="anonymous" />
+    <link rel="preload" href="/images/texas-capitol.webp" as="image" type="image/webp" fetchpriority="high" crossorigin="anonymous" />
+    <link rel="preload" href="/images/capitol-background.webp" as="image" type="image/webp" fetchpriority="high" crossorigin="anonymous" />
 
     <!-- Preconnect to domains for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -172,6 +172,21 @@
       .retry-button:hover {
         background-color: #0f2539;
       }
+      
+      /* Technical error details */
+      .error-details {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: #f1f1f1;
+        border-radius: 0.375rem;
+        text-align: left;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        display: none;
+      }
     </style>
     <link rel="stylesheet" href="/css/critical.css">
 
@@ -202,6 +217,66 @@
     <!-- Accessibility -->
     <meta name="apple-mobile-web-app-title" content="Capitol Insights">
     <meta name="application-name" content="Capitol Insights">
+    
+    <!-- Enhanced early error detection -->
+    <script>
+      // Capture critical errors before other code runs
+      window.addEventListener('error', function(event) {
+        console.error('[Critical Error]', event.message);
+        
+        // If this is a script error, show error UI
+        if (event.target && event.target.tagName === 'SCRIPT') {
+          try {
+            var loading = document.querySelector('.loading');
+            if (loading) loading.style.display = 'none';
+            
+            var errorContainer = document.getElementById('error-container');
+            if (errorContainer) errorContainer.style.display = 'flex';
+            
+            var errorMsg = document.querySelector('.error-message');
+            if (errorMsg) {
+              errorMsg.innerHTML = 'Failed to load script: ' + 
+                (event.target.src || 'unknown') + 
+                '<br><small>This may be due to an incorrect path or network error.</small>';
+            }
+            
+            // Add technical details
+            var details = document.createElement('div');
+            details.className = 'error-details';
+            details.innerHTML = '<strong>Technical Details:</strong><br>' +
+              'Error: ' + event.message + '<br>' +
+              'File: ' + (event.filename || 'unknown') + '<br>' +
+              'Line: ' + (event.lineno || 'unknown') + '<br>' +
+              'Column: ' + (event.colno || 'unknown') + '<br>' +
+              'Time: ' + new Date().toISOString();
+            
+            errorContainer.appendChild(details);
+            details.style.display = 'block';
+          } catch (e) {
+            console.error('Error in error handler:', e);
+          }
+        }
+        
+        // For syntax errors
+        if (event.message && event.message.includes('Unexpected token')) {
+          try {
+            var loading = document.querySelector('.loading');
+            if (loading) loading.style.display = 'none';
+            
+            var errorContainer = document.getElementById('error-container');
+            if (errorContainer) errorContainer.style.display = 'flex';
+            
+            var errorMsg = document.querySelector('.error-message');
+            if (errorMsg) {
+              errorMsg.innerHTML = 'JavaScript syntax error: ' + event.message +
+                '<br><small>This is likely a build configuration issue.</small>';
+            }
+          } catch (e) {
+            console.error('Error in error handler:', e);
+          }
+        }
+      }, true);
+    </script>
   </head>
   <body class="antialiased text-slate-700 bg-white no-js">
     <script>document.body.classList.remove('no-js');</script>
@@ -212,10 +287,13 @@
       </div>
     </div>
     
-    <!-- Error state -->
+    <!-- Enhanced error state -->
     <div id="error-container" class="error-container">
       <div class="error-message">Something went wrong loading the application.</div>
       <button class="retry-button" onclick="window.location.reload()">Retry</button>
+      <div style="margin-top: 20px;">
+        <button class="retry-button" onclick="window.location.href='/'">Go Home</button>
+      </div>
     </div>
     
     <!-- Hidden forms for Netlify form handling -->
@@ -240,28 +318,42 @@
       <input type="text" name="recipients" />
     </form>
     
-    <!-- Main application script -->
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Main application script - Using assets/index-*.js (Vite build output) -->
+    <script type="module" src="/assets/index.js"></script>
     
-    <!-- Error handling script -->
+    <!-- Enhanced error handling script -->
     <script>
       window.addEventListener('error', function(event) {
-        if (event.filename && event.filename.includes('main')) {
+        console.error('[Error Handler]', event.message);
+        
+        if (event.filename && (event.filename.includes('main') || event.filename.includes('index.js'))) {
           document.querySelector('.loading').style.display = 'none';
           document.getElementById('error-container').style.display = 'flex';
+          
+          // Get error message element
+          var errorMsg = document.querySelector('.error-message');
+          if (errorMsg) {
+            errorMsg.textContent = 'Application error: ' + event.message;
+          }
         }
       });
       
       // Check if the main script loaded successfully
       window.addEventListener('load', function() {
+        console.log('[Load] Window loaded');
+        
         setTimeout(function() {
-          if (!document.querySelector('#root').children.length) {
+          if (document.querySelector('#root').children.length <= 1) {
+            console.error('[Timeout] App failed to render properly');
             document.querySelector('.loading').style.display = 'none';
             document.getElementById('error-container').style.display = 'flex';
+          } else {
+            console.log('[Success] App rendered successfully');
           }
-        }, 10000); // Increased timeout to 10 seconds
+        }, 5000); // Reduced timeout from 10s to 5s
       });
     </script>
+    
     <!-- Meta description fixer script (moved to external file) -->
     <script src="/js/meta-fixer.js"></script>
     <!-- Image preload and WebP support script -->
@@ -270,7 +362,7 @@
     <script src="/js/defer-js.js"></script>
     <!-- Advanced diagnostics script -->
     <script src="/error-diagnostics.js"></script>
-    <!-- Netlify Identity scripts removed -->
+    
     <noscript>
       <div style="padding: 2rem; text-align: center;">
         <h1>JavaScript Required</h1>
