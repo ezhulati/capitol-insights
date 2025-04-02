@@ -16,19 +16,41 @@ export NODE_OPTIONS="--max-old-space-size=4096"
 echo "Installing dependencies..."
 npm ci || npm install --force
 
-# Save the working index.html
-echo "Saving production index.html..."
-cp public/index-production.html public/index-production.html.backup
+# Save the working index.html and force it as the main index.html
+echo "Replacing index.html with production version..."
+cp index.html index.html.original
+cp public/index-production.html index.html
 
 # Build the project
 echo "Building for production..."
 npm run build
 
-# Verify the build was successful
-if [ ! -d "dist" ] || [ ! -f "dist/index.html" ]; then
-  echo "Build failed to produce expected output - using fallback"
-  mkdir -p dist
-  cp public/index-production.html dist/index.html
+# Restore original index.html for development
+echo "Restoring original index.html..."
+cp index.html.original index.html
+
+# Always override the built index.html with our production version
+echo "Ensuring production index.html is used..."
+cp public/index-production.html dist/index.html
+
+# Make sure critical files exist
+if [ ! -d "dist/js" ]; then
+  echo "Creating JS directory..."
+  mkdir -p dist/js
+fi
+
+# Copy router polyfill to ensure it's available
+if [ -f "public/js/router-polyfill.js" ]; then
+  echo "Copying router polyfill..."
+  cp public/js/router-polyfill.js dist/js/
+else
+  echo "Creating router polyfill..."
+  mkdir -p dist/js
+  echo "console.log('[Router Polyfill] Initialized React Router constants');
+// Define React Router constants in global scope
+window.POP = 'POP';
+window.PUSH = 'PUSH';
+window.REPLACE = 'REPLACE';" > dist/js/router-polyfill.js
 fi
 
 # Ensure CSS files exist
