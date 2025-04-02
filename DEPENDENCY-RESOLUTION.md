@@ -1,73 +1,113 @@
 # Dependency Resolution Guide
 
-This document outlines common dependency conflicts in the Capitol Insights project and how to resolve them.
+This guide provides instructions on how to resolve dependency conflicts in the Capitol Insights website project.
 
-## TypeScript Dependency Conflicts
+## Common Dependency Issues
 
-### React Types Compatibility Issue
+### React Types Conflict
 
-We encountered a peer dependency conflict between `@types/react-dom` and `@types/react` versions:
+The project uses React 18 with TypeScript. There can sometimes be conflicts between `@types/react` and `@types/react-dom` versions.
 
-```
-ERESOLVE unable to resolve dependency tree
-npm ERR! peer @types/react@"^18.0.0" from @types/react-dom@19.0.4
-npm ERR! node_modules/@types/react-dom
-npm ERR!   @types/react-dom@"^18.3.0" from the root project
-npm ERR! 
-npm ERR! Could not resolve dependency:
-npm ERR! peer @types/react@"^18.0.0" from @types/react-dom@19.0.4
-npm ERR! node_modules/@types/react-dom
-npm ERR!   @types/react-dom@"^18.3.0" from the root project
+#### Current Compatible Versions
+
+```json
+"@types/react": "^18.2.48",
+"@types/react-dom": "^18.2.18"
 ```
 
-### Resolution
+If you encounter conflicts with these packages, try the following solutions:
 
-We implemented the following solutions:
-
-1. **Aligned TypeScript type definitions:**
-   - Updated `@types/react` to version `^18.3.20` (explicitly matches installed version)
-   - Updated `@types/react-dom` to version `^18.3.5` (explicitly matches installed version)
-
-2. **Added build safety mechanisms:**
-   - Created `build:ci` script that uses `--legacy-peer-deps` flag
-   - Added `install-deps` script that uses `--legacy-peer-deps` flag
-   - Updated Netlify build command to use the `build:ci` script
-   - Updated GitHub Actions workflows to use `--legacy-peer-deps` flag
-
-### When to Use `--legacy-peer-deps`
-
-The `--legacy-peer-deps` flag should be used in the following scenarios:
-
-1. When installing dependencies for the first time on a new environment
-2. When CI/CD pipelines are building the project
-3. When updating multiple dependencies at once
-4. When experiencing peer dependency conflicts that cannot be resolved by version adjustments
-
-### Recommended Commands
-
-For local development:
+### Solution 1: Use Legacy Peer Dependencies Flag
 
 ```bash
-# Install dependencies with peer dependency resolution bypass
-npm run install-deps
-
-# Or manually
 npm install --legacy-peer-deps
 ```
 
-For deployment/CI:
+Or use the npm script:
 
 ```bash
-# Use the CI-specific build command
-npm run build:ci
+npm run install-deps
 ```
 
-## Future-Proofing
+### Solution 2: Use Force Flag
 
-To avoid similar issues in the future:
+```bash
+npm install --force
+```
 
-1. Use Dependabot to keep dependencies updated systematically
-2. Run periodic dependency reviews (quarterly)
-3. Consider using `npm-check-updates` to plan major version migrations
+Or use the npm script:
 
-The automated security scanning workflow has been configured to handle these dependency conflicts automatically by using the `--legacy-peer-deps` flag during installation.
+```bash
+npm run install-deps:force
+```
+
+### Solution 3: Manually Update Dependencies
+
+If the above solutions don't work, you may need to manually update the dependencies in `package.json`:
+
+1. Open `package.json`
+2. Update the versions of the conflicting dependencies
+3. Run `npm install --legacy-peer-deps`
+
+## Troubleshooting Build Failures
+
+If you encounter build failures related to dependencies, check the following:
+
+### ERESOLVE Errors
+
+ERESOLVE errors indicate dependency conflicts. The error message will usually include information about which packages are in conflict.
+
+Example error:
+```
+ERESOLVE unable to resolve dependency tree
+```
+
+#### Steps to Resolve:
+
+1. Identify the conflicting packages from the error message
+2. Check if they are direct dependencies or transitive dependencies
+3. If direct dependencies, update their versions in `package.json`
+4. If transitive dependencies, try using `--legacy-peer-deps` or `--force` flags
+5. As a last resort, use `npm dedupe` to remove duplicate packages
+
+### Peer Dependency Warnings
+
+Peer dependency warnings indicate that a package expects a specific version of another package.
+
+Example warning:
+```
+npm WARN ERESOLVE overriding peer dependency
+```
+
+These warnings don't necessarily cause build failures, but they can lead to runtime issues if the versions are incompatible.
+
+#### Steps to Resolve:
+
+1. Check if the warning is for a critical dependency
+2. If critical, update the package versions to be compatible
+3. If not critical, you can usually ignore the warning
+
+## Keeping Dependencies Updated
+
+To keep dependencies updated and minimize conflicts:
+
+1. Regularly run `npm outdated` to check for outdated packages
+2. Update packages one at a time to identify which updates cause conflicts
+3. Use `npm update` to update packages to their latest compatible versions
+4. Consider using tools like Renovate or Dependabot for automated updates
+
+## Package-lock.json
+
+The `package-lock.json` file ensures consistent installations across environments. If you encounter dependency issues:
+
+1. Try deleting `package-lock.json` and running `npm install` again
+2. If that doesn't work, keep `package-lock.json` and use `--legacy-peer-deps` or `--force` flags
+3. Commit the updated `package-lock.json` to ensure consistent installations for all developers
+
+## CI/CD Considerations
+
+For CI/CD environments:
+
+1. Use `npm ci` instead of `npm install` for faster, more reliable installations
+2. If using `npm ci` with dependency conflicts, you may need to modify the CI configuration to use `npm install --legacy-peer-deps` instead
+3. Consider adding a step to the CI pipeline to check for dependency issues before building
