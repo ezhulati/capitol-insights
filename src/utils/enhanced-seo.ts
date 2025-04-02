@@ -26,7 +26,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         content: "Texas government relations, legislative advocacy, lobbying Texas, Drew Campbell, Byron Campbell, Austin lobbying firm" 
       }
     ],
-    canonical: '/'
+    canonical: 'https://capitol-insights.com/'
   };
   
   // Page-specific optimized metadata
@@ -37,7 +37,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Capitol Insights | Strategic Texas Government Relations & Lobbying',
         description: 'When legislation threatens your business, will you be introducing yourself to lawmakers or activating relationships you\'ve already built? 40+ years of legislative success.',
         image: '/images/capitol-background.jpg',
-        canonical: '/',
+        canonical: 'https://capitol-insights.com/',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -59,7 +59,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Texas Government Relations Services | Legislative Advocacy & Lobbying',
         description: 'Our government relations services have secured $32M in appropriations and achieved 22% reduction in compliance costs through strategic advocacy and expert policy analysis.',
         image: '/images/approach-capitol.jpg',
-        canonical: '/services',
+        canonical: 'https://capitol-insights.com/services',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -81,7 +81,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Meet Our Texas Government Relations Team | Capitol Insights',
         description: 'Our team brings 40+ years of experience in Texas politics with established relationships with key legislators, officials, and agency heads throughout the state.',
         image: '/uploads/team/team-page.png',
-        canonical: '/team',
+        canonical: 'https://capitol-insights.com/team',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -103,7 +103,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Government Relations Success Stories & Case Studies | Capitol Insights',
         description: 'Explore how our strategic government relations approach has delivered measurable results including $32M in appropriations and 85% success rate across 200+ initiatives.',
         image: '/images/texas-capitol.jpg',
-        canonical: '/results',
+        canonical: 'https://capitol-insights.com/results',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -125,7 +125,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Strategic Government Relations Approach | Texas Lobbying Firm',
         description: 'Our 4-step government relations methodology has secured an 85% success rate across 20+ legislative sessions by building relationships before they\'re needed.',
         image: '/images/approach-capitol.jpg',
-        canonical: '/approach',
+        canonical: 'https://capitol-insights.com/approach',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -147,7 +147,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Contact Capitol Insights | Texas Government Relations Experts',
         description: 'Schedule a consultation with our government relations team to discuss your legislative needs and discover how we can help navigate Texas politics for your organization.',
         image: '/images/capitol-background.jpg',
-        canonical: '/contact',
+        canonical: 'https://capitol-insights.com/contact',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -169,7 +169,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Texas Legislative Updates & Policy Insights | Capitol Insights',
         description: 'Stay informed with expert analysis of Texas legislative developments, regulatory changes, and policy trends that may impact your organization.',
         image: '/images/texas-capitol.jpg',
-        canonical: '/updates',
+        canonical: 'https://capitol-insights.com/updates',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -190,7 +190,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
       if (props.title && props.description && slug) {
         return {
           ...props,
-          canonical: `/blog/${slug}`,
+          canonical: `https://capitol-insights.com/blog/${slug}`,
           schemaMarkup: {
             type: 'BlogPosting',
             name: props.title,
@@ -207,7 +207,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: 'Texas Government Relations Blog | Capitol Insights Perspectives',
         description: 'Expert analysis and insights on Texas legislative developments, regulatory affairs, and government relations strategy from Capitol Insights professionals.',
         image: '/images/texas-capitol.jpg',
-        canonical: '/blog',
+        canonical: 'https://capitol-insights.com/blog',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -229,7 +229,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: `${props.title || 'Privacy Policy & Terms'} | Capitol Insights`,
         description: props.description || 'Legal policies and terms governing your use of Capitol Insights services and website, including privacy practices and usage guidelines.',
         image: '/images/capitol-background.jpg',
-        canonical: `/${slug || 'privacy-policy'}`,
+        canonical: `https://capitol-insights.com/${slug || 'privacy-policy'}`,
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -244,7 +244,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         title: props.title || 'Legislative Resources & Policy Briefs | Capitol Insights',
         description: props.description || 'Access our library of free resources including legislative guides, policy briefs, and research reports on Texas government, transportation, healthcare, and more.',
         image: props.image || '/images/texas-capitol.jpg',
-        canonical: '/resources',
+        canonical: 'https://capitol-insights.com/resources',
         additionalMetaTags: [
           { 
             name: "keywords", 
@@ -301,7 +301,7 @@ export const getBlogPostSEO = (post: {
   return {
     title,
     description,
-    canonical: `/blog/${post.slug}`,
+    canonical: `https://capitol-insights.com/blog/${post.slug}`,
     image: post.image || '/images/texas-capitol.jpg',
     type: 'article',
     additionalMetaTags: [
