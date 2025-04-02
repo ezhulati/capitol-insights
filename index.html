@@ -389,40 +389,70 @@
       <input type="text" name="recipients" />
     </form>
     
-    <!-- Main application script with dynamic fallback strategy -->
+    <!-- Improved main application script with priorities aligned to vite.config.ts -->
     <script>
-      // Bundle path resolution script
+      // Enhanced bundle path resolution script
       (function() {
         function loadScript(path) {
           console.log('[Bundle Loader] Attempting to load:', path);
+          
+          // Record the attempt for diagnostics
+          window.BUNDLE_LOAD_ATTEMPTS = window.BUNDLE_LOAD_ATTEMPTS || [];
+          window.BUNDLE_LOAD_ATTEMPTS.push({
+            path: path,
+            time: new Date().toISOString(),
+            timestamp: Date.now()
+          });
+          
+          // Create and append script tag
           var script = document.createElement('script');
           script.type = 'module';
           script.src = path;
+          
+          // Add event handlers
+          script.onload = function() {
+            console.log('[Bundle Loader] Successfully loaded:', path);
+          };
+          
           script.onerror = function() {
             console.error('[Bundle Loader] Failed to load:', path);
+            
             if (attempts.length > 0) {
-              loadScript(attempts.shift());
+              var nextPath = attempts.shift();
+              console.log('[Bundle Loader] Trying next bundle path:', nextPath);
+              loadScript(nextPath);
             } else {
-              console.error('[Bundle Loader] All attempts failed');
-              document.querySelector('.loading').style.display = 'none';
-              document.getElementById('error-container').style.display = 'flex';
+              console.error('[Bundle Loader] All bundle attempts failed');
               
-              var errorMsg = document.querySelector('.error-message');
-              if (errorMsg) {
-                errorMsg.innerHTML = 'Failed to load application script.<br><small>Please try refreshing the page.</small>';
+              // After trying all paths, fall back to emergency UI
+              if (window.renderEmergencyUI) {
+                console.log('[Bundle Loader] Activating emergency UI after all bundle attempts failed');
+                window.renderEmergencyUI();
+              } else {
+                // No emergency UI available, show basic error
+                document.querySelector('.loading').style.display = 'none';
+                document.getElementById('error-container').style.display = 'flex';
+                
+                var errorMsg = document.querySelector('.error-message');
+                if (errorMsg) {
+                  errorMsg.innerHTML = 'Failed to load application script.<br>' +
+                    '<small>Please try refreshing the page or contact support if this persists.</small>';
+                }
               }
             }
           };
+          
           document.head.appendChild(script);
         }
         
-        // Try these paths in order
+        // Try these paths in order - aligned with vite.config.ts output settings
         var attempts = [
-          '/assets/index.js',                    // Custom path in vite.config.ts
-          '/assets/index-UfPH0W8m.js',          // Example of hashed bundle (replace with actual name if known)
-          '/assets/' + (document.currentScript ? document.currentScript.getAttribute('data-main') || 'main' : 'main') + '.js', // From data attribute
-          '/dist/assets/index.js',               // Possible nested dist folder
-          '/main.js'                             // Root main.js
+          '/assets/index.js',                 // Main bundle (vite.config.ts entryFileNames setting)
+          '/assets/main.js',                  // Possible alternate main entry
+          '/@vite/client',                    // Vite dev server client (for development mode)
+          '/src/main.tsx',                    // Direct source for dev mode
+          '/dist/assets/index.js',            // Production build with extra path
+          '/index.js'                         // Root fallback
         ];
         
         loadScript(attempts.shift());
