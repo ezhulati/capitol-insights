@@ -213,12 +213,19 @@ export default defineConfig(({ mode }) => {
           /^@rollup\/rollup-/,
           /^@esbuild\//,
           /^@img\/sharp-/,
-          // Add main.js to external dependencies to fix build error
-          '/main.js'
+          // Add external dependencies to fix build errors
+          '/main.js',
+          '/assets/index.js'
         ],
         output: {
+          // Use more predictable filenames for main entry point to avoid Rollup resolution issues
           chunkFileNames: 'assets/[name]-[hash].js',
-          entryFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: (chunkInfo) => {
+            // Use static filename for main entry point, hash for others
+            return chunkInfo.name === 'index' 
+              ? 'assets/index.js' 
+              : 'assets/[name]-[hash].js';
+          },
           assetFileNames: 'assets/[name]-[hash].[ext]'
         },
         onwarn(warning, warn) {
