@@ -297,7 +297,7 @@ export const generateOrganizationStructuredData = (): object => {
     "description": "Strategic Texas government relations firm specializing in legislative advocacy, regulatory affairs, and policy development.",
     "url": "https://capitol-insights.com",
     "logo": "https://capitol-insights.com/images/logo.png",
-    "image": "https://capitol-insights.com/images/capitol-background.jpg",
+    "image": "https://capitol-insights.com/images/capitol-background.webp",
     "location": [
       {
         "@type": "Place",

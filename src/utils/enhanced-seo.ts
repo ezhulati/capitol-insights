@@ -19,7 +19,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
   const baseSEO: SEOProps = {
     title: 'Capitol Insights | Texas Government Relations & Lobbying',
     description: 'Capitol Insights transforms policy challenges into strategic advantages through direct access to Texas decision-makers and 40+ years of government relations experience.',
-    image: '/images/capitol-background.jpg',
+    image: '/images/capitol-background.webp',
     additionalMetaTags: [
       { 
         name: "keywords", 
@@ -36,7 +36,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         ...baseSEO,
         title: 'Capitol Insights | Strategic Texas Government Relations & Lobbying',
         description: 'When legislation threatens your business, will you be introducing yourself to lawmakers or activating relationships you\'ve already built? 40+ years of legislative success.',
-        image: '/images/capitol-background.jpg',
+        image: '/images/capitol-background.webp',
         canonical: 'https://capitol-insights.com/',
         additionalMetaTags: [
           { 
@@ -49,7 +49,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
           name: 'Capitol Insights',
           description: 'Capitol Insights transforms policy challenges into strategic advantages through direct access to Texas decision-makers and 40+ years of government relations experience.',
           url: 'https://capitol-insights.com',
-          image: '/images/capitol-background.jpg'
+          image: '/images/capitol-background.webp'
         }
       };
 
@@ -146,7 +146,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
         ...baseSEO,
         title: 'Contact Capitol Insights | Texas Government Relations Experts',
         description: 'Schedule a consultation with our government relations team to discuss your legislative needs and discover how we can help navigate Texas politics for your organization.',
-        image: '/images/capitol-background.jpg',
+        image: '/images/capitol-background.webp',
         canonical: 'https://capitol-insights.com/contact',
         additionalMetaTags: [
           { 
@@ -159,7 +159,7 @@ export const getPageSEO = (props: EnhancedSEOProps): SEOProps => {
           name: 'Contact Capitol Insights',
           description: 'Schedule a consultation with our government relations experts to discuss your organization\'s policy objectives and challenges.',
           url: 'https://capitol-insights.com/contact',
-          image: '/images/capitol-background.jpg'
+          image: '/images/capitol-background.webp'
         }
       };
 

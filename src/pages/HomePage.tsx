@@ -16,6 +16,7 @@ import {
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
 import LazyImage from '../components/LazyImage';
+import OptimizedImage from '../components/OptimizedImage';
 import ImprovedLeadMagnetForm from '../components/ImprovedLeadMagnetForm';
 
 interface FeatureCardProps {
@@ -301,17 +302,17 @@ const HomePage: React.FC = () => {
               
               <div className="relative mt-6 lg:mt-0">
                 <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl">
-                  <LazyImage 
+                  <OptimizedImage 
                     src="/images/texas-capitol.jpg" 
                     alt="The Texas State Capitol building" 
-                    aspectRatio="4/3"
                     objectFit="cover"
-                    priority={true}
+                    loading="eager"
                     fetchPriority="high"
                     width={800}
                     height={600}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
-                    srcset="/images/texas-capitol.jpg 800w, /images/texas-capitol.jpg?width=400 400w"
+                    aspectRatio="4/3"
+                    decoding="sync"
                   />
                 </div>
                 <div className="mt-4">
