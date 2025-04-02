@@ -31,8 +31,12 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
         console.log('ServiceWorker registration successful with scope: ', registration.scope);
       },
       (error) => {
-        console.log('ServiceWorker registration failed: ', error);
+        console.error('ServiceWorker registration failed: ', error);
+        // Don't block app loading if service worker fails
       }
-    );
+    ).catch(error => {
+      console.error('ServiceWorker registration error: ', error);
+      // Don't block app loading if service worker fails
+    });
   });
 }

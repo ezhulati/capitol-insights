@@ -50,10 +50,32 @@ fi
 echo "Building the project..."
 npm run build
 
+# Check if build was successful
+if [ $? -ne 0 ]; then
+  echo "Build failed. Exiting."
+  exit 1
+fi
+
 # Run optimizations (only if dist directory exists)
 if [ -d "dist" ]; then
   echo "Running optimizations..."
   node optimize-bundle.js
+  
+  # Check if optimization was successful
+  if [ $? -ne 0 ]; then
+    echo "Optimization failed but continuing with deployment..."
+  fi
+  
+  # Verify critical files exist
+  if [ ! -f "dist/index.html" ]; then
+    echo "Error: dist/index.html not found after build"
+    exit 1
+  fi
+  
+  if [ ! -f "dist/assets/index-*.js" ]; then
+    echo "Error: No JavaScript bundle found after build"
+    exit 1
+  fi
 else
   echo "Warning: dist directory not found. Skipping optimizations."
   # Create an empty dist directory to prevent deployment failure
