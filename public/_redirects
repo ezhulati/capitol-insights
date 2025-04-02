@@ -11,5 +11,8 @@
 /files/texas-legislative-calendar-2025.pdf /files/texas-legislative-calendar-2025.html 301
 /files/water-infrastructure-funding.pdf /files/water-infrastructure-funding.html 301
 
+# Ensure sitemap is accessible
+/sitemap.xml  /sitemap.xml  200
+
 # Redirect any other paths to index.html for client-side routing
 /*    /index.html   200
