@@ -67,32 +67,33 @@ reportWebVitals((metric) => {
   }
 });
 
-// Register service worker with improved error handling
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-  window.addEventListener('load', async () => {
-    try {
-      console.log('Registering service worker...');
-      const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      
-      // Handle service worker updates
-      registration.addEventListener('updatefound', () => {
-        const newWorker = registration.installing;
-        if (newWorker) {
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New content is available, refresh the page
-              window.location.reload();
-            }
-          });
-        }
-      });
-    } catch (error) {
-      console.error('ServiceWorker registration failed: ', error);
-      // Don't block app loading if service worker fails
-    }
-  });
-}
+// Register service worker with improved error handling - temporarily disabled
+// Will be re-enabled when service worker implementation is complete
+// if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+//   window.addEventListener('load', async () => {
+//     try {
+//       console.log('Registering service worker...');
+//       const registration = await navigator.serviceWorker.register('/sw.js');
+//       console.log('ServiceWorker registration successful with scope: ', registration.scope);
+//       
+//       // Handle service worker updates
+//       registration.addEventListener('updatefound', () => {
+//         const newWorker = registration.installing;
+//         if (newWorker) {
+//           newWorker.addEventListener('statechange', () => {
+//             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+//               // New content is available, refresh the page
+//               window.location.reload();
+//             }
+//           });
+//         }
+//       });
+//     } catch (error) {
+//       console.error('ServiceWorker registration failed: ', error);
+//       // Don't block app loading if service worker fails
+//     }
+//   });
+// }
 
 // Add global error handler
 window.addEventListener('error', (event) => {

@@ -36,7 +36,14 @@ const baseHandler = async (event, context) => {
     }
     
     // Validate required fields with stronger validation
-    if (!rawData.email || !validator.isEmail(rawData.email)) {
+    if (!rawData.email) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'Email address is required' }),
+      };
+    }
+    
+    if (!validator.isEmail(rawData.email)) {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: 'Valid email address is required' }),
@@ -52,13 +59,13 @@ const baseHandler = async (event, context) => {
     
     // Sanitize all inputs to prevent XSS attacks
     const data = {
-      email: validator.normalizeEmail(rawData.email) || rawData.email,
-      name: xss(rawData.name),
-      industry: xss(rawData.industry || 'Not specified'),
-      leadSource: xss(rawData.leadSource || 'Website Lead Magnet'),
-      downloadedGuide: xss(rawData.downloadedGuide || 'Texas Legislative Guide'),
-      downloadUrl: validator.isURL(rawData.downloadUrl || '/downloads/') ? 
-                  rawData.downloadUrl : '/downloads/',
+      email: validator.normalizeEmail(rawData.email.trim()) || rawData.email.trim(),
+      name: xss(rawData.name.trim()),
+      industry: xss(rawData.industry?.trim() || 'Not specified'),
+      leadSource: xss(rawData.leadSource?.trim() || 'Website Lead Magnet'),
+      downloadedGuide: xss(rawData.downloadedGuide?.trim() || 'Texas Legislative Guide'),
+      downloadUrl: validator.isURL(rawData.downloadUrl?.trim() || '/downloads/') ? 
+                  rawData.downloadUrl.trim() : '/downloads/',
       timestamp: rawData.timestamp || new Date().toISOString()
     };
 

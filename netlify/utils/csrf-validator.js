@@ -41,11 +41,22 @@ export function validateCsrfToken(token) {
     .digest('hex');
   
   // Compare signatures using constant-time comparison to prevent timing attacks
-  if (!crypto.timingSafeEqual(
-    Buffer.from(providedSignature, 'hex'),
-    Buffer.from(expectedSignature, 'hex')
-  )) {
-    console.warn('CSRF validation failed: Invalid signature');
+  try {
+    // Ensure both buffers are the same length for timingSafeEqual
+    const providedBuffer = Buffer.from(providedSignature, 'hex');
+    const expectedBuffer = Buffer.from(expectedSignature, 'hex');
+    
+    if (providedBuffer.length !== expectedBuffer.length) {
+      console.warn('CSRF validation failed: Signature length mismatch');
+      return false;
+    }
+    
+    if (!crypto.timingSafeEqual(providedBuffer, expectedBuffer)) {
+      console.warn('CSRF validation failed: Invalid signature');
+      return false;
+    }
+  } catch (error) {
+    console.error('CSRF validation error:', error);
     return false;
   }
   

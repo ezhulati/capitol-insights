@@ -1,30 +1,11 @@
-import React, { useEffect, Suspense, ReactNode } from 'react';
+import React, { Suspense, ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { SessionProvider } from 'next-auth/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
 import BackToTop from './components/BackToTop';
-import { lazyWithPreload, prefetchComponents, preloadComponents } from './utils/lazyWithPreload';
-import { authOptions } from './utils/auth';
-
-// Import analytics utilities
-import analytics from './utils/analytics';
-
-// Performance tracking function
-const trackPageLoad = (pageName: string, loadTimeMs: number) => {
-  console.log(`📊 Page Performance: ${pageName} loaded in ${loadTimeMs.toFixed(2)}ms`);
-  
-  // Send timing data to Google Analytics
-  analytics.timing({
-    name: 'page_load',
-    value: Math.round(loadTimeMs),
-    category: 'Performance',
-    label: pageName
-  });
-};
 
 // Loading component with error handling
 const LoadingComponent = () => (
@@ -47,95 +28,23 @@ const ErrorComponent = ({ error, resetErrorBoundary }: { error: Error; resetErro
   </div>
 );
 
-// Lazy-loaded page components with priority levels
-// Primary pages (high priority)
-const HomePage = lazyWithPreload(() => import('./pages/HomePage'), { 
-  name: 'HomePage', 
-  priority: 'high',
-  onLoad: trackPageLoad
-});
+// Lazy-loaded page components
+const HomePage = React.lazy(() => import('./pages/HomePage'));
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const TeamPage = React.lazy(() => import('./pages/TeamPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const ResultsPage = React.lazy(() => import('./pages/ResultsPage'));
+const ApproachPage = React.lazy(() => import('./pages/ApproachPage'));
+const UpdatesPage = React.lazy(() => import('./pages/UpdatesPage'));
+const ResourcesPage = React.lazy(() => import('./pages/ResourcesPage'));
+const FAQPage = React.lazy(() => import('./pages/FAQPage'));
+const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
+const PracticeAreasPage = React.lazy(() => import('./pages/PracticeAreasPage'));
+const SuccessStoriesPage = React.lazy(() => import('./pages/SuccessStoriesPage'));
 
-const ServicesPage = lazyWithPreload(() => import('./pages/ServicesPage'), { 
-  name: 'ServicesPage', 
-  priority: 'high',
-  onLoad: trackPageLoad
-});
-
-const TeamPage = lazyWithPreload(() => import('./pages/TeamPage'), { 
-  name: 'TeamPage', 
-  priority: 'high',
-  onLoad: trackPageLoad
-});
-
-const ContactPage = lazyWithPreload(() => import('./pages/ContactPage'), { 
-  name: 'ContactPage', 
-  priority: 'high',
-  onLoad: trackPageLoad
-});
-
-// Secondary pages (medium priority)
-const ResultsPage = lazyWithPreload(() => import('./pages/ResultsPage'), { 
-  name: 'ResultsPage', 
-  priority: 'medium',
-  onLoad: trackPageLoad
-});
-
-const ApproachPage = lazyWithPreload(() => import('./pages/ApproachPage'), { 
-  name: 'ApproachPage', 
-  priority: 'medium',
-  onLoad: trackPageLoad
-});
-
-const UpdatesPage = lazyWithPreload(() => import('./pages/UpdatesPage'), { 
-  name: 'UpdatesPage', 
-  priority: 'medium',
-  onLoad: trackPageLoad
-});
-
-const ResourcesPage = lazyWithPreload(() => import('./pages/ResourcesPage'), { 
-  name: 'ResourcesPage', 
-  priority: 'medium',
-  onLoad: trackPageLoad
-});
-
-const FAQPage = lazyWithPreload(() => import('./pages/FAQPage'), { 
-  name: 'FAQPage', 
-  priority: 'medium',
-  onLoad: trackPageLoad
-});
-
-// Tertiary pages (lower priority)
-const BlogPostPage = lazyWithPreload(() => import('./pages/BlogPostPage'), { 
-  name: 'BlogPostPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-const PracticeAreasPage = lazyWithPreload(() => import('./pages/PracticeAreasPage'), { 
-  name: 'PracticeAreasPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-const SuccessStoriesPage = lazyWithPreload(() => import('./pages/SuccessStoriesPage'), { 
-  name: 'SuccessStoriesPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-// Route wrapper component for analytics and error handling
+// Route wrapper component
 const RouteWrapper = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
-  const startTime = performance.now();
-
-  useEffect(() => {
-    // Track page view
-    analytics.pageview(location.pathname);
-    
-    // Track page load performance
-    const loadTime = performance.now() - startTime;
-    trackPageLoad(location.pathname, loadTime);
-  }, [location, startTime]);
 
   return <>{children}</>;
 };
@@ -149,7 +58,7 @@ const App = () => {
           <div className="flex flex-col min-h-screen">
             <SkipToContent />
             <Header />
-            <main className="flex-grow">
+            <main id="main-content" className="flex-grow">
               <Suspense fallback={<LoadingComponent />}>
                 <Routes>
                   <Route path="/" element={<RouteWrapper><HomePage /></RouteWrapper>} />
@@ -176,11 +85,4 @@ const App = () => {
   );
 };
 
-// App with providers
-const AppWithProviders = () => (
-  <SessionProvider session={null}>
-    <App />
-  </SessionProvider>
-);
-
-export default AppWithProviders;
+export default App;

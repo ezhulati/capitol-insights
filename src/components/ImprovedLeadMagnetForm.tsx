@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, Download, FileText } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Download, FileText, AlertCircle } from 'lucide-react';
 
 interface ImprovedLeadMagnetFormProps {
   title: string;
@@ -28,6 +28,43 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [csrfToken, setCsrfToken] = useState('');
+  const [tokenError, setTokenError] = useState(false);
+  
+  // Fetch CSRF token on component mount
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch('/api/get-csrf-token', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch CSRF token: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setCsrfToken(data.token);
+        setTokenError(false);
+      } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+        
+        // In development mode, use a mock token to allow form submission
+        if (process.env.NODE_ENV === 'development') {
+          console.log('Using mock CSRF token for development');
+          setCsrfToken('mock-dev-token:9999999999:mock-signature');
+          setTokenError(false);
+        } else {
+          setTokenError(true);
+        }
+      }
+    };
+    
+    fetchCsrfToken();
+  }, []);
 
   // Function to open the document in a new tab
   const openDocument = () => {
@@ -65,7 +102,15 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
           downloadedGuide: title,
           downloadUrl,
           timestamp: new Date().toISOString(),
+          'csrf-token': csrfToken, // Add CSRF token
         }),
+      }).catch(err => {
+        // In development, continue even if the API call fails
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('Development mode: Proceeding despite API error', err);
+          return { ok: true }; // Return mock successful response
+        }
+        throw err; // Re-throw in production
       });
 
       // Mark as submitted
@@ -156,9 +201,17 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
               <h3 className="text-navy-900 font-semibold mb-4">Get Instant Access</h3>
               <p className="text-slate-800 text-sm mb-4">Enter your information below to receive the guide immediately.</p>
               
+              {tokenError && (
+                <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 text-sm flex items-start">
+                  <AlertCircle size={16} className="mt-0.5 mr-2 flex-shrink-0" />
+                  <span>Security token could not be loaded. Please refresh the page and try again.</span>
+                </div>
+              )}
+              
               {error && (
-                <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 text-sm">
-                  {error}
+                <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 text-sm flex items-start">
+                  <AlertCircle size={16} className="mt-0.5 mr-2 flex-shrink-0" />
+                  <span>{error}</span>
                 </div>
               )}
               
@@ -219,8 +272,8 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
                 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gold-600 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+                  disabled={isSubmitting || tokenError || !csrfToken}
+                  className="w-full bg-gold-600 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center disabled:opacity-70 disabled:hover:bg-gold-600"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">

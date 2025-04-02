@@ -41,45 +41,14 @@ const nodeBuiltins = [
 
 // Platform-specific modules that should be external
 const platformModules = [
-  // Platform-specific modules
-  'fsevents',
-  '@rollup/rollup-darwin-arm64',
-  '@rollup/rollup-darwin-x64',
-  '@rollup/rollup-linux-x64-gnu',
-  '@rollup/rollup-linux-arm64-gnu',
-  '@rollup/rollup-linux-arm-gnueabihf',
-  '@rollup/rollup-linux-arm64-musl',
-  '@rollup/rollup-linux-arm-musleabihf',
-  '@rollup/rollup-linux-riscv64-gnu',
-  '@rollup/rollup-linux-riscv64-musl',
-  '@rollup/rollup-linux-loongarch64-gnu',
-  '@rollup/rollup-linux-powerpc64le-gnu',
-  '@rollup/rollup-linux-s390x-gnu',
-  '@rollup/rollup-linux-x64-musl',
-  '@rollup/rollup-freebsd-arm64',
-  '@rollup/rollup-freebsd-x64',
-  '@rollup/rollup-win32-arm64-msvc',
-  '@rollup/rollup-win32-ia32-msvc',
-  '@rollup/rollup-android-arm64',
-  '@rollup/rollup-android-arm-eabi',
-  '@rollup/rollup-linux-loong64-gnu',
+  // Rollup platform-specific modules
+  /^@rollup\/rollup-(darwin|linux|win32|freebsd|android)-(arm64|arm|x64|ia32|powerpc64le|s390x|riscv64|loongarch64|loong64)-(gnu|musl|msvc|eabi)$/,
   
   // Esbuild platform-specific modules
-  '@esbuild/darwin-arm64',
-  '@esbuild/darwin-x64',
-  '@esbuild/linux-arm64',
-  '@esbuild/linux-arm',
-  '@esbuild/linux-x64',
-  '@esbuild/win32-arm64',
-  '@esbuild/win32-x64',
-  '@esbuild/win32-ia32',
+  /^@esbuild\/(darwin|linux|win32|android)-(arm64|arm|x64|ia32)$/,
   
   // Sharp platform-specific modules
-  '@img/sharp-win32-x64',
-  '@img/sharp-darwin-arm64',
-  '@img/sharp-darwin-x64',
-  '@img/sharp-linux-arm64',
-  '@img/sharp-linux-x64',
+  /^@img\/sharp-(darwin|linux|win32)-(arm64|x64)$/,
   
   // Other platform-specific modules
   'detect-libc',
@@ -236,7 +205,15 @@ export default defineConfig(({ mode }) => {
         }
       },
       rollupOptions: {
-        external: [...nodeBuiltins, ...platformModules, ...optionalDeps],
+        external: [
+          ...nodeBuiltins,
+          ...platformModules,
+          ...optionalDeps,
+          // Add regex patterns for dynamic imports
+          /^@rollup\/rollup-/,
+          /^@esbuild\//,
+          /^@img\/sharp-/
+        ],
         output: {
           chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js',
