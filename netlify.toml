@@ -9,6 +9,7 @@
   SECRETS_SCAN_OMIT_KEYS = "AUTH0_AUDIENCE,AUTH0_CLIENT_ID"
   NPM_FLAGS = "--legacy-peer-deps --force"
   NODE_OPTIONS = "--max-old-space-size=4096"
+  NPM_CONFIG_LOGLEVEL = "verbose"
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
@@ -88,7 +89,6 @@
   for = "/assets/*.tsx"
   [headers.values]
     Content-Type = "application/javascript"
-
 
 [[edge_functions]]
 function = "hello"

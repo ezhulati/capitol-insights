@@ -9,6 +9,7 @@ echo "Starting build process for Capitol Insights..."
 export NODE_OPTIONS="--max-old-space-size=4096"
 export NPM_CONFIG_LEGACY_PEER_DEPS=true
 export NPM_CONFIG_FORCE=true
+export NPM_CONFIG_LOGLEVEL=verbose
 
 # Clean up node_modules to ensure a fresh install
 echo "Cleaning up node_modules..."
@@ -20,11 +21,11 @@ echo "Installing dependencies..."
 
 # First, explicitly install the correct versions of React and types
 echo "Installing React and TypeScript types explicitly..."
-npm install --no-save react@18.2.0 react-dom@18.2.0 @types/react@18.2.48 @types/react-dom@18.2.18
+npm install --no-save react@18.2.0 react-dom@18.2.0 @types/react@18.2.48 @types/react-dom@18.2.18 --verbose
 
 # Then install all dependencies
 echo "Installing all dependencies..."
-npm install --legacy-peer-deps --force
+npm install --legacy-peer-deps --force --verbose
 
 # Check if installation was successful
 if [ $? -ne 0 ]; then
@@ -37,8 +38,10 @@ if [ $? -ne 0 ]; then
   mv package.json.new package.json
   rm package.json.overrides
   
-  # Try installation again
-  npm install --legacy-peer-deps --force
+  # Try installation again with different npm registry
+  echo "Trying installation with different npm registry..."
+  npm config set registry https://registry.npmjs.org/
+  npm install --legacy-peer-deps --force --verbose
   
   if [ $? -ne 0 ]; then
     echo "Dependency installation failed again. Exiting."

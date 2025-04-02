@@ -10,6 +10,7 @@
     "dev": "vite",
     "build": "vite build",
     "build:ci": "npm ci --legacy-peer-deps --force || npm install --legacy-peer-deps --force && vite build",
+    "build:netlify": "chmod +x ./build.sh && ./build.sh",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",
