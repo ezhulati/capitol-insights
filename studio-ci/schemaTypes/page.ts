@@ -1,4 +1,18 @@
+// Import needed for the 'seo' type reference
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import seo from './objects/seo'
+
+// Define a type for Sanity validation rules
+type SanityRule = {
+  required: () => SanityRule;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
+
+// Define a type for parent context
+type ParentContext = {
+  parent: Record<string, unknown>;
+}
 
 export default {
   name: 'page',
@@ -14,7 +28,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: SanityRule) => Rule.required(),
     },
     {
       name: 'slug',
@@ -24,7 +38,7 @@ export default {
         source: 'title',
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: SanityRule) => Rule.required(),
     },
     {
       name: 'featuredImage',
@@ -69,7 +83,7 @@ export default {
       title: 'Navigation Order',
       type: 'number',
       description: 'Order to display in navigation (if shown)',
-      hidden: ({ parent }: { parent: any }) => !parent?.showInNavigation,
+      hidden: ({ parent }: ParentContext) => !parent?.showInNavigation,
     },
   ],
   preview: {

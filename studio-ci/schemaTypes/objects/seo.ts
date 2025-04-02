@@ -1,3 +1,14 @@
+// Define a type for Sanity validation rules
+type SanityRule = {
+   
+  max: (length: number) => { 
+     
+    warning: (message: string) => SanityRule 
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
+
 export default {
   name: 'seo',
   title: 'SEO',
@@ -8,7 +19,7 @@ export default {
       title: 'Meta Title',
       type: 'string',
       description: 'Title for search engines (55-60 characters)',
-      validation: (Rule: any) => Rule.max(60).warning('Title should be between 55-60 characters'),
+      validation: (Rule: SanityRule) => Rule.max(60).warning('Title should be between 55-60 characters'),
     },
     {
       name: 'metaDescription',
@@ -16,7 +27,7 @@ export default {
       type: 'text',
       rows: 3,
       description: 'Description for search engines (155-160 characters)',
-      validation: (Rule: any) => Rule.max(160).warning('Description should be between 155-160 characters'),
+      validation: (Rule: SanityRule) => Rule.max(160).warning('Description should be between 155-160 characters'),
     },
     {
       name: 'metaKeywords',

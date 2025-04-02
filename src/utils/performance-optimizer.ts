@@ -40,6 +40,7 @@ export function useNetworkCondition(): NetworkCondition {
   useEffect(() => {
     // Use the Network Information API if available
     if ('connection' in navigator) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const connection = (navigator as any).connection;
       
       const updateNetworkCondition = () => {

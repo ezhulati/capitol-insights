@@ -178,6 +178,7 @@ type ContentBlock =
 /**
  * Render markdown content
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function renderMarkdown(content: string | any): ContentBlock[] {
   if (!content || typeof content !== 'string') {
     return [{ type: 'p', content: '', key: 0 }];

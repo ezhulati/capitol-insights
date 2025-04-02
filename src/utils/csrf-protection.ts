@@ -28,6 +28,7 @@ export async function getCsrfToken(): Promise<string> {
  * @param {Object} formData - The original form data object
  * @returns {Promise<Object>} A promise that resolves to form data with CSRF token
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function addCsrfTokenToForm<T extends Record<string, any>>(formData: T): Promise<T & {'csrf-token': string}> {
   const token = await getCsrfToken();
   
@@ -45,6 +46,7 @@ export async function addCsrfTokenToForm<T extends Record<string, any>>(formData
  */
 export async function csrfProtectedFetch(
   url: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: RequestInit & { body?: any } = {}
 ): Promise<Response> {
   // Get CSRF token

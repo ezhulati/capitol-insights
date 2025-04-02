@@ -71,12 +71,14 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
       
       // Track this conversion in analytics without sending PII
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if (typeof window !== 'undefined' && (window as any).gtag) {
           // Check if we should anonymize data based on environment variable
           const shouldAnonymize = process.env.ANALYTICS_ANONYMIZE_IP === 'true';
           const shouldSendPII = process.env.ANALYTICS_SEND_PII === 'true';
           
           // Create analytics event with non-PII data
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const analyticsData: Record<string, any> = {
             'event_category': 'lead_generation',
             'event_label': title,
@@ -91,6 +93,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
           }
           
           // Send the event
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (window as any).gtag('event', 'lead_magnet_download', analyticsData);
         }
       } catch (e) {

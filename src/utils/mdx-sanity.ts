@@ -27,6 +27,8 @@ export interface BlogPost {
   featured: boolean;
   image: string;
   body: string;
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Allow for other frontmatter properties
 }
 
@@ -34,6 +36,8 @@ export interface PageContent {
   _sys: MDXSys;
   title: string;
   body: string;
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Allow for other frontmatter properties
 }
 
@@ -62,6 +66,7 @@ export async function getAllPosts(): Promise<BlogPost[]> {
     `);
     
     // Transform Sanity data to match our existing MDX structure
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return sanityPosts.map((post: any) => ({
       _sys: {
         filename: `${post.slug}.mdx`,
@@ -203,10 +208,12 @@ export function renderMarkdown(content: string) {
     
     // In a real implementation, you would use @portabletext/react to render this
     // For now, we'll just return a simple representation
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return parsedContent.map((block: any, index: number) => {
       if (block._type === 'block') {
         const style = block.style || 'normal';
         const text = block.children
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .map((child: any) => child.text)
           .join('');
           

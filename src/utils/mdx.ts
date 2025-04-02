@@ -27,6 +27,8 @@ export interface BlogPost {
   featured: boolean;
   image: string;
   body: string;
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Allow for other frontmatter properties
 }
 
@@ -34,6 +36,8 @@ export interface PageContent {
   _sys: MDXSys;
   title: string;
   body: string;
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any; // Allow for other frontmatter properties
 }
 

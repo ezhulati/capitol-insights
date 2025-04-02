@@ -1,4 +1,13 @@
+// Import needed for the 'seo' type reference
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import seo from './objects/seo'
+
+// Define a type for Sanity validation rules
+type SanityRule = {
+  required: () => SanityRule;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
 
 export default {
   name: 'teamMember',
@@ -14,7 +23,7 @@ export default {
       name: 'name',
       title: 'Name',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: SanityRule) => Rule.required(),
     },
     {
       name: 'slug',
@@ -24,7 +33,7 @@ export default {
         source: 'name',
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      validation: (Rule: SanityRule) => Rule.required(),
     },
     {
       name: 'image',

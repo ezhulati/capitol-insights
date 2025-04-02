@@ -11,6 +11,7 @@ interface MetricObject {
 
 // Function to report web vitals metrics
 export const reportWebVitals = (
+   
   onMetric?: (metric: MetricObject) => void
 ) => {
   if (onMetric && typeof onMetric === 'function') {

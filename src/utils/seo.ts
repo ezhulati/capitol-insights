@@ -54,6 +54,7 @@ export interface SEOProps {
     property?: string;
     content: string;
   }>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema?: Record<string, any>;
   schemaMarkup?: SchemaMarkup;
   /**
@@ -100,6 +101,7 @@ export const generateSEO = ({
 
   // Generate schema from schemaMarkup if provided
   if (schemaMarkup) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const generatedSchema: Record<string, any> = {
       "@context": "https://schema.org",
       "@type": schemaMarkup.type,

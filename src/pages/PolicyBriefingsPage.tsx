@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -27,7 +27,10 @@ interface BriefingProps {
   pdfUrl: string;
 }
 
-const PolicyBriefing: React.FC<BriefingProps & { onDownload: (briefing: BriefingProps) => void }> = ({ 
+const PolicyBriefing: React.FC<BriefingProps & { 
+   
+  onDownload: (briefing: BriefingProps) => void 
+}> = ({ 
   title, 
   description, 
   date, 

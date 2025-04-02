@@ -7,6 +7,7 @@ export interface LazyLoadOptions {
   /**
    * Optional callback to track component load performance
    */
+   
   onLoad?: (componentName: string, loadTimeMs: number) => void;
   
   /**
@@ -28,6 +29,7 @@ export interface LazyLoadOptions {
 /**
  * Enhanced lazy component with preload and prefetch capabilities
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface EnhancedLazyComponent<T extends ComponentType<any>> extends LazyExoticComponent<T> {
   /**
    * Preload the component module immediately
@@ -60,6 +62,7 @@ export interface EnhancedLazyComponent<T extends ComponentType<any>> extends Laz
  * @param options Configuration options for lazy loading behavior
  * @returns Enhanced lazy component with additional loading methods
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lazyWithPreload<T extends ComponentType<any>>(
   factory: () => Promise<{ default: T }>,
   options: LazyLoadOptions = {}
@@ -177,6 +180,8 @@ export function lazyWithPreload<T extends ComponentType<any>>(
  * @returns Promise that resolves when all components are loaded
  */
 export function preloadComponents(
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   components: EnhancedLazyComponent<any>[]
 ): Promise<void> {
   return Promise.all(
@@ -190,6 +195,8 @@ export function preloadComponents(
  * @param components Array of enhanced lazy components to prefetch
  */
 export function prefetchComponents(
+   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   components: EnhancedLazyComponent<any>[]
 ): void {
   // We don't wait for completion since these are low priority
