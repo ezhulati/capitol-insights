@@ -1,5 +1,9 @@
-// Load the structured data for the site
+/**
+ * Load the structured data for the site
+ */
 (function() {
+  'use strict';
+  
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
