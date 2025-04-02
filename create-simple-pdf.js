@@ -36,118 +36,97 @@ doc.fontSize(24)
    .moveDown(1)
    .fontSize(16)
    .font('Helvetica')
-   .text('Strategies for Effective Advocacy', {
-     align: 'center'
-   })
-   .moveDown(1)
-   .fontSize(12)
-   .text('By Drew Campbell & Byron Campbell', {
-     align: 'center'
-   })
-   .moveDown(3)
-   .text('© 2025 Capitol Insights', {
+   .text('Strategies for Effective Government Relations in Texas', {
      align: 'center'
    })
    .moveDown(0.5)
-   .text('Texas Government Relations', {
+   .text('Capitol Insights', {
+     align: 'center'
+   })
+   .moveDown(0.5)
+   .text('2025 Edition', {
      align: 'center'
    });
 
-// Add footer with page number
+// Add copyright and date at the bottom of the cover
 doc.fontSize(10)
-   .text('Page 1 of 5', {
+   .text('© 2025 Capitol Insights. All rights reserved.', {
      align: 'center',
      y: 700
    });
 
-// Add second page
+// Add content pages
 doc.addPage()
    .fontSize(18)
    .font('Helvetica-Bold')
-   .text('Introduction', {
+   .text('Table of Contents', {
      align: 'left'
    })
    .moveDown(1)
    .fontSize(12)
    .font('Helvetica')
-   .text('After four decades in Texas politics and helping secure billions in funding for our clients, we\'ve distilled our approach into this practical guide that reveals the proven strategies for effective legislative advocacy.', {
+   .text('1. Introduction', {
      align: 'left'
    })
    .moveDown(0.5)
-   .text('In Texas, successful advocacy isn\'t simply about showing up during the 140-day legislative session. It\'s about the continuous work of relationship building, coalition development, and strategic messaging that happens between sessions.', {
+   .text('2. Understanding the Texas Legislative Process', {
      align: 'left'
    })
-   .moveDown(2)
-   .fontSize(16)
-   .font('Helvetica-Bold')
-   .text('Key Insight:', {
+   .moveDown(0.5)
+   .text('3. Key Legislative Dates for 2025', {
      align: 'left'
    })
-   .fontSize(12)
-   .font('Helvetica')
-   .text('The most successful organizations in Texas politics understand that legislative success is built on relationships cultivated long before bills are filed.', {
+   .moveDown(0.5)
+   .text('4. Effective Advocacy Strategies', {
+     align: 'left'
+   })
+   .moveDown(0.5)
+   .text('5. Building Relationships with Legislators', {
+     align: 'left'
+   })
+   .moveDown(0.5)
+   .text('6. Coalition Building', {
+     align: 'left'
+   })
+   .moveDown(0.5)
+   .text('7. Media Strategy', {
+     align: 'left'
+   })
+   .moveDown(0.5)
+   .text('8. Engaging Stakeholders', {
+     align: 'left'
+   })
+   .moveDown(0.5)
+   .text('9. Resources and Contacts', {
      align: 'left'
    });
 
-// Add footer with page number
-doc.fontSize(10)
-   .text('Page 2 of 5', {
-     align: 'center',
-     y: 700
-   });
-
-// Add third page
+// Introduction page
 doc.addPage()
    .fontSize(18)
    .font('Helvetica-Bold')
-   .text('The Legislative Relationship Timeline', {
+   .text('1. Introduction', {
      align: 'left'
    })
    .moveDown(1)
    .fontSize(12)
    .font('Helvetica')
-   .text('The strategic engagement calendar that successful organizations follow between sessions is critical for building the foundation of legislative success. Here\'s the timeline we recommend:', {
+   .text('The Texas legislative process can be complex and challenging to navigate, especially for organizations without dedicated government affairs resources. This guide provides practical strategies and insights for effective advocacy in the Texas Legislature.', {
      align: 'left'
    })
    .moveDown(1)
-   .fontSize(14)
-   .font('Helvetica-Bold')
-   .text('18-24 Months Before Session (Post-Session Review)', {
+   .text('With a strategic approach and proper preparation, organizations of all sizes can make their voices heard in the legislative process. Capitol Insights has compiled this guide based on years of experience working with clients across industries to achieve their government relations objectives.', {
      align: 'left'
    })
-   .moveDown(0.5)
-   .fontSize(12)
-   .font('Helvetica')
-   .text('• Conduct thorough analysis of the previous session\'s outcomes', {
-     align: 'left'
-   })
-   .text('• Identify key legislative allies and potential roadblocks', {
-     align: 'left'
-   })
-   .text('• Begin developing priority issues for the next session', {
+   .moveDown(1)
+   .text('This guide is designed to serve as a practical resource for government affairs professionals, executives, and anyone involved in legislative advocacy in Texas.', {
      align: 'left'
    });
 
-// Add fourth and fifth pages similarly
-doc.addPage();
-
-// Finalize the PDF
+// Finish and end the PDF
 doc.end();
 
-stream.on('finish', function() {
-  console.log(`PDF successfully created at ${outputPath}`);
-  
-  // Check that the file exists
-  fs.access(outputPath, fs.constants.F_OK, (err) => {
-    if (err) {
-      console.error(`PDF file was not created: ${err.message}`);
-    } else {
-      const stats = fs.statSync(outputPath);
-      console.log(`PDF file size: ${stats.size} bytes`);
-    }
-  });
-});
+console.log('PDF creation complete!');
 
-stream.on('error', function(err) {
-  console.error('Error writing PDF file:', err);
-});
+// Log the output path for reference
+console.log(`PDF saved to: ${outputPath}`);
