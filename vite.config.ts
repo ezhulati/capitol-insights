@@ -98,14 +98,13 @@ export default defineConfig(({ mode }) => {
         algorithm: 'brotliCompress',
         ext: '.br',
       }),
-      analyzeBundle && 
-        visualizer({
-          open: true,
-          gzipSize: true,
-          brotliSize: true,
-          filename: 'dist/stats.html',
-        }),
-    ],
+      analyzeBundle && visualizer({
+        filename: 'dist/stats.html',
+        open: true,
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ].filter(Boolean),
     css: {
       postcss: {
         plugins: [
@@ -122,7 +121,17 @@ export default defineConfig(({ mode }) => {
             motion: ['framer-motion'],
             ui: ['lucide-react'],
             vendor: ['react-helmet-async', 'react-intersection-observer', 'react-error-boundary'],
-          }
+          },
+          external: [
+            'fsevents',
+            '@rollup/rollup-win32-x64-msvc',
+            '@img/sharp-win32-x64',
+            '@rollup/rollup-darwin-arm64',
+            '@rollup/rollup-darwin-x64',
+            '@rollup/rollup-linux-x64-gnu',
+            '@rollup/rollup-linux-arm64-gnu',
+            '@rollup/rollup-linux-arm-gnueabihf'
+          ]
         }
       },
       sourcemap: process.env.NODE_ENV !== 'production',
