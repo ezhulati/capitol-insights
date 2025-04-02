@@ -204,7 +204,7 @@
     <!-- CSP Nonce Initialization (must be before any scripts) -->
     
     <!-- Structured Data loaded from external file for better CSP compliance -->
-    <script src="/js/structured-data.js"></script>
+    <script type="module" src="/js/structured-data.js"></script>
 
     <!-- PWA Support -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -392,13 +392,13 @@
     </script>
     
     <!-- Meta description fixer script (moved to external file) -->
-    <script src="/js/meta-fixer.js"></script>
+    <script type="module" src="/js/meta-fixer.js"></script>
     <!-- Image preload and WebP support script -->
-    <script src="/js/image-preload.js"></script>
+    <script type="module" src="/js/image-preload.js"></script>
     <!-- JavaScript optimization script -->
-    <script src="/js/defer-js.js"></script>
-    <!-- Advanced diagnostics script -->
-    <script src="/error-diagnostics.js"></script>
+    <script type="module" src="/js/defer-js.js"></script>
+    <!-- Advanced diagnostics script - with type="module" to fix bundling error -->
+    <script type="module" src="/error-diagnostics.js"></script>
     
     <noscript>
       <div style="padding: 2rem; text-align: center;">
