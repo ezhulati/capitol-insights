@@ -224,8 +224,64 @@
   <body class="antialiased text-slate-700 bg-white no-js">
     <script>document.body.classList.remove('no-js');</script>
     <div id="root">
-      <!-- Loading state -->
-      <div class="loading">
+      <!-- Static content that loads immediately -->
+      <header class="fixed top-0 left-0 right-0 z-50 transition-all py-3 sm:py-4 bg-navy-950/90 backdrop-blur-sm" role="banner">
+        <div class="container">
+          <div class="flex justify-between items-center">
+            <a class="flex items-center space-x-2 group" aria-label="Capitol Insights - Home" href="/">
+              <div class="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-gold-500 text-navy-950 rounded-md overflow-hidden transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-landmark mt-1 z-10 relative sm:size-22"><line x1="3" x2="21" y1="22" y2="22"></line><line x1="6" x2="6" y1="18" y2="11"></line><line x1="10" x2="10" y1="18" y2="11"></line><line x1="14" x2="14" y1="18" y2="11"></line><line x1="18" x2="18" y1="18" y2="11"></line><polygon points="12 2 20 7 4 7"></polygon></svg>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-lg sm:text-xl font-display font-semibold tracking-tight text-white transition-colors duration-300">Capitol Insights</span>
+                <span class="text-xs font-medium tracking-wide hidden sm:block text-gold-300 transition-colors duration-300">TEXAS GOVERNMENT RELATIONS</span>
+              </div>
+            </a>
+            <div class="hidden lg:flex items-center space-x-6 ml-auto">
+              <nav class="flex items-center space-x-4" aria-label="Main Navigation">
+                <a class="px-4 py-2 font-medium rounded-md transition-all duration-250 text-white hover:text-gold-300" href="/services">Services</a>
+                <a class="px-4 py-2 font-medium rounded-md transition-all duration-250 text-white hover:text-gold-300" href="/team">About Us</a>
+                <a class="px-4 py-2 font-medium rounded-md transition-all duration-250 text-white hover:text-gold-300" href="/updates">Resources</a>
+                <a class="px-4 py-2 font-medium rounded-md transition-all duration-250 text-white hover:text-gold-300" href="/contact">Contact</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main id="main-content" class="flex-grow">
+        <div class="pt-16">
+          <section class="relative min-h-[80vh] sm:min-h-[90vh] flex items-center" style="background-image: linear-gradient(to right, rgba(10, 30, 48, 0.95), rgba(10, 30, 48, 0.85), rgba(15, 37, 57, 0.8)), url('/images/texas-capitol.jpg'); background-size: cover; background-position: center;">
+            <div class="container relative z-10 py-10 sm:py-20">
+              <div class="max-w-3xl">
+                <div>
+                  <span class="inline-block px-3 sm:px-4 py-1 bg-gold-600/20 text-gold-200 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-5 backdrop-blur-sm border border-gold-500/20">YOUR DIRECT LINE TO TEXAS GOVERNMENT</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-4 sm:mb-6 leading-tight">
+                  <span class="sm:block">40+ Years of Legislative</span>
+                  <span class="relative inline-block">
+                    <span class="relative z-10 text-gold-300">Relationships Working for You</span>
+                  </span>
+                </h1>
+                <p class="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
+                  <strong>When legislation threatens your business, will you be introducing yourself to lawmakers... or activating relationships you've already built?</strong>
+                </p>
+                <p class="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl leading-relaxed">
+                  At Capitol Insights, we've spent four decades building the relationships that turn legislative challenges into opportunities.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-16 sm:mb-8">
+                  <a class="inline-block bg-gold-600 hover:bg-gold-500 text-navy-950 font-bold py-3 px-6 rounded-lg" href="/contact">
+                    GET STARTED
+                  </a>
+                  <a class="inline-block bg-white/10 text-white border border-white/20 hover:bg-white/20 font-medium py-3 px-6 rounded-lg" href="/services">
+                    Explore Services
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <div class="loading" style="display: none;">
         <div class="loading-spinner"></div>
       </div>
     </div>
@@ -261,19 +317,34 @@
       <input type="text" name="recipients" />
     </form>
     
-    <!-- Direct static content with React attempt -->
-    <script type="module">
+    <!-- Immediate content load with React attempt -->
+    <script>
       // Define constants for React Router
       window.POP = 'POP';
       window.PUSH = 'PUSH';
       window.REPLACE = 'REPLACE';
       
-      // Try to import the React application - but use the static content if it fails
-      import('/src/main.tsx')
-        .catch(error => {
-          console.error('Failed to load React application:', error);
-          // The static content is already in the DOM
-        });
+      // Pre-load visible flag to avoid flash of loading screen
+      document.addEventListener('DOMContentLoaded', function() {
+        // Content is already shown, hide spinner
+        var loadingElem = document.querySelector('.loading');
+        if (loadingElem) loadingElem.style.display = 'none';
+      });
+    </script>
+    
+    <!-- React application load attempt -->
+    <script type="module">
+      try {
+        // Try to import the React application
+        import('/src/main.tsx')
+          .catch(error => {
+            console.error('Failed to load React application:', error);
+            // Static content is already visible
+          });
+      } catch (e) {
+        console.error('Failed to dynamically import React app:', e);
+        // Static content is already visible
+      }
     </script>
     
     <!-- Meta description fixer script (moved to external file) -->
