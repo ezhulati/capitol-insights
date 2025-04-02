@@ -92,7 +92,8 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         width={width}
         height={height}
         loading={loading}
-        fetchPriority={fetchPriority}
+        // Use attribute directly to avoid TypeScript errors
+        {...{ fetchPriority: fetchPriority } as any}
         decoding={decoding}
         className={className}
         style={imageStyle}

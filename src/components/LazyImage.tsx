@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+// Extend the HTMLImageElement to include fetchPriority
+interface ExtendedImgHTMLAttributes extends React.ImgHTMLAttributes<HTMLImageElement> {
+  fetchPriority?: 'high' | 'low' | 'auto';
+}
+
+interface LazyImageProps extends ExtendedImgHTMLAttributes {
   src: string;
   alt: string;
   lowQualitySrc?: string;
@@ -9,7 +14,7 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   aspectRatio?: string;
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
   priority?: boolean; // For critical images that need to load immediately
-  fetchPriority?: 'high' | 'low' | 'auto'; // Provide control over fetchpriority attribute
+  // fetchPriority is now defined in ExtendedImgHTMLAttributes
   srcset?: string; // Support responsive images
   sizes?: string; // Support responsive images
   width?: number; // Original width for better CLS handling
@@ -116,6 +121,19 @@ const LazyImage: React.FC<LazyImageProps> = ({
     }
   }, [priority, src, srcset, sizes]);
 
+  // Generate WebP source path
+  const generateWebPPath = (imagePath: string): string => {
+    const pathInfo = imagePath.split('.');
+    const extension = pathInfo.pop();
+    
+    // Only convert jpg, jpeg, and png to webp
+    if (!['jpg', 'jpeg', 'png'].includes(extension?.toLowerCase() || '')) {
+      return imagePath;
+    }
+    
+    return `${pathInfo.join('.')}.webp`;
+  };
+
   return (
     <div ref={priority ? undefined : ref} style={containerStyle} className={className}>
       {(inView || priority) && (
@@ -134,25 +152,42 @@ const LazyImage: React.FC<LazyImageProps> = ({
               height={height}
             />
           )}
-          <img
-            ref={imageRef}
-            src={src}
-            alt={alt}
-            style={imageStyle}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={effectiveFetchPriority}
-            srcSet={srcset}
-            sizes={sizes}
-            width={width}
-            height={height}
-            decoding={priority ? 'sync' : 'async'}
-            onLoad={() => setIsLoaded(true)}
-            onError={() => {
-              setError(true);
-              setIsLoaded(true);
-            }}
-            {...props}
-          />
+          <picture>
+            {/* WebP source */}
+            <source 
+              srcSet={srcset ? srcset.split(', ').map(src => {
+                const [url, size] = src.split(' ');
+                return `${generateWebPPath(url)} ${size}`;
+              }).join(', ') : generateWebPPath(src)}
+              type="image/webp"
+              sizes={sizes}
+            />
+            
+            {/* Original format fallback */}
+            <source 
+              srcSet={srcset}
+              sizes={sizes}
+            />
+            
+            <img
+              ref={imageRef}
+              src={src}
+              alt={alt}
+              style={imageStyle}
+              loading={priority ? 'eager' : 'lazy'}
+              // Use attribute directly to avoid TypeScript errors
+              {...{ fetchPriority: effectiveFetchPriority } as any}
+              width={width}
+              height={height}
+              decoding={priority ? 'sync' : 'async'}
+              onLoad={() => setIsLoaded(true)}
+              onError={() => {
+                setError(true);
+                setIsLoaded(true);
+              }}
+              {...props}
+            />
+          </picture>
         </>
       )}
       {error && (

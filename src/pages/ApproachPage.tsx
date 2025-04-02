@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
+import OptimizedImage from '../components/OptimizedImage';
 
 interface ProcessStepProps {
   number: number;
@@ -202,10 +203,12 @@ const ApproachPage = () => {
             
             <div className="relative mt-6 lg:mt-0">
               <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl">
-                <img 
+                <OptimizedImage 
                   src="/images/approach-capitol.jpg" 
                   alt="Capitol building representing government relations approach" 
                   className="w-full h-auto"
+                  loading="lazy"
+                  objectFit="cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950/20 to-transparent"></div>
               </div>
