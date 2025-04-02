@@ -1,12 +1,14 @@
 import React, { useEffect, Suspense, ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { SessionProvider } from 'next-auth/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
 import BackToTop from './components/BackToTop';
 import { lazyWithPreload, prefetchComponents, preloadComponents } from './utils/lazyWithPreload';
+import { authOptions } from './utils/auth';
 
 // Import analytics utilities
 import analytics from './utils/analytics';
@@ -121,66 +123,64 @@ const SuccessStoriesPage = lazyWithPreload(() => import('./pages/SuccessStoriesP
   onLoad: trackPageLoad
 });
 
-// Route wrapper component with error boundary
-const RouteWrapper = ({ children }: { children: ReactNode }) => (
-  <ErrorBoundary>
-    <Suspense fallback={<LoadingComponent />}>
-      {children}
-    </Suspense>
-  </ErrorBoundary>
-);
+// Route wrapper component for analytics and error handling
+const RouteWrapper = ({ children }: { children: ReactNode }) => {
+  const location = useLocation();
+  const startTime = performance.now();
+
+  useEffect(() => {
+    // Track page view
+    analytics.pageview(location.pathname);
+    
+    // Track page load performance
+    const loadTime = performance.now() - startTime;
+    trackPageLoad(location.pathname, loadTime);
+  }, [location, startTime]);
+
+  return <>{children}</>;
+};
 
 // Main App component
 const App = () => {
-  const location = useLocation();
-
-  // Prefetch components based on route
-  useEffect(() => {
-    const path = location.pathname;
-    
-    // Prefetch components based on current route
-    if (path === '/') {
-      prefetchComponents([ServicesPage, TeamPage]);
-    } else if (path === '/services') {
-      prefetchComponents([ResultsPage, ApproachPage]);
-    } else if (path === '/team') {
-      prefetchComponents([SuccessStoriesPage, BlogPostPage]);
-    }
-  }, [location]);
-
   return (
-    <div className="flex flex-col min-h-screen">
-      <SkipToContent />
-      <Header />
-      <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<RouteWrapper><HomePage /></RouteWrapper>} />
-          <Route path="/services" element={<RouteWrapper><ServicesPage /></RouteWrapper>} />
-          <Route path="/team" element={<RouteWrapper><TeamPage /></RouteWrapper>} />
-          <Route path="/contact" element={<RouteWrapper><ContactPage /></RouteWrapper>} />
-          <Route path="/results" element={<RouteWrapper><ResultsPage /></RouteWrapper>} />
-          <Route path="/approach" element={<RouteWrapper><ApproachPage /></RouteWrapper>} />
-          <Route path="/updates" element={<RouteWrapper><UpdatesPage /></RouteWrapper>} />
-          <Route path="/resources" element={<RouteWrapper><ResourcesPage /></RouteWrapper>} />
-          <Route path="/faq" element={<RouteWrapper><FAQPage /></RouteWrapper>} />
-          <Route path="/blog/:slug" element={<RouteWrapper><BlogPostPage /></RouteWrapper>} />
-          <Route path="/practice-areas" element={<RouteWrapper><PracticeAreasPage /></RouteWrapper>} />
-          <Route path="/success-stories" element={<RouteWrapper><SuccessStoriesPage /></RouteWrapper>} />
-        </Routes>
-      </main>
-      <Footer />
-      <BackToTop />
-    </div>
+    <ErrorBoundary>
+      <Router>
+        <HelmetProvider>
+          <div className="flex flex-col min-h-screen">
+            <SkipToContent />
+            <Header />
+            <main className="flex-grow">
+              <Suspense fallback={<LoadingComponent />}>
+                <Routes>
+                  <Route path="/" element={<RouteWrapper><HomePage /></RouteWrapper>} />
+                  <Route path="/services" element={<RouteWrapper><ServicesPage /></RouteWrapper>} />
+                  <Route path="/team" element={<RouteWrapper><TeamPage /></RouteWrapper>} />
+                  <Route path="/contact" element={<RouteWrapper><ContactPage /></RouteWrapper>} />
+                  <Route path="/results" element={<RouteWrapper><ResultsPage /></RouteWrapper>} />
+                  <Route path="/approach" element={<RouteWrapper><ApproachPage /></RouteWrapper>} />
+                  <Route path="/updates" element={<RouteWrapper><UpdatesPage /></RouteWrapper>} />
+                  <Route path="/resources" element={<RouteWrapper><ResourcesPage /></RouteWrapper>} />
+                  <Route path="/faq" element={<RouteWrapper><FAQPage /></RouteWrapper>} />
+                  <Route path="/blog/:slug" element={<RouteWrapper><BlogPostPage /></RouteWrapper>} />
+                  <Route path="/practice-areas" element={<RouteWrapper><PracticeAreasPage /></RouteWrapper>} />
+                  <Route path="/success-stories" element={<RouteWrapper><SuccessStoriesPage /></RouteWrapper>} />
+                </Routes>
+              </Suspense>
+            </main>
+            <Footer />
+            <BackToTop />
+          </div>
+        </HelmetProvider>
+      </Router>
+    </ErrorBoundary>
   );
 };
 
-// Wrap the app with necessary providers
+// App with providers
 const AppWithProviders = () => (
-  <HelmetProvider>
-    <Router>
-      <App />
-    </Router>
-  </HelmetProvider>
+  <SessionProvider session={null}>
+    <App />
+  </SessionProvider>
 );
 
 export default AppWithProviders;
