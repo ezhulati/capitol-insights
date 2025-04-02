@@ -32,13 +32,20 @@ const externalDeps = [
   'web-vitals'
 ];
 
-// Platform-specific modules that should be external
-const platformModules = [
-  // Node.js built-in modules
+// Node.js built-in modules that should be external
+const nodeBuiltins = [
   'fs',
   'path',
   'crypto',
-  
+  'util',
+  'stream',
+  'events',
+  'os',
+  'child_process'
+];
+
+// Platform-specific modules that should be external
+const platformModules = [
   // Platform-specific modules
   'fsevents',
   '@rollup/rollup-darwin-arm64',
@@ -88,6 +95,10 @@ export default defineConfig(({ mode }) => {
     react({
       // Add React-specific options
       babel: {
+        presets: [
+          '@babel/preset-react',
+          '@babel/preset-typescript'
+        ],
         plugins: [
           ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
         ]
@@ -187,11 +198,8 @@ export default defineConfig(({ mode }) => {
         }
       },
       rollupOptions: {
+        external: [...nodeBuiltins, ...platformModules],
         output: {
-          manualChunks: {
-            'vendor': externalDeps,
-            'platform': platformModules
-          },
           chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js',
           assetFileNames: 'assets/[name]-[hash].[ext]'
