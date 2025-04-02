@@ -5,17 +5,11 @@ import compression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { resolve } from 'path';
 import type { Plugin, PluginOption } from 'vite';
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
 
 // External dependencies that should not be bundled
 const externalDeps = [
-  // React and core dependencies
-  'react',
-  'react-dom',
-  'react-router-dom',
-  'react-helmet-async',
-  'react-intersection-observer',
-  'react-error-boundary',
-  
   // UI and animation libraries
   'framer-motion',
   'lucide-react',
@@ -38,12 +32,52 @@ const externalDeps = [
   'web-vitals'
 ];
 
-// Optional dependencies that may not be available
-const optionalDeps = [
-  '@esbuild/darwin-arm64',
+// Platform-specific modules that should be external
+const platformModules = [
+  // Node.js built-in modules
+  'fs',
+  'path',
+  'crypto',
+  
+  // Platform-specific modules
+  'fsevents',
   '@rollup/rollup-darwin-arm64',
+  '@rollup/rollup-darwin-x64',
+  '@rollup/rollup-linux-x64-gnu',
+  '@rollup/rollup-linux-arm64-gnu',
+  '@rollup/rollup-linux-arm-gnueabihf',
+  '@rollup/rollup-linux-arm64-musl',
+  '@rollup/rollup-linux-arm-musleabihf',
+  '@rollup/rollup-linux-riscv64-gnu',
+  '@rollup/rollup-linux-riscv64-musl',
+  '@rollup/rollup-linux-loongarch64-gnu',
+  '@rollup/rollup-linux-powerpc64le-gnu',
+  '@rollup/rollup-linux-s390x-gnu',
+  '@rollup/rollup-linux-x64-musl',
+  '@rollup/rollup-freebsd-arm64',
+  '@rollup/rollup-freebsd-x64',
+  '@rollup/rollup-win32-arm64-msvc',
+  '@rollup/rollup-win32-ia32-msvc',
+  '@rollup/rollup-android-arm64',
+  '@rollup/rollup-android-arm-eabi',
+  '@rollup/rollup-linux-loong64-gnu',
+  
+  // Esbuild platform-specific modules
+  '@esbuild/darwin-arm64',
+  '@esbuild/darwin-x64',
+  '@esbuild/linux-arm64',
+  '@esbuild/linux-arm',
+  '@esbuild/linux-x64',
+  '@esbuild/win32-arm64',
+  '@esbuild/win32-x64',
+  '@esbuild/win32-ia32',
+  
+  // Sharp platform-specific modules
+  '@img/sharp-win32-x64',
   '@img/sharp-darwin-arm64',
-  'fsevents'
+  '@img/sharp-darwin-x64',
+  '@img/sharp-linux-arm64',
+  '@img/sharp-linux-x64'
 ];
 
 export default defineConfig(({ mode }) => {
@@ -51,7 +85,14 @@ export default defineConfig(({ mode }) => {
   
   // Filter out plugins that depend on optional dependencies
   const plugins: PluginOption[] = [
-    react(),
+    react({
+      // Add React-specific options
+      babel: {
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }]
+        ]
+      }
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
@@ -70,130 +111,117 @@ export default defineConfig(({ mode }) => {
             src: 'pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
-          },
+          }
+        ]
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
           {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable'
+            urlPattern: /^https:\/\/api\./i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 24 * 60 * 60 // 24 hours
+              }
+            }
           }
         ]
       }
     }),
     compression({
       algorithm: 'gzip',
-      ext: '.br',
+      ext: '.gz',
       threshold: 10240,
-      filter: /\.(js|css|html|svg)$/,
       deleteOriginFile: false
-    })
-  ];
-
-  // Only add visualizer in analyze mode
-  if (mode === 'analyze') {
-    const visualizerPlugin = visualizer({
+    }),
+    visualizer({
       filename: 'dist/stats.html',
       open: true,
       gzipSize: true,
       brotliSize: true
-    });
-    plugins.push(visualizerPlugin as unknown as PluginOption);
-  }
+    }) as unknown as PluginOption
+  ];
 
   return {
     plugins,
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss(),
+          autoprefixer()
+        ]
+      }
+    },
     resolve: {
       alias: {
-        '@': resolve(__dirname, './src'),
-        '@components': resolve(__dirname, './src/components'),
-        '@pages': resolve(__dirname, './src/pages'),
-        '@styles': resolve(__dirname, './src/styles'),
-        '@utils': resolve(__dirname, './src/utils'),
-        '@hooks': resolve(__dirname, './src/hooks'),
-        '@assets': resolve(__dirname, './src/assets'),
-        '@types': resolve(__dirname, './src/types'),
-        '@constants': resolve(__dirname, './src/constants'),
-        '@context': resolve(__dirname, './src/context'),
-        '@services': resolve(__dirname, './src/services'),
-        '@layouts': resolve(__dirname, './src/layouts'),
-        '@config': resolve(__dirname, './src/config'),
-        '@api': resolve(__dirname, './src/api'),
-        '@store': resolve(__dirname, './src/store'),
-        '@lib': resolve(__dirname, './src/lib'),
-        '@features': resolve(__dirname, './src/features'),
-        '@shared': resolve(__dirname, './src/shared'),
-        '@templates': resolve(__dirname, './src/templates'),
-        '@providers': resolve(__dirname, './src/providers'),
-        '@middleware': resolve(__dirname, './src/middleware'),
-        '@helpers': resolve(__dirname, './src/helpers'),
-        '@validators': resolve(__dirname, './src/validators'),
-        '@i18n': resolve(__dirname, './src/i18n'),
-        '@theme': resolve(__dirname, './src/theme'),
-        '@animations': resolve(__dirname, './src/animations'),
-        '@icons': resolve(__dirname, './src/icons'),
-        '@images': resolve(__dirname, './src/images'),
-        '@fonts': resolve(__dirname, './src/fonts'),
-        '@data': resolve(__dirname, './src/data'),
-        '@mocks': resolve(__dirname, './src/mocks'),
-        '@tests': resolve(__dirname, './src/tests'),
-        '@docs': resolve(__dirname, './src/docs'),
-        '@scripts': resolve(__dirname, './src/scripts'),
-        '@workers': resolve(__dirname, './src/workers')
+        '@': resolve(__dirname, 'src'),
+        '@components': resolve(__dirname, 'src/components'),
+        '@pages': resolve(__dirname, 'src/pages'),
+        '@utils': resolve(__dirname, 'src/utils'),
+        '@hooks': resolve(__dirname, 'src/hooks'),
+        '@assets': resolve(__dirname, 'src/assets'),
+        '@styles': resolve(__dirname, 'src/styles'),
+        '@types': resolve(__dirname, 'src/types'),
+        '@constants': resolve(__dirname, 'src/constants'),
+        '@context': resolve(__dirname, 'src/context'),
+        '@services': resolve(__dirname, 'src/services'),
+        '@api': resolve(__dirname, 'src/api')
       }
     },
     build: {
       target: 'esnext',
       outDir: 'dist',
       assetsDir: 'assets',
-      sourcemap: true,
-      minify: 'terser',
+      sourcemap: mode === 'development',
+      minify: mode === 'production' ? 'terser' : false,
       terserOptions: {
         compress: {
-          drop_console: true,
-          drop_debugger: true
+          drop_console: mode === 'production',
+          drop_debugger: mode === 'production'
         },
-        mangle: true,
-        format: {
-          comments: false
+        mangle: {
+          safari10: true
         }
       },
       rollupOptions: {
-        external: [...externalDeps, ...optionalDeps],
         output: {
           manualChunks: {
-            'vendor': ['react', 'react-dom', 'react-router-dom'],
-            'ui': ['framer-motion', 'lucide-react', '@tailwindcss/typography'],
-            'pdf': ['jspdf', 'jspdf-autotable', 'html2canvas'],
-            'sanity': ['@sanity/client', '@mdx-js/react', '@portabletext/react'],
-            'utils': ['validator', 'xss', 'web-vitals']
+            'vendor': externalDeps,
+            'platform': platformModules
           },
           chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js',
           assetFileNames: 'assets/[name]-[hash].[ext]'
+        },
+        onwarn(warning, warn) {
+          // Skip certain warnings
+          if (warning.code === 'CIRCULAR_DEPENDENCY' || warning.code === 'THIS_IS_UNDEFINED') {
+            return;
+          }
+          warn(warning);
         }
+      },
+      // Add error handling for build failures
+      reportCompressedSize: true,
+      chunkSizeWarningLimit: 1000,
+      emptyOutDir: true,
+      // Ensure proper handling of dynamic imports
+      dynamicImportVarsOptions: {
+        warnOnError: true
       }
     },
     server: {
       port: 3000,
-      strictPort: false,
-      host: true,
       open: true,
-      cors: true,
-      hmr: {
-        overlay: true
-      },
-      watch: {
-        usePolling: true,
-        interval: 1000,
-        ignored: ['**/node_modules/**', '**/dist/**']
-      }
+      host: true
     },
     preview: {
-      port: 4173,
-      strictPort: true,
-      host: true,
+      port: 3000,
       open: true,
-      cors: true
+      host: true
     }
   };
 });

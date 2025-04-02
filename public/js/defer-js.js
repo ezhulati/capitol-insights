@@ -11,7 +11,6 @@
 (function() {
   // Configuration
   const criticalScripts = [
-    '/src/main.tsx',
     '/js/meta-fixer.js',
     '/js/image-preload.js',
     '/js/structured-data.js'
@@ -61,20 +60,25 @@
     });
   }
   
-  // Function to optimize the motion.js bundle
+  // Function to optimize the motion bundle
   function optimizeMotionBundle() {
     // Only load motion effects when they're visible
     const handleIntersection = (entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Dynamically import the motion bundle when needed
-          import('/assets/motion-55a23653.js')
-            .then(() => {
-              console.log('Motion effects loaded');
-            })
-            .catch(err => {
-              console.error('Failed to load motion effects:', err);
-            });
+          // Find the motion bundle in the assets directory
+          const motionScript = document.querySelector('script[src*="motion-"]');
+          if (motionScript) {
+            const motionSrc = motionScript.getAttribute('src');
+            // Dynamically import the motion bundle when needed
+            import(motionSrc)
+              .then(() => {
+                console.log('Motion effects loaded');
+              })
+              .catch(err => {
+                console.error('Failed to load motion effects:', err);
+              });
+          }
           
           // Disconnect the observer once loaded
           observer.disconnect();

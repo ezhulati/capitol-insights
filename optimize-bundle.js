@@ -24,6 +24,8 @@ const __dirname = path.dirname(__filename);
 // Configuration
 const distDir = path.join(__dirname, 'dist');
 const assetsDir = path.join(distDir, 'assets');
+const jsDir = path.join(distDir, 'js');
+const cssDir = path.join(distDir, 'css');
 const targetBundles = ['motion', 'index']; // Target specific bundles to optimize
 
 // Check if dist directory exists
@@ -31,6 +33,13 @@ if (!fs.existsSync(distDir)) {
   console.error(chalk.red('Error: dist directory not found. Run npm run build first.'));
   process.exit(1);
 }
+
+// Ensure required directories exist
+[assetsDir, jsDir, cssDir].forEach(dir => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+});
 
 // Get all JS files in the assets directory
 const getJsFiles = () => {
@@ -68,11 +77,10 @@ const optimizeBundle = (filename) => {
     let content = fs.readFileSync(filePath, 'utf8');
     const originalSize = content.length;
     
-    // Simple optimization: Remove console.log statements
-    content = content.replace(/console\.log\([^)]*\);?/g, '');
+    // Remove console.log statements (except error and warn)
+    content = content.replace(/console\.(log|info|debug)\([^)]*\);?/g, '');
     
     // Remove unused imports (this is a simplified approach)
-    // In a real-world scenario, you'd use a more sophisticated tool like tree-shaking
     content = content.replace(/import\s+[^;]+\s+from\s+(['"])([^'"]+)\1;?\s*(?![\s\S]*\2)/g, '');
     
     // Remove comments
@@ -80,6 +88,9 @@ const optimizeBundle = (filename) => {
     
     // Remove whitespace (be careful with this in production)
     content = content.replace(/\s{2,}/g, ' ');
+    
+    // Remove empty lines
+    content = content.replace(/^\s*[\r\n]/gm, '');
     
     // Write the optimized file
     fs.writeFileSync(filePath, content, 'utf8');
@@ -106,79 +117,53 @@ const optimizeBundle = (filename) => {
   }
 };
 
-// Format bytes to human-readable format
+// Format bytes to human readable size
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
   
   const k = 1024;
   const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-  
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
-// Create a critical CSS file
+// Create critical CSS file
 const createCriticalCss = () => {
+  const criticalCssPath = path.join(cssDir, 'critical.css');
+  
   try {
-    // Find the main CSS file
-    const cssFiles = fs.readdirSync(assetsDir).filter(file => file.endsWith('.css'));
-    if (cssFiles.length === 0) {
-      console.error(chalk.red('No CSS files found in assets directory.'));
+    // Read the main CSS file
+    const mainCssFiles = fs.readdirSync(assetsDir)
+      .filter(file => file.endsWith('.css'));
+    
+    if (mainCssFiles.length === 0) {
+      console.warn(chalk.yellow('No CSS files found to optimize'));
       return;
     }
     
-    const mainCssFile = cssFiles.find(file => file.includes('index')) || cssFiles[0];
-    const mainCssPath = path.join(assetsDir, mainCssFile);
+    const mainCssPath = path.join(assetsDir, mainCssFiles[0]);
+    let content = fs.readFileSync(mainCssPath, 'utf8');
     
-    // Read the CSS file
-    const css = fs.readFileSync(mainCssPath, 'utf8');
+    // Extract critical CSS (this is a simplified approach)
+    // In a real-world scenario, you'd use a more sophisticated tool
+    const criticalCss = content
+      .split('}')
+      .filter(rule => {
+        const selectors = rule.split('{')[0];
+        return selectors.includes('html') || 
+               selectors.includes('body') || 
+               selectors.includes('#root') ||
+               selectors.includes('.loading') ||
+               selectors.includes('.error-container');
+      })
+      .join('}');
     
-    // Extract critical CSS (simplified approach)
-    // In a real-world scenario, you'd use a tool like critical or penthouse
-    const criticalSelectors = [
-      'body', 'html', 'header', 'nav', 'main', 'h1', 'h2', 'h3',
-      '.container', '.bg-capitol', '.bg-texture', '.text-navy',
-      '.text-gold', '.font-display', '.font-sans'
-    ];
+    // Write critical CSS file
+    fs.writeFileSync(criticalCssPath, criticalCss);
     
-    let criticalCss = '';
-    
-    // Very simple extraction (not recommended for production)
-    for (const selector of criticalSelectors) {
-      const regex = new RegExp(`${selector}[^{]*{[^}]*}`, 'g');
-      const matches = css.match(regex);
-      
-      if (matches) {
-        criticalCss += matches.join('\n') + '\n';
-      }
-    }
-    
-    // Write critical CSS to public directory
-    const criticalCssPath = path.join(distDir, 'critical.css');
-    fs.writeFileSync(criticalCssPath, criticalCss, 'utf8');
-    
-    console.log(chalk.green('Created critical CSS:'));
-    console.log(`  File: ${criticalCssPath}`);
-    console.log(`  Size: ${formatBytes(criticalCss.length)}`);
-    
-    // Update index.html to include critical CSS inline
-    const indexHtmlPath = path.join(distDir, 'index.html');
-    let indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
-    
-    // Add critical CSS inline
-    indexHtml = indexHtml.replace('</head>', `<style>${criticalCss}</style></head>`);
-    
-    // Update the main CSS link to load asynchronously
-    indexHtml = indexHtml.replace(
-      `<link rel="stylesheet" href="/assets/${mainCssFile}">`,
-      `<link rel="stylesheet" href="/assets/${mainCssFile}" media="print" onload="this.media='all'">`
-    );
-    
-    fs.writeFileSync(indexHtmlPath, indexHtml, 'utf8');
-    console.log(chalk.green('Updated index.html with inline critical CSS and async loading.'));
-    
+    console.log(chalk.green('Created critical.css'));
   } catch (error) {
     console.error(chalk.red(`Error creating critical CSS: ${error.message}`));
   }
@@ -186,41 +171,38 @@ const createCriticalCss = () => {
 
 // Main function
 const main = async () => {
-  console.log(chalk.blue('Starting JavaScript bundle optimization...'));
+  console.log(chalk.blue('Starting bundle optimization...'));
   
   // Get all JS files
   const jsFiles = getJsFiles();
-  console.log(`Found ${jsFiles.length} JavaScript files in assets directory.`);
+  if (jsFiles.length === 0) {
+    console.warn(chalk.yellow('No JavaScript files found to optimize'));
+    return;
+  }
   
   // Find target bundles
   const targetFiles = findTargetBundles(jsFiles);
-  console.log(`Found ${targetFiles.length} target bundles to optimize.`);
+  if (targetFiles.length === 0) {
+    console.warn(chalk.yellow('No target bundles found to optimize'));
+    return;
+  }
   
   // Optimize each target bundle
-  const results = [];
-  for (const file of targetFiles) {
-    const result = optimizeBundle(file);
-    if (result) {
-      results.push(result);
-    }
-  }
+  const results = targetFiles
+    .map(optimizeBundle)
+    .filter(result => result !== null);
   
   // Create critical CSS
-  console.log(chalk.blue('\nCreating critical CSS...'));
   createCriticalCss();
   
-  // Summary
+  // Log summary
   console.log(chalk.blue('\nOptimization Summary:'));
-  let totalSavings = 0;
-  for (const result of results) {
-    totalSavings += result.savings;
-  }
-  console.log(`Total savings: ${formatBytes(totalSavings)}`);
-  console.log(chalk.green('Bundle optimization complete!'));
+  const totalSavings = results.reduce((sum, result) => sum + result.savings, 0);
+  console.log(`Total size savings: ${formatBytes(totalSavings)}`);
 };
 
-// Run the main function
+// Run the script
 main().catch(error => {
-  console.error(chalk.red(`Error: ${error.message}`));
+  console.error(chalk.red(`Fatal error: ${error.message}`));
   process.exit(1);
 });

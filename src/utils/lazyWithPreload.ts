@@ -1,4 +1,5 @@
 import { lazy, ComponentType, LazyExoticComponent } from 'react';
+import analytics from './analytics';
 
 /**
  * Options for enhanced lazy loading
@@ -7,7 +8,6 @@ export interface LazyLoadOptions {
   /**
    * Optional callback to track component load performance
    */
-   
   onLoad?: (componentName: string, loadTimeMs: number) => void;
   
   /**
@@ -24,6 +24,16 @@ export interface LazyLoadOptions {
    * Name for the component (for debugging and performance tracking)
    */
   name?: string;
+  
+  /**
+   * Timeout in milliseconds for loading attempts
+   */
+  timeout?: number;
+  
+  /**
+   * Number of retry attempts for failed loads
+   */
+  retries?: number;
 }
 
 /**
@@ -53,6 +63,16 @@ export interface EnhancedLazyComponent<T extends ComponentType<any>> extends Laz
    * Flag indicating if this component has been loaded
    */
   isLoaded: boolean;
+  
+  /**
+   * Flag indicating if this component has failed to load
+   */
+  hasError: boolean;
+  
+  /**
+   * Last error that occurred during loading
+   */
+  lastError?: Error;
 }
 
 /**
@@ -71,23 +91,38 @@ export function lazyWithPreload<T extends ComponentType<any>>(
     onLoad,
     priority = 'medium',
     debug = false,
-    name = 'Component'
+    name = 'Component',
+    timeout = 30000,
+    retries = 3
   } = options;
   
-  // Track if component is loaded
+  // Track component state
   let isComponentLoaded = false;
+  let hasError = false;
+  let lastError: Error | undefined;
+  let retryCount = 0;
   
-  // Wrap factory to add performance tracking
-  const trackedFactory = () => {
+  // Wrap factory to add performance tracking and error handling
+  const trackedFactory = async (): Promise<{ default: T }> => {
     const startTime = performance.now();
     
     if (debug) {
       console.log(`🔄 [LazyLoad] Starting to load ${name}...`);
     }
     
-    return factory().then(module => {
+    try {
+      // Create a timeout promise
+      const timeoutPromise = new Promise<{ default: T }>((_, reject) => {
+        setTimeout(() => reject(new Error(`Loading timeout for ${name}`)), timeout);
+      });
+      
+      // Race between the factory and timeout
+      const module = await Promise.race([factory(), timeoutPromise]);
+      
       const loadTime = performance.now() - startTime;
       isComponentLoaded = true;
+      hasError = false;
+      lastError = undefined;
       
       if (debug) {
         console.log(`✅ [LazyLoad] ${name} loaded in ${loadTime.toFixed(2)}ms`);
@@ -97,112 +132,135 @@ export function lazyWithPreload<T extends ComponentType<any>>(
         onLoad(name, loadTime);
       }
       
+      // Track successful load in analytics
+      analytics.event({
+        action: 'component_load',
+        category: 'Performance',
+        label: name,
+        value: Math.round(loadTime)
+      });
+      
       return module;
-    }).catch(error => {
+    } catch (error) {
+      hasError = true;
+      lastError = error instanceof Error ? error : new Error(String(error));
+      
       if (debug) {
         console.error(`❌ [LazyLoad] Failed to load ${name}:`, error);
       }
-      throw error;
-    });
-  };
-  
-  // Create the base lazy component
-  const Component = lazy(trackedFactory);
-  
-  // Preload implementation - highest priority, immediate loading
-  const preload = () => {
-    if (debug) {
-      console.log(`🚀 [LazyLoad] Preloading ${name} with high priority`);
-    }
-    return trackedFactory();
-  };
-  
-  // Prefetch implementation - load during idle time
-  const prefetch = () => {
-    return new Promise<void>((resolve) => {
-      if (isComponentLoaded) {
-        resolve();
-        return;
+      
+      // Track error in analytics
+      analytics.event({
+        action: 'component_load_error',
+        category: 'Error',
+        label: name,
+        value: 1,
+        nonInteraction: true
+      });
+      
+      // Retry if we haven't exceeded retry count
+      if (retryCount < retries) {
+        retryCount++;
+        if (debug) {
+          console.log(`🔄 [LazyLoad] Retrying ${name} (attempt ${retryCount}/${retries})...`);
+        }
+        return trackedFactory();
       }
       
-      if (debug) {
-        console.log(`🔍 [LazyLoad] Prefetching ${name} during idle time`);
+      throw error;
+    }
+  };
+  
+  // Create the lazy component
+  const lazyComponent = lazy(trackedFactory) as EnhancedLazyComponent<T>;
+  
+  // Add preload method
+  lazyComponent.preload = () => {
+    if (isComponentLoaded) {
+      return Promise.resolve({ default: lazyComponent as unknown as T });
+    }
+    return trackedFactory() as Promise<{ default: T }>;
+  };
+  
+  // Add prefetch method
+  lazyComponent.prefetch = () => {
+    if (isComponentLoaded) return Promise.resolve();
+    
+    const prefetchStrategy = () => {
+      if (priority === 'high') {
+        return trackedFactory().then(() => {});
       }
       
       if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(() => {
-          trackedFactory().then(() => resolve());
-        }, { timeout: priority === 'high' ? 500 : 2000 });
-      } else {
-        // Fallback for browsers without requestIdleCallback
+        return new Promise<void>((resolve) => {
+          window.requestIdleCallback(() => {
+            trackedFactory().then(() => resolve());
+          }, { timeout: 5000 });
+        });
+      }
+      
+      // Fallback for browsers without requestIdleCallback
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           trackedFactory().then(() => resolve());
-        }, priority === 'high' ? 100 : 1000);
-      }
+        }, 3000);
+      });
+    };
+    
+    return prefetchStrategy();
+  };
+  
+  // Add warmup method
+  lazyComponent.warmup = () => {
+    if (isComponentLoaded) return Promise.resolve();
+    
+    return new Promise<void>((resolve) => {
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = factory.toString().match(/import\(['"]([^'"]+)['"]\)/)?.[1] || '';
+      document.head.appendChild(link);
+      resolve();
     });
   };
   
-  // Warmup implementation - load and parse but don't initialize
-  const warmup = () => {
-    if (isComponentLoaded) {
-      return Promise.resolve();
-    }
-    
-    if (debug) {
-      console.log(`🔥 [LazyLoad] Warming up ${name}`);
-    }
-    
-    // Use a microtask to not block the main thread
-    return Promise.resolve().then(() => {
-      trackedFactory();
-      return Promise.resolve();
-    });
-  };
-  
-  // Enhance the component with our additional methods
-  const EnhancedComponent = Component as EnhancedLazyComponent<T>;
-  EnhancedComponent.preload = preload;
-  EnhancedComponent.prefetch = prefetch;
-  EnhancedComponent.warmup = warmup;
-  
-  // Add property to check if loaded
-  Object.defineProperty(EnhancedComponent, 'isLoaded', {
+  // Add state flags
+  Object.defineProperty(lazyComponent, 'isLoaded', {
     get: () => isComponentLoaded
   });
   
-  return EnhancedComponent;
+  Object.defineProperty(lazyComponent, 'hasError', {
+    get: () => hasError
+  });
+  
+  Object.defineProperty(lazyComponent, 'lastError', {
+    get: () => lastError
+  });
+  
+  return lazyComponent;
 }
 
 /**
- * Batch preload multiple components
+ * Preload multiple components in parallel
  * 
  * @param components Array of enhanced lazy components to preload
  * @returns Promise that resolves when all components are loaded
  */
 export function preloadComponents(
-   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   components: EnhancedLazyComponent<any>[]
 ): Promise<void> {
-  return Promise.all(
-    components.map(component => component.preload())
-  ).then(() => void 0);
+  return Promise.all(components.map(component => component.preload())).then(() => {});
 }
 
 /**
- * Prefetch multiple components with low priority
+ * Prefetch multiple components with priority-based timing
  * 
  * @param components Array of enhanced lazy components to prefetch
  */
 export function prefetchComponents(
-   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   components: EnhancedLazyComponent<any>[]
 ): void {
-  // We don't wait for completion since these are low priority
-  components.forEach(component => {
-    if (!component.isLoaded) {
-      component.prefetch();
-    }
-  });
+  components.forEach(component => component.prefetch());
 }
+

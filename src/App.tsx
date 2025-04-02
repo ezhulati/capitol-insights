@@ -24,6 +24,27 @@ const trackPageLoad = (pageName: string, loadTimeMs: number) => {
   });
 };
 
+// Loading component with error handling
+const LoadingComponent = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-navy-900"></div>
+  </div>
+);
+
+// Error component with retry functionality
+const ErrorComponent = ({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) => (
+  <div className="flex flex-col items-center justify-center min-h-screen p-4">
+    <h2 className="text-2xl font-bold text-navy-900 mb-4">Something went wrong</h2>
+    <p className="text-gray-600 mb-4">{error.message}</p>
+    <button
+      onClick={resetErrorBoundary}
+      className="px-4 py-2 bg-navy-900 text-white rounded hover:bg-navy-800 transition-colors"
+    >
+      Try again
+    </button>
+  </div>
+);
+
 // Lazy-loaded page components with priority levels
 // Primary pages (high priority)
 const HomePage = lazyWithPreload(() => import('./pages/HomePage'), { 
@@ -100,293 +121,66 @@ const SuccessStoriesPage = lazyWithPreload(() => import('./pages/SuccessStoriesP
   onLoad: trackPageLoad
 });
 
-const LegislativeCalendarPage = lazyWithPreload(() => import('./pages/LegislativeCalendarPage'), { 
-  name: 'LegislativeCalendarPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-const PolicyBriefingsPage = lazyWithPreload(() => import('./pages/PolicyBriefingsPage'), { 
-  name: 'PolicyBriefingsPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-// Utility pages
-const PrivacyPolicyPage = lazyWithPreload(() => import('./pages/PrivacyPolicyPage'), { 
-  name: 'PrivacyPolicyPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-const TermsPage = lazyWithPreload(() => import('./pages/TermsPage'), { 
-  name: 'TermsPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-const NotFoundPage = lazyWithPreload(() => import('./pages/NotFoundPage'), { 
-  name: 'NotFoundPage', 
-  priority: 'low',
-  onLoad: trackPageLoad
-});
-
-// Group components for strategic preloading
-const primaryPages = [HomePage, ServicesPage, TeamPage, ContactPage];
-const secondaryPages = [ResultsPage, ApproachPage, UpdatesPage, ResourcesPage, FAQPage];
-const tertiaryPages = [
-  BlogPostPage, PracticeAreasPage, SuccessStoriesPage,
-  LegislativeCalendarPage, PolicyBriefingsPage
-];
-
-// Loading fallback component
-const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-center">
-      <div className="w-16 h-16 bg-gold-200 rounded-full flex items-center justify-center mx-auto mb-4">
-        <div className="w-10 h-10 bg-gold-600 rounded-full"></div>
-      </div>
-      <div className="h-4 w-32 bg-slate-200 rounded mx-auto"></div>
-    </div>
-  </div>
+// Route wrapper component with error boundary
+const RouteWrapper = ({ children }: { children: ReactNode }) => (
+  <ErrorBoundary>
+    <Suspense fallback={<LoadingComponent />}>
+      {children}
+    </Suspense>
+  </ErrorBoundary>
 );
 
-// Strategic page preloading for better UX
-const preloadNextPages = () => {
-  // Immediately preload primary pages
-  preloadComponents(primaryPages).then(() => {
-    console.log('✅ Primary pages preloaded');
+// Main App component
+const App = () => {
+  const location = useLocation();
+
+  // Prefetch components based on route
+  useEffect(() => {
+    const path = location.pathname;
     
-    // Once primary pages are loaded, prefetch secondary pages
-    prefetchComponents(secondaryPages);
-    
-    // Use requestIdleCallback for tertiary pages to load during idle time
-    if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(() => {
-        prefetchComponents(tertiaryPages);
-      }, { timeout: 5000 });
-    } else {
-      // Fallback for browsers without requestIdleCallback
-      setTimeout(() => {
-        prefetchComponents(tertiaryPages);
-      }, 3000);
+    // Prefetch components based on current route
+    if (path === '/') {
+      prefetchComponents([ServicesPage, TeamPage]);
+    } else if (path === '/services') {
+      prefetchComponents([ResultsPage, ApproachPage]);
+    } else if (path === '/team') {
+      prefetchComponents([SuccessStoriesPage, BlogPostPage]);
     }
-  });
-};
+  }, [location]);
 
-// ScrollToTop component to handle scroll position on route changes and track page views
-const ScrollToTop = () => {
-  const { pathname, hash, search } = useLocation();
-
-  // Track page view when route changes
-  useEffect(() => {
-    // Send pageview to Google Analytics
-    const url = pathname + search + hash;
-    analytics.pageview(url);
-    
-    // Track page view event
-    analytics.event({
-      action: 'page_view',
-      category: 'Navigation',
-      label: pathname
-    });
-  }, [pathname, search, hash]);
-
-  // Handle scroll position
-  useEffect(() => {
-    if (!hash) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    } else {
-      // Delayed execution to ensure DOM is fully updated
-      setTimeout(() => {
-        const id = hash.replace('#', '');
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  }, [pathname, hash]);
-
-  return null;
-};
-
-// Simple page transition
-const PageTransition: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <div>{children}</div>
-);
-
-function App() {
-  // Initialize analytics and trigger preloading on initial mount
-  useEffect(() => {
-    // Initialize Google Analytics
-    analytics.initAnalytics();
-    
-    // Preload pages
-    preloadNextPages();
-  }, []);
-  
   return (
-    <HelmetProvider>
-      <ErrorBoundary>
-        <Router>
-          <SkipToContent />
-          <ScrollToTop />
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main id="main-content" className="flex-grow">
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route 
-                  path="/" 
-                  element={
-                    <PageTransition>
-                      <HomePage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/services" 
-                  element={
-                    <PageTransition>
-                      <ServicesPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/practice-areas" 
-                  element={
-                    <PageTransition>
-                      <PracticeAreasPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/team" 
-                  element={
-                    <PageTransition>
-                      <TeamPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/results" 
-                  element={
-                    <PageTransition>
-                      <ResultsPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/success-stories" 
-                  element={
-                    <PageTransition>
-                      <SuccessStoriesPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/approach" 
-                  element={
-                    <PageTransition>
-                      <ApproachPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/contact" 
-                  element={
-                    <PageTransition>
-                      <ContactPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/updates" 
-                  element={
-                    <PageTransition>
-                      <UpdatesPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/updates/:slug" 
-                  element={
-                    <PageTransition>
-                      <BlogPostPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/privacy" 
-                  element={
-                    <PageTransition>
-                      <PrivacyPolicyPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/terms" 
-                  element={
-                    <PageTransition>
-                      <TermsPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/legislative-calendar" 
-                  element={
-                    <PageTransition>
-                      <LegislativeCalendarPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/policy-briefings" 
-                  element={
-                    <PageTransition>
-                      <PolicyBriefingsPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/resources" 
-                  element={
-                    <PageTransition>
-                      <ResourcesPage />
-                    </PageTransition>
-                  } 
-                />
-                <Route 
-                  path="/faq" 
-                  element={
-                    <PageTransition>
-                      <FAQPage />
-                    </PageTransition>
-                  } 
-                />
-                {/* 404 Not Found - This must be the last route */}
-                <Route 
-                  path="*" 
-                  element={
-                    <PageTransition>
-                      <NotFoundPage />
-                    </PageTransition>
-                  } 
-                />
-              </Routes>
-            </Suspense>
-          </main>
-          <BackToTop />
-          <Footer />
-        </div>
-        </Router>
-      </ErrorBoundary>
-    </HelmetProvider>
+    <div className="flex flex-col min-h-screen">
+      <SkipToContent />
+      <Header />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<RouteWrapper><HomePage /></RouteWrapper>} />
+          <Route path="/services" element={<RouteWrapper><ServicesPage /></RouteWrapper>} />
+          <Route path="/team" element={<RouteWrapper><TeamPage /></RouteWrapper>} />
+          <Route path="/contact" element={<RouteWrapper><ContactPage /></RouteWrapper>} />
+          <Route path="/results" element={<RouteWrapper><ResultsPage /></RouteWrapper>} />
+          <Route path="/approach" element={<RouteWrapper><ApproachPage /></RouteWrapper>} />
+          <Route path="/updates" element={<RouteWrapper><UpdatesPage /></RouteWrapper>} />
+          <Route path="/resources" element={<RouteWrapper><ResourcesPage /></RouteWrapper>} />
+          <Route path="/faq" element={<RouteWrapper><FAQPage /></RouteWrapper>} />
+          <Route path="/blog/:slug" element={<RouteWrapper><BlogPostPage /></RouteWrapper>} />
+          <Route path="/practice-areas" element={<RouteWrapper><PracticeAreasPage /></RouteWrapper>} />
+          <Route path="/success-stories" element={<RouteWrapper><SuccessStoriesPage /></RouteWrapper>} />
+        </Routes>
+      </main>
+      <Footer />
+      <BackToTop />
+    </div>
   );
-}
+};
 
-export default App;
+// Wrap the app with necessary providers
+const AppWithProviders = () => (
+  <HelmetProvider>
+    <Router>
+      <App />
+    </Router>
+  </HelmetProvider>
+);
+
+export default AppWithProviders;
