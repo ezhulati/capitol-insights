@@ -212,7 +212,9 @@ export default defineConfig(({ mode }) => {
           // Add regex patterns for dynamic imports
           /^@rollup\/rollup-/,
           /^@esbuild\//,
-          /^@img\/sharp-/
+          /^@img\/sharp-/,
+          // Add main.js to external dependencies to fix build error
+          '/main.js'
         ],
         output: {
           chunkFileNames: 'assets/[name]-[hash].js',
