@@ -1,62 +1,109 @@
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+/**
+ * Google Analytics Utility Functions
+ * 
+ * This file provides utility functions for interacting with Google Analytics
+ * in a React-friendly way. It includes functions for tracking page views,
+ * events, and user interactions.
+ */
 
-type MetricName = 'CLS' | 'FID' | 'FCP' | 'LCP' | 'TTFB';
+// Check if Google Analytics is loaded
+const isGaLoaded = (): boolean => {
+  return typeof window !== 'undefined' && typeof window.gtag === 'function';
+};
 
-interface MetricObject {
-  name: MetricName;
-  value: number;
-  delta: number;
-  id: string;
+// Track page view
+export const pageview = (url: string, title?: string): void => {
+  if (!isGaLoaded()) return;
+  
+  window.gtag('config', 'G-04T2WHMD23', {
+    page_path: url,
+    page_title: title || document.title
+  });
+  
+  console.log(`[Analytics] Pageview: ${url}`);
+};
+
+// Track event
+export interface EventParams {
+  action: string;
+  category: string;
+  label?: string;
+  value?: number;
+  nonInteraction?: boolean;
+  [key: string]: any; // Allow custom parameters
 }
 
-// Function to report web vitals metrics
-export const reportWebVitals = (
-   
-  onMetric?: (metric: MetricObject) => void
-) => {
-  if (onMetric && typeof onMetric === 'function') {
-    getCLS(metric => onMetric(metric as MetricObject));
-    getFID(metric => onMetric(metric as MetricObject));
-    getFCP(metric => onMetric(metric as MetricObject));
-    getLCP(metric => onMetric(metric as MetricObject));
-    getTTFB(metric => onMetric(metric as MetricObject));
-  }
+export const event = (params: EventParams): void => {
+  if (!isGaLoaded()) return;
+  
+  window.gtag('event', params.action, {
+    event_category: params.category,
+    event_label: params.label,
+    value: params.value,
+    non_interaction: params.nonInteraction,
+    ...params
+  });
+  
+  console.log(`[Analytics] Event: ${params.category} / ${params.action} / ${params.label || 'N/A'}`);
 };
 
-// Analytics event tracking
-export const trackEvent = (
-  category: string,
-  action: string,
-  label?: string,
-  value?: number
-) => {
-  // This would connect to actual analytics services in production
-  // For now, just log to console in development
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[Analytics] ${category} - ${action} - ${label || ''} - ${value || ''}`);
-  }
+// Track user timing
+export interface TimingParams {
+  name: string;
+  value: number; // Time in milliseconds
+  category: string;
+  label?: string;
+}
+
+export const timing = (params: TimingParams): void => {
+  if (!isGaLoaded()) return;
   
-  // Example of how we would send to Google Analytics
-  // if (window.gtag) {
-  //   window.gtag('event', action, {
-  //     event_category: category,
-  //     event_label: label,
-  //     value: value
-  //   });
-  // }
+  window.gtag('event', 'timing_complete', {
+    name: params.name,
+    value: params.value,
+    event_category: params.category,
+    event_label: params.label
+  });
+  
+  console.log(`[Analytics] Timing: ${params.category} / ${params.name} / ${params.value}ms`);
 };
 
-// Page view tracking
-export const trackPageView = (path: string, title: string) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[Analytics] Page View: ${path} - ${title}`);
+// Set user properties
+export const setUserProperties = (properties: Record<string, any>): void => {
+  if (!isGaLoaded()) return;
+  
+  window.gtag('set', 'user_properties', properties);
+  console.log('[Analytics] Set user properties', properties);
+};
+
+// Initialize analytics with custom dimensions
+export const initAnalytics = (): void => {
+  if (!isGaLoaded()) {
+    console.warn('[Analytics] Google Analytics not loaded');
+    return;
   }
   
-  // Example of how we would send to Google Analytics
-  // if (window.gtag) {
-  //   window.gtag('config', 'G-XXXXXXXXXX', {
-  //     page_path: path,
-  //     page_title: title
-  //   });
-  // }
+  // Set default custom dimensions
+  window.gtag('set', {
+    'custom_dimension1': 'Capitol Insights',
+    'custom_dimension2': process.env.NODE_ENV || 'development'
+  });
+  
+  console.log('[Analytics] Initialized');
+};
+
+// Add TypeScript declarations for gtag
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
+
+export default {
+  pageview,
+  event,
+  timing,
+  setUserProperties,
+  initAnalytics
 };

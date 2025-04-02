@@ -8,10 +8,20 @@ import SkipToContent from './components/SkipToContent';
 import BackToTop from './components/BackToTop';
 import { lazyWithPreload, prefetchComponents, preloadComponents } from './utils/lazyWithPreload';
 
+// Import analytics utilities
+import analytics from './utils/analytics';
+
 // Performance tracking function
 const trackPageLoad = (pageName: string, loadTimeMs: number) => {
   console.log(`📊 Page Performance: ${pageName} loaded in ${loadTimeMs.toFixed(2)}ms`);
-  // Could send to analytics service here
+  
+  // Send timing data to Google Analytics
+  analytics.timing({
+    name: 'page_load',
+    value: Math.round(loadTimeMs),
+    category: 'Performance',
+    label: pageName
+  });
 };
 
 // Lazy-loaded page components with priority levels
@@ -164,10 +174,25 @@ const preloadNextPages = () => {
   });
 };
 
-// ScrollToTop component to handle scroll position on route changes
+// ScrollToTop component to handle scroll position on route changes and track page views
 const ScrollToTop = () => {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, search } = useLocation();
 
+  // Track page view when route changes
+  useEffect(() => {
+    // Send pageview to Google Analytics
+    const url = pathname + search + hash;
+    analytics.pageview(url);
+    
+    // Track page view event
+    analytics.event({
+      action: 'page_view',
+      category: 'Navigation',
+      label: pathname
+    });
+  }, [pathname, search, hash]);
+
+  // Handle scroll position
   useEffect(() => {
     if (!hash) {
       window.scrollTo({
@@ -195,8 +220,12 @@ const PageTransition: React.FC<{ children: ReactNode }> = ({ children }) => (
 );
 
 function App() {
-  // Trigger preloading on initial mount
+  // Initialize analytics and trigger preloading on initial mount
   useEffect(() => {
+    // Initialize Google Analytics
+    analytics.initAnalytics();
+    
+    // Preload pages
     preloadNextPages();
   }, []);
   
