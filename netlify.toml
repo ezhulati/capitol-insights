@@ -9,6 +9,14 @@
   SECRETS_SCAN_OMIT_KEYS = "AUTH0_AUDIENCE,AUTH0_CLIENT_ID"
   NODE_OPTIONS = "--max-old-space-size=4096"
   NPM_CONFIG_LOGLEVEL = "verbose"
+  # Ensure all dependencies are installed properly and CI mode doesn't skip any
+  CI = "false"
+  # Set this to ensure Vite is found and used
+  PATH = "/opt/build/repo/node_modules/.bin:$PATH"
+  # Define React Router constants for build environment
+  VITE_DEFINE_POP = "POP"
+  VITE_DEFINE_PUSH = "PUSH"
+  VITE_DEFINE_REPLACE = "REPLACE"
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
