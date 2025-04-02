@@ -225,21 +225,14 @@ export default defineConfig(({ mode }) => {
           // Add regex patterns for dynamic imports
           /^@rollup\/rollup-/,
           /^@esbuild\//,
-          /^@img\/sharp-/,
-          // Add external dependencies to fix build errors
-          '/main.js',
-          '/assets/index.js'
+          /^@img\/sharp-/
+          // Removed external entries for main.js and assets/index.js which were preventing proper bundling
         ],
         output: {
-          // Use more predictable filenames for main entry point to avoid Rollup resolution issues
-          chunkFileNames: 'assets/[name]-[hash].js',
-          entryFileNames: (chunkInfo) => {
-            // Use static filename for main entry point, hash for others
-            return chunkInfo.name === 'index' 
-              ? 'assets/index.js' 
-              : 'assets/[name]-[hash].js';
-          },
-          assetFileNames: 'assets/[name]-[hash].[ext]'
+          // Simplified output path configuration for more reliable bundling
+          entryFileNames: 'assets/[name].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[ext]'
         },
         onwarn(warning, warn) {
           // Skip certain warnings
