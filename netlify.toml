@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build:ci"
+  command = "./build.sh"
   publish = "dist"
   node_version = "18.19.1" # Trigger rebuild
 
@@ -7,6 +7,8 @@
   NODE_VERSION = "18.19.1"
   NPM_VERSION = "10.2.4"
   SECRETS_SCAN_OMIT_KEYS = "AUTH0_AUDIENCE,AUTH0_CLIENT_ID"
+  NPM_FLAGS = "--legacy-peer-deps --force"
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
 [[plugins]]
   package = "@netlify/plugin-lighthouse"

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Build script for Capitol Insights
+# This script handles dependency resolution and builds the project
+
+echo "Starting build process for Capitol Insights..."
+
+# Set environment variables
+export NODE_OPTIONS="--max-old-space-size=4096"
+export NPM_CONFIG_LEGACY_PEER_DEPS=true
+export NPM_CONFIG_FORCE=true
+
+# Clean up node_modules to ensure a fresh install
+echo "Cleaning up node_modules..."
+rm -rf node_modules
+rm -rf package-lock.json
+
+# Install dependencies with force and legacy-peer-deps
+echo "Installing dependencies..."
+npm install --legacy-peer-deps --force
+
+# Check if installation was successful
+if [ $? -ne 0 ]; then
+  echo "Dependency installation failed, trying alternative approach..."
+  
+  # Try with package overrides
+  echo "Applying package overrides..."
+  cp package-overrides.json package.json.overrides
+  jq -s '.[0] * .[1]' package.json package.json.overrides > package.json.new
+  mv package.json.new package.json
+  rm package.json.overrides
+  
+  # Try installation again
+  npm install --legacy-peer-deps --force
+  
+  if [ $? -ne 0 ]; then
+    echo "Dependency installation failed again. Exiting."
+    exit 1
+  fi
+fi
+
+# Build the project
+echo "Building the project..."
+npm run build
+
+# Run optimizations
+echo "Running optimizations..."
+node optimize-bundle.js
+
+echo "Build completed successfully!"
