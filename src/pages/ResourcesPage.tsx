@@ -64,7 +64,7 @@ const resourcesData: Resource[] = [
     documentUrl: '/files/texas-legislative-calendar-2025.html',
     date: '2024-12-15',
     featured: true,
-    thumbnailUrl: '/images/capitol-background.jpg',
+    thumbnailUrl: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png',
     fileSize: '2.4 MB'
   },
   {
@@ -77,6 +77,7 @@ const resourcesData: Resource[] = [
     documentUrl: '/files/texas-legislative-influence-guide-2025.html',
     date: '2024-11-20',
     featured: true,
+    thumbnailUrl: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png',
     fileSize: '3.1 MB'
   },
   {
