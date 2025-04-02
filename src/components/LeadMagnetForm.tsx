@@ -144,7 +144,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
           {!isSubmitted ? (
             <>
               <h3 className="text-navy-900 font-semibold mb-4">Get Instant Access</h3>
-              <p className="text-slate-600 text-sm mb-4">Enter your information below to receive the guide immediately.</p>
+              <p className="text-slate-800 text-sm mb-4">Enter your information below to receive the guide immediately.</p>
               
               {error && (
                 <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 text-sm">

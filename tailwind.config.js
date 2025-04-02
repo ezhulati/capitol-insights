@@ -41,7 +41,7 @@ export default {
           700: '#244c76',
           800: '#1d3d5e',
           900: '#0F2539', // Brand primary navy - slightly adjusted for better contrast
-          950: '#081828', // Darkened for better contrast with white text
+          950: '#071525', // Further darkened for better contrast with white text in footer
         },
         gold: {
           50: '#ffffff', // Changed to pure white for better contrast with gold text
@@ -50,8 +50,8 @@ export default {
           300: '#f5d872',
           400: '#f0c742',
           500: '#e9b420',
-          600: '#A67800', // Brand primary gold - further darkened for better contrast
-          700: '#805A00', // Brand deep gold - significantly darkened for better contrast
+          600: '#6B4E00', // Brand primary gold - further darkened for better contrast with white text
+          700: '#604500', // Brand deep gold - further darkened for better contrast
           800: '#925400',
           900: '#784504',
           950: '#432204',
@@ -62,7 +62,7 @@ export default {
           200: '#cad1df',
           300: '#a6b2c7',
           400: '#7c8daa',
-          500: '#617192',
+          500: '#455575', // Further darkened for better contrast
           600: '#4f5d7a',
           700: '#415067',
           800: '#334E68', // Brand slate
