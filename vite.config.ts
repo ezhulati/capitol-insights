@@ -8,30 +8,6 @@ import type { Plugin, PluginOption } from 'vite';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
-// External dependencies that should not be bundled
-const externalDeps = [
-  // UI and animation libraries
-  'framer-motion',
-  'lucide-react',
-  '@tailwindcss/typography',
-  
-  // PDF and image processing
-  'jspdf',
-  'jspdf-autotable',
-  'html2canvas',
-  'sharp',
-  
-  // Sanity and MDX
-  '@sanity/client',
-  '@mdx-js/react',
-  '@portabletext/react',
-  
-  // Utilities
-  'validator',
-  'xss',
-  'web-vitals'
-];
-
 // Node.js built-in modules that should be external
 const nodeBuiltins = [
   'fs',
@@ -41,7 +17,26 @@ const nodeBuiltins = [
   'stream',
   'events',
   'os',
-  'child_process'
+  'child_process',
+  'buffer',
+  'process',
+  'querystring',
+  'url',
+  'zlib',
+  'http',
+  'https',
+  'net',
+  'tls',
+  'dns',
+  'dgram',
+  'punycode',
+  'readline',
+  'repl',
+  'string_decoder',
+  'sys',
+  'timers',
+  'tty',
+  'vm'
 ];
 
 // Platform-specific modules that should be external
@@ -84,7 +79,50 @@ const platformModules = [
   '@img/sharp-darwin-arm64',
   '@img/sharp-darwin-x64',
   '@img/sharp-linux-arm64',
-  '@img/sharp-linux-x64'
+  '@img/sharp-linux-x64',
+  
+  // Other platform-specific modules
+  'detect-libc',
+  'node-gyp',
+  'node-pre-gyp',
+  'node-sass',
+  'sass',
+  'fibers',
+  'canvas',
+  'sqlite3',
+  'bcrypt',
+  'node-gyp-build',
+  'node-gyp-build-optional-package',
+  'node-gyp-build-tools',
+  'node-gyp-build-optional-package-tools',
+  'node-gyp-build-optional-package-tools-darwin',
+  'node-gyp-build-optional-package-tools-linux',
+  'node-gyp-build-optional-package-tools-win32'
+];
+
+// Optional dependencies that should be external
+const optionalDeps = [
+  // PDF and image processing
+  'jspdf',
+  'jspdf-autotable',
+  'html2canvas',
+  'sharp',
+  'pdfkit',
+  'puppeteer',
+  
+  // Sanity and MDX
+  '@sanity/client',
+  '@mdx-js/react',
+  '@portabletext/react',
+  
+  // UI and animation
+  'framer-motion',
+  'lucide-react',
+  
+  // Utilities
+  'validator',
+  'xss',
+  'web-vitals'
 ];
 
 export default defineConfig(({ mode }) => {
@@ -198,7 +236,7 @@ export default defineConfig(({ mode }) => {
         }
       },
       rollupOptions: {
-        external: [...nodeBuiltins, ...platformModules],
+        external: [...nodeBuiltins, ...platformModules, ...optionalDeps],
         output: {
           chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js',
