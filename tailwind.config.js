@@ -71,9 +71,9 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Georgia', 'serif'],
-        accent: ['Georgia', 'serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'sans-serif'],
+        display: ['Georgia', 'Times', 'Times New Roman', 'serif'],
+        accent: ['Georgia', 'Times', 'Times New Roman', 'serif'],
       },
       typography: (theme) => ({
         DEFAULT: {

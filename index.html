@@ -29,11 +29,21 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     
-    <!-- Font loading strategy optimized for performance -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Georgia:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <!-- Font loading strategy with system font fallbacks -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Georgia:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     </noscript>
+    <!-- Added font-display:swap for better performance -->
+    <style>
+      /* System font stack fallbacks */
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      .font-display, h1, h2, h3, h4, h5, h6 {
+        font-family: Georgia, Times, 'Times New Roman', serif;
+      }
+    </style>
     
     <!-- Critical CSS moved to external file to comply with CSP -->
     <link rel="stylesheet" href="/css/critical.css">
@@ -50,29 +60,6 @@
     <meta name="google-site-verification" content="m56tQG4npD-YUtq_2kRTIya2nveMVfw1iOYg-ome0jY"/>
 
     <!-- CSP Nonce Initialization (must be before any scripts) -->
-    <script>
-      // Generate a nonce for this page
-      window.__CSP_NONCE__ = (function() {
-        // Create a buffer with random bytes
-        const randomBytes = new Uint8Array(16);
-        crypto.getRandomValues(randomBytes);
-        // Convert the random bytes to a base64 string
-        return btoa(String.fromCharCode.apply(null, Array.from(randomBytes)));
-      })();
-      
-      // Development mode flag for debugging
-      window.__DEV_MODE__ = window.location.hostname === 'localhost' || 
-                          window.location.hostname === '127.0.0.1';
-                          
-      // Add the nonce to the CSP meta tag
-      document.addEventListener('DOMContentLoaded', function() {
-        // Add CSP meta tag with nonce
-        const meta = document.createElement('meta');
-        meta.httpEquiv = 'Content-Security-Policy';
-        meta.content = `script-src 'self' https://identity.netlify.com https://www.googletagmanager.com https://www.google-analytics.com 'nonce-${window.__CSP_NONCE__}'; style-src 'self' https://*.unsplash.com https://fonts.googleapis.com; script-src-elem 'self' https://identity.netlify.com https://www.googletagmanager.com https://www.google-analytics.com 'nonce-${window.__CSP_NONCE__}';`;
-        document.head.appendChild(meta);
-      });
-    </script>
     
     <!-- Structured Data loaded from external file for better CSP compliance -->
     <script src="/js/structured-data.js"></script>
