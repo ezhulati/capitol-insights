@@ -3,8 +3,10 @@
  * 
  * This file provides utility functions for interacting with Google Analytics
  * in a React-friendly way. It includes functions for tracking page views,
- * events, and user interactions.
+ * events, user interactions, and web vitals reporting.
  */
+
+import { ReportHandler } from 'web-vitals';
 
 // Check if Google Analytics is loaded
 const isGaLoaded = (): boolean => {
@@ -100,10 +102,24 @@ declare global {
   }
 }
 
+// Report web vitals metrics
+export const reportWebVitals = (onPerfEntry?: ReportHandler): void => {
+  if (onPerfEntry && typeof onPerfEntry === 'function') {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
 export default {
   pageview,
   event,
   timing,
   setUserProperties,
-  initAnalytics
+  initAnalytics,
+  reportWebVitals
 };
