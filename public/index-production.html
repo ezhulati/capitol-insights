@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-04T2WHMD23"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-04T2WHMD23');
+  </script>
+  <!-- CI Letters Hardcoded Favicon - v6 - super aggressive cache busting -->
+  <link rel="icon" href="/capitol-ci-hardcoded-v5.svg?no-cache=20250330130950" type="image/svg+xml" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=6" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=6" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6" />
+  <link rel="mask-icon" href="/capitol-ci-hardcoded-v5.svg?no-cache=20250330130950" color="#1a365d" />
+  <meta name="msapplication-config" content="/browserconfig.xml" />
+
+  <!-- PWA support -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Theme color adaptation -->
+  <meta name="theme-color" content="#1a365d" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+
+  <!-- Performance optimizations - Resource hints with corrected attributes -->
+  <link rel="preload" href="/images/approach-capitol.webp" as="image" type="image/webp" fetchpriority="high" crossorigin="anonymous" />
+  <link rel="preload" href="/images/texas-capitol.webp" as="image" type="image/webp" fetchpriority="high" crossorigin="anonymous" />
+  <link rel="preload" href="/images/capitol-background.webp" as="image" type="image/webp" fetchpriority="high" crossorigin="anonymous" />
+
+  <!-- Preconnect to domains for faster resource loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  
+  <!-- Font loading strategy with system font fallbacks -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </noscript>
+  <!-- Added font-display:swap for better performance -->
+  <style>
+    /* System font stack fallbacks */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    .font-display, h1, h2, h3, h4, h5, h6 {
+      font-family: Georgia, Times, 'Times New Roman', serif;
+    }
+  </style>
+  
+  <!-- Critical CSS inlined for faster rendering -->
+  <style>
+    /* Inlined critical CSS */
+    :root {
+      --color-navy-900: #0F2539;
+      --color-navy-950: #0A1E30;
+      --color-gold-500: #F0C030;
+      --color-gold-600: #D9A800;
+      --color-gold-700: #BE9000;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #334E68;
+      background-color: #ffffff;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: Georgia, Times, 'Times New Roman', serif;
+      color: var(--color-navy-900);
+      margin-top: 0;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    
+    .bg-capitol {
+      background-image: url('/images/capitol-background.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    
+    .bg-texture {
+      background-image: url('/images/texture-background.webp');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .no-webp .bg-capitol {
+      background-image: url('/images/capitol-background.jpg');
+    }
+    
+    .no-webp .bg-texture {
+      background-image: url('/images/texture-background.jpg');
+    }
+    
+    /* Loading state styles */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #ffffff;
+    }
+    
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1a365d;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Error state styles */
+    .error-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ffffff;
+      z-index: 9999;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .error-message {
+      color: #dc2626;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .retry-button {
+      background-color: #1a365d;
+      color: #ffffff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+    }
+    
+    .retry-button:hover {
+      background-color: #0f2539;
+    }
+    
+    /* Technical error details */
+    .error-details {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f1f1f1;
+      border-radius: 0.375rem;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      display: none;
+    }
+
+    /* Additional Styles for Static Site */
+    header {
+      background-color: #1a365d;
+      color: white;
+      padding: 1rem;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+    }
+    
+    .hero {
+      background-color: var(--color-navy-950);
+      color: white;
+      padding: 4rem 0;
+      background-image: linear-gradient(rgba(10, 30, 48, 0.85), rgba(10, 30, 48, 0.9)), url('/images/texas-capitol.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .hero h1 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+    }
+    
+    .btn {
+      display: inline-block;
+      background-color: #1a365d;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .service-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+    }
+    
+    footer {
+      background-color: #f8f9fa;
+      padding: 2rem 0;
+      margin-top: 2rem;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/critical.css">
+
+  <!-- Primary SEO - Base tags only (React Helmet will override these) -->
+  <title>Capitol Insights</title>
+  <meta name="description" content="Capitol Insights - Texas Government Relations">
+
+  <!-- Base Open Graph / Social Media Meta Tags (React Helmet will override) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Capitol Insights" />
+
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="m56tQG4npD-YUtq_2kRTIya2nveMVfw1iOYg-ome0jY"/>
+</head>
+<body class="antialiased text-slate-700 bg-white no-js">
+  <script>document.body.classList.remove('no-js');</script>
+  <div id="root">
+    <!-- Static content as a fallback -->
+    <header>
+      <div class="container header-content">
+        <h1 style="margin: 0;">Capitol Insights</h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/services">Services</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+    
+    <section class="hero">
+      <div class="container">
+        <h1>40+ Years of Legislative Relationships Working for You</h1>
+        <p>When legislation threatens your business, will you be introducing yourself to lawmakers... or activating relationships you've already built?</p>
+        <a href="/contact" class="btn">Get Started</a>
+      </div>
+    </section>
+    
+    <main>
+      <div class="container" style="padding: 2rem 0;">
+        <h2>The Legislative Advocacy That Actually Works</h2>
+        <p>We don't measure success by meetings scheduled. We measure it by bills amended, funding secured, and crises averted. Our clients repeatedly achieve legislative outcomes that seemed impossible — because we didn't start working when the session began. We started months earlier.</p>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin: 3rem 0;">
+          <div style="flex: 1; min-width: 150px; text-align: center; padding: 1rem;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: #D9A800; margin-bottom: 0.5rem;">40+</div>
+            <div>Years Experience</div>
+          </div>
+          <div style="flex: 1; min-width: 150px; text-align: center; padding: 1rem;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: #D9A800; margin-bottom: 0.5rem;">100%</div>
+            <div>State Influence</div>
+          </div>
+          <div style="flex: 1; min-width: 150px; text-align: center; padding: 1rem;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: #D9A800; margin-bottom: 0.5rem;">100%</div>
+            <div>Bipartisan Access</div>
+          </div>
+          <div style="flex: 1; min-width: 150px; text-align: center; padding: 1rem;">
+            <div style="font-size: 2.5rem; font-weight: bold; color: #D9A800; margin-bottom: 0.5rem;">95%</div>
+            <div>Success Rate</div>
+          </div>
+        </div>
+        
+        <h2>Our Services</h2>
+        <div class="services">
+          <div class="service-card">
+            <h3>Direct Capitol Access</h3>
+            <p>Our established relationships with key committee chairs and legislative leadership ensure your priorities receive attention when it counts most.</p>
+          </div>
+          
+          <div class="service-card">
+            <h3>Industry Expertise</h3>
+            <p>With specialized knowledge across 7 key sectors, we understand the regulatory nuances that impact your business.</p>
+          </div>
+          
+          <div class="service-card">
+            <h3>Proactive Opportunity</h3>
+            <p>Our 24/7 legislative monitoring helps clients secure early advantages in emerging policy areas.</p>
+          </div>
+        </div>
+        
+        <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 0.5rem; margin-top: 3rem; font-style: italic;">
+          <p>"Their approach to building relationships with key committee members made all the difference when our priorities competed for legislative attention. Their strategic framework turned potential competitors into allies."</p>
+          <p><strong>— Municipal Leadership Coalition, North Texas</strong></p>
+        </div>
+        
+        <div style="margin-top: 3rem;">
+          <h2>Contact Us</h2>
+          <p>Ready to protect your interests in the Texas Legislature? Most legislative advocacy fails because it starts too late. We've spent decades building the relationships that deliver results when they matter most.</p>
+          <a href="/contact" class="btn">Schedule a Consultation</a>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Capitol Insights. All rights reserved.</p>
+        <p>1005 Congress Ave Suite 800, Austin, TX 78701</p>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Simple React App initialization -->
+  <script type="module">
+    // Define constants for React Router
+    window.POP = 'POP';
+    window.PUSH = 'PUSH';
+    window.REPLACE = 'REPLACE';
+    
+    // Try to import the React application
+    import('/assets/index.js')
+      .catch(error => {
+        console.error('Failed to load React application:', error);
+        // Static fallback already in the DOM, no need to do anything else
+      });
+  </script>
+  
+  <noscript>
+    <div style="padding: 2rem; text-align: center;">
+      <h1>JavaScript Required</h1>
+      <p>Please enable JavaScript to use this application. Capitol Insights provides government relations services throughout Texas.</p>
+    </div>
+  </noscript>
+</body>
+</html>
