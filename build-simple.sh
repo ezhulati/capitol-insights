@@ -1,149 +1,113 @@
 #!/bin/bash
 
-# Simple build script for Capitol Insights
-# This script builds the project for production without complexity
+# Capitol Insights Direct Production Build Script
+# This script builds the full React app properly for production
 
 set -e
 
-echo "===== Starting Simple Build Process ====="
+echo "===== Starting Production Build Process ====="
 echo "Node version: $(node -v)"
 echo "NPM version: $(npm -v)"
 
-# Set environment variables
+# Set environment variables for successful build
 export NODE_OPTIONS="--max-old-space-size=4096"
+export NODE_ENV=production
+export VITE_APP_VERSION="$(date +%Y%m%d%H%M)"
+export VITE_BUILD_TIME="$(date)"
 
 # Install dependencies
 echo "Installing dependencies..."
 npm ci || npm install --force
 
-# Save the working index.html and force it as the main index.html
-echo "Replacing index.html with production version..."
-cp index.html index.html.original
-cp public/index-production.html index.html
+# Create a custom index-with-polyfill.html for the build process
+echo "Creating optimized index.html for production build..."
+cat > index-with-polyfill.html << 'EOL'
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Load React Router polyfill before anything else -->
+    <script>
+      // Define constants for React Router
+      window.POP = 'POP';
+      window.PUSH = 'PUSH';
+      window.REPLACE = 'REPLACE';
+      
+      // Also define with window.Action object for more specific imports
+      window.Action = {
+        POP: 'POP',
+        PUSH: 'PUSH',
+        REPLACE: 'REPLACE'
+      };
+      
+      // Define in history namespace which some versions look for
+      window.history = window.history || {};
+      window.history.Action = window.Action;
+      
+      console.log('React Router constants defined in index.html');
+    </script>
+    
+    <title>Capitol Insights</title>
+  </head>
+  <body>
+    <div id="root">
+      <!-- This div will be replaced by React -->
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+EOL
 
-# Build the project
-echo "Building for production..."
+# Use our optimized index.html for the build
+echo "Backing up original index.html..."
+cp index.html index.html.original
+cp index-with-polyfill.html index.html
+
+# Build the project with specific production settings
+echo "Building for production with optimized settings..."
 npm run build
 
 # Restore original index.html for development
 echo "Restoring original index.html..."
 cp index.html.original index.html
+rm index-with-polyfill.html
 
-# Instead of replacing index.html entirely, we'll ensure it has the right scripts
-echo "Ensuring React app has fallback content..."
-mkdir -p dist/backup
-cp public/index-production.html dist/backup/fallback.html
-
-# Create a script to inject fallback content if React fails to load
-echo "Creating fallback loader script..."
-mkdir -p dist/js
-cat > dist/js/fallback-loader.js << 'EOL'
-console.log('[Fallback Loader] Initializing');
-// In case React doesn't load, we need to ensure the page has content
-window.addEventListener('DOMContentLoaded', function() {
-  // Define React Router constants in global scope
-  window.POP = window.POP || 'POP';
-  window.PUSH = window.PUSH || 'PUSH';
-  window.REPLACE = window.REPLACE || 'REPLACE';
-
-  console.log('[Fallback Loader] DOM Content Loaded');
-  
-  // Check if root is empty or just contains a loader
-  setTimeout(function() {
-    var root = document.getElementById('root');
-    var hasContent = false;
-    
-    if (root) {
-      // Check if root has real content or just a spinner
-      if (root.children.length > 0) {
-        var onlyHasLoader = true;
-        for (var i = 0; i < root.children.length; i++) {
-          if (!root.children[i].classList.contains('loading') && 
-              !root.children[i].classList.contains('loading-spinner')) {
-            onlyHasLoader = false;
-            break;
-          }
-        }
-        hasContent = !onlyHasLoader;
-      }
-      
-      if (!hasContent) {
-        console.log('[Fallback Loader] No content detected, loading fallback');
-        fetch('/backup/fallback.html')
-          .then(function(response) { return response.text(); })
-          .then(function(html) {
-            // Extract the body content from the fallback HTML
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(html, 'text/html');
-            var fallbackRoot = doc.getElementById('root');
-            
-            if (fallbackRoot) {
-              // Replace the content of the current page's root with the fallback content
-              root.innerHTML = fallbackRoot.innerHTML;
-              console.log('[Fallback Loader] Fallback content loaded');
-              
-              // Execute any scripts in the fallback content
-              var scripts = root.getElementsByTagName('script');
-              for (var i = 0; i < scripts.length; i++) {
-                var script = document.createElement('script');
-                if (scripts[i].src) {
-                  script.src = scripts[i].src;
-                } else {
-                  script.textContent = scripts[i].textContent;
-                }
-                document.body.appendChild(script);
-              }
-            }
-          })
-          .catch(function(err) {
-            console.error('[Fallback Loader] Failed to load fallback', err);
-          });
-      } else {
-        console.log('[Fallback Loader] Content detected, no need for fallback');
-      }
-    }
-  }, 2000); // Check after 2 seconds
-});
-EOL
-
-# Add the fallback loader script to index.html
+# Examine and fix built index.html
+echo "Fixing asset paths in the built index.html..."
 if [ -f "dist/index.html" ]; then
-  echo "Adding fallback loader to index.html..."
-  # Insert the script right before the closing body tag
-  sed -i '' -e 's|</body>|  <script src="/js/fallback-loader.js"></script>\n</body>|' dist/index.html || true
-fi
-
-# Make sure critical files exist
-if [ ! -d "dist/js" ]; then
-  echo "Creating JS directory..."
+  # Make sure router polyfill is copied to dist
   mkdir -p dist/js
-fi
-
-# Copy router polyfill to ensure it's available
-if [ -f "public/js/router-polyfill.js" ]; then
-  echo "Copying router polyfill..."
   cp public/js/router-polyfill.js dist/js/
-else
-  echo "Creating router polyfill..."
-  mkdir -p dist/js
-  echo "console.log('[Router Polyfill] Initialized React Router constants');
-// Define React Router constants in global scope
-window.POP = 'POP';
-window.PUSH = 'PUSH';
-window.REPLACE = 'REPLACE';" > dist/js/router-polyfill.js
+  
+  # Add router polyfill script to index.html
+  echo "Adding router polyfill to index.html..."
+  # Insert the script as the first script in head
+  sed -i '' -e 's|<head>|<head>\n  <script src="/js/router-polyfill.js"></script>|' dist/index.html || true
+  
+  # Fix any incorrect asset paths
+  echo "Ensuring asset paths are correct..."
+  # Replace any /assets/index.js references with the correct path
+  sed -i '' -e 's|/assets/index.js|./assets/index.js|g' dist/index.html || true
 fi
 
-# Ensure CSS files exist
+# Copy all required static assets
+echo "Copying additional static assets..."
+# Copy critical CSS file 
 mkdir -p dist/css
-if [ ! -f "dist/css/critical.css" ]; then
-  echo "Creating critical CSS..."
-  echo "/* Critical CSS */" > dist/css/critical.css
-fi
+touch dist/css/critical.css
 
-# Copy image files
+# Copy image files if they exist
 if [ -d "public/images" ] && [ ! -d "dist/images" ]; then
   echo "Copying images..."
   cp -r public/images dist/
 fi
+
+# Clean up any build artifacts
+echo "Cleaning up build artifacts..."
+rm -f dist/backup/fallback.html 2>/dev/null || true
+rm -f dist/js/fallback-loader.js 2>/dev/null || true
 
 echo "Build completed successfully!"
