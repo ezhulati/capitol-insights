@@ -1,102 +1,198 @@
+const fs = require('fs');
+const path = require('path');
+
 /**
- * Find image components in the codebase
- * This script searches for img tags in TSX files to help identify
- * where to replace with OptimizedImage component
+ * Script to find image components that should be replaced with OptimizedImage
+ * 
+ * This script scans the project for <img> tags and suggests replacing them
+ * with the OptimizedImage component for better performance.
  */
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// Configuration
+const config = {
+  // Directories to scan
+  srcDirs: ['./src'],
+  // File extensions to scan
+  extensions: ['.tsx', '.jsx', '.js', '.ts'],
+  // Patterns to look for
+  patterns: [
+    /<img\s+[^>]*src=["']([^"']+)["'][^>]*>/g,
+    /src=["']([^"']+\.(?:jpg|jpeg|png))["']/g
+  ]
+};
 
-// Get the directory name
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Directory to search
-const srcDir = path.join(__dirname, 'src');
-
-// Regular expression to find img tags
-const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/g;
-
-// Function to search for img tags in a file
-async function searchFile(filePath) {
+// Function to scan a file for image tags
+function scanFile(filePath) {
   try {
-    const content = await fs.promises.readFile(filePath, 'utf8');
-    const matches = [...content.matchAll(imgRegex)];
+    const content = fs.readFileSync(filePath, 'utf8');
+    let matches = [];
+    
+    // Check for each pattern
+    for (const pattern of config.patterns) {
+      const patternMatches = [...content.matchAll(pattern)];
+      matches = [...matches, ...patternMatches];
+    }
     
     if (matches.length > 0) {
-      console.log(`\nFound ${matches.length} image(s) in ${filePath}:`);
-      
-      matches.forEach((match, index) => {
-        const imgTag = match[0];
-        const src = match[1];
-        
-        // Extract other attributes
-        const alt = imgTag.match(/alt=["']([^"']*)["']/)?.[1] || '';
-        const width = imgTag.match(/width=["']([^"']*)["']/)?.[1] || '';
-        const height = imgTag.match(/height=["']([^"']*)["']/)?.[1] || '';
-        const className = imgTag.match(/className=["']([^"']*)["']/)?.[1] || '';
-        const loading = imgTag.match(/loading=["']([^"']*)["']/)?.[1] || '';
-        
-        console.log(`  ${index + 1}. src: ${src}`);
-        console.log(`     alt: ${alt}`);
-        if (width) console.log(`     width: ${width}`);
-        if (height) console.log(`     height: ${height}`);
-        if (className) console.log(`     className: ${className}`);
-        if (loading) console.log(`     loading: ${loading}`);
-        
-        // Suggest OptimizedImage replacement
-        console.log(`\n     Suggested replacement:`);
-        console.log(`     <OptimizedImage`);
-        console.log(`       src="${src}"`);
-        console.log(`       alt="${alt}"`);
-        if (width) console.log(`       width={${width}}`);
-        if (height) console.log(`       height={${height}}`);
-        if (className) console.log(`       className="${className}"`);
-        if (loading) console.log(`       loading="${loading}"`);
-        console.log(`     />`);
-      });
+      return {
+        file: filePath,
+        matches: matches.map(match => ({
+          fullMatch: match[0],
+          src: match[1]
+        }))
+      };
     }
+    
+    return null;
   } catch (error) {
-    console.error(`Error processing ${filePath}: ${error.message}`);
+    console.error(`Error scanning file ${filePath}:`, error.message);
+    return null;
   }
 }
 
-// Function to recursively search directories
-async function searchDirectory(dirPath) {
+// Function to scan a directory recursively
+function scanDirectory(dirPath) {
+  let results = [];
+  
   try {
-    const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     
     for (const entry of entries) {
       const fullPath = path.join(dirPath, entry.name);
       
       if (entry.isDirectory()) {
-        await searchDirectory(fullPath);
-      } else if (entry.name.endsWith('.tsx') || entry.name.endsWith('.jsx')) {
-        await searchFile(fullPath);
+        // Skip node_modules and other common directories to ignore
+        if (['node_modules', 'dist', 'build', '.git'].includes(entry.name)) {
+          continue;
+        }
+        
+        // Recursively scan subdirectories
+        results = [...results, ...scanDirectory(fullPath)];
+      } else if (entry.isFile()) {
+        // Check if file has one of the extensions we're looking for
+        const ext = path.extname(entry.name);
+        if (config.extensions.includes(ext)) {
+          const fileResult = scanFile(fullPath);
+          if (fileResult) {
+            results.push(fileResult);
+          }
+        }
       }
     }
   } catch (error) {
-    console.error(`Error searching directory ${dirPath}: ${error.message}`);
+    console.error(`Error scanning directory ${dirPath}:`, error.message);
   }
+  
+  return results;
+}
+
+// Function to generate replacement suggestions
+function generateSuggestions(results) {
+  let suggestions = [];
+  
+  for (const result of results) {
+    for (const match of result.matches) {
+      // Extract attributes from the img tag
+      const altMatch = match.fullMatch.match(/alt=["']([^"']*)["']/);
+      const alt = altMatch ? altMatch[1] : 'Image';
+      
+      const widthMatch = match.fullMatch.match(/width=["']([^"']*)["']/);
+      const width = widthMatch ? widthMatch[1] : null;
+      
+      const heightMatch = match.fullMatch.match(/height=["']([^"']*)["']/);
+      const height = heightMatch ? heightMatch[1] : null;
+      
+      const classMatch = match.fullMatch.match(/className=["']([^"']*)["']/);
+      const className = classMatch ? classMatch[1] : null;
+      
+      // Generate OptimizedImage component
+      let replacement = `<OptimizedImage\n`;
+      replacement += `  src="${match.src}"\n`;
+      replacement += `  alt="${alt}"\n`;
+      
+      if (width) replacement += `  width={${width}}\n`;
+      if (height) replacement += `  height={${height}}\n`;
+      if (className) replacement += `  className="${className}"\n`;
+      
+      replacement += `  loading="lazy"\n`;
+      replacement += `  objectFit="cover"\n`;
+      replacement += `/>\n`;
+      
+      suggestions.push({
+        file: result.file,
+        original: match.fullMatch,
+        replacement
+      });
+    }
+  }
+  
+  return suggestions;
 }
 
 // Main function
-async function findImageComponents() {
-  console.log('Searching for image components in TSX/JSX files...');
+function main() {
+  console.log('=== Finding Image Components to Optimize ===\n');
   
-  try {
-    await searchDirectory(srcDir);
-    console.log('\nSearch complete. Use the suggestions above to replace img tags with OptimizedImage component.');
-    console.log('\nDon\'t forget to:');
-    console.log('1. Import the OptimizedImage component: import OptimizedImage from \'../components/OptimizedImage\';');
-    console.log('2. Run the image conversion script: npm run convert-images');
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
+  let allResults = [];
+  
+  // Scan all source directories
+  for (const dir of config.srcDirs) {
+    console.log(`Scanning ${dir}...`);
+    const results = scanDirectory(dir);
+    allResults = [...allResults, ...results];
+  }
+  
+  // Generate suggestions
+  const suggestions = generateSuggestions(allResults);
+  
+  // Print results
+  console.log(`\nFound ${suggestions.length} images that could be optimized in ${allResults.length} files.\n`);
+  
+  if (suggestions.length > 0) {
+    console.log('=== Replacement Suggestions ===\n');
+    
+    // Group suggestions by file
+    const fileGroups = {};
+    for (const suggestion of suggestions) {
+      if (!fileGroups[suggestion.file]) {
+        fileGroups[suggestion.file] = [];
+      }
+      fileGroups[suggestion.file].push(suggestion);
+    }
+    
+    // Print suggestions by file
+    for (const [file, fileSuggestions] of Object.entries(fileGroups)) {
+      console.log(`File: ${file}`);
+      console.log(`Found ${fileSuggestions.length} images to optimize\n`);
+      
+      for (let i = 0; i < fileSuggestions.length; i++) {
+        const suggestion = fileSuggestions[i];
+        console.log(`Image ${i + 1}:`);
+        console.log(`Original: ${suggestion.original}`);
+        console.log(`Replace with:\n${suggestion.replacement}`);
+        console.log('---\n');
+      }
+      
+      console.log('\n');
+    }
+    
+    // Print import instructions
+    console.log('=== Implementation Steps ===\n');
+    console.log('1. Add the OptimizedImage import to each file:');
+    console.log(`   import OptimizedImage from '../components/OptimizedImage';\n`);
+    console.log('2. Replace each <img> tag with the OptimizedImage component as shown above');
+    console.log('3. Run the convert-images-to-webp.js script to generate WebP versions of your images');
+    console.log('   node convert-images-to-webp.js\n');
+    
+    console.log('Benefits:');
+    console.log('- Smaller image file sizes (WebP is typically 25-35% smaller than JPEG/PNG)');
+    console.log('- Automatic format fallback for browsers that don\'t support WebP');
+    console.log('- Better loading performance with proper image attributes');
+    console.log('- Improved Core Web Vitals scores (LCP, CLS)');
+  } else {
+    console.log('No images found that need optimization.');
   }
 }
 
-// Run the search
-findImageComponents().catch(error => {
-  console.error(`Error in search process: ${error.message}`);
-});
+// Run the main function
+main();

@@ -24,7 +24,11 @@
     "convert-images": "node convert-images-to-webp.js",
     "find-images": "node find-image-components.js",
     "analyze-js": "node optimize-js.js",
-    "optimize": "npm run convert-images && npm run analyze-js"
+    "optimize": "npm run convert-images && npm run analyze-js",
+    "convert-images": "node convert-images-to-webp.js",
+    "find-images": "node find-image-components.js",
+    "analyze-js": "node optimize-js.js",
+    "optimize:all": "npm run convert-images && npm run find-images && npm run analyze-js"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.1.3",

@@ -10,11 +10,18 @@ interface OptimizedImageProps {
   fetchPriority?: 'high' | 'low' | 'auto';
   sizes?: string;
   objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  aspectRatio?: string;
+  decoding?: 'async' | 'sync' | 'auto';
 }
 
 /**
- * OptimizedImage component that serves WebP images with JPG fallback
- * and provides responsive image sizes for better performance
+ * OptimizedImage component that automatically uses WebP images with fallback to JPG/PNG
+ * 
+ * This component improves performance by:
+ * 1. Using WebP format when available (with fallback to original format)
+ * 2. Supporting responsive sizing with srcset and sizes attributes
+ * 3. Allowing control of loading priority and decoding
+ * 4. Supporting aspect ratio and object-fit for better layout stability
  */
 const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
@@ -25,43 +32,60 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
   loading = 'lazy',
   fetchPriority = 'auto',
   sizes = '100vw',
-  objectFit = 'cover'
+  objectFit = 'cover',
+  aspectRatio,
+  decoding = 'async'
 }) => {
-  // Extract the base filename without extension
-  const basePath = src.replace(/\.(jpg|jpeg|png)$/, '');
-  const baseName = basePath.split('/').pop();
+  // Generate WebP source path
+  const generateWebPPath = (imagePath: string): string => {
+    const pathInfo = imagePath.split('.');
+    const extension = pathInfo.pop();
+    
+    // Only convert jpg, jpeg, and png to webp
+    if (!['jpg', 'jpeg', 'png'].includes(extension?.toLowerCase() || '')) {
+      return imagePath;
+    }
+    
+    return `${pathInfo.join('.')}.webp`;
+  };
   
-  // Create WebP source path
-  const webpSrc = `/images/webp/${baseName}.webp`;
-  const webpSrcSmall = `/images/webp/${baseName}-400.webp`;
-  const webpSrcLarge = `/images/webp/${baseName}-1200.webp`;
+  // Generate srcset for responsive images
+  const generateSrcSet = (imagePath: string): string => {
+    const webpPath = generateWebPPath(imagePath);
+    
+    // Create srcset with multiple sizes
+    return `${webpPath} 1x, ${webpPath} 2x`;
+  };
   
-  // Create fallback JPG srcset
-  const jpgSrcset = `${src} 800w, ${src}?width=400 400w, ${src}?width=1200 1200w`;
+  // Generate original format srcset for fallback
+  const generateFallbackSrcSet = (imagePath: string): string => {
+    return `${imagePath} 1x, ${imagePath} 2x`;
+  };
   
-  // Create WebP srcset
-  const webpSrcset = `${webpSrc} 800w, ${webpSrcSmall} 400w, ${webpSrcLarge} 1200w`;
-  
-  // Style for object-fit
-  const style = objectFit ? { objectFit } : undefined;
+  // Style for aspect ratio
+  const imageStyle: React.CSSProperties = {
+    objectFit,
+    ...(aspectRatio ? { aspectRatio } : {}),
+    ...(width ? { width: `${width}px` } : { width: '100%' }),
+    ...(height ? { height: `${height}px` } : { height: 'auto' })
+  };
   
   return (
     <picture>
       {/* WebP source */}
-      <source
-        srcSet={webpSrcset}
-        sizes={sizes}
+      <source 
+        srcSet={generateSrcSet(src)} 
         type="image/webp"
-      />
-      
-      {/* Fallback JPG source */}
-      <source
-        srcSet={jpgSrcset}
         sizes={sizes}
-        type="image/jpeg"
       />
       
-      {/* Fallback image */}
+      {/* Original format fallback */}
+      <source 
+        srcSet={generateFallbackSrcSet(src)} 
+        sizes={sizes}
+      />
+      
+      {/* Fallback img element */}
       <img
         src={src}
         alt={alt}
@@ -69,9 +93,9 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
         height={height}
         loading={loading}
         fetchPriority={fetchPriority}
+        decoding={decoding}
         className={className}
-        style={style}
-        decoding={loading === 'eager' ? 'sync' : 'async'}
+        style={imageStyle}
       />
     </picture>
   );

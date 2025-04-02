@@ -1,97 +1,86 @@
-/**
- * Convert JPG images to WebP format
- * This script converts JPG images in the public/images directory to WebP format
- * and creates responsive versions for better performance
- */
+const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
 
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import sharp from 'sharp';
+// Directories to process
+const directories = [
+  './public/images',
+  './src/assets/images'
+];
 
-// Get the directory name
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Directory containing the images
-const imagesDir = path.join(__dirname, 'public', 'images');
-const webpDir = path.join(__dirname, 'public', 'images', 'webp');
-
-// Ensure the WebP directory exists
-if (!fs.existsSync(webpDir)) {
-  fs.mkdirSync(webpDir, { recursive: true });
+// Function to convert an image to WebP
+async function convertToWebP(filePath) {
+  try {
+    const fileInfo = path.parse(filePath);
+    
+    // Only process JPG, JPEG, and PNG files
+    if (!['.jpg', '.jpeg', '.png'].includes(fileInfo.ext.toLowerCase())) {
+      return;
+    }
+    
+    const webpPath = path.join(fileInfo.dir, `${fileInfo.name}.webp`);
+    
+    // Check if WebP version already exists
+    if (fs.existsSync(webpPath)) {
+      console.log(`WebP version already exists for ${filePath}`);
+      return;
+    }
+    
+    console.log(`Converting ${filePath} to WebP...`);
+    
+    // Convert to WebP with 80% quality (good balance between quality and file size)
+    await sharp(filePath)
+      .webp({ quality: 80 })
+      .toFile(webpPath);
+    
+    // Get file sizes for comparison
+    const originalSize = fs.statSync(filePath).size;
+    const webpSize = fs.statSync(webpPath).size;
+    const savings = ((originalSize - webpSize) / originalSize * 100).toFixed(2);
+    
+    console.log(`Converted ${filePath} to WebP. Size reduction: ${savings}% (${(originalSize/1024).toFixed(2)}KB → ${(webpSize/1024).toFixed(2)}KB)`);
+  } catch (error) {
+    console.error(`Error converting ${filePath} to WebP:`, error);
+  }
 }
 
-// Process a single image file
-async function processImage(imageFile) {
-  // Only process .jpg files
-  if (!imageFile.endsWith('.jpg')) return;
-  
-  const imagePath = path.join(imagesDir, imageFile);
-  const baseName = path.basename(imageFile, '.jpg');
-  
-  // Create WebP versions with different sizes
-  const sizes = [
-    { width: 800, suffix: '' },
-    { width: 400, suffix: '-400' },
-    { width: 1200, suffix: '-1200' }
-  ];
-  
-  console.log(`Processing: ${imageFile}`);
-  
+// Function to process a directory
+async function processDirectory(directory) {
   try {
-    // Create WebP versions
-    for (const size of sizes) {
-      const outputPath = path.join(webpDir, `${baseName}${size.suffix}.webp`);
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(directory)) {
+      console.log(`Directory ${directory} does not exist. Skipping.`);
+      return;
+    }
+    
+    const files = fs.readdirSync(directory);
+    
+    for (const file of files) {
+      const filePath = path.join(directory, file);
+      const stat = fs.statSync(filePath);
       
-      // Use Sharp to convert and resize the image
-      try {
-        await sharp(imagePath)
-          .resize(size.width)
-          .webp({ quality: 80 })
-          .toFile(outputPath);
-        
-        const stats = fs.statSync(outputPath);
-        const originalStats = fs.statSync(imagePath);
-        const savings = originalStats.size - stats.size;
-        const savingsPercent = Math.round((savings / originalStats.size) * 100);
-        
-        console.log(`Created ${outputPath} (${stats.size} bytes, saved ${savingsPercent}%)`);
-      } catch (error) {
-        console.error(`Error creating WebP version: ${error.message}`);
+      if (stat.isDirectory()) {
+        // Recursively process subdirectories
+        await processDirectory(filePath);
+      } else {
+        await convertToWebP(filePath);
       }
     }
   } catch (error) {
-    console.error(`Error processing ${imageFile}: ${error.message}`);
+    console.error(`Error processing directory ${directory}:`, error);
   }
 }
 
 // Main function
-async function convertImages() {
-  console.log(`Looking for JPG files in: ${imagesDir}`);
+async function main() {
+  console.log('Starting image conversion to WebP...');
   
-  try {
-    // Get list of files in directory
-    const files = fs.readdirSync(imagesDir);
-    
-    // Counter for processed files
-    let processed = 0;
-    
-    // Process each JPG file
-    for (const file of files) {
-      if (file.endsWith('.jpg')) {
-        await processImage(file);
-        processed++;
-      }
-    };
-    
-    console.log(`Completed processing ${processed} files`);
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
+  for (const directory of directories) {
+    await processDirectory(directory);
   }
+  
+  console.log('Image conversion complete!');
 }
 
-// Run the conversion
-convertImages().catch(error => {
-  console.error(`Error in conversion process: ${error.message}`);
-});
+// Run the script
+main().catch(console.error);
