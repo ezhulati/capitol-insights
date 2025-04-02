@@ -129,7 +129,7 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
             <div className="bg-gold-50 p-2 rounded-lg mr-3">
               <FileText size={20} className="text-gold-600" />
             </div>
-            <span className="text-sm font-medium text-gold-700 bg-gold-50 px-3 py-1 rounded-full">
+            <span className="text-sm font-bold text-gold-700 bg-gold-50 px-3 py-1 rounded-full">
               FEATURED GUIDE
             </span>
           </div>
@@ -154,7 +154,7 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
           {!isSubmitted ? (
             <>
               <h3 className="text-navy-900 font-semibold mb-4">Get Instant Access</h3>
-              <p className="text-slate-600 text-sm mb-4">Enter your information below to receive the guide immediately.</p>
+              <p className="text-slate-700 text-sm mb-4">Enter your information below to receive the guide immediately.</p>
               
               {error && (
                 <div className="bg-red-50 text-red-700 p-3 rounded-lg mb-4 text-sm">
@@ -220,7 +220,7 @@ const ImprovedLeadMagnetForm: React.FC<ImprovedLeadMagnetFormProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gold-600 hover:bg-gold-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+                  className="w-full bg-gold-600 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">

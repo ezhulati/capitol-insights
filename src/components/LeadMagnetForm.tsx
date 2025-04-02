@@ -210,7 +210,7 @@ const LeadMagnetForm: React.FC<LeadMagnetFormProps> = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gold-600 hover:bg-gold-700 text-white font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+                  className="w-full bg-gold-600 hover:bg-gold-700 text-white font-bold py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">
