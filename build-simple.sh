@@ -15,9 +15,18 @@ export NODE_ENV=production
 export VITE_APP_VERSION="$(date +%Y%m%d%H%M)"
 export VITE_BUILD_TIME="$(date)"
 
-# Install dependencies
+# Install dependencies - including devDependencies
 echo "Installing dependencies..."
 npm ci || npm install --force
+
+# Explicitly install Vite (both globally and locally just to be safe)
+echo "Installing Vite globally and locally..."
+npm install -g vite || true
+npm install --save-dev vite
+
+# Verify that vite is available
+echo "Verifying Vite installation..."
+node_modules/.bin/vite --version || npm ls vite
 
 # Create a custom index-with-polyfill.html for the build process
 echo "Creating optimized index.html for production build..."
@@ -68,7 +77,9 @@ cp index-with-polyfill.html index.html
 
 # Build the project with specific production settings
 echo "Building for production with optimized settings..."
-npm run build
+# Use the local vite binary directly instead of relying on npm scripts
+echo "Running: node_modules/.bin/vite build"
+node_modules/.bin/vite build || npm run build
 
 # Restore original index.html for development
 echo "Restoring original index.html..."
