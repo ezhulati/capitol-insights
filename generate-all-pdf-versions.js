@@ -4,8 +4,13 @@
  * The PDFs are copies of the HTML content, allowing both formats to be offered
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the directory name
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Directory containing the HTML files
 const filesDir = path.join(__dirname, 'public', 'files');
