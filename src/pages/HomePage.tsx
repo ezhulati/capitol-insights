@@ -6,7 +6,7 @@ import {
   Globe, 
   ChevronRight, 
   ShieldCheck,
-  Handshake,
+  Users,
   ChevronDown,
   Star,
   Phone,
@@ -282,7 +282,7 @@ const HomePage: React.FC = () => {
                     description="We maintain the highest ethical standards in all our government relations work."
                   />
                   <ValueCard 
-                    icon={<Handshake size={20} />} 
+                    icon={<Users size={20} />} 
                     title="Genuine Relationships" 
                     description="Our connections are built on trust and maintained with integrity."
                   />
