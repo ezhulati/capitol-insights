@@ -7,6 +7,7 @@ import path from 'path';
 // Import required for Vite config
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import type { Plugin } from 'vite';
 
 export default defineConfig(({ mode }) => {
   // Analyze bundle in analyze mode
@@ -104,7 +105,7 @@ export default defineConfig(({ mode }) => {
         gzipSize: true,
         brotliSize: true,
       }),
-    ].filter(Boolean),
+    ].filter((plugin): plugin is Plugin => plugin !== null),
     css: {
       postcss: {
         plugins: [
@@ -120,6 +121,12 @@ export default defineConfig(({ mode }) => {
       sourcemap: true,
       rollupOptions: {
         external: [
+          // Node.js built-in modules
+          'fs',
+          'path',
+          'crypto',
+          
+          // Platform-specific modules
           'fsevents',
           '@rollup/rollup-win32-x64-msvc',
           '@rollup/rollup-darwin-arm64',
@@ -142,6 +149,8 @@ export default defineConfig(({ mode }) => {
           '@rollup/rollup-android-arm64',
           '@rollup/rollup-android-arm-eabi',
           '@rollup/rollup-linux-loong64-gnu',
+          
+          // Esbuild platform-specific modules
           '@esbuild/darwin-arm64',
           '@esbuild/darwin-x64',
           '@esbuild/linux-arm64',
@@ -150,14 +159,15 @@ export default defineConfig(({ mode }) => {
           '@esbuild/win32-arm64',
           '@esbuild/win32-x64',
           '@esbuild/win32-ia32',
+          
+          // Sharp platform-specific modules
           '@img/sharp-win32-x64',
           '@img/sharp-darwin-arm64',
           '@img/sharp-darwin-x64',
           '@img/sharp-linux-arm64',
           '@img/sharp-linux-x64',
-          'node:crypto',
-          'fs',
-          'path',
+          
+          // UI component libraries
           '@radix-ui/react-accordion',
           '@radix-ui/react-dialog',
           '@radix-ui/react-dropdown-menu',
