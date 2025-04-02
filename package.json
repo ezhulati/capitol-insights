@@ -55,6 +55,7 @@
     "xss": "^1.0.15"
   },
   "devDependencies": {
+    "imagesloaded": "^5.0.0",
     "@eslint/js": "^9.9.1",
     "@types/node": "^22.13.14",
     "@types/react": "18.2.48",
