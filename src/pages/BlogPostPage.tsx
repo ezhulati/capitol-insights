@@ -21,7 +21,7 @@ const BlogPostPage: React.FC = () => {
   const [readingProgress, setReadingProgress] = useState(0);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [showShareOptions, setShowShareOptions] = useState(false);
-  
+
   // Refs for scroll tracking and heading elements
   const articleRef = useRef<HTMLElement>(null);
   const headingsRef = useRef<{ [id: string]: HTMLElement }>({});
@@ -41,37 +41,37 @@ const BlogPostPage: React.FC = () => {
           100,
           Math.round((scrollTop / totalScrollableDistance) * 100)
         );
-        
+
         setReadingProgress(progress);
-        
+
         // Update active section in TOC
         updateActiveSection();
       }
     };
-    
+
     // Handle intersection observer for headings
     const updateActiveSection = () => {
-      // If no headings, return
+      // If no headings return
       if (Object.keys(headingsRef.current).length === 0) return;
-      
+
       // Get all heading positions
       const headingPositions = Object.entries(headingsRef.current).map(([id, el]) => ({
         id,
-        top: el.getBoundingClientRect().top,
+        top: el.getBoundingClientRect().top
       }));
-      
+
       // Find the heading that's currently at the top of the viewport
       const activeHeading = headingPositions
         .filter(heading => heading.top <= 100)
         .sort((a, b) => b.top - a.top)[0];
-      
+
       if (activeHeading) {
         setActiveSection(activeHeading.id);
       } else {
         setActiveSection(headingPositions[0]?.id || '');
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -82,7 +82,7 @@ const BlogPostPage: React.FC = () => {
     .map(heading => ({
       id: heading.id,
       type: heading.type,
-      content: heading.content,
+      content: heading.content
     }));
 
   // Combine post loading and content formatting in a single effect
@@ -96,37 +96,37 @@ const BlogPostPage: React.FC = () => {
 
       try {
         const postData = await getPostBySlug(slug);
-        
+
         if (!postData) {
           setError('Post not found');
           setLoading(false);
           return;
         }
-        
+
         setPost(postData);
-        
+
         // Load related posts
         if (postData.category) {
           const related = await getRelatedPosts(postData.category, slug);
           setRelatedPosts(related.slice(0, 3));
         }
-        
+
         // Process the post content
         try {
           const result = renderMarkdown(postData.body as string);
           if (result instanceof Promise) {
-            // If it returns a promise (Sanity content), await it
+            // If it returns a promise (Sanity content) await it
             const resolvedContent = await result;
             setFormattedContent(resolvedContent);
           } else {
-            // If it's already an array, use it directly
+            // If it's already an array use it directly
             setFormattedContent(result);
           }
         } catch (contentError) {
           console.error("Error processing content:", contentError);
           setFormattedContent([{ type: 'p', content: "Error loading content", key: 0 }]);
         }
-        
+
         setLoading(false);
       } catch (err) {
         console.error('Error loading post:', err);
@@ -144,7 +144,7 @@ const BlogPostPage: React.FC = () => {
     if (element) {
       window.scrollTo({
         top: element.offsetTop - 80, // Adjust for header
-        behavior: 'smooth',
+        behavior: 'smooth'
       });
     }
   };
@@ -153,7 +153,7 @@ const BlogPostPage: React.FC = () => {
   const handleShare = (platform: string) => {
     const url = window.location.href;
     const title = post?.title || 'Capitol Insights Article';
-    
+
     switch (platform) {
       case 'twitter':
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
@@ -170,7 +170,7 @@ const BlogPostPage: React.FC = () => {
         });
         break;
     }
-    
+
     setShowShareOptions(false);
   };
 
@@ -206,6 +206,18 @@ const BlogPostPage: React.FC = () => {
     day: 'numeric'
   });
 
+  // Determine if the image is a Cloudinary URL or a local path
+  const isCloudinaryImage = post.image && post.image.includes('cloudinary.com');
+
+  // Get the proper source for the image
+  const getImageSource = (imagePath: string) => {
+    if (isCloudinaryImage) {
+      return imagePath;
+    }
+    // Don't strip the leading slash - keep the absolute path as is
+    return imagePath;
+  };
+
   return (
     <>
       <SEO
@@ -227,7 +239,7 @@ const BlogPostPage: React.FC = () => {
           date: post.date,
           image: post.image,
           author: post.author,
-          authorTitle: "Senior Partner", // You may want to make this dynamic if available
+          authorTitle: "Senior Partner",
           category: post.category,
           tags: post.metaKeywords,
           readTime: post.readTime
@@ -249,18 +261,18 @@ const BlogPostPage: React.FC = () => {
           tags: post.metaKeywords
         })}
       />
-      
+
       {/* Reading progress bar */}
-      <div 
-        className="fixed top-0 left-0 z-50 h-2 bg-gold-500 transition-all duration-300 ease-out" 
+      <div
+        className="fixed top-0 left-0 z-50 h-2 bg-gold-500 transition-all duration-300 ease-out"
         style={{ width: `${readingProgress}%` }}
       />
-      
+
       <main className="pt-24 pb-20 bg-white" ref={articleRef}>
         {/* Breadcrumb Navigation */}
         <div className="bg-slate-50 border-b border-slate-200 py-3 mb-10">
           <div className="max-w-7xl mx-auto px-5 sm:px-8">
-            <BreadcrumbNavigation 
+            <BreadcrumbNavigation
               items={[
                 { name: 'Home', path: '/' },
                 { name: 'Policy Updates', path: '/updates' },
@@ -269,6 +281,7 @@ const BlogPostPage: React.FC = () => {
             />
           </div>
         </div>
+        
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:grid lg:grid-cols-12 lg:gap-12">
           {/* Main content area */}
           <article className="lg:col-span-8 xl:col-span-9 mb-12 lg:mb-0">
@@ -281,17 +294,17 @@ const BlogPostPage: React.FC = () => {
                   </span>
                 </div>
               )}
-              
+
               {/* Article title */}
               <h1 className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 leading-tight tracking-tight">
                 {post.title}
               </h1>
-              
+
               {/* Meta information */}
               <div className="flex flex-wrap items-center text-gray-600 mb-10 gap-4 sm:gap-0">
                 <div className="flex items-center flex-shrink-0">
                   <div className="w-12 h-12 rounded-full overflow-hidden mr-4 shadow-sm">
-                    <LazyImage 
+                    <LazyImage
                       src={`/uploads/team/${post.author.replace(/ /g, '-').toLowerCase()}.jpg`}
                       alt={post.author}
                       className="w-full h-full object-cover"
@@ -307,10 +320,10 @@ const BlogPostPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Share button */}
                 <div className="ml-auto relative">
-                  <button 
+                  <button
                     onClick={() => setShowShareOptions(!showShareOptions)}
                     className="flex items-center text-navy-600 hover:text-navy-800 font-medium bg-gray-50 px-4 py-2 rounded-md shadow-sm transition-colors"
                   >
@@ -319,7 +332,7 @@ const BlogPostPage: React.FC = () => {
                     </svg>
                     Share
                   </button>
-                  
+
                   {/* Share options dropdown */}
                   {showShareOptions && (
                     <div className="absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl z-10 py-2 border border-gray-200 overflow-hidden">
@@ -351,28 +364,20 @@ const BlogPostPage: React.FC = () => {
                   )}
                 </div>
               </div>
-              
+
               {/* Featured image */}
               {post.image && (
                 <div className="mt-8 mb-12 overflow-hidden rounded-xl shadow-xl">
-                  <ResponsiveImage
-                    src={post.image.startsWith('/') ? post.image.substring(1) : post.image}
+                  <img 
+                    src={post.image}
                     alt={post.title}
-                    className="w-full h-auto"
-                    sources={generateResponsiveSources(post.image.startsWith('/') ? post.image.substring(1) : post.image, [640, 768, 1024, 1280, 1536])}
-                    webpSources={generateWebPSources(generateResponsiveSources(post.image.startsWith('/') ? post.image.substring(1) : post.image, [640, 768, 1024, 1280, 1536]))}
-                    imageSizes={[
-                      '(max-width: 640px) 100vw',
-                      '(max-width: 1024px) 80vw',
-                      '1200px'
-                    ]}
-                    context="Featured image for article"
-                    caption={post.imageCaption}
-                    author={post.author}
-                    contentLocation="Texas Capitol"
-                    datePublished={post.date}
-                    generateStructuredData={true}
-                    aspectRatio="16/9"
+                    className="w-full h-auto object-cover"
+                    onError={(e) => {
+                      // Fallback to capitol image if the original image fails to load
+                      const imgElement = e.currentTarget;
+                      imgElement.onerror = null; // Prevent infinite error loop
+                      imgElement.src = '/images/texas-capitol.jpg';
+                    }}
                   />
                 </div>
               )}
@@ -392,8 +397,8 @@ const BlogPostPage: React.FC = () => {
                 if (['h1', 'h2', 'h3'].includes(block.type)) {
                   return React.createElement(
                     block.type,
-                    { 
-                      key: block.key, 
+                    {
+                      key: block.key,
                       id: block.id,
                       ref: (el: HTMLElement | null) => {
                         if (el) {
@@ -425,39 +430,30 @@ const BlogPostPage: React.FC = () => {
                       {block.content}
                     </blockquote>
                   );
+                } else if (block.type === 'img') {
+                  return (
+                    <img 
+                      key={block.key}
+                      src={block.src}
+                      alt={block.alt || "Article image"}
+                      className="w-full h-auto rounded-lg shadow-md my-8"
+                    />
+                  );
                 } else {
                   return <p key={block.key} className="mb-8 leading-relaxed text-slate-700">{block.content}</p>;
                 }
               })}
             </div>
-            
-            {/* Author bio */}
-            <div className="mt-20 border-t border-gray-200 pt-10">
-              <div className="flex items-center p-6 bg-gray-50 rounded-xl shadow-sm">
-                <div className="w-20 h-20 rounded-full overflow-hidden mr-6 shadow-md">
-                  <LazyImage 
-                    src={`/uploads/team/${post.author.replace(/ /g, '-').toLowerCase()}.jpg`}
-                    alt={post.author}
-                    className="w-full h-full object-cover"
-                    placeholderColor="#e5e7eb"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-2 text-navy-800">{post.author}</h3>
-                  <p className="text-gray-600 leading-relaxed">Senior Partner at Capitol Insights with expertise in government relations and legislative strategy.</p>
-                </div>
-              </div>
-            </div>
-            
+
             {/* Related posts */}
             {relatedPosts.length > 0 && (
               <div className="mt-20 border-t border-gray-200 pt-12">
                 <h2 className="text-2xl font-bold mb-10 text-navy-800">Related Articles</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {relatedPosts.map((relatedPost) => (
-                    <Link 
-                      key={relatedPost.slug} 
-                      to={`/updates/${relatedPost.slug}`}
+                    <Link
+                      key={relatedPost.slug || relatedPost._sys.basename}
+                      to={`/updates/${relatedPost.slug || relatedPost._sys.basename}`}
                       className="group block overflow-hidden rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
                     >
                       {relatedPost.image && (
@@ -488,7 +484,7 @@ const BlogPostPage: React.FC = () => {
               </div>
             )}
           </article>
-          
+
           {/* Sidebar with sticky table of contents */}
           <aside className="hidden lg:block lg:col-span-4 xl:col-span-3">
             <div className="sticky top-28" ref={tocRef}>
@@ -499,10 +495,10 @@ const BlogPostPage: React.FC = () => {
                     <ul className="space-y-3">
                       {tableOfContents.map((item) => (
                         <li key={item.id} className={`
-                          ${item.type === 'h1' ? '' : item.type === 'h2' ? 'ml-5' : 'ml-10'} 
+                          ${item.type === 'h1' ? '' : item.type === 'h2' ? 'ml-5' : 'ml-10'}
                           ${activeSection === item.id ? 'text-gold-600 font-medium border-l-2 border-gold-500 pl-3 -ml-[2px]' : 'text-gray-700'}
                         `}>
-                          <button 
+                          <button
                             onClick={() => scrollToSection(item.id)}
                             className="hover:text-gold-700 text-left w-full transition-colors py-1.5 block"
                           >
@@ -514,23 +510,23 @@ const BlogPostPage: React.FC = () => {
                   </nav>
                 </div>
               )}
-              
-              {/* Newsletter signup */}
+
+              {/* Newsletter signup - simplified version */}
               <div className="bg-navy-800 rounded-xl p-8 shadow-md">
                 <h3 className="font-bold text-xl mb-4 text-white">Stay Informed</h3>
                 <p className="text-gray-200 mb-6 text-base leading-relaxed">
                   Get the latest Capitol Insights delivered to your inbox.
                 </p>
                 <form className="space-y-4">
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     placeholder="Your email address"
                     className="w-full px-4 py-3 text-navy-800 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"
                     required
                   />
-                  <button 
+                  <button
                     type="submit"
-                    className="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-sm"
+                    className="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300"
                   >
                     Subscribe
                   </button>
@@ -540,71 +536,6 @@ const BlogPostPage: React.FC = () => {
           </aside>
         </div>
       </main>
-      
-      {/* Mobile table of contents button (fixed at bottom) */}
-      {tableOfContents.length > 0 && (
-        <div className="lg:hidden fixed bottom-8 right-8 z-30">
-          <button 
-            onClick={() => {
-              const tocModal = document.getElementById('mobile-toc');
-              if (tocModal) {
-                tocModal.classList.toggle('hidden');
-              }
-            }}
-            className="bg-navy-800 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-xl"
-            aria-label="Show table of contents"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
-            </svg>
-          </button>
-          
-          {/* Mobile TOC modal */}
-          <div id="mobile-toc" className="hidden fixed inset-0 bg-black bg-opacity-60 z-40 flex items-end">
-            <div className="bg-white rounded-t-xl w-full max-h-[80vh] overflow-y-auto p-8">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-bold text-xl text-navy-900">Table of Contents</h3>
-                <button 
-                  onClick={() => {
-                    const tocModal = document.getElementById('mobile-toc');
-                    if (tocModal) {
-                      tocModal.classList.add('hidden');
-                    }
-                  }}
-                  className="text-gray-500"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              <nav>
-                <ul className="space-y-4">
-                  {tableOfContents.map((item) => (
-                    <li key={item.id} className={`
-                      ${item.type === 'h1' ? '' : item.type === 'h2' ? 'ml-5' : 'ml-10'} 
-                      ${activeSection === item.id ? 'text-gold-600 font-medium border-l-2 border-gold-500 pl-3 -ml-[2px]' : 'text-gray-700'}
-                    `}>
-                      <button 
-                        onClick={() => {
-                          scrollToSection(item.id);
-                          const tocModal = document.getElementById('mobile-toc');
-                          if (tocModal) {
-                            tocModal.classList.add('hidden');
-                          }
-                        }}
-                        className="hover:text-gold-700 text-left w-full py-2 block text-base"
-                      >
-                        {item.content}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
