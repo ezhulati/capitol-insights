@@ -12,7 +12,6 @@ import {
   LineChart,
   Building2,
   Gauge,
-  Handshake,
   FileText,
   Megaphone
 } from 'lucide-react';
@@ -184,7 +183,7 @@ const ApproachPage = () => {
                   description="We maintain the highest ethical standards in all our government relations work, prioritizing transparency and honesty."
                 />
                 <ValueCard 
-                  icon={<Handshake size={20} className="text-primary-600" />}
+                  icon={<Users size={20} className="text-primary-600" />}
                   title="Genuine Relationships"
                   description="Our connections are built on trust and maintained with integrity, not transactional interactions."
                 />

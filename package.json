@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:ci": "npm ci --legacy-peer-deps && vite build",
+    "build:ci": "npm ci --legacy-peer-deps --force || npm install --legacy-peer-deps --force && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "analyze": "vite build --mode analyze",

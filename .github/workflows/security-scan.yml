@@ -31,7 +31,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm install --legacy-peer-deps --force
+        run: npm ci --legacy-peer-deps --force || npm install --legacy-peer-deps --force
       
       - name: Run npm audit
         run: npm run security-audit
