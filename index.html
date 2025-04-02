@@ -318,8 +318,45 @@
       <input type="text" name="recipients" />
     </form>
     
-    <!-- Main application script - Using assets/index-*.js (Vite build output) -->
-    <script type="module" src="/assets/index.js"></script>
+    <!-- Main application script with dynamic fallback strategy -->
+    <script>
+      // Bundle path resolution script
+      (function() {
+        function loadScript(path) {
+          console.log('[Bundle Loader] Attempting to load:', path);
+          var script = document.createElement('script');
+          script.type = 'module';
+          script.src = path;
+          script.onerror = function() {
+            console.error('[Bundle Loader] Failed to load:', path);
+            if (attempts.length > 0) {
+              loadScript(attempts.shift());
+            } else {
+              console.error('[Bundle Loader] All attempts failed');
+              document.querySelector('.loading').style.display = 'none';
+              document.getElementById('error-container').style.display = 'flex';
+              
+              var errorMsg = document.querySelector('.error-message');
+              if (errorMsg) {
+                errorMsg.innerHTML = 'Failed to load application script.<br><small>Please try refreshing the page.</small>';
+              }
+            }
+          };
+          document.head.appendChild(script);
+        }
+        
+        // Try these paths in order
+        var attempts = [
+          '/assets/index.js',                    // Custom path in vite.config.ts
+          '/assets/index-UfPH0W8m.js',          // Example of hashed bundle (replace with actual name if known)
+          '/assets/' + (document.currentScript ? document.currentScript.getAttribute('data-main') || 'main' : 'main') + '.js', // From data attribute
+          '/dist/assets/index.js',               // Possible nested dist folder
+          '/main.js'                             // Root main.js
+        ];
+        
+        loadScript(attempts.shift());
+      })();
+    </script>
     
     <!-- Enhanced error handling script -->
     <script>
