@@ -10,11 +10,29 @@ The build is failing due to a dependency conflict between:
 
 This conflict causes an ERESOLVE error during the build process.
 
+### Specific Conflict Details
+
+The error occurs because:
+1. `@types/react-dom@19.1.1` requires `@types/react@^19.0.0`
+2. `@mdx-js/react@2.3.0` has a peer dependency on React 18.x
+3. These two requirements are incompatible with each other
+
 ## Solution Implemented
 
 We've implemented several strategies to resolve this conflict:
 
-### 1. Package Overrides
+### 1. Downgraded MDX Dependencies
+
+Downgraded the MDX packages to versions compatible with React 18.2.0:
+
+```json
+"@mdx-js/loader": "2.0.0",
+"@mdx-js/react": "2.0.0"
+```
+
+These specific versions are compatible with React 18.2.0 and don't conflict with the TypeScript type definitions.
+
+### 2. Package Overrides
 
 Added explicit overrides in package.json:
 
@@ -35,7 +53,7 @@ Added explicit overrides in package.json:
 
 These overrides force all dependencies to use the specified versions, preventing version conflicts.
 
-### 2. NPM Configuration
+### 3. NPM Configuration
 
 Created an `.npmrc` file with the following settings:
 
@@ -48,7 +66,7 @@ This tells npm to:
 - Use the legacy peer dependency resolution algorithm
 - Force installation even with conflicting dependencies
 
-### 3. Build Script
+### 4. Build Script
 
 Created a custom `build.sh` script that:
 - Cleans the node_modules directory
@@ -57,7 +75,7 @@ Created a custom `build.sh` script that:
 - Falls back to alternative approaches if needed
 - Builds the project and runs optimizations
 
-### 4. Netlify Configuration
+### 5. Netlify Configuration
 
 Updated `netlify.toml` to:
 - Use the custom build script

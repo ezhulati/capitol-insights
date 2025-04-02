@@ -17,6 +17,13 @@ rm -rf package-lock.json
 
 # Install dependencies with force and legacy-peer-deps
 echo "Installing dependencies..."
+
+# First, explicitly install the correct versions of React and types
+echo "Installing React and TypeScript types explicitly..."
+npm install --no-save react@18.2.0 react-dom@18.2.0 @types/react@18.2.48 @types/react-dom@18.2.18
+
+# Then install all dependencies
+echo "Installing all dependencies..."
 npm install --legacy-peer-deps --force
 
 # Check if installation was successful
