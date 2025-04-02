@@ -261,8 +261,29 @@
       <input type="text" name="recipients" />
     </form>
     
-    <!-- Direct script loading without fallbacks -->
-    <script type="module" src="/assets/index.js"></script>
+    <!-- Dynamic script loading for both dev and production -->
+    <script type="module">
+      // For development mode with Vite
+      if (location.host.includes('localhost') || location.host.includes('127.0.0.1')) {
+        // Dev mode - use Vite's entry point
+        import('/src/main.tsx')
+          .catch(err => {
+            console.error('Failed to load development module:', err);
+            // Show error in UI
+            document.querySelector('.loading').style.display = 'none';
+            document.getElementById('error-container').style.display = 'flex';
+          });
+      } else {
+        // Production mode - use built asset
+        import('/assets/index.js')
+          .catch(err => {
+            console.error('Failed to load production module:', err);
+            // Show error in UI
+            document.querySelector('.loading').style.display = 'none';
+            document.getElementById('error-container').style.display = 'flex';
+          });
+      }
+    </script>
     
     <!-- Meta description fixer script (moved to external file) -->
     <script type="module" src="/js/meta-fixer.js"></script>
