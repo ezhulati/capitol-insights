@@ -1,5 +1,5 @@
 [build]
-  command = "chmod +x ./build.sh && ./build.sh"
+  command = "chmod +x ./build.sh && ./build.sh && [ -f dist/index.html ] || cp public/index-fallback.html dist/index.html"
   publish = "dist"
   node_version = "18.19.1"
 
