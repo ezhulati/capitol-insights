@@ -97,8 +97,8 @@ export const initAnalytics = (): void => {
 // Add TypeScript declarations for gtag
 declare global {
   interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
+    dataLayer: unknown[];
+    gtag: (command: string, ...args: unknown[]) => void;
   }
 }
 

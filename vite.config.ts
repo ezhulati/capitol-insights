@@ -189,6 +189,7 @@ export default defineConfig(({ mode }) => {
       open: true,
       host: true,
       port: 3000,
+      strictPort: true,
       fs: {
         // Allow serving files from the project root
         allow: ['.']

@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { getPageSEO } from '../utils/enhanced-seo';
-import LazyImage from '../components/LazyImage';
 import OptimizedImage from '../components/OptimizedImage';
 import ImprovedLeadMagnetForm from '../components/ImprovedLeadMagnetForm';
 

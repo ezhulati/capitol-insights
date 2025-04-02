@@ -175,8 +175,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
               alt={alt}
               style={imageStyle}
               loading={priority ? 'eager' : 'lazy'}
-              // Use attribute directly to avoid TypeScript errors
-              {...{ fetchPriority: effectiveFetchPriority } as any}
+              fetchPriority={effectiveFetchPriority}
               width={width}
               height={height}
               decoding={priority ? 'sync' : 'async'}
