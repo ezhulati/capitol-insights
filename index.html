@@ -378,19 +378,81 @@
         }
       });
       
-      // Check if the main script loaded successfully
+      // Enhanced load detection with more debugging
       window.addEventListener('load', function() {
         console.log('[Load] Window loaded');
         
-        setTimeout(function() {
-          if (document.querySelector('#root').children.length <= 1) {
-            console.error('[Timeout] App failed to render properly');
-            document.querySelector('.loading').style.display = 'none';
-            document.getElementById('error-container').style.display = 'flex';
-          } else {
-            console.log('[Success] App rendered successfully');
+        // Check for React mount immediately
+        const checkReactMount = function() {
+          console.log('[Mount Check] Checking if React has mounted...');
+          
+          // Look for signs of React mounting
+          const rootEl = document.querySelector('#root');
+          const loadingEl = document.querySelector('.loading');
+          const reactContent = rootEl.children.length > 1 || 
+                              (rootEl.innerHTML && rootEl.innerHTML.includes('react') || 
+                               rootEl.innerHTML && !rootEl.innerHTML.includes('loading-spinner'));
+          
+          if (reactContent) {
+            console.log('[Success] React application mounted successfully');
+            return true;
           }
-        }, 5000); // Reduced timeout from 10s to 5s
+          
+          console.log('[Mount Check] React not mounted yet. Current content:', rootEl.innerHTML);
+          return false;
+        };
+        
+        // Try to render a fallback UI after timeout
+        var renderTimeout = setTimeout(function() {
+          if (!checkReactMount()) {
+            console.error('[Timeout] App failed to render properly after 10 seconds');
+            
+            // Hide loading spinner
+            const loadingEl = document.querySelector('.loading');
+            if (loadingEl) loadingEl.style.display = 'none';
+            
+            // Show error container
+            const errorEl = document.getElementById('error-container');
+            if (errorEl) {
+              errorEl.style.display = 'flex';
+              
+              // Update error message
+              const errorMsg = errorEl.querySelector('.error-message');
+              if (errorMsg) {
+                errorMsg.innerHTML = 'Application is taking longer than expected to load.<br>' +
+                  '<small>This might be due to a slow network connection or a JavaScript error.</small>';
+              }
+            } else {
+              // If error container doesn't exist, render a basic fallback UI
+              document.querySelector('#root').innerHTML = `
+                <div style="max-width: 800px; margin: 50px auto; padding: 20px; text-align: center;">
+                  <h1 style="color: #0F2539;">Capitol Insights</h1>
+                  <p>Our application is experiencing technical difficulties.</p>
+                  <button onclick="window.location.reload()" 
+                    style="background-color: #1a365d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">
+                    Retry
+                  </button>
+                </div>
+              `;
+            }
+          }
+        }, 10000); // Increased timeout back to 10 seconds
+        
+        // Check every second for up to 10 seconds
+        var checkInterval = 0;
+        var mountCheckInterval = setInterval(function() {
+          checkInterval += 1000;
+          
+          if (checkReactMount()) {
+            clearInterval(mountCheckInterval);
+            clearTimeout(renderTimeout);
+            console.log('[Mount Check] React mounted successfully after ~' + checkInterval + 'ms');
+          }
+          
+          if (checkInterval >= 10000) {
+            clearInterval(mountCheckInterval);
+          }
+        }, 1000);
       });
     </script>
     
