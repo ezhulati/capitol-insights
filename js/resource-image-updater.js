@@ -22,18 +22,60 @@ document.addEventListener('DOMContentLoaded', function() {
                     const title = titleElement.textContent.trim();
                     console.log('Found resource card with title:', title);
                     
-                    // Get the image element
-                    const imgElement = card.querySelector('img');
-                    if (!imgElement) {
-                        console.log('No image element found for title:', title);
-                        return;
-                    }
-                    
-                    // Update image based on title
+                    // Handle Texas Legislative Calendar 2025
                     if (title === 'Texas Legislative Calendar 2025') {
+                        // Get the image element
+                        const imgElement = card.querySelector('img');
+                        if (!imgElement) {
+                            console.log('No image element found for title:', title);
+                            return;
+                        }
+                        
                         console.log('Updating Texas Legislative Calendar 2025 image');
                         imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png';
-                    } else if (title.includes('Texas Legislative Advocacy Guide')) {
+                    } 
+                    // Handle Texas Legislative Advocacy Guide
+                    else if (title.includes('Texas Legislative Advocacy Guide')) {
+                        console.log('Processing Texas Legislative Advocacy Guide card');
+                        
+                        // Try to find the image element
+                        let imgElement = card.querySelector('img');
+                        
+                        // If no image element exists, look for a div that might be a container for the image
+                        if (!imgElement) {
+                            console.log('No direct img element found, looking for image container');
+                            const imageContainer = card.querySelector('.rounded-t-xl, .bg-blue-100, .overflow-hidden');
+                            
+                            if (imageContainer) {
+                                console.log('Found potential image container, checking for img inside');
+                                imgElement = imageContainer.querySelector('img');
+                                
+                                // If still no image, create one and add it to the container
+                                if (!imgElement) {
+                                    console.log('Creating new img element for Texas Legislative Advocacy Guide');
+                                    imgElement = document.createElement('img');
+                                    imgElement.alt = 'Texas Legislative Advocacy Guide';
+                                    imgElement.className = 'w-full h-auto object-cover';
+                                    imageContainer.appendChild(imgElement);
+                                }
+                            } else {
+                                // If no suitable container found, try to find the first div in the card
+                                console.log('No image container found, looking for first div');
+                                const firstDiv = card.querySelector('div');
+                                
+                                if (firstDiv) {
+                                    console.log('Found first div, creating img element');
+                                    imgElement = document.createElement('img');
+                                    imgElement.alt = 'Texas Legislative Advocacy Guide';
+                                    imgElement.className = 'w-full h-auto object-cover';
+                                    firstDiv.prepend(imgElement);
+                                } else {
+                                    console.log('Could not find a suitable place to add an image');
+                                    return;
+                                }
+                            }
+                        }
+                        
                         console.log('Updating Texas Legislative Advocacy Guide image');
                         imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png';
                     }
