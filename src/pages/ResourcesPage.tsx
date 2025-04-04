@@ -64,7 +64,7 @@ const resourcesData: Resource[] = [
     documentUrl: '/files/texas-legislative-calendar-2025.html',
     date: '2024-12-15',
     featured: true,
-    thumbnailUrl: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png',
+    thumbnailUrl: '/images/capitol-background.jpg',
     fileSize: '2.4 MB'
   },
   {
@@ -77,7 +77,6 @@ const resourcesData: Resource[] = [
     documentUrl: '/files/texas-legislative-influence-guide-2025.html',
     date: '2024-11-20',
     featured: true,
-    thumbnailUrl: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png',
     fileSize: '3.1 MB'
   },
   {
@@ -349,7 +348,7 @@ const ResourcesPage: React.FC = () => {
                   <div className="px-6 pb-6 mt-auto">
                     <button
                       onClick={() => handleDownloadClick(resource)}
-                      className="btn btn-primary w-full flex items-center justify-center py-3 px-4 h-auto text-base font-medium shadow-sm"
+                      className="btn btn-primary w-full flex items-center justify-center py-3 text-base font-medium"
                     >
                       <Download size={16} className="mr-2" />
                       <span>Download Resource</span>
@@ -532,7 +531,7 @@ const ResourcesPage: React.FC = () => {
                       setSelectedCategory('all');
                       setSelectedType('all');
                     }}
-                    className="btn btn-primary py-3 px-4 h-auto text-base font-medium shadow-sm"
+                    className="btn btn-primary"
                   >
                     Clear Filters
                   </button>
@@ -564,7 +563,7 @@ const ResourcesPage: React.FC = () => {
                       <div className="px-6 pb-6 sm:p-6 sm:pl-0 sm:ml-auto sm:flex sm:flex-col sm:justify-center">
                         <button
                           onClick={() => handleDownloadClick(resource)}
-                          className="btn btn-primary whitespace-nowrap flex items-center py-3 px-4 h-auto text-base font-medium shadow-sm"
+                          className="btn btn-primary whitespace-nowrap flex items-center py-3 px-4 text-base font-medium"
                         >
                           <Download size={16} className="mr-2" />
                           <span>Download</span>
@@ -610,7 +609,7 @@ const ResourcesPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn bg-gold-600 hover:bg-gold-500 text-navy-950 whitespace-nowrap flex items-center justify-center py-3 px-4 h-auto text-base font-medium shadow-sm"
+                  className="btn bg-gold-600 hover:bg-gold-500 text-navy-950 whitespace-nowrap flex items-center justify-center"
                 >
                   {isSubmitting ? (
                     <>
@@ -640,10 +639,10 @@ const ResourcesPage: React.FC = () => {
                   Our team provides tailored research, analysis, and strategic recommendations specific to your organization's needs and priorities.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link to="/contact" className="btn btn-primary py-3 px-4 h-auto text-base font-medium shadow-sm">
+                  <Link to="/contact" className="btn btn-primary">
                     Request Custom Research
                   </Link>
-                  <Link to="/services" className="btn bg-slate-200 hover:bg-slate-300 text-navy-800 py-3 px-4 h-auto text-base font-medium shadow-sm">
+                  <Link to="/services" className="btn bg-slate-200 hover:bg-slate-300 text-navy-800">
                     View Our Services
                   </Link>
                 </div>
