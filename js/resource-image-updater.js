@@ -13,20 +13,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 resourceCards.forEach(card => {
                     // Get the title element
-                    const titleElement = card.querySelector('h3.text-xl.font-bold.text-navy-900');
-                    if (!titleElement) return;
+                    const titleElement = card.querySelector('h3.text-xl.font-bold.text-navy-900, h3.text-lg.font-bold.text-navy-900');
+                    if (!titleElement) {
+                        console.log('No title element found in card');
+                        return;
+                    }
                     
                     const title = titleElement.textContent.trim();
+                    console.log('Found resource card with title:', title);
                     
                     // Get the image element
                     const imgElement = card.querySelector('img');
-                    if (!imgElement) return;
+                    if (!imgElement) {
+                        console.log('No image element found for title:', title);
+                        return;
+                    }
                     
                     // Update image based on title
                     if (title === 'Texas Legislative Calendar 2025') {
                         console.log('Updating Texas Legislative Calendar 2025 image');
                         imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png';
-                    } else if (title === 'Texas Legislative Advocacy Guide') {
+                    } else if (title.includes('Texas Legislative Advocacy Guide')) {
                         console.log('Updating Texas Legislative Advocacy Guide image');
                         imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png';
                     }
