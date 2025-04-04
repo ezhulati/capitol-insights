@@ -69,6 +69,15 @@ To modify content:
 
 The site is configured for deployment on Netlify. Push to the main branch to trigger a deployment.
 
+## Analytics and Monitoring
+
+The site uses Microsoft Clarity for analytics and user behavior monitoring:
+- Heatmaps and session recordings to understand user behavior
+- Performance monitoring
+- Error tracking
+- Custom event tracking for important user interactions
+- Privacy-focused with anonymized data collection
+
 ## Security Considerations
 
 This project implements several security best practices:
