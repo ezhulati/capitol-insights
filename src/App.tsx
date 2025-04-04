@@ -201,34 +201,49 @@ function App() {
     preloadNextPages();
     
     // Initialize Microsoft Clarity with advanced features
-    const projectId = "qyml0noa0b";
-    try {
-      // Initialize Clarity
-      Clarity.init(projectId);
-      console.log('Microsoft Clarity initialized successfully');
-      
-      // Set cookie consent (assuming consent is given)
-      Clarity.consent(true);
-      
-      // Identify the user (using anonymous ID for now)
-      // In a real app, you might use a user ID from authentication
-      const anonymousId = `anon-${Math.random().toString(36).substring(2, 15)}`;
-      Clarity.identify(anonymousId);
-      
-      // Set custom tags for better filtering
-      Clarity.setTag("environment", "production");
-      Clarity.setTag("version", "1.0.0");
-      
-      // Track page visit as a custom event
-      Clarity.event("page_visit");
-      
-      // Upgrade important sessions (e.g., when user is on resources page)
-      if (window.location.pathname.includes('resources')) {
-        Clarity.upgrade("resources_page_visit");
+    const initializeClarity = () => {
+      const projectId = "qyml0noa0b";
+      try {
+        // Check if Clarity is available
+        if (typeof Clarity === 'undefined') {
+          console.warn('Microsoft Clarity not available, retrying in 2 seconds...');
+          setTimeout(initializeClarity, 2000);
+          return;
+        }
+        
+        // Initialize Clarity
+        Clarity.init(projectId);
+        console.log('Microsoft Clarity initialized successfully');
+        
+        // Set cookie consent (assuming consent is given)
+        Clarity.consent(true);
+        
+        // Identify the user (using anonymous ID for now)
+        // In a real app, you might use a user ID from authentication
+        const anonymousId = `anon-${Math.random().toString(36).substring(2, 15)}`;
+        Clarity.identify(anonymousId);
+        
+        // Set custom tags for better filtering
+        Clarity.setTag("environment", process.env.NODE_ENV || "production");
+        Clarity.setTag("version", "1.0.0");
+        Clarity.setTag("build_time", process.env.VITE_BUILD_TIME || new Date().toISOString());
+        
+        // Track page visit as a custom event
+        Clarity.event("page_visit");
+        
+        // Upgrade important sessions (e.g., when user is on resources page)
+        if (window.location.pathname.includes('resources')) {
+          Clarity.upgrade("resources_page_visit");
+        }
+      } catch (error) {
+        console.error('Error initializing Microsoft Clarity:', error);
+        // Retry after a delay in case of network issues
+        setTimeout(initializeClarity, 5000);
       }
-    } catch (error) {
-      console.error('Error initializing Microsoft Clarity:', error);
-    }
+    };
+    
+    // Start the initialization process
+    initializeClarity();
   }, []);
   
   return (

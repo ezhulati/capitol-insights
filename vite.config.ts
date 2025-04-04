@@ -199,7 +199,10 @@ export default defineConfig(({ mode }) => {
       jsxFragment: 'React.Fragment',
       // Fix for "Unexpected identifier 'POP'" error
       define: {
-        "process.env.NODE_ENV": JSON.stringify(mode)
+        "process.env.NODE_ENV": JSON.stringify(mode),
+        "POP": JSON.stringify("POP"),
+        "PUSH": JSON.stringify("PUSH"),
+        "REPLACE": JSON.stringify("REPLACE")
       }
     },
     build: {
