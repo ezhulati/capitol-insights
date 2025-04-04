@@ -1,58 +1,58 @@
-// Microsoft Clarity initialization using npm package
-import Clarity from '@microsoft/clarity';
+// Microsoft Clarity initialization using traditional script approach
+(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "qyml0noa0b");
 
-// Define project ID
+// Define project ID for reference in other functions
 const projectId = "qyml0noa0b";
 
-// Initialize Clarity with project ID
-Clarity.init(projectId);
-
-// Set cookie consent (required for GDPR compliance)
-Clarity.consent(true);
-
-// Identify user (if user information is available)
-// This is a placeholder - in a real implementation, you would use actual user data
+// Wait for Clarity to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // Check if user is logged in (this is a placeholder implementation)
-  const userIdElement = document.getElementById('user-id');
-  if (userIdElement && userIdElement.value) {
-    // Identify the user with Clarity
-    Clarity.identify(userIdElement.value);
-  } else {
-    // For anonymous users, you can still call identify with a generated ID
-    Clarity.identify(`anonymous-${Date.now()}`);
+  // Set cookie consent (required for GDPR compliance)
+  if (window.clarity) {
+    window.clarity("consent", true);
+
+    // Identify user (if user information is available)
+    // This is a placeholder - in a real implementation, you would use actual user data
+    const userIdElement = document.getElementById('user-id');
+    if (userIdElement && userIdElement.value) {
+      // Identify the user with Clarity
+      window.clarity("identify", userIdElement.value);
+    } else {
+      // For anonymous users, you can still call identify with a generated ID
+      window.clarity("identify", `anonymous-${Date.now()}`);
+    }
+
+    // Set custom tags for better filtering in Clarity dashboard
+    window.clarity("set", "environment", "production");
+    window.clarity("set", "website_version", "1.0.0");
+
+    // Example: Track when users interact with specific elements
+    const downloadButtons = document.querySelectorAll('.btn-download, [class*="download"]');
+    downloadButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Track download events
+        window.clarity("event", "resource_download");
+        
+        // Upgrade the session to prioritize it in the dashboard
+        window.clarity("upgrade", "resource_download");
+      });
+    });
+
+    // Track form submissions
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+      form.addEventListener('submit', () => {
+        // Track form submission events
+        window.clarity("event", "form_submission");
+        
+        // Upgrade the session to prioritize it in the dashboard
+        window.clarity("upgrade", "form_submission");
+      });
+    });
   }
-});
-
-// Set custom tags for better filtering in Clarity dashboard
-Clarity.setTag("environment", "production");
-Clarity.setTag("website_version", "1.0.0");
-
-// Track page-specific custom events
-document.addEventListener('DOMContentLoaded', () => {
-  // Example: Track when users interact with specific elements
-  const downloadButtons = document.querySelectorAll('.btn-download, [class*="download"]');
-  downloadButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Track download events
-      Clarity.event("resource_download");
-      
-      // Upgrade the session to prioritize it in the dashboard
-      Clarity.upgrade("resource_download");
-    });
-  });
-
-  // Track form submissions
-  const forms = document.querySelectorAll('form');
-  forms.forEach(form => {
-    form.addEventListener('submit', () => {
-      // Track form submission events
-      Clarity.event("form_submission");
-      
-      // Upgrade the session to prioritize it in the dashboard
-      Clarity.upgrade("form_submission");
-    });
-  });
 });
 
 // Log initialization
