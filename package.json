@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
-    "build": "echo 'Build script placeholder'",
-    "build:ci": "echo 'CI build script placeholder'"
+    "build": "mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true",
+    "build:ci": "mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true"
   },
   "dependencies": {
     "react": "^18.2.0",
