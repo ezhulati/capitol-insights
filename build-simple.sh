@@ -54,9 +54,9 @@ export PUPPETEER_SKIP_DOWNLOAD=true
 echo "Installing dependencies..."
 npm install --legacy-peer-deps --force
 
-# Explicitly install Vite (both globally and locally just to be safe)
-echo "Installing Vite locally..."
-npm install --save-dev vite
+# Explicitly install Vite and its plugins
+echo "Installing Vite and plugins..."
+npm install --save-dev vite @vitejs/plugin-react vite-plugin-pwa vite-plugin-compression rollup-plugin-visualizer
 
 # Verify that vite is available
 echo "Verifying Vite installation..."

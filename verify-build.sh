@@ -57,6 +57,10 @@ try {
 echo "Installing dependencies..."
 npm install --legacy-peer-deps --force
 
+# Explicitly install Vite and its plugins
+echo "Installing Vite and plugins..."
+npm install --save-dev vite @vitejs/plugin-react vite-plugin-pwa vite-plugin-compression rollup-plugin-visualizer
+
 # Verify that vite is available
 echo "Verifying Vite installation..."
 node_modules/.bin/vite --version || npm ls vite
