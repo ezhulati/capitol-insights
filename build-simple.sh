@@ -14,10 +14,11 @@ export NODE_OPTIONS="--max-old-space-size=4096"
 export NODE_ENV=production
 export VITE_APP_VERSION="$(date +%Y%m%d%H%M)"
 export VITE_BUILD_TIME="$(date)"
+export PUPPETEER_SKIP_DOWNLOAD=true
 
 # Install dependencies - including devDependencies
 echo "Installing dependencies..."
-npm ci || npm install --force
+npm install --legacy-peer-deps --force
 
 # Explicitly install Vite (both globally and locally just to be safe)
 echo "Installing Vite globally and locally..."
