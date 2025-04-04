@@ -77,8 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         
                         console.log('Updating Texas Legislative Advocacy Guide image');
-                        // Use an image that matches the style of the Texas Legislative Calendar 2025 image
-                        imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png';
+                        // Use a different image that matches the style of the Texas Legislative Calendar 2025 image
+                        imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1712241000/texas-legislative-session-blue_kxwcvs.jpg';
                     }
                 });
                 
