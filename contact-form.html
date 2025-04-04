@@ -1,0 +1,12 @@
+<!-- A hidden form that Netlify can detect during the build process -->
+<form name="contact" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <input type="text" name="organization" />
+  <select name="interest"></select>
+  <input type="date" name="preferredDate" />
+  <select name="preferredTime"></select>
+  <textarea name="message"></textarea>
+  <!-- Recipients are configured in Netlify form settings using environment variables -->
+</form>

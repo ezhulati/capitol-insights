@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigating Texas Water Policy | Capitol Insights</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header styles */
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #102A43;
+    }
+    
+    .company-name {
+      color: #102A43;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .document-title {
+      color: #102A43;
+      font-size: 32px;
+      margin: 20px 0 10px;
+      line-height: 1.3;
+    }
+    
+    .document-subtitle {
+      color: #486581;
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    
+    .author {
+      font-style: italic;
+      margin-top: 15px;
+      color: #486581;
+    }
+    
+    .gold-line {
+      height: 3px;
+      background-color: #AA8843;
+      width: 40%;
+      margin: 30px auto;
+    }
+    
+    /* Section styles */
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .section-heading {
+      color: #102A43;
+      font-size: 26px;
+      border-bottom: 1px solid #AA8843;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    
+    .subsection-heading {
+      color: #486581;
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    
+    /* Content styles */
+    p {
+      margin-bottom: 15px;
+    }
+    
+    ul {
+      margin-bottom: 20px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 0.9em;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f5f7fa;
+      font-weight: bold;
+      color: #102A43;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    /* Footer styles */
+    .footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      color: #627D98;
+      font-size: 14px;
+    }
+    
+    /* Print styles */
+    @media print {
+      body {
+        font-size: 12pt;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+    }
+    
+    /* Table of Contents styles */
+    .toc {
+      background-color: #f5f7fa;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 5px;
+    }
+    
+    .toc-title {
+      color: #102A43;
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    
+    .toc a {
+      color: #333;
+      text-decoration: none;
+    }
+    
+    .toc a:hover {
+      text-decoration: underline;
+    }
+    
+    .toc ul {
+      list-style-type: none;
+      padding-left: 10px;
+    }
+    
+    .toc li {
+      margin-bottom: 10px;
+    }
+    
+    .print-button {
+      background-color: #102A43;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    
+    .print-button:hover {
+      background-color: #1f3e5a;
+    }
+    
+    /* Image styling */
+    .featured-image {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+      display: block;
+    }
+    
+    /* Case study styling */
+    .case-study {
+      background-color: #f5f8fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+      border-left: 4px solid #102A43;
+    }
+    
+    .case-study-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #102A43;
+    }
+    
+    /* Stats styling */
+    .stats-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin: 20px 0;
+    }
+    
+    .stat-box {
+      background-color: #f5f8fa;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 15px;
+      width: 100%;
+      border-left: 4px solid #3182ce;
+    }
+    
+    @media (min-width: 768px) {
+      .stat-box {
+        width: 48%;
+      }
+    }
+    
+    .stat-title {
+      font-weight: bold;
+      color: #102A43;
+      margin-bottom: 8px;
+    }
+    
+    /* Contact info styling */
+    .contact-info {
+      background-color: #f0f7fa;
+      padding: 15px;
+      border-radius: 5px;
+      border-left: 4px solid #0099cc;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="company-name">CAPITOL INSIGHTS</div>
+    <h1 class="document-title">Navigating Texas Water Policy: A Strategic Guide to Securing Project Approval and Funding</h1>
+    <div class="author">By Byron Campbell, Senior Partner, Capitol Insights</div>
+    <div class="gold-line"></div>
+  </div>
+  
+  <div class="no-print">
+    <button class="print-button" onclick="window.print()">Print this Guide</button>
+  </div>
+  
+  <div class="section" id="introduction">
+    <h2 class="section-heading">The Hidden Reality of Texas Water Development</h2>
+    <p>Texas faces a defining challenge that will shape our economic future more profoundly than almost any other factor: water scarcity. The 2022 State Water Plan projects a 73% increase in statewide municipal water demands by 2070, yet our ability to develop new water resources grows more complex each year.</p>
+    <p>The reality that most water infrastructure advocates miss is this: technical merit and genuine need are necessary but insufficient conditions for project success. In today's complex regulatory and funding environment, technically sound water projects fail to advance every year not because they lack merit, but because their proponents don't understand the multi-dimensional approval process.</p>
+    <p>This guide reveals the strategies successful water projects employ to navigate Texas' complex approval and funding landscape. These approaches have helped our clients secure over $1.2 billion in water infrastructure funding in the past five years alone.</p>
+  </div>
+  
+  <div class="section" id="framework">
+    <h2 class="section-heading">The Texas Water Landscape: Understanding the Real Decision Framework</h2>
+    <p>Texas water infrastructure decisions occur within an intricate framework that extends far beyond engineering considerations. The most successful projects recognize and navigate five intersecting domains:</p>
+    
+    <div id="domain1">
+      <h3 class="subsection-heading">Domain 1: Technical/Engineering Framework</h3>
+      <p>While technical merit is essential, it's often overemphasized at the expense of other critical factors.</p>
+      
+      <img src="https://res.cloudinary.com/dwnmuolg8/image/upload/v1743515382/Image_Apr_1_2025_08_49_26_AM_ouhyn7.png" alt="Technical Framework Diagram" class="featured-image">
+      
+      <p>Key considerations in this domain include:</p>
+      <ul>
+        <li>Hydrological feasibility and water availability analysis</li>
+        <li>Engineering design standards and innovation</li>
+        <li>Water quality and treatment requirements</li>
+        <li>Infrastructure resilience and adaptation to climate variability</li>
+        <li>Operational efficiency and maintenance planning</li>
+      </ul>
+      
+      <p><strong>Strategic Insight:</strong> While technical excellence is necessary, it rarely distinguishes winning projects from losing ones in competitive funding environments. The projects that succeed combine technical soundness with excellence in the other four domains.</p>
+    </div>
+    
+    <div id="domain2">
+      <h3 class="subsection-heading">Domain 2: Regulatory/Permitting Framework</h3>
+      <p>The regulatory landscape for water projects in Texas has grown increasingly complex, with multiple agencies having jurisdiction over different aspects of water development.</p>
+      
+      <p>Key regulatory considerations include:</p>
+      <ul>
+        <li>Texas Commission on Environmental Quality (TCEQ) permitting requirements</li>
+        <li>Texas Water Development Board (TWDB) program compliance</li>
+        <li>U.S. Army Corps of Engineers Section 404 permitting</li>
+        <li>Environmental impact assessments and mitigation planning</li>
+        <li>Groundwater Conservation District rules and regulations</li>
+        <li>Regional water planning group alignment</li>
+      </ul>
+      
+      <p><strong>Strategic Insight:</strong> Successful projects view regulatory compliance not as a hurdle but as an opportunity to strengthen proposals. Early engagement with regulatory stakeholders allows for project refinements that can increase both compliance and competitiveness.</p>
+    </div>
+    
+    <div id="domain3">
+      <h3 class="subsection-heading">Domain 3: Financial/Economic Framework</h3>
+      <p>The financial case for water projects extends beyond simple cost-benefit analyses to include broader economic impacts and innovative funding structures.</p>
+      
+      <p>Essential financial considerations include:</p>
+      <ul>
+        <li>Total lifecycle cost modeling (capital, operational, maintenance)</li>
+        <li>Revenue projection and rate structure impacts</li>
+        <li>Economic impact analysis on regional development</li>
+        <li>Financial leveraging and blended funding approaches</li>
+        <li>Risk allocation and mitigation strategies</li>
+        <li>Public-private partnership potential</li>
+      </ul>
+      
+      <p><strong>Strategic Insight:</strong> The most competitive projects demonstrate not just financial viability but broader economic resilience. Quantifying indirect economic benefits and articulating how the project supports economic development objectives significantly increases funding success rates.</p>
+    </div>
+    
+    <div id="domain4">
+      <h3 class="subsection-heading">Domain 4: Political/Governance Framework</h3>
+      <p>The political dimension of water project approval is often underestimated, yet it frequently determines which technically sound projects advance and which stall indefinitely.</p>
+      
+      <p>Critical political considerations include:</p>
+      <ul>
+        <li>Legislative champion identification and engagement</li>
+        <li>Alignment with state and regional water planning priorities</li>
+        <li>Inter-jurisdictional governance structures</li>
+        <li>Political risk assessment and management</li>
+        <li>Stakeholder coalition building</li>
+        <li>Strategic communications planning</li>
+      </ul>
+      
+      <p><strong>Strategic Insight:</strong> Projects that invest early in building political capital across partisan lines and jurisdictional boundaries navigate approval processes more effectively. Political alignment doesn't happen by accident—it requires deliberate strategy and persistent engagement.</p>
+    </div>
+    
+    <div id="domain5">
+      <h3 class="subsection-heading">Domain 5: Social/Community Acceptance Framework</h3>
+      <p>Public acceptance has become a determinative factor for major water infrastructure projects, with community opposition capable of derailing even the most technically sound proposals.</p>
+      
+      <p>Key social considerations include:</p>
+      <ul>
+        <li>Community needs assessment and local benefits articulation</li>
+        <li>Environmental justice and equity considerations</li>
+        <li>Stakeholder identification and engagement planning</li>
+        <li>Narrative development and messaging strategy</li>
+        <li>Community partnership and ownership structures</li>
+        <li>Transparency mechanisms and public input processes</li>
+      </ul>
+      
+      <p><strong>Strategic Insight:</strong> The most successful projects build community acceptance from the ground up, integrating local priorities and concerns into project design rather than attempting to overcome opposition after plans are finalized.</p>
+    </div>
+  </div>
+  
+  <div class="section" id="funding-landscape">
+    <h2 class="section-heading">The Texas Water Funding Landscape: Understanding the Options</h2>
+    <p>Texas offers multiple pathways for water infrastructure funding, each with distinct requirements, advantages, and competitive dynamics:</p>
+    
+    <div id="state-programs">
+      <h3 class="subsection-heading">State Funding Programs</h3>
+      
+      <div class="stat-box">
+        <p class="stat-title">Texas Water Development Board (TWDB) Programs</p>
+        <ul>
+          <li><strong>State Water Implementation Fund for Texas (SWIFT):</strong> Low-interest loans and extended repayment terms for projects in the State Water Plan</li>
+          <li><strong>Clean Water State Revolving Fund (CWSRF):</strong> Below-market financing for wastewater infrastructure projects</li>
+          <li><strong>Drinking Water State Revolving Fund (DWSRF):</strong> Subsidized loans and grants for drinking water systems</li>
+          <li><strong>Flood Infrastructure Fund (FIF):</strong> Financial assistance for flood control, mitigation, and drainage projects</li>
+        </ul>
+      </div>
+      
+      <div class="stat-box">
+        <p class="stat-title">Other State Programs</p>
+        <ul>
+          <li><strong>Texas Water Resources Finance Authority:</strong> Alternative financing structures for regional water projects</li>
+          <li><strong>Texas Rural Water Assistance Fund:</strong> Technical assistance and financing for rural water and wastewater systems</li>
+          <li><strong>Agricultural Water Conservation Grants:</strong> Funding for efficiency improvements in agricultural water use</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div id="federal-programs">
+      <h3 class="subsection-heading">Federal Funding Programs</h3>
+      
+      <div class="stat-box">
+        <p class="stat-title">Infrastructure Investment and Jobs Act Funding</p>
+        <ul>
+          <li><strong>EPA Water Infrastructure Finance and Innovation Act (WIFIA):</strong> Low-interest loans for large water infrastructure projects</li>
+          <li><strong>Bureau of Reclamation WaterSMART Grants:</strong> Funding for water conservation and efficiency improvements</li>
+          <li><strong>FEMA Building Resilient Infrastructure and Communities (BRIC):</strong> Support for hazard mitigation projects including flood control</li>
+        </ul>
+      </div>
+      
+      <div class="stat-box">
+        <p class="stat-title">USDA Rural Development Programs</p>
+        <ul>
+          <li><strong>Water and Waste Disposal Loan and Grant Program:</strong> Financing for rural communities with populations under 10,000</li>
+          <li><strong>Emergency Community Water Assistance Grants:</strong> Funding for communities facing water supply emergencies</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div id="alternative-funding">
+      <h3 class="subsection-heading">Alternative and Emerging Funding Approaches</h3>
+      
+      <div class="stat-box">
+        <p class="stat-title">Innovative Financing Models</p>
+        <ul>
+          <li><strong>Public-Private Partnerships (P3s):</strong> Collaborative arrangements that leverage private capital for public infrastructure</li>
+          <li><strong>Green Bonds:</strong> Debt instruments specifically earmarked for climate and environmental projects</li>
+          <li><strong>Environmental Impact Bonds:</strong> Pay-for-success financing tied to environmental outcomes</li>
+          <li><strong>Water Markets and Trading:</strong> Market-based approaches to water allocation and conservation</li>
+        </ul>
+      </div>
+    </div>
+    
+    <p><strong>Strategic Insight:</strong> The most successful water projects typically leverage multiple funding sources in complementary ways, creating blended financing packages that distribute risk and maximize value. Understanding the distinct requirements and advantages of each funding source allows for strategic application sequencing and optimization.</p>
+  </div>
+  
+  <div class="section" id="strategy">
+    <h2 class="section-heading">The Five-Phase Strategy for Water Project Success</h2>
+    <p>Based on our experience with successful water infrastructure projects across Texas, we've identified a proven five-phase approach that significantly increases approval and funding success rates:</p>
+    
+    <div id="phase1">
+      <h3 class="subsection-heading">Phase 1: Strategic Positioning (Months 1-3)</h3>
+      <p>Before submitting applications or finalizing technical plans, successful projects invest in strategic positioning across all five domains.</p>
+      
+      <p><strong>Key Activities:</strong></p>
+      <ul>
+        <li>Multi-dimensional project assessment across all five frameworks</li>
+        <li>Stakeholder mapping and influence analysis</li>
+        <li>Political landscape assessment</li>
+        <li>Initial regulatory pathway identification</li>
+        <li>Funding source evaluation and prioritization</li>
+      </ul>
+      
+      <p><strong>Critical Success Factors:</strong></p>
+      <ul>
+        <li>Honest assessment of project strengths and vulnerabilities</li>
+        <li>Early identification of potential opposition</li>
+        <li>Realistic timeline development</li>
+        <li>Cross-domain strategy integration</li>
+      </ul>
+    </div>
+    
+    <div id="phase2">
+      <h3 class="subsection-heading">Phase 2: Strategic Alignment (Months 4-6)</h3>
+      <p>With a clear understanding of the landscape, the focus shifts to strategically aligning the project with key stakeholder priorities and requirements.</p>
+      
+      <p><strong>Key Activities:</strong></p>
+      <ul>
+        <li>Project refinement to address identified vulnerabilities</li>
+        <li>Regulatory pre-consultation meetings</li>
+        <li>Political champion cultivation</li>
+        <li>Community engagement strategy implementation</li>
+        <li>Regional water planning alignment</li>
+      </ul>
+      
+      <p><strong>Critical Success Factors:</strong></p>
+      <ul>
+        <li>Willingness to adapt project elements based on stakeholder input</li>
+        <li>Building relationships before they're needed</li>
+        <li>Consistent messaging across all engagement channels</li>
+        <li>Demonstrating responsiveness to concerns</li>
+      </ul>
+    </div>
+    
+    <div id="phase3">
+      <h3 class="subsection-heading">Phase 3: Application Development (Months 7-9)</h3>
+      <p>With strategic groundwork established, the focus shifts to developing compelling applications that address all five domains effectively.</p>
+      
+      <p><strong>Key Activities:</strong></p>
+      <ul>
+        <li>Cross-domain application narrative development</li>
+        <li>Technical documentation refinement</li>
+        <li>Financial model validation</li>
+        <li>Letters of support acquisition</li>
+        <li>Pre-submission regulatory review</li>
+      </ul>
+      
+      <p><strong>Critical Success Factors:</strong></p>
+      <ul>
+        <li>Addressing unstated evaluation criteria</li>
+        <li>Quantifying both direct and indirect benefits</li>
+        <li>Anticipating and addressing potential concerns</li>
+        <li>Demonstrating broad stakeholder support</li>
+      </ul>
+    </div>
+    
+    <div id="phase4">
+      <h3 class="subsection-heading">Phase 4: Approval Navigation (Months 10-18)</h3>
+      <p>The approval process requires active management rather than passive waiting, with ongoing advocacy and strategic response to emerging challenges.</p>
+      
+      <p><strong>Key Activities:</strong></p>
+      <ul>
+        <li>Regular touchpoints with decision-makers</li>
+        <li>Proactive issue monitoring and management</li>
+        <li>Strategic communications implementation</li>
+        <li>Coalition activation at key decision points</li>
+        <li>Rapid response to information requests</li>
+      </ul>
+      
+      <p><strong>Critical Success Factors:</strong></p>
+      <ul>
+        <li>Maintaining visibility without becoming burdensome</li>
+        <li>Responding to concerns with solutions rather than defensiveness</li>
+        <li>Adapting strategy based on evolving conditions</li>
+        <li>Leveraging champions at critical moments</li>
+      </ul>
+    </div>
+    
+    <div id="phase5">
+      <h3 class="subsection-heading">Phase 5: Implementation Readiness (Months 19+)</h3>
+      <p>Successful projects prepare for implementation well before final approvals, ensuring rapid progress once funding is secured.</p>
+      
+      <p><strong>Key Activities:</strong></p>
+      <ul>
+        <li>Detailed implementation planning</li>
+        <li>Procurement strategy development</li>
+        <li>Staff capacity building</li>
+        <li>Ongoing stakeholder communication</li>
+        <li>Performance metrics development</li>
+      </ul>
+      
+      <p><strong>Critical Success Factors:</strong></p>
+      <ul>
+        <li>Managing the transition from approval to implementation</li>
+        <li>Maintaining political support through implementation</li>
+        <li>Establishing clear accountability measures</li>
+        <li>Developing compelling success narratives</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="section" id="case-study">
+    <h2 class="section-heading">Case Study: North Texas Regional Water Supply Project</h2>
+    <p>The application of these principles is best illustrated through a real-world example of a complex water infrastructure initiative that successfully navigated Texas' approval process.</p>
+    
+    <div class="case-study">
+      <p class="case-study-title">Project Overview</p>
+      <p>A coalition of four North Texas municipalities sought to develop a new regional water supply project to address projected shortfalls. Initial estimates indicated a $320 million infrastructure investment would be required, with completion needed within five years to prevent supply disruptions.</p>
+      
+      <p><strong>Initial Challenges:</strong></p>
+      <ul>
+        <li>Competing priorities among participating communities</li>
+        <li>Complex permitting requirements across multiple agencies</li>
+        <li>Environmental concerns regarding downstream impacts</li>
+        <li>Limited municipal bonding capacity</li>
+        <li>Potential opposition from agricultural interests</li>
+      </ul>
+    </div>
+    
+    <div id="case-approach">
+      <h3 class="subsection-heading">Strategic Approach</h3>
+      
+      <p><strong>Domain Integration:</strong></p>
+      <ul>
+        <li><strong>Technical/Engineering:</strong> Modified design to incorporate enhanced environmental features while maintaining core capacity</li>
+        <li><strong>Regulatory/Permitting:</strong> Early engagement with agencies led to a streamlined permitting approach that saved 9 months</li>
+        <li><strong>Financial/Economic:</strong> Developed blended funding approach that combined SWIFT financing with federal grants</li>
+        <li><strong>Political/Governance:</strong> Established formal interlocal agreements with clearly defined responsibilities and benefits</li>
+        <li><strong>Social/Community:</strong> Created stakeholder advisory committee that included potential opponents, leading to project refinements</li>
+      </ul>
+      
+      <p><strong>Phased Implementation:</strong></p>
+      <p>The team followed the five-phase approach outlined in this guide, with particular emphasis on strategic positioning and alignment before submitting formal applications.</p>
+    </div>
+    
+    <div id="case-results">
+      <h3 class="subsection-heading">Results</h3>
+      <ul>
+        <li>Secured $280 million in SWIFT financing at favorable rates</li>
+        <li>Obtained $65 million in federal grants, reducing local cost burden</li>
+        <li>Received all necessary permits within 14 months (vs. typical 24+ months)</li>
+        <li>Developed unanimous support from all regional water planning group members</li>
+        <li>Converted initial agricultural opposition into project support through innovative water sharing agreement</li>
+        <li>Project completed on schedule and 7% under budget</li>
+      </ul>
+      
+      <p><strong>Key Insight:</strong> This project succeeded not because its technical merits were superior to competing proposals, but because its proponents effectively navigated all five domains simultaneously. By addressing potential objections before they became obstacles and building strategic alignments across the regulatory and political landscape, the project maintained momentum through the approval process.</p>
+    </div>
+  </div>
+  
+  <div class="section" id="conclusion">
+    <h2 class="section-heading">Conclusion: The Multi-Dimensional Path Forward</h2>
+    <p>Texas water infrastructure development has entered a new era of complexity that requires a corresponding evolution in approach. Technical excellence remains necessary but is no longer sufficient—successful projects must excel across all five domains outlined in this guide.</p>
+    <p>The communities and organizations that will secure the water resources necessary for future growth and resilience will be those that adopt a strategic, multi-dimensional approach to project development and advocacy. By understanding and navigating the real decision framework that governs water infrastructure approval and funding, project proponents can dramatically improve their success rates and implementation timelines.</p>
+    <p>At Capitol Insights, we've helped clients navigate this complex landscape to secure over $1.2 billion in water infrastructure funding in the past five years. Our approach, refined through dozens of successful projects, provides a proven pathway through the increasingly challenging approval and funding environment.</p>
+  </div>
+  
+  <div class="contact-info">
+    <h3 class="subsection-heading" style="margin-top: 0;">About the Author</h3>
+    <p>Byron Campbell is a Senior Partner at Capitol Insights with over 20 years of experience in water policy and infrastructure development. He has advised state agencies, regional authorities, and municipalities on water infrastructure strategy, helping clients secure more than $1.2 billion in project funding.</p>
+    <p>For more information or to discuss your specific water infrastructure challenges, contact Byron at <a href="mailto:byron@capitolinsights.com">byron@capitolinsights.com</a>.</p>
+  </div>
+  
+  <div class="footer">
+    <p>© 2025 Capitol Insights | Texas Government Relations and Public Affairs</p>
+    <p><a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
+  </div>
+</body>
+</html>

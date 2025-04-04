@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .bg { fill: #e4b425; }
+    .fg { fill: #1a365d; }
+  </style>
+  <rect width="100" height="100" rx="50" ry="50" class="bg"/>
+  <!-- Explicitly drawn "C" -->
+  <path class="fg" d="M45,30 C35,30 25,35 25,50 C25,65 35,70 45,70 C50,70 55,67 60,60 L50,55 C47,58 45,60 42,60 C38,60 36,56 36,50 C36,44 38,40 42,40 C45,40 47,42 50,45 L60,40 C55,33 50,30 45,30 Z"/>
+  <!-- Explicitly drawn "I" -->
+  <rect class="fg" x="65" y="30" width="10" height="40"/>
+</svg>

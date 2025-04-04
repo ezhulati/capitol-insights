@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Infrastructure Funding Guide | Capitol Insights</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header styles */
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #102A43;
+    }
+    
+    .company-name {
+      color: #102A43;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .document-title {
+      color: #102A43;
+      font-size: 36px;
+      margin: 20px 0 10px;
+    }
+    
+    .document-subtitle {
+      color: #486581;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .gold-line {
+      height: 3px;
+      background-color: #AA8843;
+      width: 40%;
+      margin: 30px auto;
+    }
+    
+    /* Section styles */
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .section-heading {
+      color: #102A43;
+      font-size: 26px;
+      border-bottom: 1px solid #AA8843;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    
+    .subsection-heading {
+      color: #486581;
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    
+    /* Content styles */
+    p {
+      margin-bottom: 15px;
+    }
+    
+    ul {
+      margin-bottom: 20px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    /* Footer styles */
+    .footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      color: #627D98;
+      font-size: 14px;
+    }
+    
+    /* Print styles */
+    @media print {
+      body {
+        font-size: 12pt;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+    }
+    
+    /* Table of Contents styles */
+    .toc {
+      background-color: #f5f7fa;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 5px;
+    }
+    
+    .toc-title {
+      color: #102A43;
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    
+    .toc a {
+      color: #333;
+      text-decoration: none;
+    }
+    
+    .toc a:hover {
+      text-decoration: underline;
+    }
+    
+    .toc ul {
+      list-style-type: none;
+      padding-left: 10px;
+    }
+    
+    .toc li {
+      margin-bottom: 10px;
+    }
+    
+    .print-button {
+      background-color: #102A43;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    
+    .print-button:hover {
+      background-color: #1f3e5a;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="company-name">CAPITOL INSIGHTS</div>
+    <h1 class="document-title">Water Infrastructure Funding Guide</h1>
+    <h2 class="document-subtitle">Financing & Grant Programs</h2>
+    <div class="gold-line"></div>
+    <p>By: Drew Campbell & Byron Campbell, Capitol Insights</p>
+    <p>March 2025</p>
+  </div>
+  
+  <div class="no-print">
+    <button class="print-button" onclick="window.print()">Print this Guide</button>
+  </div>
+  
+  <div class="toc">
+    <div class="toc-title">TABLE OF CONTENTS</div>
+    <ul>
+      <li><a href="#introduction">1. Introduction</a></li>
+      <li><a href="#state-programs">2. State Funding Programs</a>
+        <ul>
+          <li><a href="#twdb">2.1 Texas Water Development Board Programs</a></li>
+          <li><a href="#flood-infrastructure">2.2 Flood Infrastructure Fund</a></li>
+          <li><a href="#state-revolving">2.3 State Revolving Funds</a></li>
+        </ul>
+      </li>
+      <li><a href="#federal-programs">3. Federal Funding Opportunities</a>
+        <ul>
+          <li><a href="#epa-programs">3.1 EPA Water Infrastructure Programs</a></li>
+          <li><a href="#usda-programs">3.2 USDA Rural Development Programs</a></li>
+          <li><a href="#infrastructure-act">3.3 Infrastructure Investment and Jobs Act Funding</a></li>
+        </ul>
+      </li>
+      <li><a href="#application">4. Application Strategies</a>
+        <ul>
+          <li><a href="#planning">4.1 Strategic Planning</a></li>
+          <li><a href="#assessment">4.2 System Assessment and Project Prioritization</a></li>
+          <li><a href="#documentation">4.3 Application Documentation</a></li>
+        </ul>
+      </li>
+      <li><a href="#case-studies">5. Texas Case Studies</a>
+        <ul>
+          <li><a href="#small-rural">5.1 Small and Rural Communities</a></li>
+          <li><a href="#medium-cities">5.2 Medium-Sized Cities</a></li>
+          <li><a href="#large-urban">5.3 Large Urban Centers</a></li>
+        </ul>
+      </li>
+      <li><a href="#conclusion">6. Conclusion</a></li>
+    </ul>
+  </div>
+  
+  <div class="section" id="introduction">
+    <h2 class="section-heading">1. Introduction</h2>
+    <p>Texas faces unprecedented challenges in meeting its water infrastructure needs. With growing population demands, aging infrastructure, and increasing climate variability, the need for substantial investment in water and wastewater systems has never been more critical.</p>
+    <p>This guide aims to provide Texas municipalities, water districts, and utilities with a comprehensive overview of available funding sources and strategies to secure financial support for water infrastructure projects. By understanding the landscape of funding opportunities and applying strategic approaches to secure them, communities can address their water infrastructure needs without placing excessive burden on local ratepayers.</p>
+    <p>Successful water infrastructure funding requires more than just identifying potential funding sources. It demands strategic planning, thorough preparation, and effective engagement with funding agencies. The approaches outlined in this guide have been tested and proven effective across various Texas communities over the past decades.</p>
+  </div>
+  
+  <div class="section" id="state-programs">
+    <h2 class="section-heading">2. State Funding Programs</h2>
+    <p>Texas offers several state-level funding mechanisms for water infrastructure projects, with the Texas Water Development Board (TWDB) serving as the primary agency administering these programs.</p>
+    
+    <div id="twdb">
+      <h3 class="subsection-heading">2.1 Texas Water Development Board Programs</h3>
+      <p>The TWDB manages several key funding programs designed to support water and wastewater infrastructure:</p>
+      <ul>
+        <li><strong>SWIFT/SWIRFT:</strong> The State Water Implementation Fund for Texas and its related revenue bond program provide low-interest loans for projects in the State Water Plan.</li>
+        <li><strong>Water Development Fund:</strong> Offers loans for water supply, wastewater, and flood control projects.</li>
+        <li><strong>EDAP:</strong> The Economically Distressed Areas Program provides financial assistance for water and wastewater services in economically distressed areas.</li>
+        <li><strong>Rural Water Assistance Fund:</strong> Provides low-interest loans to rural utilities for water and wastewater projects.</li>
+      </ul>
+      <p>Each program has specific eligibility requirements, funding cycles, and application procedures. The TWDB typically requires projects to be included in regional water plans and may prioritize projects based on public health impacts, water conservation benefits, and regional cooperation.</p>
+    </div>
+    
+    <div id="flood-infrastructure">
+      <h3 class="subsection-heading">2.2 Flood Infrastructure Fund</h3>
+      <p>Following the devastation of Hurricane Harvey, Texas established the Flood Infrastructure Fund (FIF) to provide financial assistance for flood control, flood mitigation, and drainage projects. The program includes:</p>
+      <ul>
+        <li>Planning grants for flood protection planning</li>
+        <li>Engineering grants for flood project design</li>
+        <li>Construction grants and loans for implementation of flood mitigation projects</li>
+        <li>Special funding for federal project matching requirements</li>
+      </ul>
+      <p>Priority is given to projects that leverage federal funds, involve regional cooperation, provide multiple benefits, and utilize nature-based solutions when appropriate.</p>
+    </div>
+    
+    <div id="state-revolving">
+      <h3 class="subsection-heading">2.3 State Revolving Funds</h3>
+      <p>Texas administers two State Revolving Fund (SRF) programs using federal capitalization grants combined with state matching funds:</p>
+      <ul>
+        <li><strong>Clean Water State Revolving Fund (CWSRF):</strong> Provides low-interest loans for wastewater treatment, nonpoint source pollution control, and watershed management.</li>
+        <li><strong>Drinking Water State Revolving Fund (DWSRF):</strong> Finances infrastructure improvements for public drinking water systems.</li>
+      </ul>
+      <p>These programs offer subsidized interest rates, extended repayment terms, and in some cases, principal forgiveness for disadvantaged communities. The application process typically begins with submission of a project information form during the annual solicitation period.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="federal-programs">
+    <h2 class="section-heading">3. Federal Funding Opportunities</h2>
+    <p>In addition to state programs, federal agencies offer significant funding opportunities for water infrastructure projects, which can be pursued directly or accessed through state-administered programs.</p>
+    
+    <div id="epa-programs">
+      <h3 class="subsection-heading">3.1 EPA Water Infrastructure Programs</h3>
+      <p>The U.S. Environmental Protection Agency (EPA) provides several funding mechanisms:</p>
+      <ul>
+        <li><strong>WIFIA:</strong> The Water Infrastructure Finance and Innovation Act program provides long-term, low-cost loans for large-scale water infrastructure projects (typically over $20 million).</li>
+        <li><strong>Sewer Overflow and Stormwater Reuse Grant Program:</strong> Supports planning, design, and construction of treatment works to intercept, transport, control, or treat sewer overflows and stormwater.</li>
+        <li><strong>Water Infrastructure Improvements for the Nation (WIIN) Act Grants:</strong> Includes funding for reducing lead in drinking water, small and disadvantaged communities, and water infrastructure resilience.</li>
+      </ul>
+      <p>EPA programs often require compliance with specific federal regulations, including environmental reviews, Buy American provisions, and Davis-Bacon wage requirements.</p>
+    </div>
+    
+    <div id="usda-programs">
+      <h3 class="subsection-heading">3.2 USDA Rural Development Programs</h3>
+      <p>The U.S. Department of Agriculture's Rural Development programs offer financial assistance specifically targeted to rural communities:</p>
+      <ul>
+        <li><strong>Water and Waste Disposal Loan and Grant Program:</strong> Provides funding for clean and reliable drinking water systems, sanitary sewage and solid waste disposal, and stormwater drainage in rural areas.</li>
+        <li><strong>Emergency Community Water Assistance Grants:</strong> Helps rural communities that have experienced a significant decline in quantity or quality of drinking water.</li>
+        <li><strong>Special Evaluation Assistance for Rural Communities and Households (SEARCH):</strong> Offers predevelopment planning grants for feasibility studies, design assistance, and technical assistance.</li>
+      </ul>
+      <p>USDA programs generally define "rural" as communities with populations under 10,000, with special provisions for communities up to 50,000 under certain circumstances.</p>
+    </div>
+    
+    <div id="infrastructure-act">
+      <h3 class="subsection-heading">3.3 Infrastructure Investment and Jobs Act Funding</h3>
+      <p>The 2021 Infrastructure Investment and Jobs Act (IIJA) allocated unprecedented funding for water infrastructure, including:</p>
+      <ul>
+        <li>Additional capitalization for State Revolving Funds with emphasis on lead service line replacement and addressing PFAS contamination</li>
+        <li>Enhanced funding for rural water and wastewater grants and loans</li>
+        <li>Dedicated funding for historically underserved communities</li>
+        <li>Funding for resilience and water recycling projects, particularly in drought-prone regions</li>
+      </ul>
+      <p>IIJA funds are being distributed through various existing programs but often come with additional requirements and reporting obligations. These funds represent a historic opportunity for Texas communities to address long-standing water infrastructure needs.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="application">
+    <h2 class="section-heading">4. Application Strategies</h2>
+    <p>Successfully securing water infrastructure funding requires strategic planning and thorough preparation. This section outlines key strategies for developing competitive funding applications.</p>
+    
+    <div id="planning">
+      <h3 class="subsection-heading">4.1 Strategic Planning</h3>
+      <p>Effective planning is the foundation of successful funding applications:</p>
+      <ul>
+        <li><strong>Long-term Capital Improvement Planning:</strong> Develop comprehensive capital improvement plans that identify and prioritize infrastructure needs over a 5-20 year horizon.</li>
+        <li><strong>Financial Capacity Analysis:</strong> Assess your community's ability to repay loans, maintain appropriate rate structures, and sustain infrastructure investments.</li>
+        <li><strong>Funding Diversity Strategy:</strong> Plan to leverage multiple funding sources, utilizing grants where possible while strategically employing loan programs.</li>
+        <li><strong>Regional Collaboration:</strong> Identify opportunities for regional approaches that may attract priority funding and create economies of scale.</li>
+      </ul>
+      <p>Communities should align their planning documents (comprehensive plans, asset management plans, water resource plans) to create a coherent narrative that supports funding applications.</p>
+    </div>
+    
+    <div id="assessment">
+      <h3 class="subsection-heading">4.2 System Assessment and Project Prioritization</h3>
+      <p>Thorough assessment of your water system provides the data foundation for compelling applications:</p>
+      <ul>
+        <li><strong>Asset Inventory and Condition Assessment:</strong> Document the age, condition, and criticality of existing infrastructure components.</li>
+        <li><strong>Risk Assessment:</strong> Evaluate the likelihood and consequence of failure for key assets.</li>
+        <li><strong>Public Health and Compliance Analysis:</strong> Identify infrastructure needs related to regulatory compliance or public health risks.</li>
+        <li><strong>Resilience Evaluation:</strong> Assess vulnerability to extreme events (floods, droughts, winter storms) and develop appropriate mitigation strategies.</li>
+      </ul>
+      <p>Prioritize projects based on multiple factors including public health protection, regulatory compliance, critical system vulnerabilities, and potential for economic development impacts.</p>
+    </div>
+    
+    <div id="documentation">
+      <h3 class="subsection-heading">4.3 Application Documentation</h3>
+      <p>Developing compelling application materials is essential:</p>
+      <ul>
+        <li><strong>Problem Definition:</strong> Clearly articulate the specific problem being addressed, using data to demonstrate urgency and impact.</li>
+        <li><strong>Project Description:</strong> Provide a thorough technical description of the proposed solution, including alternatives considered.</li>
+        <li><strong>Engineering Analysis:</strong> Include preliminary engineering reports that demonstrate project feasibility and cost-effectiveness.</li>
+        <li><strong>Environmental Documentation:</strong> Address potential environmental impacts and mitigation measures in accordance with funding program requirements.</li>
+        <li><strong>Financial Analysis:</strong> Present a detailed financial plan showing project costs, funding sources, and the community's ability to sustain the investment.</li>
+      </ul>
+      <p>Successful applications tell a compelling story that connects infrastructure needs to community priorities, public health protection, regulatory compliance, and economic development goals.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="case-studies">
+    <h2 class="section-heading">5. Texas Case Studies</h2>
+    <p>The following case studies illustrate successful approaches to securing water infrastructure funding across different types of Texas communities.</p>
+    
+    <div id="small-rural">
+      <h3 class="subsection-heading">5.1 Small and Rural Communities</h3>
+      <p><strong>Case Study: City of Junction - Water System Improvements</strong></p>
+      <p>The City of Junction (population 2,500) successfully secured $3.2 million in funding for comprehensive water system improvements, including:</p>
+      <ul>
+        <li>$1.5 million TWDB principal forgiveness loan through the DWSRF program</li>
+        <li>$900,000 USDA Rural Development grant</li>
+        <li>$800,000 low-interest USDA loan</li>
+      </ul>
+      <p><strong>Key Success Factors:</strong></p>
+      <ul>
+        <li>Comprehensive asset management plan that clearly documented critical system deficiencies</li>
+        <li>Coordinated applications to multiple funding agencies with strategic sequencing</li>
+        <li>Strong demonstration of financial need and limited ratepayer capacity</li>
+        <li>Early engagement with funding agencies to align project with program priorities</li>
+      </ul>
+      <p>This blended funding approach allowed Junction to implement necessary improvements while maintaining affordable water rates for residents.</p>
+    </div>
+    
+    <div id="medium-cities">
+      <h3 class="subsection-heading">5.2 Medium-Sized Cities</h3>
+      <p><strong>Case Study: City of Seguin - Advanced Wastewater Treatment Facility</strong></p>
+      <p>The City of Seguin (population 30,000) secured $45 million for a new advanced wastewater treatment facility through:</p>
+      <ul>
+        <li>$30 million TWDB CWSRF low-interest loan</li>
+        <li>$10 million SWIFT/SWIRFT program financing</li>
+        <li>$5 million in local utility revenue bonds</li>
+      </ul>
+      <p><strong>Key Success Factors:</strong></p>
+      <ul>
+        <li>Phased implementation approach that aligned with funding program timelines</li>
+        <li>Strong technical justification demonstrating environmental benefits and compliance requirements</li>
+        <li>Watershed-based approach that incorporated water quality improvement and flood mitigation</li>
+        <li>Robust financial management and rate structure that demonstrated financial sustainability</li>
+      </ul>
+      <p>By strategically leveraging multiple funding sources and developing a phased approach, Seguin implemented a state-of-the-art facility without requiring dramatic rate increases.</p>
+    </div>
+    
+    <div id="large-urban">
+      <h3 class="subsection-heading">5.3 Large Urban Centers</h3>
+      <p><strong>Case Study: San Antonio Water System - Water Supply Diversification Program</strong></p>
+      <p>San Antonio Water System secured over $1.2 billion for its water supply diversification program through:</p>
+      <ul>
+        <li>$400 million in SWIFT/SWIRFT financing</li>
+        <li>$200 million Water Infrastructure Finance and Innovation Act (WIFIA) loan</li>
+        <li>$600 million in revenue bonds</li>
+      </ul>
+      <p><strong>Key Success Factors:</strong></p>
+      <ul>
+        <li>Comprehensive water resource planning integrated with regional water plans</li>
+        <li>Strong financial management and credit ratings that enabled favorable financing terms</li>
+        <li>Multi-benefit approach incorporating conservation, aquifer protection, and new supply development</li>
+        <li>Effective stakeholder engagement to build community support for long-term investments</li>
+      </ul>
+      <p>This diversified funding strategy allowed for implementation of major infrastructure improvements while maintaining financial flexibility and creditworthiness.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="conclusion">
+    <h2 class="section-heading">6. Conclusion</h2>
+    <p>The landscape of water infrastructure funding in Texas is complex but offers significant opportunities for communities that approach it strategically. Key takeaways include:</p>
+    <ul>
+      <li><strong>Planning is Essential:</strong> Long-term capital planning, asset management, and financial capacity development create the foundation for successful funding applications.</li>
+      <li><strong>Diversify Funding Sources:</strong> Most successful projects leverage multiple funding mechanisms to create an optimal financial package.</li>
+      <li><strong>Regional Approaches:</strong> Collaborative approaches across jurisdictional boundaries often attract priority funding and create economies of scale.</li>
+      <li><strong>Technical Rigor:</strong> Thorough engineering analysis and well-documented needs assessments are critical components of competitive applications.</li>
+      <li><strong>Agency Relationships:</strong> Early and ongoing engagement with funding agencies helps align projects with program priorities and requirements.</li>
+    </ul>
+    <p>By applying the strategies outlined in this guide and learning from successful case studies, Texas communities can develop effective approaches to securing the funding needed to build and maintain sustainable water infrastructure for generations to come.</p>
+    <p>Capitol Insights offers specialized consulting services to assist Texas communities in navigating the water infrastructure funding landscape, developing competitive applications, and creating sustainable financing strategies. Our team's extensive experience with state and federal funding programs can help your community turn water infrastructure challenges into opportunities for system improvement and community development.</p>
+  </div>
+  
+  <div class="footer">
+    <p>Government Relations & Strategic Communications</p>
+    <p>1305 Congress Avenue, Austin, TX 78701</p>
+    <p>www.capitol-insights.com</p>
+    <p>&copy; 2025 Capitol Insights. All Rights Reserved.</p>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Document loaded and ready');
+    });
+  </script>
+</body>
+</html>

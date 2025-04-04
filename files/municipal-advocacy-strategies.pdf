@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Municipal Advocacy Strategies | Capitol Insights</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    /* Header styles */
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #102A43;
+    }
+    
+    .company-name {
+      color: #102A43;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .document-title {
+      color: #102A43;
+      font-size: 36px;
+      margin: 20px 0 10px;
+    }
+    
+    .document-subtitle {
+      color: #486581;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    
+    .gold-line {
+      height: 3px;
+      background-color: #AA8843;
+      width: 40%;
+      margin: 30px auto;
+    }
+    
+    /* Section styles */
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .section-heading {
+      color: #102A43;
+      font-size: 26px;
+      border-bottom: 1px solid #AA8843;
+      padding-bottom: 10px;
+      margin-top: 40px;
+    }
+    
+    .subsection-heading {
+      color: #486581;
+      font-size: 20px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+    
+    /* Content styles */
+    p {
+      margin-bottom: 15px;
+    }
+    
+    ul {
+      margin-bottom: 20px;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    /* Footer styles */
+    .footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      color: #627D98;
+      font-size: 14px;
+    }
+    
+    /* Print styles */
+    @media print {
+      body {
+        font-size: 12pt;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+    }
+    
+    /* Table of Contents styles */
+    .toc {
+      background-color: #f5f7fa;
+      padding: 20px;
+      margin: 30px 0;
+      border-radius: 5px;
+    }
+    
+    .toc-title {
+      color: #102A43;
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    
+    .toc a {
+      color: #333;
+      text-decoration: none;
+    }
+    
+    .toc a:hover {
+      text-decoration: underline;
+    }
+    
+    .toc ul {
+      list-style-type: none;
+      padding-left: 10px;
+    }
+    
+    .toc li {
+      margin-bottom: 10px;
+    }
+    
+    .print-button {
+      background-color: #102A43;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    
+    .print-button:hover {
+      background-color: #1f3e5a;
+    }
+
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f5f7fa;
+      font-weight: bold;
+      color: #102A43;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    /* Callout box styles */
+    .callout-box {
+      background-color: #f0f4f8;
+      border-left: 4px solid #3182ce;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .callout-box h3 {
+      margin-top: 0;
+      color: #2c5282;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="company-name">CAPITOL INSIGHTS</div>
+    <h1 class="document-title">Municipal Advocacy Strategies</h1>
+    <h2 class="document-subtitle">Effective Engagement with State Government</h2>
+    <div class="gold-line"></div>
+    <p>By: Drew Campbell & Byron Campbell, Capitol Insights</p>
+    <p>March 2025</p>
+  </div>
+  
+  <div class="no-print">
+    <button class="print-button" onclick="window.print()">Print this Guide</button>
+  </div>
+  
+  <div class="toc">
+    <div class="toc-title">TABLE OF CONTENTS</div>
+    <ul>
+      <li><a href="#introduction">1. Introduction</a></li>
+      <li><a href="#landscape">2. Texas Legislative Landscape</a>
+        <ul>
+          <li><a href="#legislative-structure">2.1 Legislative Structure & Process</a></li>
+          <li><a href="#key-committees">2.2 Key Committees for Municipal Issues</a></li>
+          <li><a href="#state-agencies">2.3 Relevant State Agencies</a></li>
+        </ul>
+      </li>
+      <li><a href="#policy-priorities">3. Municipal Policy Priorities</a>
+        <ul>
+          <li><a href="#local-control">3.1 Local Control & Preemption</a></li>
+          <li><a href="#revenue">3.2 Revenue & Taxation Authority</a></li>
+          <li><a href="#infrastructure">3.3 Infrastructure Funding</a></li>
+          <li><a href="#economic-development">3.4 Economic Development Tools</a></li>
+        </ul>
+      </li>
+      <li><a href="#strategies">4. Effective Advocacy Strategies</a>
+        <ul>
+          <li><a href="#coalition-building">4.1 Coalition Building</a></li>
+          <li><a href="#strategic-communications">4.2 Strategic Communications</a></li>
+          <li><a href="#direct-engagement">4.3 Direct Engagement Tactics</a></li>
+          <li><a href="#community-mobilization">4.4 Community Mobilization</a></li>
+        </ul>
+      </li>
+      <li><a href="#case-studies">5. Case Studies</a>
+        <ul>
+          <li><a href="#case-study-revenue-caps">5.1 Revenue Cap Legislation</a></li>
+          <li><a href="#case-study-infrastructure">5.2 Transportation Funding</a></li>
+          <li><a href="#case-study-development">5.3 Economic Development Programs</a></li>
+        </ul>
+      </li>
+      <li><a href="#conclusion">6. Conclusion & Action Plan</a></li>
+    </ul>
+  </div>
+  
+  <div class="section" id="introduction">
+    <h2 class="section-heading">1. Introduction</h2>
+    <p>Texas municipalities face an increasingly complex policy environment that requires strategic, coordinated advocacy to protect local interests and advance community priorities. This guide provides a comprehensive framework for developing effective municipal advocacy strategies at the state level in Texas.</p>
+    <p>The relationship between municipalities and state government continues to evolve, with increasing tension between local control and state preemption in recent years. Effective advocacy requires not only understanding the formal legislative process but also developing relationships, building coalitions, and communicating municipal priorities in ways that resonate with state policymakers.</p>
+    <p>This document draws on decades of experience navigating the Texas legislative landscape to provide municipal leaders with practical strategies for influencing policy outcomes. By implementing these approaches, municipalities can more effectively protect their interests and advance their priorities in Austin.</p>
+    <p>While this guide focuses primarily on legislative advocacy, many strategies can be adapted for engagement with regulatory agencies, regional planning organizations, and other governmental bodies that impact municipal operations.</p>
+  </div>
+  
+  <div class="section" id="landscape">
+    <h2 class="section-heading">2. Texas Legislative Landscape</h2>
+    <p>Developing effective advocacy strategies requires a thorough understanding of the institutional structures, processes, and key players in Texas state government.</p>
+    
+    <div id="legislative-structure">
+      <h3 class="subsection-heading">2.1 Legislative Structure & Process</h3>
+      <p>The Texas Legislature meets biennially in odd-numbered years for a 140-day regular session, with special sessions called at the Governor's discretion. This compressed schedule creates a unique rhythm for advocacy efforts:</p>
+      <ul>
+        <li><strong>Interim (Even Years):</strong> Between regular sessions, legislative committees study assigned topics and develop recommendations. This period is critical for relationship-building, education on municipal priorities, and influencing the agenda for the upcoming session.</li>
+        <li><strong>Pre-Filing (November-December of Even Years):</strong> Bills may be pre-filed beginning in November before the session starts, providing an early indication of legislative priorities.</li>
+        <li><strong>Early Session (January-February):</strong> Focus on procedural matters, committee assignments, and broad policy directions.</li>
+        <li><strong>Middle Session (March-April):</strong> Committee hearings and deliberations on bills intensify.</li>
+        <li><strong>End Session (May):</strong> Floor debate, conference committees, and final passage of legislation occur at an accelerated pace.</li>
+      </ul>
+      <p>Understanding this timeline is essential for planning advocacy efforts and allocating resources effectively throughout the cycle.</p>
+      
+      <div class="callout-box">
+        <h3>Key Advocacy Periods</h3>
+        <p><strong>Interim:</strong> Focus on education, relationship-building, and shaping study topics.</p>
+        <p><strong>Early Session:</strong> Emphasize communicating priorities and positioning on key bills.</p>
+        <p><strong>Mid-Session:</strong> Provide testimony, technical expertise, and amendments.</p>
+        <p><strong>End Session:</strong> Concentrate on targeted advocacy on priority bills and conference committee negotiations.</p>
+      </div>
+    </div>
+    
+    <div id="key-committees">
+      <h3 class="subsection-heading">2.2 Key Committees for Municipal Issues</h3>
+      <p>Municipal issues typically fall under the jurisdiction of several key legislative committees:</p>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Committee</th>
+            <th>Jurisdiction</th>
+            <th>Municipal Issues Addressed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>House Urban Affairs</td>
+            <td>Issues affecting municipalities, especially cities over 500,000</td>
+            <td>Home rule authority, municipal governance, housing policy</td>
+          </tr>
+          <tr>
+            <td>House County Affairs</td>
+            <td>Issues affecting counties and some smaller municipalities</td>
+            <td>Emergency services, county authority, unincorporated areas</td>
+          </tr>
+          <tr>
+            <td>House Ways & Means</td>
+            <td>Taxation and revenue measures</td>
+            <td>Property tax caps, local revenue authority, sales tax allocation</td>
+          </tr>
+          <tr>
+            <td>House Transportation</td>
+            <td>Transportation infrastructure and funding</td>
+            <td>Local transportation funding, right-of-way regulations, transit</td>
+          </tr>
+          <tr>
+            <td>Senate Local Government</td>
+            <td>Issues affecting local government entities</td>
+            <td>Municipal authority, annexation, local governance</td>
+          </tr>
+          <tr>
+            <td>Senate Finance</td>
+            <td>Budget and fiscal matters</td>
+            <td>State funding for local programs, grant opportunities, fiscal impact of state mandates</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>Building relationships with committee chairs, vice-chairs, and key members should be a central component of any municipal advocacy strategy. Committees often serve as the primary venue for substantive policy discussions and amendments, making them critical engagement points.</p>
+    </div>
+    
+    <div id="state-agencies">
+      <h3 class="subsection-heading">2.3 Relevant State Agencies</h3>
+      <p>While the Legislature sets policy direction, state agencies implement and interpret legislation through rulemaking and program administration. Key agencies for municipal interests include:</p>
+      <ul>
+        <li><strong>Texas Department of Transportation (TxDOT):</strong> Administers transportation funding, plans state highway projects, and sets standards that impact local transportation planning.</li>
+        <li><strong>Texas Commission on Environmental Quality (TCEQ):</strong> Regulates water, air quality, and waste management, with significant implications for municipal utilities and development.</li>
+        <li><strong>Texas Water Development Board (TWDB):</strong> Provides financing for water and wastewater infrastructure through loans and grants.</li>
+        <li><strong>Texas Department of Housing and Community Affairs (TDHCA):</strong> Administers affordable housing programs and community development block grants.</li>
+        <li><strong>Office of the Comptroller:</strong> Oversees revenue distribution, including sales tax allocation and fiscal impact analysis of legislation.</li>
+        <li><strong>Texas Division of Emergency Management (TDEM):</strong> Coordinates disaster response and administers certain hazard mitigation funding programs.</li>
+      </ul>
+      <p>Effective advocacy requires engagement with both the Legislature and relevant agencies, as policy implementation can significantly impact outcomes for municipalities. Developing relationships with key agency staff and participating in rulemaking processes are essential components of a comprehensive advocacy strategy.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="policy-priorities">
+    <h2 class="section-heading">3. Municipal Policy Priorities</h2>
+    <p>While each municipality has unique needs based on its size, demographics, and regional context, several policy areas consistently emerge as priorities for Texas cities and towns. Understanding these core issues provides a foundation for developing targeted advocacy strategies.</p>
+    
+    <div id="local-control">
+      <h3 class="subsection-heading">3.1 Local Control & Preemption</h3>
+      <p>Recent legislative sessions have featured increasing state preemption of municipal regulatory authority, creating tension between local governance and state oversight:</p>
+      <ul>
+        <li><strong>Regulatory Authority:</strong> Municipalities have faced restrictions on their ability to regulate in areas such as:
+          <ul>
+            <li>Short-term rentals and home-sharing platforms</li>
+            <li>Tree preservation and removal</li>
+            <li>Labor standards (e.g., paid sick leave, scheduling requirements)</li>
+            <li>Building materials and construction standards</li>
+            <li>Mobile telecommunication infrastructure (e.g., small cell deployment)</li>
+          </ul>
+        </li>
+        <li><strong>Annexation:</strong> The 2019 annexation reform bill (HB 347) effectively ended unilateral annexation by municipalities, requiring voter approval in most cases. This change fundamentally altered growth management strategies for many Texas cities.</li>
+        <li><strong>Zoning and Land Use:</strong> Efforts to restrict local zoning authority, particularly for housing development, have increased in recent sessions.</li>
+        <li><strong>ETJ Authority:</strong> Bills restricting municipal regulatory authority in extraterritorial jurisdictions have been introduced with increasing frequency.</li>
+      </ul>
+      
+      <p>Advocacy strategies should emphasize community-specific impacts of preemption, highlighting how local decision-making addresses unique community needs and values. Proactive engagement on specific regulatory issues can be more effective than general arguments about local control.</p>
+    </div>
+    
+    <div id="revenue">
+      <h3 class="subsection-heading">3.2 Revenue & Taxation Authority</h3>
+      <p>Municipal fiscal authority and stability have been significantly impacted by state legislation in recent years:</p>
+      <ul>
+        <li><strong>Property Tax Revenue Caps:</strong> SB 2 (2019) reduced the voter approval rate (formerly rollback rate) from 8% to 3.5% for cities and counties, significantly constraining local revenue growth and potentially impacting service delivery over time.</li>
+        <li><strong>Sales Tax Distribution:</strong> Changes to online sales tax sourcing rules have created revenue volatility for some municipalities, while others have benefited.</li>
+        <li><strong>Hotel Occupancy Taxes:</strong> Expanding uses of hotel occupancy tax revenue while ensuring collection from short-term rental platforms remains an ongoing issue.</li>
+        <li><strong>Fees and Special Assessments:</strong> Legislative efforts to restrict municipal fee authority and special assessments have increased, potentially limiting infrastructure financing options.</li>
+        <li><strong>State Shared Revenue:</strong> Programs like mixed beverage tax sharing and right-of-way compensation face periodic scrutiny during budget deliberations.</li>
+      </ul>
+      
+      <p>Effective advocacy on revenue issues requires clear articulation of service impacts, demonstration of efficient financial management, and direct connection between revenue constraints and community outcomes.</p>
+    </div>
+    
+    <div id="infrastructure">
+      <h3 class="subsection-heading">3.3 Infrastructure Funding</h3>
+      <p>Municipal infrastructure needs consistently outpace available funding, creating advocacy opportunities around several programs:</p>
+      <ul>
+        <li><strong>Transportation:</strong> Despite increases in state transportation funding through Propositions 1 and 7, municipal transportation funding remains constrained. Opportunities include:
+          <ul>
+            <li>Ensuring municipally-important projects are included in TxDOT's Unified Transportation Program</li>
+            <li>Advocating for equitable distribution of county transportation infrastructure funds</li>
+            <li>Supporting maintenance of local participation funding programs that leverage local dollars</li>
+            <li>Preserving municipal authority over right-of-way management and compensation</li>
+          </ul>
+        </li>
+        <li><strong>Water and Wastewater:</strong> The Texas Water Development Board administers several critical funding programs for municipal water infrastructure:
+          <ul>
+            <li>Clean Water State Revolving Fund (CWSRF)</li>
+            <li>Drinking Water State Revolving Fund (DWSRF)</li>
+            <li>Flood Infrastructure Fund (FIF)</li>
+            <li>Texas Water Development Fund (DFund)</li>
+          </ul>
+        </li>
+        <li><strong>Broadband:</strong> With the creation of the Broadband Development Office, new funding streams are emerging to support municipal broadband infrastructure.</li>
+        <li><strong>Resilience and Hazard Mitigation:</strong> Federal funds flowing through state agencies provide opportunities for municipal infrastructure hardening and adaptation.</li>
+      </ul>
+      
+      <p>Advocacy strategies should focus on demonstrating specific community needs, highlighting regional benefits of investments, and showcasing successful project implementation and management.</p>
+    </div>
+    
+    <div id="economic-development">
+      <h3 class="subsection-heading">3.4 Economic Development Tools</h3>
+      <p>Municipalities rely on various economic development mechanisms that require state enabling legislation and continued authorization:</p>
+      <ul>
+        <li><strong>Chapter 312/313 Tax Abatements:</strong> Chapter 313 school district tax abatements expired at the end of 2022, while municipal Chapter 312 authority requires periodic reauthorization. Legislative efforts continue to craft replacement programs.</li>
+        <li><strong>Economic Development Sales Tax:</strong> Type A and Type B economic development corporations provide critical local funding for economic development initiatives but face periodic scrutiny and proposed restrictions.</li>
+        <li><strong>Tax Increment Financing/TIRZ:</strong> These tools for capturing increased property value to fund infrastructure and development incentives are essential for many municipal revitalization efforts.</li>
+        <li><strong>Public Improvement Districts:</strong> PIDs provide financing mechanisms for infrastructure, services, and improvements in specific areas.</li>
+        <li><strong>Hotel Occupancy Tax:</strong> While primarily a revenue tool, HOT funds support tourism and convention facilities that drive economic development.</li>
+      </ul>
+      
+      <p>Advocacy should emphasize measurable economic impacts, job creation, competitive necessity, and safeguards that ensure accountability and transparent use of these tools.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="strategies">
+    <h2 class="section-heading">4. Effective Advocacy Strategies</h2>
+    <p>Successful municipal advocacy requires a comprehensive approach that integrates relationship building, clear communication, and strategic mobilization of stakeholders.</p>
+    
+    <div id="coalition-building">
+      <h3 class="subsection-heading">4.1 Coalition Building</h3>
+      <p>Municipalities can amplify their voices by building coalitions with aligned interests:</p>
+      <ul>
+        <li><strong>Municipal Associations:</strong> Working through the Texas Municipal League (TML) and regional city coalitions provides strength in numbers and shared resources.</li>
+        <li><strong>Cross-Sector Alliances:</strong> Municipal interests often align with:
+          <ul>
+            <li>Business organizations (chambers, economic development corporations)</li>
+            <li>Professional associations (police/fire, utilities, planners)</li>
+            <li>Infrastructure stakeholders (transportation, water, utilities)</li>
+            <li>Community groups (neighborhood associations, service organizations)</li>
+          </ul>
+        </li>
+        <li><strong>Regional Approaches:</strong> Coordinating advocacy with neighboring jurisdictions demonstrates broader impact and reduces message fragmentation.</li>
+        <li><strong>Unexpected Partners:</strong> Issue-specific alliances can sometimes bridge traditional divides, such as rural/urban or partisan differences.</li>
+      </ul>
+      
+      <p>Effective coalition-building requires clear objectives, formal coordination mechanisms, consistent messaging, and equitable sharing of both work and credit.</p>
+      
+      <div class="callout-box">
+        <h3>Coalition Development Process</h3>
+        <ol>
+          <li>Identify potential partners with aligned interests</li>
+          <li>Convene exploratory discussions to find common ground</li>
+          <li>Develop shared advocacy objectives and messaging</li>
+          <li>Create formal structure for coordination (meetings, communications)</li>
+          <li>Assign clear roles and responsibilities</li>
+          <li>Implement coordinated advocacy activities</li>
+          <li>Regularly evaluate effectiveness and adjust as needed</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div id="strategic-communications">
+      <h3 class="subsection-heading">4.2 Strategic Communications</h3>
+      <p>Clear, persuasive communication is essential for effective advocacy. Municipal leaders should:</p>
+      <ul>
+        <li><strong>Develop Clear Policy Positions:</strong> Create concise, well-researched positions on priority issues that articulate:
+          <ul>
+            <li>Community impact</li>
+            <li>Fiscal implications</li>
+            <li>Implementation considerations</li>
+            <li>Alignment with state priorities</li>
+          </ul>
+        </li>
+        <li><strong>Tailor Messages to Audience:</strong> Frame issues differently for various stakeholders:
+          <ul>
+            <li>For legislators: Emphasize constituent benefits, cost savings, and alignment with state priorities</li>
+            <li>For agencies: Focus on implementation feasibility and administrative efficiency</li>
+            <li>For public/media: Highlight tangible community benefits and quality of life impacts</li>
+          </ul>
+        </li>
+        <li><strong>Utilize Multiple Channels:</strong> Coordinate advocacy through:
+          <ul>
+            <li>Direct communication (meetings, calls, emails)</li>
+            <li>Traditional media (op-eds, interviews, press releases)</li>
+            <li>Social media (targeted campaigns, infographics, success stories)</li>
+            <li>Community forums (public meetings, town halls)</li>
+            <li>Formal testimony (committee hearings, agency proceedings)</li>
+          </ul>
+        </li>
+        <li><strong>Provide Supporting Materials:</strong> Develop research briefs, fiscal analyses, case studies, and visual aids that reinforce key messages.</li>
+      </ul>
+      
+      <p>Communications should be fact-based, solution-oriented, and connected to community values and priorities. Avoid overly technical language when addressing non-expert audiences.</p>
+    </div>
+    
+    <div id="direct-engagement">
+      <h3 class="subsection-heading">4.3 Direct Engagement Tactics</h3>
+      <p>Personal relationships and direct engagement remain the foundation of effective advocacy:</p>
+      <ul>
+        <li><strong>Relationship Development:</strong> Build ongoing relationships with key decision-makers:
+          <ul>
+            <li>Host legislative tours of municipal facilities and projects</li>
+            <li>Invite legislators to community events and recognition ceremonies</li>
+            <li>Schedule regular briefings with local delegation members</li>
+            <li>Establish relationships with key legislative staff</li>
+          </ul>
+        </li>
+        <li><strong>Testimony and Formal Input:</strong> Provide expert perspectives through:
+          <ul>
+            <li>Testimony at committee hearings (prepare concise, impactful statements)</li>
+            <li>Submission of written comments on legislation and proposed rules</li>
+            <li>Participation in stakeholder workgroups and advisory committees</li>
+            <li>Informal technical assistance on bill language and amendments</li>
+          </ul>
+        </li>
+        <li><strong>Legislative Visits:</strong> Conduct strategic visits to Austin:
+          <ul>
+            <li>Coordinate with municipal associations on designated "city days"</li>
+            <li>Schedule targeted visit days for specific priority issues</li>
+            <li>Bring diverse delegation including elected officials, staff experts, and community stakeholders</li>
+            <li>Provide leave-behind materials with clear contact information</li>
+          </ul>
+        </li>
+        <li><strong>Agency Engagement:</strong> Develop relationships with regulatory agencies:
+          <ul>
+            <li>Participate in rulemaking processes and stakeholder meetings</li>
+            <li>Invite agency representatives to tour local facilities and projects</li>
+            <li>Provide technical feedback on implementation challenges</li>
+            <li>Recognize and celebrate successful agency-municipal partnerships</li>
+          </ul>
+        </li>
+      </ul>
+      
+      <p>Direct engagement should be persistent but respectful, fact-based but passionate, and focused on both short-term objectives and long-term relationship building.</p>
+    </div>
+    
+    <div id="community-mobilization">
+      <h3 class="subsection-heading">4.4 Community Mobilization</h3>
+      <p>Engaging community stakeholders can significantly amplify municipal advocacy efforts:</p>
+      <ul>
+        <li><strong>Grassroots Activation:</strong> Mobilize community members through:
+          <ul>
+            <li>Educational campaigns about priority issues and potential impacts</li>
+            <li>Coordinated contact campaigns (calls, emails, letters to legislators)</li>
+            <li>Organized participation in public hearings and town halls</li>
+            <li>Social media engagement and sharing of advocacy messages</li>
+          </ul>
+        </li>
+        <li><strong>Business Community Engagement:</strong> Partner with local businesses through:
+          <ul>
+            <li>Chamber of commerce advocacy committees</li>
+            <li>Industry-specific coalitions on relevant issues</li>
+            <li>Business leader testimonials on economic impacts</li>
+            <li>Joint municipal-business delegations for legislative visits</li>
+          </ul>
+        </li>
+        <li><strong>Civic Organizations:</strong> Leverage existing community networks:
+          <ul>
+            <li>Neighborhood associations and homeowner groups</li>
+            <li>Service organizations (Rotary, Lions, etc.)</li>
+            <li>Faith-based organizations and leaders</li>
+            <li>Professional and trade associations with local chapters</li>
+          </ul>
+        </li>
+        <li><strong>Digital Engagement:</strong> Use technology to broaden participation:
+          <ul>
+            <li>Issue-specific email updates and action alerts</li>
+            <li>Social media advocacy campaigns with consistent hashtags and messaging</li>
+            <li>Virtual town halls and legislative briefings</li>
+            <li>Digital toolkits for community advocates with sample messages and graphics</li>
+          </ul>
+        </li>
+      </ul>
+      
+      <p>Community mobilization should be strategic and targeted, focusing on issues with direct local impact rather than attempting to engage on every policy matter. Providing clear, simple ways for community members to take action increases participation and effectiveness.</p>
+    </div>
+  </div>
+  
+  <div class="section page-break" id="case-studies">
+    <h2 class="section-heading">5. Case Studies</h2>
+    <p>The following case studies illustrate effective municipal advocacy strategies in action, highlighting key lessons for future efforts.</p>
+    
+    <div id="case-study-revenue-caps">
+      <h3 class="subsection-heading">5.1 Revenue Cap Legislation</h3>
+      <p><strong>Background:</strong> In 2019
