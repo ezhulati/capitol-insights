@@ -63,7 +63,7 @@ npm install --save-dev vite @vitejs/plugin-react vite-plugin-pwa vite-plugin-com
 
 # Verify that vite is available
 echo "Verifying Vite installation..."
-node_modules/.bin/vite --version || npm ls vite
+npm ls vite
 
 # Run a production build
 echo "Running production build..."
