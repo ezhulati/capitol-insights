@@ -1,9 +1,16 @@
-// Microsoft Clarity initialization
-(function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-})(window, document, "clarity", "script", "jnkxcpnlxs");
+// Microsoft Clarity initialization using npm package
+import Clarity from '@microsoft/clarity';
+
+// Initialize Clarity with project ID
+Clarity.start({
+    projectId: "jnkxcpnlxs",
+    upload: 'https://www.clarity.ms/collect',
+    delay: 500,
+    track: true,
+    content: true,
+    ip: true,
+    cookies: ['_uetsid', '_uetvid']
+});
 
 // Log initialization
 console.log("Microsoft Clarity initialized");
