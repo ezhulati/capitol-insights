@@ -1,0 +1,29 @@
+/* Fix for thin download buttons on resources page */
+button.btn,
+a.btn {
+  padding: 0.5rem 1rem !important;
+  min-height: 2.5rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 120px !important;
+}
+
+@media (min-width: 640px) {
+  button.btn,
+  a.btn {
+    padding: 0.5rem 1.5rem !important;
+  }
+}
+
+/* Target the specific download buttons in the resources page */
+[class*="ResourcesPage"] button {
+  padding: 0.5rem 1rem !important;
+  min-height: 2.5rem !important;
+  min-width: 120px !important;
+}
+
+/* Fix for "Subscribe to Legislative Updates" text color */
+section.bg-navy-800 h2 {
+  color: white !important;
+}

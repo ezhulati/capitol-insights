@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- CI Letters Hardcoded Favicon - v6 - super aggressive cache busting -->
+    <link rel="icon" href="/capitol-ci-hardcoded-v5.svg?no-cache=20250330130950" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=6" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=6" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6" />
+    <link rel="mask-icon" href="/capitol-ci-hardcoded-v5.svg?no-cache=20250330130950" color="#1a365d" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- PWA support -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Theme color adaptation -->
+    <meta name="theme-color" content="#1a365d" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+
+    <!-- Performance optimizations - Resource hints -->
+    <link rel="preload" href="data:application/octet-stream;base64,aW1wb3J0IHsgU3RyaWN0TW9kZSB9IGZyb20gJ3JlYWN0JzsKaW1wb3J0IHsgY3JlYXRlUm9vdCB9IGZyb20gJ3JlYWN0LWRvbS9jbGllbnQnOwppbXBvcnQgQXBwIGZyb20gJy4vQXBwLnRzeCc7CmltcG9ydCAnLi9pbmRleC5jc3MnOwppbXBvcnQgeyByZXBvcnRXZWJWaXRhbHMgfSBmcm9tICcuL3V0aWxzL2FuYWx5dGljcy50cyc7CgovLyBNb3VudCBhcHAKY29uc3Qgcm9vdCA9IGNyZWF0ZVJvb3QoZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3Jvb3QnKSEpOwoKLy8gUmVuZGVyIHRoZSBtYWluIGFwcGxpY2F0aW9uCnJvb3QucmVuZGVyKAogIDxTdHJpY3RNb2RlPgogICAgPEFwcCAvPgogIDwvU3RyaWN0TW9kZT4KKTsKCi8vIEluaXRpYWxpemUgd2ViIHZpdGFscyByZXBvcnRpbmcKcmVwb3J0V2ViVml0YWxzKChtZXRyaWMpID0+IHsKICAvLyBTZW5kIHRvIGFuYWx5dGljcyBpbiBwcm9kdWN0aW9uCiAgaWYgKHByb2Nlc3MuZW52Lk5PREVfRU5WICE9PSAnZGV2ZWxvcG1lbnQnKSB7CiAgICAvLyBUaGlzIHdvdWxkIGNvbm5lY3QgdG8gYW4gYW5hbHl0aWNzIHNlcnZpY2UgaW4gcHJvZHVjdGlvbgogICAgY29uc29sZS5sb2cobWV0cmljKTsKICB9Cn0pOwoKLy8gUmVnaXN0ZXIgc2VydmljZSB3b3JrZXIKaWYgKCdzZXJ2aWNlV29ya2VyJyBpbiBuYXZpZ2F0b3IgJiYgcHJvY2Vzcy5lbnYuTk9ERV9FTlYgPT09ICdwcm9kdWN0aW9uJykgewogIHdpbmRvdy5hZGRFdmVudExpc3RlbmVyKCdsb2FkJywgKCkgPT4gewogICAgbmF2aWdhdG9yLnNlcnZpY2VXb3JrZXIucmVnaXN0ZXIoJy9zdy5qcycpLnRoZW4oCiAgICAgIChyZWdpc3RyYXRpb24pID0+IHsKICAgICAgICBjb25zb2xlLmxvZygnU2VydmljZVdvcmtlciByZWdpc3RyYXRpb24gc3VjY2Vzc2Z1bCB3aXRoIHNjb3BlOiAnLCByZWdpc3RyYXRpb24uc2NvcGUpOwogICAgICB9LAogICAgICAoZXJyb3IpID0+IHsKICAgICAgICBjb25zb2xlLmxvZygnU2VydmljZVdvcmtlciByZWdpc3RyYXRpb24gZmFpbGVkOiAnLCBlcnJvcik7CiAgICAgIH0KICAgICk7CiAgfSk7Cn0K" as="script" fetchpriority="high" />
+    <link rel="preload" href="/images/approach-capitol.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/images/texas-capitol.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/images/capitol-background.webp" as="image" type="image/webp" fetchpriority="high" />
+
+    <!-- Preconnect to domains for faster resource loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
+    <!-- Font loading strategy with system font fallbacks -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
+    <!-- Added font-display:swap for better performance -->
+    <style>
+      /* System font stack fallbacks */
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+      .font-display, h1, h2, h3, h4, h5, h6 {
+        font-family: Georgia, Times, 'Times New Roman', serif;
+      }
+    </style>
+    
+    <!-- Critical CSS inlined for faster rendering -->
+    <style>
+      /* Inlined critical CSS */
+      :root {
+        --color-navy-900: #0F2539;
+        --color-navy-950: #0A1E30;
+        --color-gold-500: #F0C030;
+        --color-gold-600: #D9A800;
+        --color-gold-700: #BE9000;
+      }
+      
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        color: #334E68;
+        background-color: #ffffff;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      .container {
+        width: 100%;
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      h1, h2, h3, h4, h5, h6 {
+        font-family: Georgia, Times, 'Times New Roman', serif;
+        color: var(--color-navy-900);
+        margin-top: 0;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      
+      .bg-capitol {
+        background-image: url('/images/capitol-background.webp');
+        background-size: cover;
+        background-position: center;
+      }
+      
+      .bg-texture {
+        background-image: url('/images/texture-background.webp');
+        background-size: cover;
+        background-position: center;
+      }
+      
+      .no-webp .bg-capitol {
+        background-image: url('/images/capitol-background.jpg');
+      }
+      
+      .no-webp .bg-texture {
+        background-image: url('/images/texture-background.jpg');
+      }
+    </style>
+    <link rel="stylesheet" href="/css/critical.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="/css/button-fix.css?v=1">
+    
+    <!-- Inline button fix styles to ensure they're applied -->
+    <style>
+      /* Fix for thin download buttons on resources page */
+      button.btn,
+      a.btn,
+      [class*="ResourcesPage"] button {
+        padding: 0.5rem 1rem !important;
+        min-height: 2.5rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 120px !important;
+      }
+      
+      @media (min-width: 640px) {
+        button.btn,
+        a.btn {
+          padding: 0.5rem 1.5rem !important;
+        }
+      }
+      
+      /* Fix for "Subscribe to Legislative Updates" text color */
+      section.bg-navy-800 h2 {
+        color: white !important;
+      }
+    </style>
+
+    <!-- Primary SEO - Base tags only (React Helmet will override these) -->
+    <title>Capitol Insights</title>
+    <meta name="description" content="Capitol Insights - Texas Government Relations">
+
+    <!-- Base Open Graph / Social Media Meta Tags (React Helmet will override) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Capitol Insights" />
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="m56tQG4npD-YUtq_2kRTIya2nveMVfw1iOYg-ome0jY"/>
+
+    <!-- CSP Nonce Initialization (must be before any scripts) -->
+    
+    <!-- Structured Data loaded from external file for better CSP compliance -->
+    <script src="/js/structured-data.js"></script>
+
+    <!-- PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Additional performance optimizations -->
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="modulepreload" href="/assets/App-4f9eccbe.tsx" />
+    <link rel="modulepreload" href="/assets/lazyWithPreload-116510e4.ts" />
+    
+
+    <!-- Accessibility -->
+    <meta name="apple-mobile-web-app-title" content="Capitol Insights">
+    <meta name="application-name" content="Capitol Insights">
+    <script type="module" crossorigin src="/assets/index-7ca087c8.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-c3d7d9ee.js">
+    <link rel="modulepreload" crossorigin href="/assets/motion-55a23653.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-f90ff671.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-d40fa30f.js">
+    <link rel="stylesheet" href="/assets/index-88bc5318.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body class="antialiased text-slate-700 bg-white no-js">
+    <script>document.body.classList.remove('no-js');</script>
+    <div id="root"></div>
+    
+    <!-- Hidden forms for Netlify form handling -->
+    <form name="lead-magnet-download" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="industry" />
+      <input type="text" name="leadSource" />
+      <input type="text" name="downloadedGuide" />
+      <input type="text" name="downloadUrl" />
+      <input type="text" name="timestamp" />
+      <input type="text" name="recipients" />
+    </form>
+    
+    <form name="contact-form" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="practiceArea" />
+      <textarea name="message"></textarea>
+      <input type="text" name="recipients" />
+    </form>
+    
+    
+    <!-- Meta description fixer script (moved to external file) -->
+    <script src="/js/meta-fixer.js"></script>
+    <!-- Image preload and WebP support script -->
+    <script src="/js/image-preload.js"></script>
+    <!-- JavaScript optimization script -->
+    <script src="/js/defer-js.js"></script>
+    <!-- Section swap script -->
+    <script src="/js/section-swap.js"></script>
+    <!-- Netlify Identity scripts removed -->
+    <noscript>
+      <div style="padding: 2rem; text-align: center;">
+        <h1>JavaScript Required</h1>
+        <p>Please enable JavaScript to use this application. Capitol Insights provides government relations services throughout Texas.</p>
+      </div>
+    </noscript>
+  </body>
+</html>
