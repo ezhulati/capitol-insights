@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import SkipToContent from './components/SkipToContent';
 import BackToTop from './components/BackToTop';
+import Clarity from '@microsoft/clarity';
 import { lazyWithPreload, prefetchComponents, preloadComponents } from './utils/lazyWithPreload';
 
 // Performance tracking function
@@ -198,6 +199,36 @@ function App() {
   // Trigger preloading on initial mount
   useEffect(() => {
     preloadNextPages();
+    
+    // Initialize Microsoft Clarity with advanced features
+    const projectId = "qyml0noa0b";
+    try {
+      // Initialize Clarity
+      Clarity.init(projectId);
+      console.log('Microsoft Clarity initialized successfully');
+      
+      // Set cookie consent (assuming consent is given)
+      Clarity.consent(true);
+      
+      // Identify the user (using anonymous ID for now)
+      // In a real app, you might use a user ID from authentication
+      const anonymousId = `anon-${Math.random().toString(36).substring(2, 15)}`;
+      Clarity.identify(anonymousId);
+      
+      // Set custom tags for better filtering
+      Clarity.setTag("environment", "production");
+      Clarity.setTag("version", "1.0.0");
+      
+      // Track page visit as a custom event
+      Clarity.event("page_visit");
+      
+      // Upgrade important sessions (e.g., when user is on resources page)
+      if (window.location.pathname.includes('resources')) {
+        Clarity.upgrade("resources_page_visit");
+      }
+    } catch (error) {
+      console.error('Error initializing Microsoft Clarity:', error);
+    }
   }, []);
   
   return (

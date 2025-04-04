@@ -348,7 +348,7 @@ const ResourcesPage: React.FC = () => {
                   <div className="px-6 pb-6 mt-auto">
                     <button
                       onClick={() => handleDownloadClick(resource)}
-                      className="btn btn-primary w-full flex items-center justify-center"
+                      className="btn btn-primary w-full flex items-center justify-center py-3 text-base font-medium"
                     >
                       <Download size={16} className="mr-2" />
                       <span>Download Resource</span>
@@ -563,7 +563,7 @@ const ResourcesPage: React.FC = () => {
                       <div className="px-6 pb-6 sm:p-6 sm:pl-0 sm:ml-auto sm:flex sm:flex-col sm:justify-center">
                         <button
                           onClick={() => handleDownloadClick(resource)}
-                          className="btn btn-primary whitespace-nowrap flex items-center"
+                          className="btn btn-primary whitespace-nowrap flex items-center py-3 px-4 text-base font-medium"
                         >
                           <Download size={16} className="mr-2" />
                           <span>Download</span>
