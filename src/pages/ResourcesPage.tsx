@@ -349,7 +349,7 @@ const ResourcesPage: React.FC = () => {
                   <div className="px-6 pb-6 mt-auto">
                     <button
                       onClick={() => handleDownloadClick(resource)}
-                      className="btn btn-primary w-full flex items-center justify-center"
+                      className="btn btn-primary w-full flex items-center justify-center py-3 px-4 h-auto text-base font-medium shadow-sm"
                     >
                       <Download size={16} className="mr-2" />
                       <span>Download Resource</span>
@@ -532,7 +532,7 @@ const ResourcesPage: React.FC = () => {
                       setSelectedCategory('all');
                       setSelectedType('all');
                     }}
-                    className="btn btn-primary"
+                    className="btn btn-primary py-3 px-4 h-auto text-base font-medium shadow-sm"
                   >
                     Clear Filters
                   </button>
@@ -564,7 +564,7 @@ const ResourcesPage: React.FC = () => {
                       <div className="px-6 pb-6 sm:p-6 sm:pl-0 sm:ml-auto sm:flex sm:flex-col sm:justify-center">
                         <button
                           onClick={() => handleDownloadClick(resource)}
-                          className="btn btn-primary whitespace-nowrap flex items-center"
+                          className="btn btn-primary whitespace-nowrap flex items-center py-3 px-4 h-auto text-base font-medium shadow-sm"
                         >
                           <Download size={16} className="mr-2" />
                           <span>Download</span>
@@ -610,7 +610,7 @@ const ResourcesPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn bg-gold-600 hover:bg-gold-500 text-navy-950 whitespace-nowrap flex items-center justify-center"
+                  className="btn bg-gold-600 hover:bg-gold-500 text-navy-950 whitespace-nowrap flex items-center justify-center py-3 px-4 h-auto text-base font-medium shadow-sm"
                 >
                   {isSubmitting ? (
                     <>
@@ -640,10 +640,10 @@ const ResourcesPage: React.FC = () => {
                   Our team provides tailored research, analysis, and strategic recommendations specific to your organization's needs and priorities.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link to="/contact" className="btn btn-primary">
+                  <Link to="/contact" className="btn btn-primary py-3 px-4 h-auto text-base font-medium shadow-sm">
                     Request Custom Research
                   </Link>
-                  <Link to="/services" className="btn bg-slate-200 hover:bg-slate-300 text-navy-800">
+                  <Link to="/services" className="btn bg-slate-200 hover:bg-slate-300 text-navy-800 py-3 px-4 h-auto text-base font-medium shadow-sm">
                     View Our Services
                   </Link>
                 </div>

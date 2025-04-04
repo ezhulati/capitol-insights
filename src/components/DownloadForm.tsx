@@ -297,9 +297,10 @@ This user has viewed the above document. Please follow up with appropriate infor
                         name="industry"
                         value={formData.industry}
                         onChange={handleChange}
-                        className={`block w-full pl-10 pr-3 py-2 border ${
+                        className={`block w-full pl-10 pr-10 py-2 border ${
                           errors.industry ? 'border-red-500' : 'border-secondary-300'
-                        } rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 appearance-none bg-none`}
+                        } rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 bg-white`}
+                        style={{ WebkitAppearance: 'menulist', appearance: 'menulist' }}
                       >
                         {industries.map((industry, index) => (
                           <option 
