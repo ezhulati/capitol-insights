@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
-    "build": "mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true",
-    "build:ci": "mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true"
+    "build": "npm install && mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true",
+    "build:ci": "npm install && mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.3.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
