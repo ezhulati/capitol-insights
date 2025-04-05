@@ -1,5 +1,5 @@
 // Script to update resource images on the resources page
-// Version 2.0 - No caching, immediate execution
+// Version 3.0 - No caching, immediate execution, improved selectors
 document.addEventListener('DOMContentLoaded', function() {
     // Clear any cached versions of the page
     if ('caches' in window) {
@@ -9,6 +9,22 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Add a style tag to ensure images are displayed correctly
+    const styleTag = document.createElement('style');
+    styleTag.textContent = `
+        .resource-card img {
+            object-fit: contain !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 200px !important;
+        }
+        .resource-card .image-container {
+            height: auto !important;
+            min-height: 200px !important;
+        }
+    `;
+    document.head.appendChild(styleTag);
     
     // Function to update resource images
     function updateResourceImages() {
@@ -16,8 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.location.pathname.includes('/resources')) {
             console.log('Resource image updater script running on resources page');
             
-            // Find all resource cards in the Featured Resources section
-            const resourceCards = document.querySelectorAll('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100');
+            // Add resource-card class to all cards for styling
+            document.querySelectorAll('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100').forEach(function(card) {
+                card.classList.add('resource-card');
+            });
+            
+            // Find all resource cards in the Featured Resources section - use multiple selectors for robustness
+            const resourceCards = document.querySelectorAll('.resource-card, .bg-white.rounded-xl.overflow-hidden, [data-testid="resource-card"]');
+            console.log('Found', resourceCards.length, 'resource cards');
             
             resourceCards.forEach(function(card) {
                 // Get the title element
@@ -31,21 +53,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Found resource card with title:', title);
                 
                 // Handle Texas Legislative Calendar 2025
-                if (title === 'Texas Legislative Calendar 2025') {
+                if (title === 'Texas Legislative Calendar 2025' || title.includes('Legislative Calendar')) {
+                    console.log('Updating Texas Legislative Calendar 2025 image');
+                    
                     // Get the image element
-                    const imgElement = card.querySelector('img');
+                    let imgElement = card.querySelector('img');
+                    
+                    // If no image element exists, create one
                     if (!imgElement) {
-                        console.log('No image element found for title:', title);
-                        return;
+                        console.log('No image element found, creating one');
+                        imgElement = document.createElement('img');
+                        imgElement.alt = 'Texas Legislative Calendar 2025';
+                        
+                        // Find a suitable container for the image
+                        const imageContainer = card.querySelector('.rounded-t-xl, .bg-blue-100, .overflow-hidden') || card.firstElementChild;
+                        
+                        if (imageContainer) {
+                            // Add the image to the container
+                            imageContainer.appendChild(imgElement);
+                        } else {
+                            // If no container found, add the image to the card itself
+                            card.prepend(imgElement);
+                        }
                     }
                     
-                    console.log('Updating Texas Legislative Calendar 2025 image');
+                    // Set the image source
                     imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png';
                     
                     // Adjust image styling to ensure full image is visible
                     imgElement.style.objectFit = 'contain';
                     imgElement.style.width = '100%';
                     imgElement.style.height = 'auto';
+                    imgElement.style.minHeight = '200px';
                     
                     // Find the image container and adjust its height if needed
                     const imageContainer = imgElement.parentElement;
@@ -53,113 +92,55 @@ document.addEventListener('DOMContentLoaded', function() {
                         imageContainer.style.height = 'auto';
                         imageContainer.style.minHeight = '200px';
                     }
+                    
+                    // Store this card as a reference for other cards
+                    window.calendarCard = card;
                 } 
                 // Handle Texas Legislative Advocacy Guide
-                else if (title.includes('Texas Legislative Advocacy Guide')) {
+                else if (title.includes('Texas Legislative Advocacy Guide') || title.includes('Advocacy Guide')) {
                     console.log('Processing Texas Legislative Advocacy Guide card');
                     
-                    // Find the reference card (Texas Legislative Calendar 2025)
-                    let referenceCard = null;
+                    // Get the image element
+                    let imgElement = card.querySelector('img');
                     
-                    // Find all h3 elements and check their text content
-                    const allH3Elements = document.querySelectorAll('h3');
-                    for (const h3 of allH3Elements) {
-                        if (h3.textContent.includes('Texas Legislative Calendar 2025')) {
-                            referenceCard = h3.closest('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100');
-                            break;
+                    // If no image element exists, create one
+                    if (!imgElement) {
+                        console.log('No image element found, creating one');
+                        imgElement = document.createElement('img');
+                        imgElement.alt = 'Texas Legislative Advocacy Guide';
+                        
+                        // Find a suitable container for the image
+                        const imageContainer = card.querySelector('.rounded-t-xl, .bg-blue-100, .overflow-hidden') || card.firstElementChild;
+                        
+                        if (imageContainer) {
+                            // Add the image to the container
+                            imageContainer.appendChild(imgElement);
+                        } else {
+                            // If no container found, add the image to the card itself
+                            card.prepend(imgElement);
                         }
                     }
                     
-                    console.log('Reference card found:', referenceCard ? 'Yes' : 'No');
+                    // Set the image source
+                    imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png';
                     
-                    if (referenceCard) {
-                        // Clone the structure from the reference card
-                        const clonedContent = referenceCard.cloneNode(true);
-                        
-                        // Update the title and description
-                        const clonedTitle = clonedContent.querySelector('h3');
-                        if (clonedTitle) {
-                            clonedTitle.textContent = 'Texas Legislative Advocacy Guide';
-                        }
-                        
-                        const clonedDescription = clonedContent.querySelector('p');
-                        if (clonedDescription) {
-                            clonedDescription.textContent = 'A comprehensive guide to effective advocacy during the Texas legislative session, including strategies, best practices, and key contacts.';
-                        }
-                        
-                        // Update the date label
-                        const dateLabel = clonedContent.querySelector('.text-xs.font-medium.text-blue-600.bg-blue-50.rounded-full.px-2.py-1');
-                        if (dateLabel) {
-                            dateLabel.textContent = 'December 14, 2024';
-                        }
-                        
-                        // Update the image with the correct image for the Advocacy Guide
-                        const imgElement = clonedContent.querySelector('img');
-                        if (imgElement) {
-                            console.log('Updating image in cloned card for Texas Legislative Advocacy Guide');
-                            imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png';
-                            imgElement.alt = 'Texas Legislative Advocacy Guide';
-                            
-                            // Adjust image styling to ensure full image is visible
-                            imgElement.style.objectFit = 'contain';
-                            imgElement.style.width = '100%';
-                            imgElement.style.height = 'auto';
-                            
-                            // Find the image container and adjust its height if needed
-                            const imageContainer = imgElement.parentElement;
-                            if (imageContainer) {
-                                imageContainer.style.height = 'auto';
-                                imageContainer.style.minHeight = '200px';
-                            }
-                        }
-                        
-                        // Replace the current card with the cloned one
-                        card.parentNode.replaceChild(clonedContent, card);
-                        console.log('Replaced Texas Legislative Advocacy Guide card with cloned structure');
-                    } else {
-                        console.log('Reference card not found, falling back to image update only');
-                        
-                        // Try to find the image element
-                        let imgElement = card.querySelector('img');
-                        
-                        // If no image element exists, look for a div that might be a container for the image
-                        if (!imgElement) {
-                            console.log('No direct img element found, looking for image container');
-                            const imageContainer = card.querySelector('.rounded-t-xl, .bg-blue-100, .overflow-hidden');
-                            
-                            if (imageContainer) {
-                                console.log('Found potential image container, checking for img inside');
-                                imgElement = imageContainer.querySelector('img');
-                                
-                                // If still no image, create one and add it to the container
-                                if (!imgElement) {
-                                    console.log('Creating new img element for Texas Legislative Advocacy Guide');
-                                    imgElement = document.createElement('img');
-                                    imgElement.alt = 'Texas Legislative Advocacy Guide';
-                                    imgElement.className = 'w-full h-auto object-cover';
-                                    imageContainer.appendChild(imgElement);
-                                }
-                            } else {
-                                // If no suitable container found, try to find the first div in the card
-                                console.log('No image container found, looking for first div');
-                                const firstDiv = card.querySelector('div');
-                                
-                                if (firstDiv) {
-                                    console.log('Found first div, creating img element');
-                                    imgElement = document.createElement('img');
-                                    imgElement.alt = 'Texas Legislative Advocacy Guide';
-                                    imgElement.className = 'w-full h-auto object-cover';
-                                    firstDiv.prepend(imgElement);
-                                } else {
-                                    console.log('Could not find a suitable place to add an image');
-                                    return;
-                                }
-                            }
-                        }
-                        
-                        console.log('Updating Texas Legislative Advocacy Guide image');
-                        // Use the same image as the Texas Legislative Calendar 2025
-                        imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png';
+                    // Adjust image styling to ensure full image is visible
+                    imgElement.style.objectFit = 'contain';
+                    imgElement.style.width = '100%';
+                    imgElement.style.height = 'auto';
+                    imgElement.style.minHeight = '200px';
+                    
+                    // Find the image container and adjust its height if needed
+                    const imageContainer = imgElement.parentElement;
+                    if (imageContainer) {
+                        imageContainer.style.height = 'auto';
+                        imageContainer.style.minHeight = '200px';
+                    }
+                    
+                    // Update the date if needed
+                    const dateLabel = card.querySelector('.text-xs.font-medium.text-blue-600.bg-blue-50.rounded-full.px-2.py-1');
+                    if (dateLabel && dateLabel.textContent.trim() !== 'December 14, 2024') {
+                        dateLabel.textContent = 'December 14, 2024';
                     }
                 }
             });
