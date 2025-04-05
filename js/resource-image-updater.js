@@ -6,12 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.location.pathname.includes('/resources')) {
             console.log('Resource image updater script running on resources page');
             
+            // Safari compatibility fix: Use traditional function instead of arrow function
             // Set a timeout to ensure the page has fully loaded and React has rendered
-            setTimeout(() => {
+            setTimeout(function() {
                 // Find all resource cards in the Featured Resources section
                 const resourceCards = document.querySelectorAll('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100');
                 
-                resourceCards.forEach(card => {
+                resourceCards.forEach(function(card) {
                     // Get the title element
                     const titleElement = card.querySelector('h3.text-xl.font-bold.text-navy-900, h3.text-lg.font-bold.text-navy-900');
                     if (!titleElement) {
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Also update images in the All Resources section
                 const allResourceCards = document.querySelectorAll('.bg-white.rounded-lg.border.border-slate-100.shadow-sm');
                 
-                allResourceCards.forEach(card => {
+                allResourceCards.forEach(function(card) {
                     // Get the title element
                     const titleElement = card.querySelector('h3.text-lg.font-bold.text-navy-900');
                     if (!titleElement) return;
@@ -180,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Also run when the URL changes (for single-page applications)
     let lastUrl = location.href; 
-    new MutationObserver(() => {
+    new MutationObserver(function() {
         const url = location.href;
         if (url !== lastUrl) {
             lastUrl = url;
