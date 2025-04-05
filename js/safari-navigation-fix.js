@@ -1,5 +1,5 @@
 /**
- * Safari Navigation Fix - Version 2.0
+ * Safari Navigation Fix - Version 3.0
  * 
  * This script:
  * 1. Detects Safari browser
@@ -21,7 +21,7 @@
     return;
   }
   
-  console.log('Safari navigation fix active - Version 2.0');
+  console.log('Safari navigation fix active - Version 3.0');
   
   // Add a flag to the window object to indicate that Safari navigation fix is active
   window.safariNavigationFixActive = true;
@@ -31,7 +31,7 @@
     console.log('Safari navigation fix: Handling navigation');
     
     // Find all navigation links
-    const navLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]');
+    const navLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"], a[href^="#/"]');
     console.log('Safari navigation fix: Found', navLinks.length, 'navigation links');
     
     navLinks.forEach(function(link) {
@@ -48,7 +48,7 @@
         const href = link.getAttribute('href');
         
         // Skip external links, anchor links, or javascript: links
-        if (!href || href.startsWith('http') || href.startsWith('#') || href.startsWith('javascript:')) {
+        if (!href || href.startsWith('http') || href === '#' || href.startsWith('javascript:')) {
           return;
         }
         
@@ -67,38 +67,63 @@
   
   // Function to patch React Router
   function patchReactRouter() {
-    console.log('Safari navigation fix: Attempting to patch React Router');
+    console.log('Safari navigation fix: Patching React Router');
     
-    // Check if React Router is available
-    if (window.ReactRouter) {
-      console.log('Safari navigation fix: Found React Router, patching...');
-      
-      // Save original methods
-      const originalPush = window.ReactRouter.useNavigate;
-      const originalNavigate = window.ReactRouter.useNavigate;
-      
-      // Override push method
-      window.ReactRouter.useNavigate = function() {
-        const navigate = originalNavigate.apply(this, arguments);
+    // Wait for React to be loaded
+    const checkReactInterval = setInterval(function() {
+      // Check if React is loaded
+      if (window.React) {
+        clearInterval(checkReactInterval);
+        console.log('Safari navigation fix: React detected, patching React Router');
         
-        return function(to, options) {
-          console.log('Safari navigation fix: Intercepted React Router navigation to', to);
+        // Monitor for React Router
+        const observer = new MutationObserver(function() {
+          // Look for React Router links
+          const reactRouterLinks = document.querySelectorAll('a[href^="/"]');
           
-          // Force a full page reload
-          window.location.href = typeof to === 'string' ? to : to.pathname;
-          
-          // Call original method (won't actually be used)
-          return navigate(to, options);
-        };
-      };
-      
-      console.log('Safari navigation fix: React Router patched successfully');
-    } else {
-      console.log('Safari navigation fix: React Router not found, will try again later');
-      
-      // Try again later
-      setTimeout(patchReactRouter, 1000);
-    }
+          reactRouterLinks.forEach(function(link) {
+            // Skip links that already have click handlers
+            if (link.getAttribute('data-safari-fixed')) {
+              return;
+            }
+            
+            // Mark as fixed
+            link.setAttribute('data-safari-fixed', 'true');
+            
+            // Add click handler
+            link.addEventListener('click', function(event) {
+              const href = link.getAttribute('href');
+              
+              // Skip external links, anchor links, or javascript: links
+              if (!href || href.startsWith('http') || href === '#' || href.startsWith('javascript:')) {
+                return;
+              }
+              
+              console.log('Safari navigation fix: Intercepted React Router link click to', href);
+              
+              // Prevent default navigation
+              event.preventDefault();
+              event.stopPropagation();
+              
+              // Force a full page reload
+              console.log('Safari navigation fix: Forcing full page reload to', href);
+              window.location.href = href;
+            }, true); // Use capture phase to ensure our handler runs first
+          });
+        });
+        
+        // Observe the entire document for changes
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      }
+    }, 100);
+    
+    // Timeout after 10 seconds
+    setTimeout(function() {
+      clearInterval(checkReactInterval);
+    }, 10000);
   }
   
   // Function to patch History API

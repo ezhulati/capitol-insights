@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safari Navigation Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #1a365d;
+        }
+        nav {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 15px;
+            color: #1a365d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .page {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .active {
+            display: block;
+        }
+        .debug {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Safari Navigation Test</h1>
+    
+    <nav>
+        <a href="#home" class="nav-link" data-page="home">Home</a>
+        <a href="#about" class="nav-link" data-page="about">About</a>
+        <a href="#resources" class="nav-link" data-page="resources">Resources</a>
+        <a href="#contact" class="nav-link" data-page="contact">Contact</a>
+    </nav>
+    
+    <div id="home" class="page active">
+        <h2>Home Page</h2>
+        <p>This is the home page. Click on the navigation links above to test navigation.</p>
+    </div>
+    
+    <div id="about" class="page">
+        <h2>About Page</h2>
+        <p>This is the about page. It contains information about the test.</p>
+    </div>
+    
+    <div id="resources" class="page">
+        <h2>Resources Page</h2>
+        <p>This is the resources page. It contains test resources.</p>
+    </div>
+    
+    <div id="contact" class="page">
+        <h2>Contact Page</h2>
+        <p>This is the contact page. It contains contact information.</p>
+    </div>
+    
+    <div class="debug">
+        <h3>Debug Information</h3>
+        <p>Current URL: <span id="current-url"></span></p>
+        <p>Current Page: <span id="current-page"></span></p>
+        <p>Browser: <span id="browser-info"></span></p>
+        <p>Navigation Events: <span id="nav-events">0</span></p>
+    </div>
+    
+    <!-- Safari Navigation Fix Script -->
+    <script src="/js/safari-navigation-fix.js"></script>
+    
+    <!-- Test Script -->
+    <script>
+        // Simple SPA navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update debug info
+            function updateDebugInfo() {
+                document.getElementById('current-url').textContent = window.location.href;
+                document.getElementById('current-page').textContent = window.location.hash || '#home';
+                document.getElementById('browser-info').textContent = navigator.userAgent;
+            }
+            
+            // Handle navigation
+            function navigateTo(pageId) {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(function(page) {
+                    page.classList.remove('active');
+                });
+                
+                // Show the selected page
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+                
+                // Update navigation count
+                const navEvents = document.getElementById('nav-events');
+                navEvents.textContent = parseInt(navEvents.textContent) + 1;
+                
+                // Update debug info
+                updateDebugInfo();
+            }
+            
+            // Add click handlers to navigation links
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+                link.addEventListener('click', function(event) {
+                    const pageId = this.getAttribute('data-page');
+                    console.log('Navigating to:', pageId);
+                    
+                    // Update URL
+                    window.history.pushState({page: pageId}, '', '#' + pageId);
+                    
+                    // Navigate to the page
+                    navigateTo(pageId);
+                });
+            });
+            
+            // Handle popstate events (back/forward navigation)
+            window.addEventListener('popstate', function(event) {
+                console.log('Popstate event:', event.state);
+                
+                // Get the page ID from the URL hash
+                const pageId = window.location.hash.substring(1) || 'home';
+                
+                // Navigate to the page
+                navigateTo(pageId);
+            });
+            
+            // Initial navigation based on URL hash
+            const initialPageId = window.location.hash.substring(1) || 'home';
+            navigateTo(initialPageId);
+            
+            // Initial debug info
+            updateDebugInfo();
+        });
+    </script>
+</body>
+</html>
