@@ -39,7 +39,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log('Processing Texas Legislative Advocacy Guide card');
                         
                         // Find the reference card (Texas Legislative Calendar 2025)
-                        const referenceCard = document.querySelector('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100 h3[text*="Texas Legislative Calendar 2025"]')?.closest('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100');
+                        let referenceCard = null;
+                        
+                        // Find all h3 elements and check their text content
+                        const allH3Elements = document.querySelectorAll('h3');
+                        for (const h3 of allH3Elements) {
+                            if (h3.textContent.includes('Texas Legislative Calendar 2025')) {
+                                referenceCard = h3.closest('.bg-white.rounded-xl.overflow-hidden.shadow-md.border.border-slate-100');
+                                break;
+                            }
+                        }
+                        
+                        console.log('Reference card found:', referenceCard ? 'Yes' : 'No');
                         
                         if (referenceCard) {
                             // Clone the structure from the reference card
