@@ -83,72 +83,135 @@
     </div>
     
     <!-- Safari Navigation Fix Script -->
-    <script src="/js/safari-navigation-fix.js"></script>
+    <script src="js/safari-navigation-fix.js"></script>
     
     <!-- Test Script -->
     <script>
-        // Simple SPA navigation
+        // Immediately show content to prevent blank screen
+        document.querySelectorAll('.page').forEach(function(page) {
+            if (page.id === 'home') {
+                page.style.display = 'block';
+            }
+        });
+        
+        console.log('Safari test page loading...');
+        
+        // Simple SPA navigation with Safari compatibility
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded fired');
+            
             // Update debug info
             function updateDebugInfo() {
-                document.getElementById('current-url').textContent = window.location.href;
-                document.getElementById('current-page').textContent = window.location.hash || '#home';
-                document.getElementById('browser-info').textContent = navigator.userAgent;
+                try {
+                    document.getElementById('current-url').textContent = window.location.href;
+                    document.getElementById('current-page').textContent = window.location.hash || '#home';
+                    document.getElementById('browser-info').textContent = navigator.userAgent;
+                    console.log('Debug info updated');
+                } catch (e) {
+                    console.error('Error updating debug info:', e);
+                }
             }
             
             // Handle navigation
             function navigateTo(pageId) {
-                // Hide all pages
-                document.querySelectorAll('.page').forEach(function(page) {
-                    page.classList.remove('active');
-                });
+                console.log('Navigating to page:', pageId);
                 
-                // Show the selected page
-                const targetPage = document.getElementById(pageId);
-                if (targetPage) {
-                    targetPage.classList.add('active');
+                try {
+                    // Hide all pages
+                    document.querySelectorAll('.page').forEach(function(page) {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show the selected page
+                    const targetPage = document.getElementById(pageId);
+                    if (targetPage) {
+                        targetPage.classList.add('active');
+                        console.log('Page activated:', pageId);
+                    } else {
+                        console.warn('Target page not found:', pageId);
+                    }
+                    
+                    // Update navigation count
+                    const navEvents = document.getElementById('nav-events');
+                    navEvents.textContent = parseInt(navEvents.textContent || '0') + 1;
+                    
+                    // Update debug info
+                    updateDebugInfo();
+                } catch (e) {
+                    console.error('Error during navigation:', e);
                 }
-                
-                // Update navigation count
-                const navEvents = document.getElementById('nav-events');
-                navEvents.textContent = parseInt(navEvents.textContent) + 1;
-                
-                // Update debug info
-                updateDebugInfo();
             }
             
             // Add click handlers to navigation links
-            document.querySelectorAll('.nav-link').forEach(function(link) {
-                link.addEventListener('click', function(event) {
-                    const pageId = this.getAttribute('data-page');
-                    console.log('Navigating to:', pageId);
-                    
-                    // Update URL
-                    window.history.pushState({page: pageId}, '', '#' + pageId);
-                    
-                    // Navigate to the page
-                    navigateTo(pageId);
+            try {
+                document.querySelectorAll('.nav-link').forEach(function(link) {
+                    link.addEventListener('click', function(event) {
+                        try {
+                            const pageId = this.getAttribute('data-page');
+                            console.log('Link clicked for page:', pageId);
+                            
+                            // Prevent default behavior
+                            event.preventDefault();
+                            
+                            // Update URL
+                            window.history.pushState({page: pageId}, '', '#' + pageId);
+                            
+                            // Navigate to the page
+                            navigateTo(pageId);
+                        } catch (e) {
+                            console.error('Error handling link click:', e);
+                        }
+                    });
                 });
-            });
+                console.log('Navigation links initialized');
+            } catch (e) {
+                console.error('Error setting up navigation links:', e);
+            }
             
             // Handle popstate events (back/forward navigation)
             window.addEventListener('popstate', function(event) {
                 console.log('Popstate event:', event.state);
                 
-                // Get the page ID from the URL hash
-                const pageId = window.location.hash.substring(1) || 'home';
-                
-                // Navigate to the page
-                navigateTo(pageId);
+                try {
+                    // Get the page ID from the URL hash
+                    const pageId = window.location.hash.substring(1) || 'home';
+                    
+                    // Navigate to the page
+                    navigateTo(pageId);
+                } catch (e) {
+                    console.error('Error handling popstate:', e);
+                }
             });
             
             // Initial navigation based on URL hash
-            const initialPageId = window.location.hash.substring(1) || 'home';
-            navigateTo(initialPageId);
+            try {
+                const initialPageId = window.location.hash.substring(1) || 'home';
+                console.log('Initial page ID:', initialPageId);
+                navigateTo(initialPageId);
+            } catch (e) {
+                console.error('Error during initial navigation:', e);
+            }
             
             // Initial debug info
             updateDebugInfo();
+            
+            console.log('Navigation setup complete');
         });
+        
+        // Fallback to ensure content is displayed
+        window.onload = function() {
+            console.log('Window onload fired');
+            
+            // Make sure at least the home page is visible
+            const homePage = document.getElementById('home');
+            if (homePage && !homePage.classList.contains('active')) {
+                document.querySelectorAll('.page').forEach(function(page) {
+                    page.classList.remove('active');
+                });
+                homePage.classList.add('active');
+                console.log('Fallback: Home page activated');
+            }
+        };
     </script>
 </body>
 </html>
