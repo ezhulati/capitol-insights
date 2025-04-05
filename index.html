@@ -148,6 +148,9 @@
 
     <!-- CSP Nonce Initialization (must be before any scripts) -->
     
+    <!-- Safari Navigation Fix - Load as early as possible -->
+    <script src="/js/safari-navigation-fix.js"></script>
+    
     <!-- Structured Data loaded from external file for better CSP compliance -->
     <script src="/js/structured-data.js"></script>
 
@@ -218,8 +221,6 @@
     <script src="/js/section-swap.js"></script>
     <!-- Resource image updater script -->
     <script src="/js/resource-image-updater.js"></script>
-    <!-- Safari navigation fix script -->
-    <script src="/js/safari-navigation-fix.js"></script>
     <!-- Netlify Identity scripts removed -->
     <noscript>
       <div style="padding: 2rem; text-align: center;">

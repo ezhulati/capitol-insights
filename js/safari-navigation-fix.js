@@ -1,10 +1,10 @@
 /**
- * Safari Navigation Fix
+ * Safari Navigation Fix - Version 2.0
  * 
  * This script:
  * 1. Detects Safari browser
- * 2. Intercepts navigation events
- * 3. Provides fallback navigation for Safari
+ * 2. Completely replaces client-side navigation with server-side navigation for Safari
+ * 3. Forces full page reloads for all navigation in Safari
  * 4. Ensures consistent navigation across browsers
  */
 
@@ -21,12 +21,18 @@
     return;
   }
   
-  console.log('Safari navigation fix active');
+  console.log('Safari navigation fix active - Version 2.0');
+  
+  // Add a flag to the window object to indicate that Safari navigation fix is active
+  window.safariNavigationFixActive = true;
   
   // Function to handle navigation
   function handleNavigation() {
+    console.log('Safari navigation fix: Handling navigation');
+    
     // Find all navigation links
     const navLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="../"]');
+    console.log('Safari navigation fix: Found', navLinks.length, 'navigation links');
     
     navLinks.forEach(function(link) {
       // Skip links that already have click handlers
@@ -46,62 +52,165 @@
           return;
         }
         
+        console.log('Safari navigation fix: Intercepted click on link to', href);
+        
         // Prevent default navigation
         event.preventDefault();
+        event.stopPropagation();
         
-        // Use history API for navigation
-        window.history.pushState({}, '', href);
-        
-        // Dispatch a popstate event to trigger React Router navigation
-        const popStateEvent = new PopStateEvent('popstate', { state: {} });
-        window.dispatchEvent(popStateEvent);
-        
-        // If that doesn't work, try location.href as a fallback after a short delay
-        setTimeout(function() {
-          // Check if URL actually changed
-          if (window.location.pathname !== href && !href.startsWith('?') && !href.startsWith('#')) {
-            console.log('Fallback navigation to:', href);
-            window.location.href = href;
-          }
-        }, 300);
-      });
+        // Force a full page reload
+        console.log('Safari navigation fix: Forcing full page reload to', href);
+        window.location.href = href;
+      }, true); // Use capture phase to ensure our handler runs first
     });
   }
   
-  // Run on page load
-  document.addEventListener('DOMContentLoaded', function() {
+  // Function to patch React Router
+  function patchReactRouter() {
+    console.log('Safari navigation fix: Attempting to patch React Router');
+    
+    // Check if React Router is available
+    if (window.ReactRouter) {
+      console.log('Safari navigation fix: Found React Router, patching...');
+      
+      // Save original methods
+      const originalPush = window.ReactRouter.useNavigate;
+      const originalNavigate = window.ReactRouter.useNavigate;
+      
+      // Override push method
+      window.ReactRouter.useNavigate = function() {
+        const navigate = originalNavigate.apply(this, arguments);
+        
+        return function(to, options) {
+          console.log('Safari navigation fix: Intercepted React Router navigation to', to);
+          
+          // Force a full page reload
+          window.location.href = typeof to === 'string' ? to : to.pathname;
+          
+          // Call original method (won't actually be used)
+          return navigate(to, options);
+        };
+      };
+      
+      console.log('Safari navigation fix: React Router patched successfully');
+    } else {
+      console.log('Safari navigation fix: React Router not found, will try again later');
+      
+      // Try again later
+      setTimeout(patchReactRouter, 1000);
+    }
+  }
+  
+  // Function to patch History API
+  function patchHistoryAPI() {
+    console.log('Safari navigation fix: Patching History API');
+    
+    // Save original methods
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+    
+    // Override pushState
+    window.history.pushState = function(state, title, url) {
+      console.log('Safari navigation fix: Intercepted pushState to', url);
+      
+      // If this is a navigation to a different path, force a full page reload
+      if (url && url !== window.location.pathname && !url.startsWith('#')) {
+        console.log('Safari navigation fix: Forcing full page reload for pushState to', url);
+        window.location.href = url;
+        return;
+      }
+      
+      // Otherwise, call original method
+      return originalPushState.apply(this, arguments);
+    };
+    
+    // Override replaceState
+    window.history.replaceState = function(state, title, url) {
+      console.log('Safari navigation fix: Intercepted replaceState to', url);
+      
+      // If this is a navigation to a different path, force a full page reload
+      if (url && url !== window.location.pathname && !url.startsWith('#')) {
+        console.log('Safari navigation fix: Forcing full page reload for replaceState to', url);
+        window.location.href = url;
+        return;
+      }
+      
+      // Otherwise, call original method
+      return originalReplaceState.apply(this, arguments);
+    };
+    
+    console.log('Safari navigation fix: History API patched successfully');
+  }
+  
+  // Function to handle back/forward navigation
+  function handlePopState() {
+    console.log('Safari navigation fix: Handling popstate event');
+    
+    // Force a reload
+    window.location.reload();
+  }
+  
+  // Run immediately
+  console.log('Safari navigation fix: Initializing');
+  
+  // Patch History API
+  patchHistoryAPI();
+  
+  // Try to patch React Router
+  patchReactRouter();
+  
+  // Handle back/forward navigation
+  window.addEventListener('popstate', handlePopState);
+  
+  // Handle navigation links
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      handleNavigation();
+      
+      // Also run periodically to catch dynamically added links
+      setInterval(handleNavigation, 1000);
+      
+      // Run when DOM changes
+      const observer = new MutationObserver(handleNavigation);
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+  } else {
+    // Document already loaded, run immediately
     handleNavigation();
     
     // Also run periodically to catch dynamically added links
-    setInterval(handleNavigation, 2000);
+    setInterval(handleNavigation, 1000);
     
     // Run when DOM changes
-    const observer = new MutationObserver(function() {
-      handleNavigation();
-    });
-    
+    const observer = new MutationObserver(handleNavigation);
     observer.observe(document.body, {
       childList: true,
       subtree: true
     });
-  });
+  }
   
-  // Fix back/forward navigation
-  window.addEventListener('popstate', function() {
-    // Force a reload if needed for Safari
-    if (isSafari()) {
-      const currentPath = window.location.pathname;
-      
-      // Check if the app has already handled the navigation
-      setTimeout(function() {
-        // If we're still on the same page after a popstate event, reload
-        if (document.querySelector('h1')?.textContent === 'Capitol Insights' && 
-            currentPath !== '/' && 
-            !document.querySelector('.resources-page, .about-page, .services-page')) {
-          console.log('Forcing reload for Safari navigation');
-          window.location.reload();
-        }
-      }, 500);
+  // Add a special style to indicate that Safari navigation fix is active
+  const style = document.createElement('style');
+  style.textContent = `
+    /* Safari navigation fix indicator */
+    body::after {
+      content: 'Safari navigation fix active';
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 9999;
+      pointer-events: none;
     }
-  });
+  `;
+  document.head.appendChild(style);
+  
+  console.log('Safari navigation fix: Initialization complete');
 })();
