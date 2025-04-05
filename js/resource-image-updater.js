@@ -33,6 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         console.log('Updating Texas Legislative Calendar 2025 image');
                         imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743313784/33727E2E-27C9-44FD-BA77-4C5F3CFD7F4A_oia0si.png';
+                        
+                        // Adjust image styling to ensure full image is visible
+                        imgElement.style.objectFit = 'contain';
+                        imgElement.style.width = '100%';
+                        imgElement.style.height = 'auto';
+                        
+                        // Find the image container and adjust its height if needed
+                        const imageContainer = imgElement.parentElement;
+                        if (imageContainer) {
+                            imageContainer.style.height = 'auto';
+                            imageContainer.style.minHeight = '200px';
+                        }
                     } 
                     // Handle Texas Legislative Advocacy Guide
                     else if (title.includes('Texas Legislative Advocacy Guide')) {
