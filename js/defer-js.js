@@ -31,11 +31,11 @@
     // Find all script tags
     const scripts = document.querySelectorAll('script[src]');
     
-    scripts.forEach(script => {
+    scripts.forEach(function(script) {
       const src = script.getAttribute('src');
       
       // Skip critical scripts
-      if (criticalScripts.some(criticalSrc => src.includes(criticalSrc))) {
+      if (criticalScripts.some(function(criticalSrc) { return src.includes(criticalSrc); })) {
         return;
       }
       
@@ -50,7 +50,7 @@
       deferredScript.defer = true;
       
       // Copy other attributes
-      Array.from(script.attributes).forEach(attr => {
+      Array.from(script.attributes).forEach(function(attr) {
         if (attr.name !== 'src' && attr.name !== 'defer' && attr.name !== 'async') {
           deferredScript.setAttribute(attr.name, attr.value);
         }
@@ -64,17 +64,20 @@
   // Function to optimize the motion.js bundle
   function optimizeMotionBundle() {
     // Only load motion effects when they're visible
-    const handleIntersection = (entries, observer) => {
-      entries.forEach(entry => {
+    const handleIntersection = function(entries, observer) {
+      entries.forEach(function(entry) {
         if (entry.isIntersecting) {
-          // Dynamically import the motion bundle when needed
-          import('/assets/motion-55a23653.js')
-            .then(() => {
-              console.log('Motion effects loaded');
-            })
-            .catch(err => {
-              console.error('Failed to load motion effects:', err);
-            });
+          // Safari compatibility fix: Use script tag instead of dynamic import
+          var script = document.createElement('script');
+          script.src = '/assets/motion-55a23653.js';
+          script.type = 'module';
+          script.onload = function() {
+            console.log('Motion effects loaded');
+          };
+          script.onerror = function(err) {
+            console.error('Failed to load motion effects:', err);
+          };
+          document.head.appendChild(script);
           
           // Disconnect the observer once loaded
           observer.disconnect();
@@ -90,7 +93,7 @@
     
     // Observe elements that use motion effects
     document.querySelectorAll('.animate-fade-in, .animate-slide-up, .animate-slide-in-right')
-      .forEach(el => observer.observe(el));
+      .forEach(function(el) { observer.observe(el); });
   }
   
   // Initialize when DOM is ready

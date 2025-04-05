@@ -3,15 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // Wait a bit for React to render the components
   setTimeout(function() {
     // Find the sections by their headings
-    const subscribeSection = Array.from(document.querySelectorAll('section')).find(section => 
-      section.querySelector('h2') && 
-      section.querySelector('h2').textContent === 'Subscribe to Legislative Updates'
-    );
+    const subscribeSection = Array.from(document.querySelectorAll('section')).find(function(section) {
+      return section.querySelector('h2') && 
+             section.querySelector('h2').textContent === 'Subscribe to Legislative Updates';
+    });
     
-    const researchSection = Array.from(document.querySelectorAll('section')).find(section => 
-      section.querySelector('h2') && 
-      section.querySelector('h2').textContent === 'Need Customized Research or Analysis?'
-    );
+    const researchSection = Array.from(document.querySelectorAll('section')).find(function(section) {
+      return section.querySelector('h2') && 
+             section.querySelector('h2').textContent === 'Need Customized Research or Analysis?';
+    });
     
     // If both sections are found, swap them
     if (subscribeSection && researchSection) {
