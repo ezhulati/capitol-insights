@@ -73,6 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 dateLabel.textContent = 'December 14, 2024';
                             }
                             
+                            // Update the image with the correct image for the Advocacy Guide
+                            const imgElement = clonedContent.querySelector('img');
+                            if (imgElement) {
+                                console.log('Updating image in cloned card for Texas Legislative Advocacy Guide');
+                                imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png';
+                                imgElement.alt = 'Texas Legislative Advocacy Guide';
+                            }
+                            
                             // Replace the current card with the cloned one
                             card.parentNode.replaceChild(clonedContent, card);
                             console.log('Replaced Texas Legislative Advocacy Guide card with cloned structure');
