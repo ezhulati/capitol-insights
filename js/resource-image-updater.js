@@ -79,6 +79,18 @@ document.addEventListener('DOMContentLoaded', function() {
                                 console.log('Updating image in cloned card for Texas Legislative Advocacy Guide');
                                 imgElement.src = 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743461383/Image_Mar_31_2025_05_47_12_PM_vwvuxs.png';
                                 imgElement.alt = 'Texas Legislative Advocacy Guide';
+                                
+                                // Adjust image styling to ensure full image is visible
+                                imgElement.style.objectFit = 'contain';
+                                imgElement.style.width = '100%';
+                                imgElement.style.height = 'auto';
+                                
+                                // Find the image container and adjust its height if needed
+                                const imageContainer = imgElement.parentElement;
+                                if (imageContainer) {
+                                    imageContainer.style.height = 'auto';
+                                    imageContainer.style.minHeight = '200px';
+                                }
                             }
                             
                             // Replace the current card with the cloned one
