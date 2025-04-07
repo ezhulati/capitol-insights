@@ -388,19 +388,36 @@
     updateAdvocacyImage(img, card) {
       utils.log('Updating Texas Legislative Advocacy Guide image');
       
+      // Force image reload by adding cache-busting parameter
+      const cacheBuster = new Date().getTime();
+      const imageUrl = `${CONFIG.images.advocacyGuide}?v=${cacheBuster}`;
+      
       // Create a new image to ensure proper loading
       const newImg = new Image();
       
       // Set up onload handler before setting src
       newImg.onload = () => {
-        // Update existing image
-        img.src = newImg.src;
+        utils.log('Advocacy Guide image loaded successfully');
+        
+        // Update existing image with cache-busting URL
+        img.src = imageUrl;
         img.alt = 'Texas Legislative Advocacy Guide';
         
-        // Apply styles
+        // Apply enhanced styles
         this.applyImageStyles(img);
+        img.style.objectPosition = 'center';
         
-        // Update container
+        // Force repaint in Safari
+        if (this.isSafari) {
+          setTimeout(() => {
+            img.style.opacity = '0.99';
+            setTimeout(() => {
+              img.style.opacity = '1';
+            }, 50);
+          }, 0);
+        }
+        
+        // Update container with enhanced styles
         this.updateImageContainer(img);
         
         // Update date label
@@ -409,8 +426,21 @@
         this.updatedImages++;
       };
       
+      // Handle loading errors
+      newImg.onerror = () => {
+        utils.log('Error loading Advocacy Guide image, trying direct approach', 'warn');
+        
+        // Direct approach as fallback
+        img.src = imageUrl;
+        img.alt = 'Texas Legislative Advocacy Guide';
+        this.applyImageStyles(img);
+        this.updateImageContainer(img);
+        this.updateDateLabel(card);
+        this.updatedImages++;
+      };
+      
       // Set source to trigger load
-      newImg.src = CONFIG.images.advocacyGuide;
+      newImg.src = imageUrl;
     },
 
     /**

@@ -27,3 +27,34 @@ a.btn {
 section.bg-navy-800 h2 {
   color: white !important;
 }
+
+/* Fix for Texas Legislative Advocacy Guide image */
+[class*="resource"] img[alt*="Advocacy Guide"],
+[class*="card"] img[alt*="Advocacy Guide"],
+img[alt="Texas Legislative Advocacy Guide"] {
+  object-fit: contain !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 200px !important;
+  max-width: 100% !important;
+  display: block !important;
+  background-color: #f8f9fa !important; /* Light background to ensure visibility */
+}
+
+/* Safari-specific fixes for the Advocacy Guide image */
+@supports (-webkit-hyphens:none) {
+  [class*="resource"] img[alt*="Advocacy Guide"],
+  [class*="card"] img[alt*="Advocacy Guide"],
+  img[alt="Texas Legislative Advocacy Guide"] {
+    position: relative !important;
+    transform: translateZ(0) !important; /* Force hardware acceleration */
+    backface-visibility: hidden !important; /* Prevent flickering */
+  }
+  
+  /* Force container to have proper dimensions */
+  [class*="resource"] img[alt*="Advocacy Guide"]:not(:root),
+  [class*="card"] img[alt*="Advocacy Guide"]:not(:root),
+  img[alt="Texas Legislative Advocacy Guide"]:not(:root) {
+    max-height: none !important;
+  }
+}
