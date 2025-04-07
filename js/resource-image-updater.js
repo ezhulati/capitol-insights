@@ -1,9 +1,10 @@
 /**
- * Resource Image Updater - Version 1.0
- * 
- * A clean, modern implementation for updating resource images on the resources page.
+ * Resource Image Updater - Version 2.0
+ *
+ * An enhanced implementation for updating resource images on the resources page.
  * This script handles image loading and display across all browsers with special
- * optimizations for Safari.
+ * optimizations for Safari. It integrates with the Safari Navigation Fix script
+ * for improved compatibility.
  */
 
 (function() {
@@ -157,13 +158,15 @@
     // State
     isSafari: false,
     updatedImages: 0,
+    version: '2.0',
+    lastUpdateTime: 0,
 
     /**
      * Initialize the resource updater
      */
     init() {
       this.isSafari = utils.isSafari();
-      utils.log(`Initializing in ${this.isSafari ? 'Safari' : 'standard'} mode`);
+      utils.log(`Initializing v${this.version} in ${this.isSafari ? 'Safari' : 'standard'} mode`);
       
       // Add styles
       utils.addStyles();
@@ -178,13 +181,34 @@
       if (this.isSafari) {
         setTimeout(() => this.update(), CONFIG.intervals.safari);
         setTimeout(() => this.update(), CONFIG.intervals.safari * 2);
+        
+        // Add more aggressive updates for Safari
+        setTimeout(() => this.update(), CONFIG.intervals.safari * 3);
+        setTimeout(() => this.update(), CONFIG.intervals.safari * 4);
       }
       
       // Update on page load
-      window.addEventListener('load', () => this.update());
+      window.addEventListener('load', () => {
+        utils.log('Window load event detected');
+        setTimeout(() => this.update(), 100);
+      });
+      
+      // Listen for custom events from Safari Navigation Fix
+      document.addEventListener('safariNavigationRefresh', (event) => {
+        utils.log('Received safariNavigationRefresh event');
+        setTimeout(() => this.update(), 100);
+      });
+      
+      document.addEventListener('safariNavigationUpdate', (event) => {
+        utils.log('Received safariNavigationUpdate event');
+        setTimeout(() => this.update(), 200);
+      });
       
       // Set up URL change detection for SPAs
       this.setupUrlChangeDetection();
+      
+      // Expose the updater globally for other scripts to use
+      window.resourceUpdater = this;
     },
 
     /**
@@ -223,6 +247,14 @@
      * Update resource images
      */
     update() {
+      // Throttle updates to prevent excessive calls
+      const now = Date.now();
+      if (now - this.lastUpdateTime < 200) {
+        utils.log('Update throttled, skipping');
+        return;
+      }
+      this.lastUpdateTime = now;
+      
       utils.safeExecute(() => {
         // Only run on resources page
         if (!utils.isResourcesPage()) {
@@ -240,10 +272,16 @@
         // Update images using direct approach
         this.updateImagesDirectly();
         
-        // If no images were updated in Safari, try fallback approach
-        if (this.updatedImages === 0 && this.isSafari) {
+        // If no images were updated, try fallback approach
+        if (this.updatedImages === 0) {
           utils.log('No images updated, trying fallback approach', 'warn');
           this.updateImagesWithFallback();
+          
+          // If still no images updated in Safari, try more aggressive approach
+          if (this.updatedImages === 0 && this.isSafari) {
+            utils.log('Still no images updated, trying aggressive approach', 'warn');
+            this.forceImageUpdate();
+          }
         }
         
         utils.log(`Update complete, ${this.updatedImages} images updated`);
@@ -395,6 +433,9 @@
       // Create a new image to ensure proper loading
       const newImg = new Image();
       
+      // Set crossOrigin to anonymous to avoid CORS issues
+      newImg.crossOrigin = 'anonymous';
+      
       // Set up onload handler before setting src
       newImg.onload = () => {
         utils.log('Advocacy Guide image loaded successfully');
@@ -402,6 +443,7 @@
         // Update existing image with cache-busting URL
         img.src = imageUrl;
         img.alt = 'Texas Legislative Advocacy Guide';
+        img.crossOrigin = 'anonymous'; // Add crossOrigin to the actual image too
         
         // Apply enhanced styles
         this.applyImageStyles(img);
@@ -409,12 +451,19 @@
         
         // Force repaint in Safari
         if (this.isSafari) {
+          // More aggressive repaint technique for Safari
+          img.style.display = 'none';
           setTimeout(() => {
-            img.style.opacity = '0.99';
+            img.style.display = 'block';
+            
+            // Additional opacity trick
             setTimeout(() => {
-              img.style.opacity = '1';
-            }, 50);
-          }, 0);
+              img.style.opacity = '0.99';
+              setTimeout(() => {
+                img.style.opacity = '1';
+              }, 50);
+            }, 20);
+          }, 10);
         }
         
         // Update container with enhanced styles
@@ -503,6 +552,10 @@
       // Safari-specific styles
       if (this.isSafari) {
         img.style.position = 'relative';
+        img.style.transform = 'translateZ(0)'; // Force hardware acceleration
+        img.style.backfaceVisibility = 'hidden'; // Prevent flickering
+        img.style.webkitBackfaceVisibility = 'hidden'; // Safari-specific
+        img.style.webkitTransform = 'translateZ(0)'; // Safari-specific
       }
     },
 
@@ -533,6 +586,62 @@
             dateLabel.textContent = 'December 14, 2024';
           }
         }
+      });
+    },
+    
+    /**
+     * Force image update with more aggressive approach
+     * This is a last resort for Safari when other methods fail
+     */
+    forceImageUpdate() {
+      utils.log('Using aggressive image update approach');
+      
+      // Try to find all resource titles
+      const resourceTitles = document.querySelectorAll('h2, h3, [class*="title"]');
+      
+      resourceTitles.forEach(titleElement => {
+        utils.safeExecute(() => {
+          const title = titleElement.textContent.trim();
+          
+          // Find the closest container that might be a card
+          let card = titleElement.closest('[class*="card"], [class*="resource"], .bg-white');
+          if (!card) return;
+          
+          // Check if this is a resource we need to update
+          if (utils.textContainsAny(title, CONFIG.textMatches.calendar)) {
+            // Try to find any image in this card
+            let img = card.querySelector('img');
+            
+            if (img) {
+              // Update existing image
+              img.src = CONFIG.images.legislativeCalendar + '?v=' + Date.now();
+              img.alt = 'Texas Legislative Calendar 2025';
+              this.applyImageStyles(img);
+              this.updateImageContainer(img);
+              this.updatedImages++;
+            } else {
+              // Create new image if none exists
+              this.createAndAddImage(card, CONFIG.images.legislativeCalendar, 'Texas Legislative Calendar 2025');
+            }
+          } else if (utils.textContainsAny(title, CONFIG.textMatches.advocacy)) {
+            // Try to find any image in this card
+            let img = card.querySelector('img');
+            
+            if (img) {
+              // Update existing image
+              img.src = CONFIG.images.advocacyGuide + '?v=' + Date.now();
+              img.alt = 'Texas Legislative Advocacy Guide';
+              this.applyImageStyles(img);
+              this.updateImageContainer(img);
+              this.updateDateLabel(card);
+              this.updatedImages++;
+            } else {
+              // Create new image if none exists
+              this.createAndAddImage(card, CONFIG.images.advocacyGuide, 'Texas Legislative Advocacy Guide');
+              this.updateDateLabel(card);
+            }
+          }
+        });
       });
     }
   };

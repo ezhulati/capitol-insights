@@ -1,3 +1,8 @@
+/*
+ * Button Fix CSS - v2.0
+ * Enhanced fixes for buttons across all browsers with special Safari optimizations
+ */
+
 /* Fix for thin download buttons on resources page */
 button.btn,
 a.btn {
@@ -7,6 +12,11 @@ a.btn {
   align-items: center !important;
   justify-content: center !important;
   min-width: 120px !important;
+  position: relative !important; /* Ensure proper stacking context */
+  z-index: 1 !important; /* Prevent button from disappearing in Safari */
+  -webkit-appearance: none !important; /* Fix Safari button rendering */
+  appearance: none !important;
+  transform: translateZ(0) !important; /* Force hardware acceleration */
 }
 
 @media (min-width: 640px) {
@@ -17,10 +27,49 @@ a.btn {
 }
 
 /* Target the specific download buttons in the resources page */
-[class*="ResourcesPage"] button {
+[class*="ResourcesPage"] button,
+[class*="resource"] button,
+button[class*="download"],
+a[class*="download"] {
   padding: 0.5rem 1rem !important;
   min-height: 2.5rem !important;
   min-width: 120px !important;
+  -webkit-appearance: none !important; /* Fix Safari button rendering */
+  appearance: none !important;
+  transform: translateZ(0) !important; /* Force hardware acceleration */
+}
+
+/* Safari-specific button fixes */
+@supports (-webkit-hyphens:none) {
+  /* Target all buttons in Safari */
+  button.btn,
+  a.btn,
+  [class*="ResourcesPage"] button,
+  [class*="resource"] button,
+  button[class*="download"],
+  a[class*="download"] {
+    /* Safari-specific button fixes */
+    -webkit-transform: translateZ(0) !important; /* Safari-specific hardware acceleration */
+    -webkit-backface-visibility: hidden !important; /* Prevent flickering in Safari */
+    -webkit-perspective: 1000 !important; /* Improve rendering in Safari */
+    -webkit-font-smoothing: antialiased !important; /* Improve text rendering in Safari */
+  }
+  
+  /* Fix for Safari button text alignment */
+  button.btn span,
+  a.btn span,
+  [class*="download"] span {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+  }
+  
+  /* Fix for Safari button hover state */
+  button.btn:hover,
+  a.btn:hover,
+  [class*="download"]:hover {
+    opacity: 0.9 !important; /* Ensure hover effect is visible in Safari */
+  }
 }
 
 /* Fix for "Subscribe to Legislative Updates" text color */
@@ -41,14 +90,29 @@ img[alt="Texas Legislative Advocacy Guide"] {
   background-color: #f8f9fa !important; /* Light background to ensure visibility */
 }
 
-/* Safari-specific fixes for the Advocacy Guide image */
+/* Enhanced Safari-specific fixes for the Advocacy Guide image */
 @supports (-webkit-hyphens:none) {
+  /* Target all resource images in Safari */
+  [class*="resource"] img,
+  [class*="card"] img {
+    position: relative !important;
+    transform: translateZ(0) !important; /* Force hardware acceleration */
+    -webkit-transform: translateZ(0) !important; /* Safari-specific */
+    backface-visibility: hidden !important; /* Prevent flickering */
+    -webkit-backface-visibility: hidden !important; /* Safari-specific */
+    -webkit-perspective: 1000 !important; /* Improve rendering in Safari */
+    -webkit-font-smoothing: antialiased !important; /* Improve rendering in Safari */
+  }
+  
+  /* Specific fixes for Advocacy Guide image */
   [class*="resource"] img[alt*="Advocacy Guide"],
   [class*="card"] img[alt*="Advocacy Guide"],
   img[alt="Texas Legislative Advocacy Guide"] {
     position: relative !important;
     transform: translateZ(0) !important; /* Force hardware acceleration */
+    -webkit-transform: translateZ(0) !important; /* Safari-specific */
     backface-visibility: hidden !important; /* Prevent flickering */
+    -webkit-backface-visibility: hidden !important; /* Safari-specific */
   }
   
   /* Force container to have proper dimensions */
@@ -56,5 +120,36 @@ img[alt="Texas Legislative Advocacy Guide"] {
   [class*="card"] img[alt*="Advocacy Guide"]:not(:root),
   img[alt="Texas Legislative Advocacy Guide"]:not(:root) {
     max-height: none !important;
+  }
+  
+  /* Fix for image containers in Safari */
+  [class*="resource"] div:has(> img),
+  [class*="card"] div:has(> img) {
+    overflow: visible !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+  }
+  
+  /* Fix for Safari image loading */
+  [class*="resource"] img[loading="lazy"],
+  [class*="card"] img[loading="lazy"] {
+    content-visibility: auto !important;
+  }
+}
+
+/* Fix for Safari resource card layout */
+@supports (-webkit-hyphens:none) {
+  /* Ensure proper card layout in Safari */
+  [class*="resource"],
+  [class*="card"] {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important;
+  }
+  
+  /* Fix for Safari flex layout issues */
+  [class*="resource"] > div,
+  [class*="card"] > div {
+    flex: 1 1 auto !important;
   }
 }
