@@ -20,7 +20,9 @@
         url: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743550564/thumb_24013_drew-campbell-thumb_2_s7xbyl.jpg',
         localPath: '/drew-campbell.jpg'
       }
-    }
+    },
+    // Strict team page paths
+    teamPaths: ['/team', '/team/', '/team.html', '/about-us/team', '/about/team']
   };
 
   // Utility functions
@@ -58,8 +60,23 @@
     init() {
       utils.log('Initializing team image local updater');
       
+      // Check if we're on a team page
+      if (!this.isTeamPage()) {
+        utils.log('Not on team page, exiting');
+        return;
+      }
+      
       // Find and update team member images
       this.findAndUpdateImages();
+    },
+
+    /**
+     * Check if current page is a team page
+     * @returns {boolean} True if on team page
+     */
+    isTeamPage() {
+      const currentPath = window.location.pathname.toLowerCase();
+      return CONFIG.teamPaths.some(path => currentPath === path);
     },
 
     /**

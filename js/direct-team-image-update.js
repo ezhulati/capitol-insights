@@ -25,7 +25,9 @@
       initial: 500,
       periodic: 2000,
       maxAttempts: 10
-    }
+    },
+    // Strict team page paths
+    teamPaths: ['/team', '/team/', '/team.html', '/about-us/team', '/about/team']
   };
 
   // Utility functions
@@ -94,6 +96,12 @@
     init() {
       utils.log('Initializing direct team image updater');
       
+      // STRICT CHECK: Only run on team pages
+      if (!this.isTeamPage()) {
+        utils.log('Not on team page, exiting');
+        return;
+      }
+      
       // Force immediate injection of team images
       this.forceImmediateImageDisplay();
       
@@ -111,6 +119,15 @@
         // Update on DOM changes
         this.observeDOMChanges();
       });
+    },
+
+    /**
+     * Check if current page is a team page
+     * @returns {boolean} True if on team page
+     */
+    isTeamPage() {
+      const currentPath = window.location.pathname.toLowerCase();
+      return CONFIG.teamPaths.some(path => currentPath === path);
     },
 
     /**

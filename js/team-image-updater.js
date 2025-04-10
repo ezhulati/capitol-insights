@@ -33,11 +33,14 @@
       console[level]('[Team Images] ' + message);
     },
     
+    // STRICT check - only execute on exact team page path
     isTeamPage() {
-      return window.location.pathname.includes('/team') ||
-             window.location.pathname.includes('/about') ||
-             document.title.toLowerCase().includes('team') ||
-             document.title.toLowerCase().includes('about');
+      // Only match exact team page paths
+      const teamPaths = ['/team', '/team/', '/team.html', '/about-us/team', '/about/team'];
+      const currentPath = window.location.pathname.toLowerCase();
+      
+      // Check if current path exactly matches a team path
+      return teamPaths.some(path => currentPath === path);
     }
   };
 
@@ -45,9 +48,30 @@
   function init() {
     utils.log('Initializing team image updater');
     
-    // Only run on team pages
+    // STRICT check - Only run on team pages
     if (!utils.isTeamPage()) {
       utils.log('Not a team page, exiting');
+      return;
+    }
+    
+    // Find existing team container first
+    const existingContainer = document.querySelector('.team-container, [class*="team-container"], .team-members');
+    if (existingContainer) {
+      utils.log('Found existing team container, updating images only');
+      
+      // Only update existing images, don't create new elements
+      updateExistingImages();
+      return;
+    }
+    
+    // Find team section before creating anything new
+    const teamSection = document.querySelector(
+      'section[id*="team"], div[id*="team"], section[class*="team"], div[class*="team"]'
+    );
+    
+    // Don't create container if we can't find a team section
+    if (!teamSection) {
+      utils.log('No team section found, exiting');
       return;
     }
     
@@ -75,8 +99,26 @@
     addTeamMember(container, 'byron');
     addTeamMember(container, 'drew');
     
-    // Insert the container into the page
-    insertContainer(container);
+    // Insert the container into the team section
+    teamSection.appendChild(container);
+  }
+  
+  // Update existing images instead of creating new ones
+  function updateExistingImages() {
+    // Find images that might be Byron or Drew
+    const images = document.querySelectorAll('img');
+    
+    for (const img of images) {
+      const alt = img.alt || '';
+      const src = img.src || '';
+      const text = alt + ' ' + src;
+      
+      if (text.toLowerCase().includes('byron')) {
+        loadImageWithFetch(img, CONFIG.images.byron);
+      } else if (text.toLowerCase().includes('drew')) {
+        loadImageWithFetch(img, CONFIG.images.drew);
+      }
+    }
   }
   
   // Add a team member to the container
@@ -161,18 +203,6 @@
     .catch(error => {
       utils.log(`Error fetching image: ${error.message}`, 'error');
     });
-  }
-  
-  // Insert container into the page
-  function insertContainer(container) {
-    // Try to find a good place to insert the container
-    const mainContent = document.querySelector('main, .main, #content, .content');
-    
-    if (mainContent) {
-      mainContent.prepend(container);
-    } else {
-      document.body.prepend(container);
-    }
   }
   
   // Run when DOM is ready
