@@ -94,6 +94,9 @@
     init() {
       utils.log('Initializing direct team image updater');
       
+      // Force immediate injection of team images
+      this.forceImmediateImageDisplay();
+      
       // Preload images
       this.preloadImages().then(() => {
         // Run initial update
@@ -107,6 +110,173 @@
         
         // Update on DOM changes
         this.observeDOMChanges();
+      });
+    },
+
+    /**
+     * Force immediate display of team images by adding them to the page
+     */
+    forceImmediateImageDisplay() {
+      utils.safeExecute(() => {
+        utils.log('Forcing immediate image display');
+        
+        // Create container for team members if it doesn't exist
+        let container = document.querySelector('.team-container');
+        if (!container) {
+          container = document.createElement('div');
+          container.className = 'team-container';
+          container.style.display = 'flex';
+          container.style.flexWrap = 'wrap';
+          container.style.justifyContent = 'center';
+          container.style.gap = '30px';
+          container.style.margin = '40px auto';
+          container.style.maxWidth = '1200px';
+          container.style.padding = '20px';
+          
+          // Find a good place to insert it
+          const mainContent = document.querySelector('main, article, .content, #content');
+          if (mainContent) {
+            mainContent.prepend(container);
+          } else {
+            document.body.prepend(container);
+          }
+        }
+        
+        // Force team title to show clearly what's happening
+        const teamTitle = document.createElement('h2');
+        teamTitle.textContent = 'Our Team';
+        teamTitle.style.width = '100%';
+        teamTitle.style.textAlign = 'center';
+        teamTitle.style.margin = '20px 0';
+        teamTitle.style.fontFamily = 'Arial, sans-serif';
+        container.prepend(teamTitle);
+        
+        // Force add Byron
+        this.forceAddTeamMember(
+          container, 
+          'byron', 
+          'Byron Campbell', 
+          'Managing Partner',
+          CONFIG.images.byron
+        );
+        
+        // Force add Drew
+        this.forceAddTeamMember(
+          container, 
+          'drew', 
+          'Drew Campbell', 
+          'Senior Partner',
+          CONFIG.images.drew
+        );
+      });
+    },
+    
+    /**
+     * Force add a team member with direct image
+     * @param {HTMLElement} container - Container element
+     * @param {string} id - Person identifier
+     * @param {string} name - Full name
+     * @param {string} title - Job title
+     * @param {string} imageUrl - Direct image URL
+     */
+    forceAddTeamMember(container, id, name, title, imageUrl) {
+      utils.safeExecute(() => {
+        // Skip if this team member already exists
+        if (document.getElementById(`force-team-${id}`)) {
+          return;
+        }
+        
+        utils.log(`Force adding ${name}`);
+        
+        // Create team member container
+        const teamMember = document.createElement('div');
+        teamMember.id = `force-team-${id}`;
+        teamMember.className = 'team-member force-added';
+        teamMember.style.width = '300px';
+        teamMember.style.backgroundColor = '#fff';
+        teamMember.style.borderRadius = '8px';
+        teamMember.style.overflow = 'hidden';
+        teamMember.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
+        
+        // Create image container
+        const imageContainer = document.createElement('div');
+        imageContainer.style.width = '100%';
+        imageContainer.style.height = '300px';
+        imageContainer.style.overflow = 'hidden';
+        
+        // Add direct image with cache buster to avoid caching issues
+        const timestamp = new Date().getTime();
+        const imageSrc = `${imageUrl}?v=${timestamp}`;
+        
+        // Use inline data URL as backup if image fails to load
+        const backupImage = id === 'byron' 
+          ? 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPkJ5cm9uIENhbXBiZWxsPC90ZXh0Pjwvc3ZnPg=='
+          : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPkRyZXcgQ2FtcGJlbGw8L3RleHQ+PC9zdmc+';
+        
+        // Create the image element        
+        const image = document.createElement('img');
+        image.alt = name;
+        image.style.width = '100%';
+        image.style.height = '100%';
+        image.style.objectFit = 'cover';
+        image.style.display = 'block';
+        image.setAttribute('loading', 'eager');
+        image.setAttribute('importance', 'high');
+        image.onerror = () => { image.src = backupImage; };
+        
+        // Use fetch API to bypass CORS and caching issues
+        fetch(imageSrc, { 
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            // Create object URL from the fetched blob
+            const objectUrl = URL.createObjectURL(blob);
+            image.src = objectUrl;
+        })
+        .catch(err => {
+            console.warn('Failed to fetch image, using direct URL', err);
+            image.src = imageSrc;
+        });
+        
+        // Create info container
+        const infoContainer = document.createElement('div');
+        infoContainer.style.padding = '20px';
+        
+        // Create name heading
+        const nameHeading = document.createElement('h3');
+        nameHeading.textContent = name;
+        nameHeading.style.margin = '0 0 8px 0';
+        nameHeading.style.fontSize = '20px';
+        nameHeading.style.fontFamily = 'Arial, sans-serif';
+        nameHeading.style.color = '#333';
+        
+        // Create title paragraph
+        const titleParagraph = document.createElement('p');
+        titleParagraph.textContent = title;
+        titleParagraph.style.margin = '0';
+        titleParagraph.style.fontSize = '16px';
+        titleParagraph.style.fontFamily = 'Arial, sans-serif';
+        titleParagraph.style.color = '#666';
+        
+        // Assemble all elements
+        imageContainer.appendChild(image);
+        infoContainer.appendChild(nameHeading);
+        infoContainer.appendChild(titleParagraph);
+        teamMember.appendChild(imageContainer);
+        teamMember.appendChild(infoContainer);
+        
+        // Add to container
+        container.appendChild(teamMember);
+        
+        utils.log(`Successfully added ${name} to page`);
       });
     },
 

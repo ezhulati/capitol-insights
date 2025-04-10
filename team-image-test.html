@@ -3,178 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Team Image Update Test</title>
+  <title>Team Image Test</title>
   <style>
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      max-width: 1200px;
+      font-family: Arial, sans-serif;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 2rem;
-      color: #334E68;
-    }
-    h1, h2, h3 {
-      font-family: Georgia, Times, 'Times New Roman', serif;
-      color: #0F2539;
+      padding: 20px;
     }
     .team-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
     .team-member {
-      border: 1px solid #E3E8EF;
+      width: 300px;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    .team-member-image {
-      width: 100%;
+    .image-container {
       height: 300px;
       overflow: hidden;
     }
-    .team-member-image img {
+    img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
-    .team-member-info {
-      padding: 1.5rem;
+    .info {
+      padding: 15px;
     }
-    .team-member-name {
-      margin-top: 0;
-      margin-bottom: 0.5rem;
+    h3 {
+      margin: 0 0 5px 0;
     }
-    .team-member-title {
-      margin-top: 0;
-      color: #627D98;
-      font-weight: 500;
-    }
-    .status {
-      margin-top: 2rem;
-      padding: 1rem;
-      background-color: #F0F4F8;
-      border-radius: 4px;
-    }
-    .status h2 {
-      margin-top: 0;
-    }
-    .status-item {
-      margin-bottom: 0.5rem;
-    }
-    .status-success {
-      color: #2E7D32;
-    }
-    .status-pending {
-      color: #F57C00;
-    }
-    .status-error {
-      color: #D32F2F;
+    p {
+      margin: 0;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <h1>Team Image Update Test</h1>
-  <p>This page tests the team image update scripts to ensure they correctly update the images of Byron and Drew Campbell.</p>
+  <h1>Team Image Test</h1>
+  <p>This page tests the display of Byron and Drew's images directly from Cloudinary.</p>
   
   <div class="team-container">
-    <!-- Byron Campbell -->
     <div class="team-member">
-      <div class="team-member-image">
-        <img src="byron-campbell.jpg" alt="Byron Campbell" id="byron-image">
+      <div class="image-container">
+        <img 
+          src="https://res.cloudinary.com/dwnmuolg8/image/upload/v1743550567/thumb_22372_byron-campbell-thumb_lush6g.jpg" 
+          alt="Byron Campbell"
+          crossorigin="anonymous">
       </div>
-      <div class="team-member-info">
-        <h3 class="team-member-name">Byron Campbell</h3>
-        <p class="team-member-title">Managing Partner</p>
+      <div class="info">
+        <h3>Byron Campbell</h3>
+        <p>Managing Partner</p>
       </div>
     </div>
     
-    <!-- Drew Campbell -->
     <div class="team-member">
-      <div class="team-member-image">
-        <img src="drew-campbell.jpg" alt="Drew Campbell" id="drew-image">
+      <div class="image-container">
+        <img 
+          src="https://res.cloudinary.com/dwnmuolg8/image/upload/v1743550564/thumb_24013_drew-campbell-thumb_2_s7xbyl.jpg" 
+          alt="Drew Campbell"
+          crossorigin="anonymous">
       </div>
-      <div class="team-member-info">
-        <h3 class="team-member-name">Drew Campbell</h3>
-        <p class="team-member-title">Senior Partner</p>
+      <div class="info">
+        <h3>Drew Campbell</h3>
+        <p>Senior Partner</p>
       </div>
     </div>
   </div>
   
-  <div class="status">
-    <h2>Update Status</h2>
-    <div id="status-container">
-      <div class="status-item status-pending">Initializing image update scripts...</div>
-    </div>
+  <h2>Fallback Test with Fetch API</h2>
+  <div class="team-container" id="fetch-container">
+    <!-- Images will be loaded here via JS -->
   </div>
   
   <script>
-    // Status tracking
-    const statusContainer = document.getElementById('status-container');
+    // Load images via Fetch API
+    const fetchContainer = document.getElementById('fetch-container');
     
-    function addStatus(message, type = 'pending') {
-      const statusItem = document.createElement('div');
-      statusItem.className = `status-item status-${type}`;
-      statusItem.textContent = message;
-      statusContainer.appendChild(statusItem);
+    const imageUrls = {
+      byron: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743550567/thumb_22372_byron-campbell-thumb_lush6g.jpg',
+      drew: 'https://res.cloudinary.com/dwnmuolg8/image/upload/v1743550564/thumb_24013_drew-campbell-thumb_2_s7xbyl.jpg'
+    };
+    
+    const names = {
+      byron: 'Byron Campbell',
+      drew: 'Drew Campbell'
+    };
+    
+    const titles = {
+      byron: 'Managing Partner',
+      drew: 'Senior Partner'
+    };
+    
+    // Function to create team member with fetch
+    function createTeamMember(container, id) {
+      // Create elements
+      const teamMember = document.createElement('div');
+      teamMember.className = 'team-member';
+      
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'image-container';
+      
+      const img = document.createElement('img');
+      img.alt = names[id];
+      
+      const info = document.createElement('div');
+      info.className = 'info';
+      
+      const nameEl = document.createElement('h3');
+      nameEl.textContent = names[id];
+      
+      const titleEl = document.createElement('p');
+      titleEl.textContent = titles[id];
+      
+      // Assemble elements
+      info.appendChild(nameEl);
+      info.appendChild(titleEl);
+      imageContainer.appendChild(img);
+      teamMember.appendChild(imageContainer);
+      teamMember.appendChild(info);
+      container.appendChild(teamMember);
+      
+      // Load image via fetch
+      fetch(imageUrls[id], {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache'
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        const objectUrl = URL.createObjectURL(blob);
+        img.src = objectUrl;
+      })
+      .catch(error => {
+        console.error(`Error loading ${id}'s image:`, error);
+        // Fallback to direct URL
+        img.src = imageUrls[id];
+      });
     }
     
-    // Track image updates
-    let byronUpdated = false;
-    let drewUpdated = false;
-    
-    function checkImageUpdated(imgElement, person) {
-      const originalSrc = imgElement.getAttribute('data-original-src');
-      const currentSrc = imgElement.src;
-      
-      if (originalSrc && originalSrc !== currentSrc) {
-        if (person === 'byron') {
-          byronUpdated = true;
-        } else if (person === 'drew') {
-          drewUpdated = true;
-        }
-        
-        addStatus(`${person.charAt(0).toUpperCase() + person.slice(1)}'s image updated successfully`, 'success');
-      }
-    }
-    
-    // Store original image sources
-    window.addEventListener('DOMContentLoaded', () => {
-      const byronImage = document.getElementById('byron-image');
-      const drewImage = document.getElementById('drew-image');
-      
-      byronImage.setAttribute('data-original-src', byronImage.src);
-      drewImage.setAttribute('data-original-src', drewImage.src);
-      
-      addStatus('Original image sources stored', 'success');
-    });
-    
-    // Check for updates after scripts have run
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const byronImage = document.getElementById('byron-image');
-        const drewImage = document.getElementById('drew-image');
-        
-        checkImageUpdated(byronImage, 'byron');
-        checkImageUpdated(drewImage, 'drew');
-        
-        if (byronUpdated && drewUpdated) {
-          addStatus('All team images updated successfully!', 'success');
-        } else {
-          if (!byronUpdated) {
-            addStatus('Byron\'s image was not updated', 'error');
-          }
-          if (!drewUpdated) {
-            addStatus('Drew\'s image was not updated', 'error');
-          }
-        }
-      }, 3000);
-    });
+    // Create team members
+    createTeamMember(fetchContainer, 'byron');
+    createTeamMember(fetchContainer, 'drew');
   </script>
-  
-  <!-- Include the team image updater scripts -->
-  <script src="js/team-image-updater.js"></script>
-  <script src="js/update-team-images-local.js"></script>
-  <script src="js/direct-team-image-update.js"></script>
 </body>
 </html>
