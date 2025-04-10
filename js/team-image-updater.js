@@ -224,6 +224,12 @@
           this.updateImagesWithFallback();
         }
         
+        // If still no images were updated, create new team member elements
+        if (this.updatedImages === 0) {
+          utils.log('No images updated, trying to create team members', 'warn');
+          this.createTeamMembersIfNeeded();
+        }
+        
         utils.log(`Update complete, ${this.updatedImages} images updated`);
       });
     },
@@ -498,6 +504,136 @@
         img.style.transform = 'translateZ(0)';
         img.style.backfaceVisibility = 'hidden';
       }
+    },
+
+    /**
+     * Create team member elements if they don't exist
+     */
+    createTeamMembersIfNeeded() {
+      utils.safeExecute(() => {
+        // Find a suitable container for team members
+        let teamContainer = document.querySelector('.team-container, [class*="team-container"], .team, [class*="TeamContainer"]');
+        
+        if (!teamContainer) {
+          // Try to find the most appropriate container
+          const possibleContainers = [
+            document.querySelector('section[id*="team"], section[class*="team"]'),
+            document.querySelector('div[id*="team"], div[class*="team"]'),
+            document.querySelector('main'),
+            document.querySelector('section:nth-child(2), section:nth-child(3)'),
+            document.body
+          ];
+          
+          for (const container of possibleContainers) {
+            if (container) {
+              teamContainer = container;
+              break;
+            }
+          }
+          
+          // If no container found in main page, create one
+          if (!teamContainer || teamContainer === document.body) {
+            teamContainer = document.createElement('div');
+            teamContainer.className = 'team-container';
+            teamContainer.style.display = 'flex';
+            teamContainer.style.flexWrap = 'wrap';
+            teamContainer.style.justifyContent = 'center';
+            teamContainer.style.gap = '30px';
+            teamContainer.style.margin = '40px auto';
+            teamContainer.style.maxWidth = '1200px';
+            teamContainer.style.padding = '0 20px';
+            
+            const mainContent = document.querySelector('main') || document.body;
+            mainContent.appendChild(teamContainer);
+          }
+        }
+        
+        // Look for existing Byron and Drew images
+        const byronExists = document.querySelector('img[alt*="Byron"], img[src*="byron"]');
+        const drewExists = document.querySelector('img[alt*="Drew"], img[src*="drew"]');
+        
+        // Create Byron's team member element if not found
+        if (!byronExists) {
+          this.createTeamMemberElement(teamContainer, 'byron');
+        }
+        
+        // Create Drew's team member element if not found
+        if (!drewExists) {
+          this.createTeamMemberElement(teamContainer, 'drew');
+        }
+      });
+    },
+    
+    /**
+     * Create a team member element
+     * @param {HTMLElement} container - Container element
+     * @param {string} person - Person identifier (byron or drew)
+     */
+    createTeamMemberElement(container, person) {
+      utils.safeExecute(() => {
+        const name = person === 'byron' ? 'Byron Campbell' : 'Drew Campbell';
+        const title = person === 'byron' ? 'Managing Partner' : 'Senior Partner';
+        const imageUrl = person === 'byron' ? CONFIG.images.byronCampbell : CONFIG.images.drewCampbell;
+        
+        utils.log(`Creating team member element for ${name}`);
+        
+        // Create wrapper element
+        const teamMember = document.createElement('div');
+        teamMember.className = 'team-member';
+        teamMember.style.width = '300px';
+        teamMember.style.margin = '15px';
+        teamMember.style.backgroundColor = '#fff';
+        teamMember.style.borderRadius = '8px';
+        teamMember.style.overflow = 'hidden';
+        teamMember.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+        
+        // Create image container
+        const imageContainer = document.createElement('div');
+        imageContainer.style.width = '100%';
+        imageContainer.style.height = '300px';
+        imageContainer.style.overflow = 'hidden';
+        
+        // Create image element
+        const img = document.createElement('img');
+        img.alt = name;
+        
+        // Create info container
+        const infoContainer = document.createElement('div');
+        infoContainer.style.padding = '20px';
+        
+        // Create name element
+        const nameElement = document.createElement('h3');
+        nameElement.textContent = name;
+        nameElement.style.margin = '0 0 10px 0';
+        nameElement.style.fontSize = '20px';
+        nameElement.style.color = '#1E3A5F';
+        
+        // Create title element
+        const titleElement = document.createElement('p');
+        titleElement.textContent = title;
+        titleElement.style.margin = '0';
+        titleElement.style.fontSize = '16px';
+        titleElement.style.color = '#5A7184';
+        
+        // Assemble the elements
+        imageContainer.appendChild(img);
+        infoContainer.appendChild(nameElement);
+        infoContainer.appendChild(titleElement);
+        teamMember.appendChild(imageContainer);
+        teamMember.appendChild(infoContainer);
+        
+        // Add the team member to the container
+        container.appendChild(teamMember);
+        
+        // Update the image
+        if (person === 'byron') {
+          this.updateByronImage(img);
+        } else {
+          this.updateDrewImage(img);
+        }
+        
+        utils.log(`Added ${name} to the team page`);
+      });
     }
   };
 

@@ -200,7 +200,132 @@
           this.updateImageIfTeamMember(img);
         });
         
+        // If no images were updated, try to find team member containers
+        if (this.updatedImages === 0) {
+          this.insertTeamMemberImages();
+        }
+        
         utils.log(`Update complete, ${this.updatedImages} images updated`);
+      });
+    },
+
+    /**
+     * Insert team member images if they don't exist
+     */
+    insertTeamMemberImages() {
+      utils.safeExecute(() => {
+        utils.log('Trying to insert team member images');
+        
+        // Look for team members container or create one if it doesn't exist
+        let teamContainer = document.querySelector('.team-container, [class*="team-container"], [class*="TeamContainer"]');
+        
+        // If no team container found, look for relevant sections
+        if (!teamContainer) {
+          // Try to find the most appropriate container
+          const possibleContainers = [
+            document.querySelector('section[id*="team"], section[class*="team"]'),
+            document.querySelector('div[id*="team"], div[class*="team"]'),
+            document.querySelector('section:nth-child(2), section:nth-child(3)'),
+            document.body
+          ];
+          
+          for (const container of possibleContainers) {
+            if (container) {
+              teamContainer = container;
+              break;
+            }
+          }
+        }
+        
+        if (!teamContainer) {
+          utils.log('No suitable container found for team members', 'warn');
+          return;
+        }
+        
+        // Check if Byron's image exists
+        const byronImage = document.querySelector('img[alt*="Byron"], img[src*="byron"]');
+        if (!byronImage) {
+          this.createTeamMemberElement(teamContainer, 'byron', 'Byron Campbell', 'Managing Partner');
+        }
+        
+        // Check if Drew's image exists
+        const drewImage = document.querySelector('img[alt*="Drew"], img[src*="drew"]');
+        if (!drewImage) {
+          this.createTeamMemberElement(teamContainer, 'drew', 'Drew Campbell', 'Senior Partner');
+        }
+      });
+    },
+    
+    /**
+     * Create a team member element
+     * @param {HTMLElement} container - Container element
+     * @param {string} person - Person identifier (byron or drew)
+     * @param {string} name - Full name
+     * @param {string} title - Job title
+     */
+    createTeamMemberElement(container, person, name, title) {
+      utils.safeExecute(() => {
+        utils.log(`Creating team member element for ${name}`);
+        
+        // Create wrapper element
+        const teamMember = document.createElement('div');
+        teamMember.className = 'team-member';
+        teamMember.style.margin = '20px';
+        teamMember.style.padding = '10px';
+        teamMember.style.border = '1px solid #eee';
+        teamMember.style.borderRadius = '8px';
+        teamMember.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+        
+        // Create image container
+        const imageContainer = document.createElement('div');
+        imageContainer.style.width = '100%';
+        imageContainer.style.height = '300px';
+        imageContainer.style.overflow = 'hidden';
+        imageContainer.style.borderRadius = '4px';
+        
+        // Create image element
+        const img = document.createElement('img');
+        img.alt = name;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        
+        // Add cache-busting parameter
+        const cacheBuster = new Date().getTime();
+        img.src = `${CONFIG.images[person]}?v=${cacheBuster}`;
+        
+        // Create info container
+        const infoContainer = document.createElement('div');
+        infoContainer.style.padding = '15px 10px';
+        
+        // Create name element
+        const nameElement = document.createElement('h3');
+        nameElement.textContent = name;
+        nameElement.style.margin = '0 0 5px 0';
+        nameElement.style.fontSize = '18px';
+        nameElement.style.fontWeight = 'bold';
+        
+        // Create title element
+        const titleElement = document.createElement('p');
+        titleElement.textContent = title;
+        titleElement.style.margin = '0';
+        titleElement.style.fontSize = '14px';
+        titleElement.style.color = '#666';
+        
+        // Assemble the elements
+        imageContainer.appendChild(img);
+        infoContainer.appendChild(nameElement);
+        infoContainer.appendChild(titleElement);
+        teamMember.appendChild(imageContainer);
+        teamMember.appendChild(infoContainer);
+        
+        // Add the team member to the container
+        container.appendChild(teamMember);
+        
+        // Update the image properly
+        this.updateImage(img, person);
+        
+        utils.log(`Added ${name} to the team page`);
       });
     },
 
