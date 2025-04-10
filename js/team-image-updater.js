@@ -392,13 +392,26 @@
       newImg.onerror = () => {
         utils.log('Error loading Byron Campbell image, trying direct approach', 'warn');
         
-        // Direct approach as fallback
-        img.src = imageUrl;
-        img.alt = 'Byron Campbell';
-        this.applyImageStyles(img);
-        this.updatedImages++;
+        // Try with fetch API instead
+        fetch(imageUrl)
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.blob();
+          })
+          .then(blob => {
+            const objectUrl = URL.createObjectURL(blob);
+            img.src = objectUrl;
+            img.alt = 'Byron Campbell';
+            this.applyImageStyles(img);
+            this.updatedImages++;
+          })
+          .catch(error => {
+            utils.log(`Error fetching Byron Campbell image: ${error.message}`, 'error');
+          });
       };
       
+      // Set crossOrigin to avoid CORS issues
+      newImg.crossOrigin = "anonymous";
       // Set source to trigger load
       newImg.src = imageUrl;
     },
@@ -445,13 +458,26 @@
       newImg.onerror = () => {
         utils.log('Error loading Drew Campbell image, trying direct approach', 'warn');
         
-        // Direct approach as fallback
-        img.src = imageUrl;
-        img.alt = 'Drew Campbell';
-        this.applyImageStyles(img);
-        this.updatedImages++;
+        // Try with fetch API instead
+        fetch(imageUrl)
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.blob();
+          })
+          .then(blob => {
+            const objectUrl = URL.createObjectURL(blob);
+            img.src = objectUrl;
+            img.alt = 'Drew Campbell';
+            this.applyImageStyles(img);
+            this.updatedImages++;
+          })
+          .catch(error => {
+            utils.log(`Error fetching Drew Campbell image: ${error.message}`, 'error');
+          });
       };
       
+      // Set crossOrigin to avoid CORS issues
+      newImg.crossOrigin = "anonymous";
       // Set source to trigger load
       newImg.src = imageUrl;
     },

@@ -1,8 +1,8 @@
 /**
  * Update Team Images Local - Version 1.0
  * 
- * This script downloads the team member images from Cloudinary URLs
- * and updates the local image files in the root directory.
+ * This script updates the team member images from Cloudinary URLs
+ * and updates the images on the page instead of downloading them.
  */
 
 (function() {
@@ -58,18 +58,40 @@
     init() {
       utils.log('Initializing team image local updater');
       
-      // Update Byron's image
-      this.updateImage('byron');
-      
-      // Update Drew's image
-      this.updateImage('drew');
+      // Find and update team member images
+      this.findAndUpdateImages();
     },
 
     /**
-     * Update image by downloading from URL and creating a local file
+     * Find and update all team member images on the page
+     */
+    findAndUpdateImages() {
+      utils.safeExecute(() => {
+        // Find all images on the page
+        const allImages = document.querySelectorAll('img');
+        utils.log(`Found ${allImages.length} images on the page`);
+        
+        // Check each image for Byron or Drew
+        allImages.forEach(img => {
+          const src = img.src || '';
+          const alt = img.alt || '';
+          const text = src + ' ' + alt;
+          
+          if (text.toLowerCase().includes('byron')) {
+            this.updateImageOnPage(img, 'byron');
+          } else if (text.toLowerCase().includes('drew')) {
+            this.updateImageOnPage(img, 'drew');
+          }
+        });
+      });
+    },
+
+    /**
+     * Update image on the page instead of downloading
+     * @param {HTMLImageElement} img - Image element to update
      * @param {string} person - Person identifier (byron or drew)
      */
-    updateImage(person) {
+    updateImageOnPage(img, person) {
       utils.safeExecute(() => {
         const config = CONFIG.images[person];
         if (!config) {
@@ -79,55 +101,57 @@
 
         utils.log(`Updating ${person}'s image from ${config.url}`);
 
-        // Create a new image element to load the image
-        const img = new Image();
+        // Create a new image element to test loading
+        const testImg = new Image();
+        testImg.crossOrigin = 'anonymous';
         
-        img.crossOrigin = 'anonymous';
-        
-        img.onload = () => {
+        testImg.onload = () => {
           utils.log(`${person}'s image loaded successfully`);
           
-          // Create a canvas to convert the image to a blob
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
+          // Update the image source with cache busting
+          const cacheBuster = new Date().getTime();
+          img.src = `${config.url}?v=${cacheBuster}`;
+          img.alt = person === 'byron' ? 'Byron Campbell' : 'Drew Campbell';
           
-          // Draw the image on the canvas
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
+          // Apply basic styles
+          img.style.objectFit = 'cover';
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.display = 'block';
           
-          // Convert the canvas to a blob and create a local URL
-          canvas.toBlob((blob) => {
-            // Create a URL for the blob
-            const blobUrl = URL.createObjectURL(blob);
-            
-            // Log the blob URL for debugging
-            utils.log(`Created blob URL for ${person}: ${blobUrl}`);
-            
-            // Create a link to download the image
-            const link = document.createElement('a');
-            link.href = blobUrl;
-            link.download = config.localPath.split('/').pop();
-            
-            // Append the link to the document, click it, and remove it
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            // Release the blob URL
-            URL.revokeObjectURL(blobUrl);
-            
-            utils.log(`${person}'s image updated successfully`);
-          }, 'image/jpeg', 0.95);
+          utils.log(`${person}'s image updated successfully`);
         };
         
-        img.onerror = () => {
-          utils.log(`Error loading ${person}'s image`, 'error');
+        testImg.onerror = () => {
+          utils.log(`Error loading ${person}'s image, trying fetch API`, 'warn');
+          
+          // Try with fetch as fallback
+          fetch(`${config.url}?v=${new Date().getTime()}`)
+            .then(response => {
+              if (!response.ok) throw new Error('Network response was not ok');
+              return response.blob();
+            })
+            .then(blob => {
+              const objectUrl = URL.createObjectURL(blob);
+              img.src = objectUrl;
+              img.alt = person === 'byron' ? 'Byron Campbell' : 'Drew Campbell';
+              
+              // Apply basic styles
+              img.style.objectFit = 'cover';
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.display = 'block';
+              
+              utils.log(`${person}'s image updated successfully via fetch`);
+            })
+            .catch(error => {
+              utils.log(`Error fetching ${person}'s image: ${error.message}`, 'error');
+            });
         };
         
         // Add cache-busting parameter to force reload
         const cacheBuster = new Date().getTime();
-        img.src = `${config.url}?v=${cacheBuster}`;
+        testImg.src = `${config.url}?v=${cacheBuster}`;
       });
     }
   };

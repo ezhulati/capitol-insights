@@ -284,17 +284,29 @@
         const cacheBuster = new Date().getTime();
         const imageUrl = `${CONFIG.images[person]}?v=${cacheBuster}`;
         
-        // Update image attributes
-        img.src = imageUrl;
-        img.alt = person === 'byron' ? 'Byron Campbell' : 'Drew Campbell';
+        // Create a new image element to test loading
+        const testImg = new Image();
+        testImg.onload = () => {
+          // Update image attributes only after successful load
+          img.src = imageUrl;
+          img.alt = person === 'byron' ? 'Byron Campbell' : 'Drew Campbell';
+          
+          // Mark image as updated
+          img.dataset.teamImageUpdated = person;
+          
+          // Apply styles
+          this.applyImageStyles(img);
+          
+          this.updatedImages++;
+        };
         
-        // Mark image as updated
-        img.dataset.teamImageUpdated = person;
+        testImg.onerror = (err) => {
+          utils.log(`Error loading ${person}'s image: ${err}`, 'error');
+        };
         
-        // Apply styles
-        this.applyImageStyles(img);
-        
-        this.updatedImages++;
+        // Set crossOrigin to anonymous to prevent CORS issues
+        testImg.crossOrigin = "anonymous";
+        testImg.src = imageUrl;
       });
     },
 
