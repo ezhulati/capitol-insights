@@ -1,7 +1,7 @@
 /**
  * Team Image Updater - Simple Version
  * 
- * This script injects team members directly into the page.
+ * This script updates existing team member images on the page.
  */
 
 (function() {
@@ -54,140 +54,128 @@
       return;
     }
     
-    // Find existing team container first
-    const existingContainer = document.querySelector('.team-container, [class*="team-container"], .team-members');
-    if (existingContainer) {
-      utils.log('Found existing team container, updating images only');
-      
-      // Only update existing images, don't create new elements
-      updateExistingImages();
-      return;
-    }
-    
-    // Find team section before creating anything new
-    const teamSection = document.querySelector(
-      'section[id*="team"], div[id*="team"], section[class*="team"], div[class*="team"]'
-    );
-    
-    // Don't create container if we can't find a team section
-    if (!teamSection) {
-      utils.log('No team section found, exiting');
-      return;
-    }
-    
-    // Create a container for the team members
-    const container = document.createElement('div');
-    container.className = 'team-container';
-    container.style.display = 'flex';
-    container.style.flexWrap = 'wrap';
-    container.style.justifyContent = 'center';
-    container.style.gap = '20px';
-    container.style.margin = '30px auto';
-    container.style.maxWidth = '900px';
-    
-    // Create a heading
-    const heading = document.createElement('h2');
-    heading.textContent = 'Our Team';
-    heading.style.width = '100%';
-    heading.style.textAlign = 'center';
-    heading.style.margin = '20px 0';
-    heading.style.fontFamily = 'Arial, sans-serif';
-    heading.style.color = '#333';
-    container.appendChild(heading);
-    
-    // Add Byron and Drew to the container
-    addTeamMember(container, 'byron');
-    addTeamMember(container, 'drew');
-    
-    // Insert the container into the team section
-    teamSection.appendChild(container);
+    // ONLY update existing images - never create new elements
+    updateExistingImages();
   }
   
-  // Update existing images instead of creating new ones
+  // Update existing images
   function updateExistingImages() {
-    // Find images that might be Byron or Drew
-    const images = document.querySelectorAll('img');
+    utils.log('Looking for existing team member images to update');
     
-    for (const img of images) {
-      const alt = img.alt || '';
-      const src = img.src || '';
+    let updatedCount = 0;
+    
+    // APPROACH 1: Look for images by alt text or src containing names
+    const allImages = document.querySelectorAll('img');
+    for (const img of allImages) {
+      const alt = (img.alt || '').toLowerCase();
+      const src = (img.src || '').toLowerCase();
       const text = alt + ' ' + src;
       
-      if (text.toLowerCase().includes('byron')) {
+      if (text.includes('byron')) {
         loadImageWithFetch(img, CONFIG.images.byron);
-      } else if (text.toLowerCase().includes('drew')) {
+        updatedCount++;
+        utils.log('Updated Byron image by direct match');
+      } else if (text.includes('drew')) {
         loadImageWithFetch(img, CONFIG.images.drew);
+        updatedCount++;
+        utils.log('Updated Drew image by direct match');
       }
     }
+    
+    // APPROACH 2: Look for team member elements by surrounding text
+    if (updatedCount === 0) {
+      utils.log('No direct matches found, looking for team members by surrounding text');
+      
+      // Find all elements containing Byron or Drew
+      const byronElements = findElementsContainingText('byron campbell', 'byron');
+      const drewElements = findElementsContainingText('drew campbell', 'drew');
+      
+      // For each element containing Byron, look for nearby image
+      byronElements.forEach(element => {
+        const img = findNearbyImage(element);
+        if (img) {
+          loadImageWithFetch(img, CONFIG.images.byron);
+          updatedCount++;
+          utils.log('Updated Byron image via surrounding text');
+        }
+      });
+      
+      // For each element containing Drew, look for nearby image
+      drewElements.forEach(element => {
+        const img = findNearbyImage(element);
+        if (img) {
+          loadImageWithFetch(img, CONFIG.images.drew);
+          updatedCount++;
+          utils.log('Updated Drew image via surrounding text');
+        }
+      });
+    }
+    
+    utils.log(`Finished updating images. Updated ${updatedCount} images.`);
   }
   
-  // Add a team member to the container
-  function addTeamMember(container, id) {
-    const member = CONFIG.members[id];
+  // Find elements containing specific text
+  function findElementsContainingText(...searchTerms) {
+    const results = [];
+    const allElements = document.querySelectorAll('*');
     
-    // Create card
-    const card = document.createElement('div');
-    card.className = 'team-member';
-    card.style.width = '300px';
-    card.style.backgroundColor = '#fff';
-    card.style.borderRadius = '8px';
-    card.style.overflow = 'hidden';
-    card.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+    for (const element of allElements) {
+      if (element.tagName === 'SCRIPT' || element.tagName === 'STYLE') continue;
+      
+      const text = element.textContent.toLowerCase();
+      if (searchTerms.some(term => text.includes(term.toLowerCase()))) {
+        results.push(element);
+      }
+    }
     
-    // Create image container
-    const imageContainer = document.createElement('div');
-    imageContainer.style.width = '100%';
-    imageContainer.style.height = '300px';
-    imageContainer.style.overflow = 'hidden';
+    return results;
+  }
+  
+  // Find nearby image element
+  function findNearbyImage(element) {
+    // Check if element has an image
+    const img = element.querySelector('img');
+    if (img) return img;
     
-    // Create image
-    const img = document.createElement('img');
-    img.alt = member.name;
-    img.style.width = '100%';
-    img.style.height = '100%';
-    img.style.objectFit = 'cover';
-    img.style.display = 'block';
+    // Check parent elements
+    let parent = element.parentElement;
+    for (let i = 0; i < 3 && parent; i++) {
+      const parentImg = parent.querySelector('img');
+      if (parentImg) return parentImg;
+      parent = parent.parentElement;
+    }
     
-    // Load image via fetch to bypass CORS issues
-    loadImageWithFetch(img, CONFIG.images[id]);
+    // Check sibling elements
+    const siblings = element.parentElement ? Array.from(element.parentElement.children) : [];
+    for (const sibling of siblings) {
+      if (sibling !== element) {
+        const siblingImg = sibling.querySelector('img');
+        if (siblingImg) return siblingImg;
+      }
+    }
     
-    // Create info container
-    const info = document.createElement('div');
-    info.style.padding = '15px';
-    
-    // Create name
-    const name = document.createElement('h3');
-    name.textContent = member.name;
-    name.style.margin = '0 0 5px 0';
-    name.style.fontSize = '20px';
-    name.style.fontFamily = 'Arial, sans-serif';
-    name.style.color = '#333';
-    
-    // Create title
-    const title = document.createElement('p');
-    title.textContent = member.title;
-    title.style.margin = '0';
-    title.style.fontSize = '16px';
-    title.style.fontFamily = 'Arial, sans-serif';
-    title.style.color = '#666';
-    
-    // Assemble everything
-    imageContainer.appendChild(img);
-    info.appendChild(name);
-    info.appendChild(title);
-    card.appendChild(imageContainer);
-    card.appendChild(info);
-    container.appendChild(card);
+    return null;
   }
   
   // Load image using fetch API
   function loadImageWithFetch(img, url) {
+    // Keep original dimensions if they exist
+    const originalWidth = img.width;
+    const originalHeight = img.height;
+    
     // Add cache buster to URL
     const cacheBuster = new Date().getTime();
     const imageUrl = `${url}?v=${cacheBuster}`;
     
     // First try direct loading
     img.src = imageUrl;
+    img.crossOrigin = "anonymous";
+    
+    // Preserve original size if possible
+    if (originalWidth && originalHeight) {
+      img.width = originalWidth;
+      img.height = originalHeight;
+    }
     
     // Then try fetch as backup
     fetch(imageUrl, {
@@ -199,6 +187,15 @@
     .then(blob => {
       const objectUrl = URL.createObjectURL(blob);
       img.src = objectUrl;
+      
+      // Make sure image is visible
+      img.style.display = 'block';
+      
+      // Preserve original size if possible
+      if (originalWidth && originalHeight) {
+        img.width = originalWidth;
+        img.height = originalHeight;
+      }
     })
     .catch(error => {
       utils.log(`Error fetching image: ${error.message}`, 'error');

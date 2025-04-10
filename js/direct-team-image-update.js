@@ -102,8 +102,8 @@
         return;
       }
       
-      // Force immediate injection of team images
-      this.forceImmediateImageDisplay();
+      // ONLY UPDATE EXISTING IMAGES - don't force image display
+      // this.forceImmediateImageDisplay(); // Disabled to prevent creating new elements
       
       // Preload images
       this.preloadImages().then(() => {
@@ -387,10 +387,10 @@
           this.updateImageIfTeamMember(img);
         });
         
-        // If no images were updated, try to find team member containers
-        if (this.updatedImages === 0) {
-          this.insertTeamMemberImages();
-        }
+        // Don't insert new elements - only update existing ones
+        // if (this.updatedImages === 0) {
+        //   this.insertTeamMemberImages();
+        // }
         
         utils.log(`Update complete, ${this.updatedImages} images updated`);
       });

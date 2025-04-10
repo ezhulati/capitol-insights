@@ -88,18 +88,73 @@
         const allImages = document.querySelectorAll('img');
         utils.log(`Found ${allImages.length} images on the page`);
         
-        // Check each image for Byron or Drew
+        let updatedCount = 0;
+        
+        // APPROACH 1: Check each image for Byron or Drew by src/alt
         allImages.forEach(img => {
-          const src = img.src || '';
-          const alt = img.alt || '';
+          const src = (img.src || '').toLowerCase();
+          const alt = (img.alt || '').toLowerCase();
           const text = src + ' ' + alt;
           
-          if (text.toLowerCase().includes('byron')) {
+          if (text.includes('byron')) {
             this.updateImageOnPage(img, 'byron');
-          } else if (text.toLowerCase().includes('drew')) {
+            updatedCount++;
+          } else if (text.includes('drew')) {
             this.updateImageOnPage(img, 'drew');
+            updatedCount++;
           }
         });
+        
+        // APPROACH 2: If no images found, try looking by surrounding text
+        if (updatedCount === 0) {
+          utils.log('No direct matches found, looking by surrounding text');
+          
+          // Find elements that might contain team member names
+          const textElements = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, p, span, div'))
+            .filter(el => {
+              const text = el.textContent.toLowerCase();
+              return text.includes('byron') || text.includes('drew');
+            });
+          
+          // For each text element, look for nearby images
+          textElements.forEach(el => {
+            const text = el.textContent.toLowerCase();
+            
+            // Look for nearby images (parent, siblings, etc.)
+            let img = null;
+            
+            // Check for images in parent
+            let parent = el.parentElement;
+            if (parent && !img) {
+              img = parent.querySelector('img');
+            }
+            
+            // Check for images in siblings
+            if (parent && !img) {
+              const siblings = Array.from(parent.children).filter(child => child !== el);
+              for (const sibling of siblings) {
+                const siblingImg = sibling.querySelector('img');
+                if (siblingImg) {
+                  img = siblingImg;
+                  break;
+                }
+              }
+            }
+            
+            // If image found, update it based on text
+            if (img) {
+              if (text.includes('byron')) {
+                this.updateImageOnPage(img, 'byron');
+                updatedCount++;
+              } else if (text.includes('drew')) {
+                this.updateImageOnPage(img, 'drew');
+                updatedCount++;
+              }
+            }
+          });
+        }
+        
+        utils.log(`Updated ${updatedCount} images on the page`);
       });
     },
 
