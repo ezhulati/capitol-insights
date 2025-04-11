@@ -378,21 +378,166 @@
         utils.log('Updating team member images');
         this.updatedImages = 0;
         
-        // Find all images on the page
-        const allImages = document.querySelectorAll('img');
-        utils.log(`Found ${allImages.length} images on the page`);
+        // APPROACH 1: Look specifically for VIEW EXPERIENCE placeholders
+        this.updateViewExperiencePlaceholders();
         
-        // Update each image if it matches a team member
-        allImages.forEach(img => {
-          this.updateImageIfTeamMember(img);
-        });
-        
-        // Don't insert new elements - only update existing ones
-        // if (this.updatedImages === 0) {
-        //   this.insertTeamMemberImages();
-        // }
+        // APPROACH 2: If no success, try normal method
+        if (this.updatedImages === 0) {
+          // Find all images on the page
+          const allImages = document.querySelectorAll('img');
+          utils.log(`Found ${allImages.length} images on the page`);
+          
+          // Update each image if it matches a team member
+          allImages.forEach(img => {
+            this.updateImageIfTeamMember(img);
+          });
+        }
         
         utils.log(`Update complete, ${this.updatedImages} images updated`);
+      });
+    },
+    
+    /**
+     * Find and update VIEW EXPERIENCE placeholders
+     */
+    updateViewExperiencePlaceholders() {
+      utils.safeExecute(() => {
+        utils.log('Looking for VIEW EXPERIENCE placeholders');
+        
+        // Find all elements containing "VIEW EXPERIENCE" text
+        const viewExpElements = this.findElementsWithText('VIEW EXPERIENCE');
+        utils.log(`Found ${viewExpElements.length} VIEW EXPERIENCE elements`);
+        
+        if (viewExpElements.length > 0) {
+          // Try to determine which placeholder belongs to which person
+          const results = this.matchViewExperienceToTeamMembers(viewExpElements);
+          
+          // Update images for matched elements
+          if (results.byron) {
+            this.replaceViewExperienceWithImage(results.byron, 'byron');
+          }
+          
+          if (results.drew) {
+            this.replaceViewExperienceWithImage(results.drew, 'drew');
+          }
+        }
+      });
+    },
+    
+    /**
+     * Find elements containing specific text
+     * @param {string} searchText - Text to search for
+     * @returns {Element[]} Array of matching elements
+     */
+    findElementsWithText(searchText) {
+      const results = [];
+      const allElements = document.querySelectorAll('*');
+      const lowerText = searchText.toLowerCase();
+      
+      for (const element of allElements) {
+        if (element.tagName === 'SCRIPT' || element.tagName === 'STYLE') continue;
+        
+        const text = element.textContent.toLowerCase();
+        if (text.includes(lowerText)) {
+          results.push(element);
+        }
+      }
+      
+      return results;
+    },
+    
+    /**
+     * Match VIEW EXPERIENCE placeholders to team members
+     * @param {Element[]} viewExpElements - Elements with VIEW EXPERIENCE text
+     * @returns {Object} Object with byron and drew keys
+     */
+    matchViewExperienceToTeamMembers(viewExpElements) {
+      const result = {
+        byron: null,
+        drew: null
+      };
+      
+      // Try to match based on surrounding text
+      for (const element of viewExpElements) {
+        const surroundingText = this.getSurroundingText(element).toLowerCase();
+        
+        if (surroundingText.includes('byron')) {
+          result.byron = element;
+        } else if (surroundingText.includes('drew')) {
+          result.drew = element;
+        }
+      }
+      
+      // If we only found one, and there are exactly two elements,
+      // the other element is the other team member
+      if (viewExpElements.length === 2) {
+        if (result.byron && !result.drew) {
+          result.drew = viewExpElements.find(el => el !== result.byron);
+        } else if (!result.byron && result.drew) {
+          result.byron = viewExpElements.find(el => el !== result.drew);
+        }
+      }
+      
+      return result;
+    },
+    
+    /**
+     * Get text from surrounding elements
+     * @param {Element} element - Element to check
+     * @returns {string} Combined text from surrounding elements
+     */
+    getSurroundingText(element) {
+      let text = '';
+      
+      // Check up to 3 parent levels
+      let parent = element.parentElement;
+      for (let i = 0; i < 3 && parent; i++) {
+        text += ' ' + parent.textContent;
+        parent = parent.parentElement;
+      }
+      
+      // Check siblings
+      if (element.parentElement) {
+        const siblings = Array.from(element.parentElement.children);
+        for (const sibling of siblings) {
+          if (sibling !== element) {
+            text += ' ' + sibling.textContent;
+          }
+        }
+      }
+      
+      return text;
+    },
+    
+    /**
+     * Replace VIEW EXPERIENCE placeholder with an image
+     * @param {Element} element - VIEW EXPERIENCE element
+     * @param {string} person - Person identifier (byron or drew)
+     */
+    replaceViewExperienceWithImage(element, person) {
+      utils.safeExecute(() => {
+        utils.log(`Replacing VIEW EXPERIENCE for ${person}`);
+        
+        // Find if there's already an img element to reuse
+        let img = element.querySelector('img');
+        
+        // If no image, create one
+        if (!img) {
+          img = document.createElement('img');
+          img.alt = person === 'byron' ? 'Byron Campbell' : 'Drew Campbell';
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          img.style.display = 'block';
+          
+          // Clear the VIEW EXPERIENCE text
+          element.textContent = '';
+          element.appendChild(img);
+        }
+        
+        // Update the image with team member's photo
+        this.updateImage(img, person);
+        this.updatedImages++;
       });
     },
 
