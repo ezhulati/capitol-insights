@@ -1,7 +1,9 @@
 // Direct DOM manipulation to ensure meta tags are set correctly - DEBUGGING VERSION
 (function() {
-  // Get the page type from the URL
-  const path = window.location.pathname;
+  // Get the page type from the URL and normalize by removing any trailing slash
+  // This ensures "/team" and "/team/" resolve to the same metadata entry.
+  let path = window.location.pathname;
+  path = path.replace(/\/$/, '') || '/';
   
   // Define meta descriptions for different pages - fixed paths with proper key detection
   const metaMap = {
