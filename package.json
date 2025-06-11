@@ -4,8 +4,8 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "build": "npm install && mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true",
-    "build:ci": "npm install && mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads admin dist/ || true"
+    "build": "npm install && mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads uploads admin dist/ || true",
+    "build:ci": "npm install && mkdir -p dist && cp -r *.html *.js *.json *.svg *.png *.jpg *.ico *.txt *.xml *.webmanifest css js assets images files downloads uploads admin dist/ || true"
   },
   "dependencies": {
     "react": "^18.2.0",
